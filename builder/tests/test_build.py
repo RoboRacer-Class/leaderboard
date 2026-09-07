@@ -290,3 +290,17 @@ def test_log_redacts_names_case_insensitively():
     log.redact("AhmadAmine998", "ese-6150-lab-3-wall-following-ahmadamine998")
     log("repo ese-6150-lab-3-wall-following-AhmadAmine998 of ahmadamine998 failed")
     assert "ahmadamine" not in stream.getvalue().lower()
+
+
+def test_unchanged_board_keeps_its_timestamp(world):
+    api, data_dir, log, stream = world
+    run_build(api, data_dir, log)
+    before = (data_dir / f"{SLUG}.json").read_text()
+    index_before = (data_dir / "index.json").read_text()
+    build.now_utc = lambda: rules.parse_time("2030-01-01T00:00:00Z")   # a later run, nothing new
+    try:
+        run_build(api, data_dir, log)
+    finally:
+        del build.now_utc
+    assert (data_dir / f"{SLUG}.json").read_text() == before
+    assert (data_dir / "index.json").read_text() == index_before

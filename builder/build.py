@@ -247,9 +247,21 @@ def load_state(path: Path) -> dict:
             "reference_submissions": data.get("reference_submissions", [])}
 
 
-def write_json(path: Path, data: dict) -> None:
+def write_json(path: Path, data: dict, volatile: tuple = ("generated_at",)) -> bool:
+    """Write `data` unless it differs from the file only in the volatile keys
+    (the timestamp), so an unchanged board is not committed every run.
+    Returns True when the file was written."""
     path.parent.mkdir(parents=True, exist_ok=True)
+    if path.is_file():
+        try:
+            old = json.loads(path.read_text())
+            strip = lambda d: {k: v for k, v in d.items() if k not in volatile}
+            if strip(old) == strip(data):
+                return False
+        except (ValueError, OSError):
+            pass
     path.write_text(json.dumps(data, indent=1, sort_keys=True) + "\n")
+    return True
 
 
 # --- side effects -----------------------------------------------------------------
@@ -351,13 +363,14 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
         reference = rules.best_reference(state["reference_submissions"], lab["metric"])
         apply_notes(api, org, classroom, lab, owners, state, rows, reference, board_url,
                     generated_label, log, dry_run)
-        write_json(path, lab_document(lab, state, rows, unranked, reference, generated_at))
+        changed = write_json(path, lab_document(lab, state, rows, unranked, reference, generated_at))
+        lab_generated = generated_at if changed else json.loads(path.read_text()).get("generated_at", generated_at)
         index["labs"].append({
             "slug": lab["slug"], "title": lab["title"], "board_title": lab["board_title"],
             "due": lab["due"], "available_from": lab["available_from"], "cap": lab["cap"],
             "podium": lab["podium"], "metric": public_metric(lab["metric"]),
             "rows": len(rows), "unranked": len(unranked), "reference": reference is not None,
-            "file": f"{lab['slug']}.json"})
+            "file": f"{lab['slug']}.json", "generated_at": lab_generated})
         log(f"{lab['slug']}: {len(rows)} ranked, {len(unranked)} waiting, "
             f"reference {'set' if reference else 'missing'}")
     # Demo labs (index entries flagged "demo": true, with their own data

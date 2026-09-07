@@ -381,7 +381,7 @@
     }
     parts.push(`<div><p class="k">TA reference</p><p class="v">${doc.reference ? esc(fmtValue(doc.reference.metric, unit)) : "—"}</p></div>`);
     parts.push(`<div><p class="k">Drivers</p><p class="v">${doc.rows.length}<small>ranked</small> ${doc.unranked.length}<small>on the grid</small></p></div>`);
-    parts.push(`<div><p class="k">Updated</p><p class="v">${esc(ago(doc.generated_at))}<small>rebuilds every 5 min</small></p></div>`);
+    parts.push(`<div><p class="k">Last change</p><p class="v">${esc(ago(doc.generated_at))}<small>checked every 5 min</small></p></div>`);
     $("status").innerHTML = parts.join("");
   }
 

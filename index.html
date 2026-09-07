@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ESE 6150 Leaderboard</title>
+<meta name="description" content="Live lap-time leaderboard for the ESE 6150 Roboracer labs: best clean lap per driver, anonymous aliases, TA reference.">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f3f1ea;
+    --surface: #fbfaf6;
+    --surface-2: #ece9df;
+    --ink: #15181c;
+    --ink-2: #4c525a;
+    --ink-3: #737981;
+    --line: #d8d4c9;
+    --line-strong: #b9b4a6;
+    --accent: #e0aa00;
+    --accent-tint: #fdf0bf;
+    --accent-ink: #6f5200;
+    --me: #0c6b4f;
+    --me-tint: #d9f0e6;
+    --me-ink: #0a4f3b;
+    --danger-ink: #8a2c1e;
+    --shadow: 0 1px 2px rgba(20, 24, 28, .06), 0 8px 24px -12px rgba(20, 24, 28, .25);
+    --radius: 10px;
+    --display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --body: "Barlow", "Helvetica Neue", Arial, system-ui, sans-serif;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1113;
+      --surface: #171a1e;
+      --surface-2: #1f2328;
+      --ink: #f0eee7;
+      --ink-2: #b1b6bd;
+      --ink-3: #868c94;
+      --line: #2b3037;
+      --line-strong: #3d434b;
+      --accent: #f2c14e;
+      --accent-tint: #3a2f0d;
+      --accent-ink: #f6d174;
+      --me: #4fd1a3;
+      --me-tint: #10352a;
+      --me-ink: #8fe7c6;
+      --danger-ink: #f2a08f;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -12px rgba(0, 0, 0, .7);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0;
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    accent-color: var(--accent);
+    caret-color: var(--accent);
+    scrollbar-color: var(--line-strong) transparent;
+  }
+  ::selection { background: var(--accent); color: #15181c; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+  .wrap { width: min(1080px, 100% - 2rem); margin-inline: auto; }
+
+  /* Masthead: the checkered band is the only ornament on the page. */
+  .masthead {
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+    position: relative;
+  }
+  .masthead::before {
+    content: "";
+    display: block;
+    height: 10px;
+    background:
+      repeating-conic-gradient(var(--ink) 0 25%, var(--surface) 0 50%) 0 0 / 20px 20px;
+    opacity: .9;
+  }
+  .masthead .wrap { padding: 1.4rem 0 0; }
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: .95;
+    letter-spacing: -.01em;
+    text-transform: uppercase;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .lede { margin: .5rem 0 0; max-width: 62ch; color: var(--ink-2); font-size: 1.02rem; }
+  .tabs { display: flex; gap: .25rem; margin-top: 1.1rem; overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    appearance: none; border: 0; background: transparent; color: var(--ink-2);
+    font: inherit; font-weight: 600; font-size: .95rem; padding: .7rem .9rem .8rem;
+    border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; margin-bottom: -1px;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+  .tab .state { font-weight: 500; color: var(--ink-3); margin-left: .35rem; font-size: .85rem; }
+
+  main .wrap { padding: 1.5rem 0 3rem; }
+
+  /* Status strip */
+  .status {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; box-shadow: var(--shadow);
+  }
+  .status > div { background: var(--surface); padding: .85rem 1rem; }
+  .status .k { font-size: .8rem; color: var(--ink-3); margin: 0; }
+  .status .v {
+    margin: .15rem 0 0; font-family: var(--display); font-weight: 600; font-size: 1.55rem;
+    line-height: 1.1; font-variant-numeric: tabular-nums;
+  }
+  .status .v small { font-family: var(--body); font-weight: 500; font-size: .85rem; color: var(--ink-2); margin-left: .3rem; }
+  .status .closed .v { color: var(--danger-ink); }
+
+  /* Find me */
+  .find { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .6rem .8rem; align-items: end; }
+  .find label { display: block; font-size: .85rem; color: var(--ink-2); margin-bottom: .3rem; }
+  .find .field { flex: 1 1 260px; }
+  .find input {
+    width: 100%; font: inherit; padding: .6rem .75rem; border-radius: 8px;
+    border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink);
+  }
+  .find input::placeholder { color: var(--ink-3); }
+  .btn {
+    font: inherit; font-weight: 600; padding: .6rem 1rem; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--ink); background: var(--ink); color: var(--bg);
+  }
+  .btn:hover { opacity: .9; }
+  .btn.quiet { background: transparent; color: var(--ink-2); border-color: var(--line-strong); }
+  .find-msg { flex-basis: 100%; margin: 0; font-size: .92rem; color: var(--ink-2); min-height: 1.3em; }
+  .find-msg.ok { color: var(--me-ink); }
+
+  /* Board */
+  .board { margin-top: 1.2rem; }
+  .board h2, .grid h2 {
+    font-family: var(--display); font-weight: 700; font-size: 1.35rem; text-transform: uppercase;
+    letter-spacing: .01em; margin: 0 0 .5rem;
+  }
+  .board h2 span, .grid h2 span { color: var(--ink-3); font-weight: 600; margin-left: .5rem; }
+  .table-wrap {
+    overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--surface); box-shadow: var(--shadow);
+  }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; }
+  th, td { padding: .62rem .8rem; text-align: left; border-top: 1px solid var(--line); vertical-align: middle; }
+  thead th {
+    border-top: 0; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--ink-2); font-weight: 600; background: var(--surface-2);
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.rank { width: 3.6rem; text-align: center; font-family: var(--display); font-weight: 700; font-size: 1.2rem; }
+  td.alias { font-weight: 600; }
+  td.time { font-family: var(--display); font-weight: 700; font-size: 1.35rem; letter-spacing: .01em; }
+  td.gap { color: var(--ink-2); }
+  td.when { color: var(--ink-3); white-space: nowrap; }
+  tr.podium td.rank { background: var(--accent-tint); color: var(--accent-ink); }
+  tr.podium:first-child td.rank { background: var(--accent); color: #15181c; }
+  tr.ref { background: var(--surface-2); color: var(--ink-2); }
+  tr.ref td { border-top: 1px dashed var(--line-strong); border-bottom: 1px dashed var(--line-strong); font-style: italic; }
+  tr.ref td.rank { font-style: normal; font-size: .8rem; letter-spacing: .06em; }
+  tr.ref td.time { font-style: normal; }
+  tr.me td { background: var(--me-tint); }
+  tr.me td:first-child { box-shadow: inset 3px 0 0 var(--me); }
+  .pill {
+    display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    padding: .12rem .45rem; border-radius: 999px; margin-left: .5rem; vertical-align: middle;
+  }
+  .pill.you { background: var(--me); color: var(--bg); }
+  .pill.locked { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line-strong); }
+  @keyframes land { 0% { transform: scale(.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  .just-found .pill.you { animation: land .7s cubic-bezier(.16, 1, .3, 1) both; }
+  @media (prefers-reduced-motion: reduce) { .just-found .pill.you { animation: none; } }
+  .empty { padding: 1.4rem 1rem; color: var(--ink-2); }
+  .empty strong { color: var(--ink); }
+  @media (max-width: 700px) {
+    .col-avg, .col-top, .col-when { display: none; }
+    table { min-width: 0; }
+    th, td { padding: .55rem .5rem; }
+    td.rank { width: 2.6rem; font-size: 1.05rem; }
+    td.time { font-size: 1.15rem; }
+    .status { grid-template-columns: repeat(2, 1fr); }
+    .status .v { font-size: 1.3rem; }
+  }
+
+  /* On the grid */
+  .grid { margin-top: 1.6rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0; padding: 0; list-style: none; }
+  .chips li {
+    border: 1px solid var(--line-strong); border-radius: 999px; padding: .3rem .7rem;
+    font-size: .92rem; background: var(--surface); font-variant-numeric: tabular-nums;
+  }
+  .chips li.me { border-color: var(--me); background: var(--me-tint); box-shadow: 0 0 0 1px var(--me); }
+  .chips li span { color: var(--ink-3); margin-left: .35rem; }
+  .grid p { color: var(--ink-2); margin: .3rem 0 .7rem; }
+
+  /* Rules */
+  .rules { margin-top: 2.2rem; padding-top: 1.2rem; border-top: 1px solid var(--line); color: var(--ink-2); font-size: .92rem; }
+  .rules ul { padding-left: 1.2rem; margin: .4rem 0 0; max-width: 72ch; }
+  .rules li + li { margin-top: .25rem; }
+  .rules .fine { margin-top: .9rem; color: var(--ink-3); font-size: .85rem; }
+  .notice { margin: 1rem 0 0; padding: .8rem 1rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface); color: var(--ink-2); }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <h1>ESE 6150 Leaderboard</h1>
+    <p class="lede">Every driver's best clean lap in the grading simulator, under a racing alias. Full score, before the deadline, first five graded submissions.</p>
+    <nav class="tabs" id="tabs" aria-label="Labs"></nav>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <p class="notice hidden" id="notice"></p>
+    <section class="status" id="status" aria-live="polite"></section>
+
+    <section class="find" aria-labelledby="find-label">
+      <div class="field">
+        <label id="find-label" for="find-input">Find your row: type the alias from the note in your repository's Feedback pull request</label>
+        <input id="find-input" list="alias-list" placeholder="e.g. Turbo Falcon 42" autocomplete="off" spellcheck="false">
+        <datalist id="alias-list"></datalist>
+      </div>
+      <button class="btn" id="find-btn" type="button">Highlight me</button>
+      <button class="btn quiet hidden" id="forget-btn" type="button">Forget</button>
+      <p class="find-msg" id="find-msg" aria-live="polite"></p>
+    </section>
+
+    <section class="board" aria-labelledby="board-title">
+      <h2 id="board-title">Standings</h2>
+      <div class="table-wrap" id="board"></div>
+    </section>
+
+    <section class="grid hidden" id="grid" aria-labelledby="grid-title">
+      <h2 id="grid-title">On the grid <span id="grid-count"></span></h2>
+      <p>Drivers who have submitted but have no full-score lap before the deadline yet.</p>
+      <ul class="chips" id="grid-list"></ul>
+    </section>
+
+    <footer class="rules" id="rules"></footer>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const params = new URLSearchParams(location.search);
+  const STORE = "ese6150-leaderboard-alias";
+  const state = { index: null, docs: {}, slug: params.get("lab"), me: "", justFound: false };
+
+  try { state.me = params.get("me") || localStorage.getItem(STORE) || ""; } catch (e) { state.me = params.get("me") || ""; }
+  if (params.get("me")) state.justFound = true;
+
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const fmtValue = (v, unit) => v.toFixed(2) + (unit ? " " + unit : "");
+  const fmtGap = (v, leader, dir) => {
+    const d = dir === "lower" ? v - leader : leader - v;
+    return d === 0 ? "—" : (d > 0 ? "+" : "−") + Math.abs(d).toFixed(2);
+  };
+  const fmtWhen = (iso) => {
+    const d = new Date(iso);
+    return d.toLocaleDateString(undefined, { month: "short", day: "numeric" }) + " · " +
+      d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+  };
+  const fmtDeadline = (iso) => new Date(iso).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+  const countdown = (iso) => {
+    let s = Math.max(0, (new Date(iso) - Date.now()) / 1000);
+    const d = Math.floor(s / 86400); s -= d * 86400;
+    const h = Math.floor(s / 3600); s -= h * 3600;
+    const m = Math.floor(s / 60);
+    if (d > 0) return `${d}d ${String(h).padStart(2, "0")}h`;
+    if (h > 0) return `${h}h ${String(m).padStart(2, "0")}m`;
+    return `${m} min`;
+  };
+  const ago = (iso) => {
+    const m = Math.round((Date.now() - new Date(iso)) / 60000);
+    if (m < 1) return "just now";
+    if (m < 60) return `${m} min ago`;
+    const h = Math.round(m / 60);
+    return h < 48 ? `${h} h ago` : `${Math.round(h / 24)} d ago`;
+  };
+  const same = (a, b) => a && b && a.trim().toLowerCase() === b.trim().toLowerCase();
+
+  async function fetchJSON(path) {
+    const r = await fetch(path + "?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error(`${path}: HTTP ${r.status}`);
+    return r.json();
+  }
+
+  async function load(initial) {
+    try {
+      state.index = await fetchJSON("data/index.json");
+    } catch (err) {
+      $("notice").textContent = "The board data could not be loaded right now. It rebuilds every few minutes; try again shortly.";
+      $("notice").classList.remove("hidden");
+      return;
+    }
+    const labs = state.index.labs || [];
+    if (!labs.length) {
+      $("notice").textContent = "No lab has a leaderboard yet. The first timed lab appears here once its grader is live.";
+      $("notice").classList.remove("hidden");
+      return;
+    }
+    if (!labs.some((l) => l.slug === state.slug)) {
+      const open = labs.filter((l) => l.due && new Date(l.due) > Date.now());
+      state.slug = (open.length ? open : labs)[open.length ? 0 : labs.length - 1].slug;
+    }
+    const lab = labs.find((l) => l.slug === state.slug);
+    try {
+      state.docs[state.slug] = await fetchJSON("data/" + lab.file);
+    } catch (err) {
+      $("notice").textContent = "This lab's data could not be loaded right now.";
+      $("notice").classList.remove("hidden");
+      return;
+    }
+    $("notice").classList.add("hidden");
+    render();
+    if (initial && state.me) locate(false);
+  }
+
+  function render() {
+    const labs = state.index.labs;
+    const doc = state.docs[state.slug];
+    renderTabs(labs);
+    renderStatus(doc);
+    renderBoard(doc);
+    renderGrid(doc);
+    renderRules(doc);
+    document.title = `${doc.title} · ESE 6150 Leaderboard`;
+    $("forget-btn").classList.toggle("hidden", !state.me);
+    if (state.me && !$("find-input").value) $("find-input").value = state.me;
+  }
+
+  function renderTabs(labs) {
+    $("tabs").innerHTML = labs.map((l) => {
+      const closed = l.due && new Date(l.due) < Date.now();
+      return `<button class="tab" role="tab" data-slug="${esc(l.slug)}" aria-selected="${l.slug === state.slug}">${esc(l.title)}<span class="state">${closed ? "closed" : "open"}</span></button>`;
+    }).join("");
+    $("tabs").querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => switchLab(b.dataset.slug)));
+  }
+
+  async function switchLab(slug) {
+    state.slug = slug;
+    const url = new URL(location.href);
+    url.searchParams.set("lab", slug);
+    history.replaceState(null, "", url);
+    if (!state.docs[slug]) {
+      const lab = state.index.labs.find((l) => l.slug === slug);
+      try { state.docs[slug] = await fetchJSON("data/" + lab.file); } catch (e) { return; }
+    }
+    render();
+    if (state.me) locate(false);
+  }
+
+  function renderStatus(doc) {
+    const closed = doc.due && new Date(doc.due) < Date.now();
+    const notOpen = doc.available_from && new Date(doc.available_from) > Date.now();
+    const unit = doc.metric.unit;
+    const parts = [];
+    if (notOpen) {
+      parts.push(`<div><p class="k">Opens</p><p class="v">${esc(countdown(doc.available_from))}<small>${esc(fmtDeadline(doc.available_from))}</small></p></div>`);
+    } else if (closed) {
+      parts.push(`<div class="closed"><p class="k">Deadline</p><p class="v">Closed<small>${esc(fmtDeadline(doc.due))}</small></p></div>`);
+    } else if (doc.due) {
+      parts.push(`<div><p class="k">Closes in</p><p class="v">${esc(countdown(doc.due))}<small>${esc(fmtDeadline(doc.due))}</small></p></div>`);
+    }
+    parts.push(`<div><p class="k">TA reference</p><p class="v">${doc.reference ? esc(fmtValue(doc.reference.metric, unit)) : "—"}</p></div>`);
+    parts.push(`<div><p class="k">Drivers</p><p class="v">${doc.rows.length}<small>ranked</small> ${doc.unranked.length}<small>on the grid</small></p></div>`);
+    parts.push(`<div><p class="k">Updated</p><p class="v">${esc(ago(doc.generated_at))}<small>rebuilds every 5 min</small></p></div>`);
+    $("status").innerHTML = parts.join("");
+  }
+
+  function renderBoard(doc) {
+    const m = doc.metric;
+    const extras = (m.extras || []).filter((x) => doc.rows.some((r) => r.extras && r.extras[x.key] != null));
+    const rows = doc.rows.slice();
+    const leader = rows.length ? rows[0].metric : (doc.reference ? doc.reference.metric : null);
+    const entries = rows.map((r) => ({ kind: "row", r }));
+    if (doc.reference) {
+      let i = 0;
+      while (i < entries.length && (m.direction === "lower" ? entries[i].r.metric <= doc.reference.metric : entries[i].r.metric >= doc.reference.metric)) i++;
+      entries.splice(i, 0, { kind: "ref", r: { alias: "TA reference solution", metric: doc.reference.metric, extras: doc.reference.extras || {} } });
+    }
+    $("board-title").innerHTML = `${esc(doc.board_title)} <span>${esc(doc.title)}</span>`;
+    if (!rows.length) {
+      const ref = doc.reference ? ` The TA reference is ${esc(fmtValue(doc.reference.metric, m.unit))}.` : "";
+      $("board").innerHTML = `<p class="empty"><strong>No clean full-score lap yet.</strong> The first driver to post one takes P1.${ref}</p>`;
+      $("alias-list").innerHTML = doc.unranked.map((u) => `<option value="${esc(u.alias)}">`).join("");
+      return;
+    }
+    const extraHead = extras.map((x) => `<th class="num col-${esc(x.key.split("_")[0])}">${esc(x.label)}</th>`).join("");
+    const head = `<thead><tr><th>Pos</th><th>Driver</th><th class="num">${esc(m.label)}</th><th class="num">Gap</th>${extraHead}<th class="num">Attempt</th><th class="col-when">When</th></tr></thead>`;
+    const body = entries.map((e) => {
+      const r = e.r;
+      const extraCells = extras.map((x) => `<td class="num col-${esc(x.key.split("_")[0])}">${r.extras && r.extras[x.key] != null ? esc(fmtValue(r.extras[x.key], x.unit)) : "—"}</td>`).join("");
+      if (e.kind === "ref") {
+        return `<tr class="ref"><td class="rank">REF</td><td class="alias">${esc(r.alias)}</td><td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">${leader == null ? "—" : esc(fmtGap(r.metric, leader, m.direction))}</td>${extraCells}<td class="num">—</td><td class="when col-when">—</td></tr>`;
+      }
+      const me = same(r.alias, state.me);
+      const cls = [r.rank <= doc.podium ? "podium" : "", me ? "me" : "", me && state.justFound ? "just-found" : ""].filter(Boolean).join(" ");
+      return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank">${r.rank}</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}${r.locked ? '<span class="pill locked">locked</span>' : ""}</td><td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">${esc(fmtGap(r.metric, leader, m.direction))}</td>${extraCells}<td class="num">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td></tr>`;
+    }).join("");
+    $("board").innerHTML = `<table>${head}<tbody>${body}</tbody></table>`;
+    state.justFound = false;
+    const names = [...doc.rows.map((r) => r.alias), ...doc.unranked.map((u) => u.alias)].sort();
+    $("alias-list").innerHTML = names.map((n) => `<option value="${esc(n)}">`).join("");
+  }
+
+  function renderGrid(doc) {
+    const list = doc.unranked || [];
+    $("grid").classList.toggle("hidden", !list.length);
+    $("grid-count").textContent = list.length ? `${list.length}` : "";
+    $("grid-list").innerHTML = list.map((u) => {
+      const me = same(u.alias, state.me);
+      return `<li class="${me ? "me" : ""}"${me ? ' id="me-row"' : ""}>${esc(u.alias)}${me ? '<span class="pill you">you</span>' : ""}<span>${u.used}${doc.cap ? "/" + doc.cap : ""} used${u.locked ? " · locked" : ""}</span></li>`;
+    }).join("");
+  }
+
+  function renderRules(doc) {
+    const unit = doc.metric.unit;
+    $("rules").innerHTML = `
+      <strong>How a row gets here</strong>
+      <ul>
+        <li>The grader records your ${esc(doc.metric.label.toLowerCase())} on every submission. Only submissions with the full autograded score count, and only those graded before the deadline.</li>
+        <li>Each driver has ${doc.cap ? doc.cap : "a limited number of"} graded submissions per lab. Your best qualifying one is kept; after the last allowed submission the repository becomes read-only.</li>
+        <li>The top ${doc.podium} earn extra credit. Rows above the TA reference beat the reference solution.</li>
+        <li>Your alias is in the note posted to your repository's Feedback pull request. It never changes, and nobody else can link it to you.</li>
+      </ul>
+      <p class="fine">Times are simulator time on the sealed grading map, measured by the same run that produced your grade. ${doc.reference ? "Reference: " + esc(fmtValue(doc.reference.metric, unit)) + "." : ""} Questions go to the course staff, not the comments.</p>`;
+  }
+
+  function locate(announce) {
+    const query = $("find-input").value.trim() || state.me;
+    if (!query) { $("find-msg").textContent = ""; return; }
+    const doc = state.docs[state.slug];
+    const hitRow = doc.rows.find((r) => same(r.alias, query));
+    const hitGrid = doc.unranked.find((u) => same(u.alias, query));
+    if (!hitRow && !hitGrid) {
+      $("find-msg").className = "find-msg";
+      $("find-msg").textContent = `No driver called “${query}” on this lab's board yet. Check the alias in your Feedback PR note; it appears here after your first graded submission.`;
+      return;
+    }
+    state.me = (hitRow || hitGrid).alias;
+    state.justFound = true;
+    try { localStorage.setItem(STORE, state.me); } catch (e) { /* private mode */ }
+    const url = new URL(location.href);
+    url.searchParams.set("lab", state.slug);
+    url.searchParams.set("me", state.me);
+    history.replaceState(null, "", url);
+    render();
+    const el = $("me-row");
+    if (el) el.scrollIntoView({ block: "center", behavior: announce ? "smooth" : "auto" });
+    $("find-msg").className = "find-msg ok";
+    $("find-msg").textContent = hitRow
+      ? `${state.me}: P${hitRow.rank} of ${doc.rows.length} with ${fmtValue(hitRow.metric, doc.metric.unit)}, ${hitRow.used}${doc.cap ? " of " + doc.cap : ""} submissions used.`
+      : `${state.me}: on the grid, ${hitGrid.used}${doc.cap ? " of " + doc.cap : ""} submissions used, no full-score lap before the deadline yet.`;
+  }
+
+  $("find-btn").addEventListener("click", () => locate(true));
+  $("find-input").addEventListener("keydown", (e) => { if (e.key === "Enter") locate(true); });
+  $("forget-btn").addEventListener("click", () => {
+    state.me = "";
+    $("find-input").value = "";
+    $("find-msg").textContent = "";
+    try { localStorage.removeItem(STORE); } catch (e) { /* ignore */ }
+    const url = new URL(location.href);
+    url.searchParams.delete("me");
+    history.replaceState(null, "", url);
+    render();
+  });
+
+  load(true);
+  setInterval(() => { if (state.docs[state.slug]) renderStatus(state.docs[state.slug]); }, 30000);
+  setInterval(() => load(false), 120000);
+})();
+</script>
+</body>
+</html>

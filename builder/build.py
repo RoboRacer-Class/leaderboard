@@ -1,0 +1,470 @@
+"""Orchestration: read the class config, scan each lab's repos, rank, write
+the public data, keep the per-student notes current, lock spent repos.
+
+Everything printed goes to a public Actions log, so usernames and repo
+names are redacted from every line."""
+import argparse
+import csv
+import datetime as dt
+import json
+import os
+import re
+import sys
+from pathlib import Path
+
+import yaml
+
+from . import aliases, lock, notes, rules
+from .gh import GitHub, GitHubError
+
+SCHEMA = "ese6150/leaderboard/v1"
+STAFF_TEAMS = ("teacher", "hta", "ta")
+CONFIG_REPO = "classroom50"
+
+
+class Log:
+    """print() that scrubs every username and repo name it has been told about."""
+
+    def __init__(self, stream=None):
+        self.words: set[str] = set()
+        self.stream = stream or sys.stdout
+
+    def redact(self, *words: str) -> None:
+        self.words.update(w for w in words if w)
+
+    def scrub(self, text: str) -> str:
+        for word in sorted(self.words, key=len, reverse=True):
+            text = re.sub(re.escape(word), "<redacted>", text, flags=re.IGNORECASE)
+        return text
+
+    def __call__(self, message: str) -> None:
+        print(self.scrub(message), file=self.stream, flush=True)
+
+
+def now_utc() -> dt.datetime:
+    return dt.datetime.now(dt.timezone.utc)
+
+
+# --- configuration ------------------------------------------------------------
+
+class ConfigSource:
+    """Class configuration files: read from the private class repo through
+    the API, or from a local checkout of it (--config-dir) for offline runs."""
+
+    def __init__(self, api, org: str, local_dir: Path | None = None):
+        self.api, self.org, self.local_dir = api, org, local_dir
+
+    def text(self, relpath: str) -> str:
+        if self.local_dir is not None:
+            path = self.local_dir / relpath
+            if not path.is_file():
+                raise GitHubError(404, relpath, "no such local file")
+            return path.read_text()
+        return self.api.file_text(f"{self.org}/{CONFIG_REPO}", relpath)
+
+
+def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> list:
+    """Assignments whose grader config carries a `leaderboard:` block."""
+    raw = json.loads(config.text(f"{classroom}/assignments.json"))
+    entries = raw if isinstance(raw, list) else raw.get("assignments", [])
+    labs = []
+    for entry in entries:
+        slug = entry.get("slug")
+        if not slug or (only and slug not in only):
+            continue
+        try:
+            text = config.text(f"{classroom}/autograders/{slug}/config.yaml")
+        except GitHubError as err:
+            if err.status == 404:
+                continue
+            raise
+        cfg = yaml.safe_load(text) or {}
+        block = cfg.get("leaderboard")
+        if not block:
+            continue
+        metric = rules.metric_from_config(block)
+        cap = (cfg.get("submissions") or {}).get("cap")
+        labs.append({
+            "slug": slug,
+            "title": entry.get("name") or slug,
+            "board_title": block.get("title") or metric.label,
+            "due": entry.get("due"),
+            "available_from": entry.get("available_from"),
+            "cap": int(cap) if cap else None,
+            "podium": int(block.get("podium", 5)),
+            "metric": metric,
+        })
+    return labs
+
+
+def load_staff(api, org: str, classroom: str) -> set:
+    staff = set()
+    for team in STAFF_TEAMS:
+        staff.update(m.lower() for m in api.team_members(org, f"classroom50-{classroom}-{team}"))
+    return staff
+
+
+def load_lock_script(config: ConfigSource, classroom: str, log: Log):
+    try:
+        return config.text(f"{classroom}/scripts/lab-access.sh")
+    except GitHubError as err:
+        log(f"lab-access.sh not readable (HTTP {err.status}); locks fall back to the API")
+        return None
+
+
+# --- scanning --------------------------------------------------------------------
+
+def submission_time(release: dict, runs: list) -> str:
+    """When the student pushed: the creation time of the Actions run that
+    graded this tag (server-side, survives regrades). Falls back to the
+    release time."""
+    tag = release.get("tag_name", "")
+    short = tag.rsplit("-", 1)[-1] if "-" in tag else ""
+    times = []
+    if re.fullmatch(r"[0-9a-f]{7,40}", short):
+        for run in runs:
+            if str(run.get("head_sha", "")).startswith(short) and run.get("created_at"):
+                times.append(run["created_at"])
+    if times:
+        return rules.iso(rules.parse_time(min(times)))
+    return rules.iso(rules.parse_time(release["created_at"]))
+
+
+def graded_releases(releases: list) -> list:
+    out = []
+    for rel in releases:
+        if not str(rel.get("tag_name", "")).startswith("submit/"):
+            continue
+        if any(a.get("name") == "result.json" for a in rel.get("assets") or []):
+            out.append(rel)
+    return out
+
+
+def record_release(api, repo: str, rel: dict, metric: rules.Metric, runs_cache: dict) -> dict:
+    asset = next(a for a in rel["assets"] if a["name"] == "result.json")
+    result = json.loads(api.download_asset(asset["url"]))
+    if repo not in runs_cache:
+        try:
+            runs_cache[repo] = api.workflow_runs(repo)
+        except GitHubError:
+            runs_cache[repo] = []
+    record = {"tag": rel["tag_name"], "at": submission_time(rel, runs_cache[repo]),
+              "full": rules.full_score(result), "metrics": rules.extract_metrics(result, metric)}
+    if not isinstance(result.get("max-score"), int) or result.get("max-score", 0) <= 0:
+        record["ignored"] = True      # a synthetic/vacuous result, not a graded run
+    return record
+
+
+def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
+             salt: str, state: dict, log: Log) -> dict:
+    """Merge every new graded release into `state`; returns alias -> username
+    for this run only (never written anywhere)."""
+    prefix = f"{classroom}-{lab['slug']}-"
+    players = state.setdefault("players", {})
+    reference = state.setdefault("reference_submissions", [])
+    owners: dict[str, str] = {}
+    runs_cache: dict = {}
+    for name in sorted(r for r in repos if r.startswith(prefix)):
+        username = name[len(prefix):]
+        log.redact(username, name)
+        repo = f"{org}/{name}"
+        is_staff = username.lower() in staff
+        if is_staff:
+            label, target = "reference", reference
+        else:
+            alias = aliases.resolve_alias(salt, username, players)
+            player = players.setdefault(alias, {
+                "owner": aliases.owner_fingerprint(salt, username), "submissions": [], "locked": False})
+            owners[alias] = username
+            label, target = alias, player["submissions"]
+        try:
+            releases = graded_releases(api.releases(repo))
+        except GitHubError as err:
+            log(f"  {label}: releases unreadable (HTTP {err.status}); skipped this run")
+            continue
+        known = {s["tag"] for s in target}
+        for rel in sorted((r for r in releases if r["tag_name"] not in known),
+                          key=lambda r: r.get("created_at", "")):
+            try:
+                record = record_release(api, repo, rel, lab["metric"], runs_cache)
+            except Exception as err:  # noqa: BLE001 - retried next run
+                log(f"  {label}: could not read one result ({type(err).__name__}); retry next run")
+                continue
+            target.append(record)
+            what = "full score" if record["full"] else "not full score"
+            value = (record.get("metrics") or {}).get(lab["metric"].key)
+            log(f"  {label}: new submission ({what}"
+                + (f", {lab['metric'].key}={value}" if value is not None else "") + ")")
+    return owners
+
+
+# --- output -------------------------------------------------------------------------
+
+def public_metric(metric: rules.Metric) -> dict:
+    return {"key": metric.key, "label": metric.label, "unit": metric.unit,
+            "direction": metric.direction, "extras": metric.extras}
+
+
+def lab_document(lab: dict, state: dict, rows: list, unranked: list, reference, generated_at: str) -> dict:
+    return {
+        "schema": SCHEMA,
+        "slug": lab["slug"],
+        "title": lab["title"],
+        "board_title": lab["board_title"],
+        "metric": public_metric(lab["metric"]),
+        "due": lab["due"],
+        "available_from": lab["available_from"],
+        "cap": lab["cap"],
+        "podium": lab["podium"],
+        "generated_at": generated_at,
+        "reference": reference,
+        "rows": rows,
+        "unranked": unranked,
+        "players": state.get("players", {}),
+        "reference_submissions": state.get("reference_submissions", []),
+    }
+
+
+def load_state(path: Path) -> dict:
+    if not path.is_file():
+        return {"players": {}, "reference_submissions": []}
+    data = json.loads(path.read_text())
+    return {"players": data.get("players", {}),
+            "reference_submissions": data.get("reference_submissions", [])}
+
+
+def write_json(path: Path, data: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=1, sort_keys=True) + "\n")
+
+
+# --- side effects -----------------------------------------------------------------
+
+def apply_locks(api, org, classroom, lab, owners, state, token, script_text, log, dry_run):
+    cap = lab["cap"]
+    if not cap:
+        return
+    for alias, username in owners.items():
+        player = state["players"][alias]
+        used = len(rules.counted_submissions(player))
+        if used < cap or player.get("locked"):
+            continue
+        if dry_run:
+            log(f"  {alias}: would lock ({used}/{cap})")
+            continue
+        ok, how = lock.lock_repo(api, org, classroom, lab["slug"], username, token, script_text)
+        if ok:
+            player["locked"] = True
+            player["locked_at"] = rules.iso(now_utc())
+            log(f"  {alias}: locked via {how} ({used}/{cap})")
+        else:
+            log(f"  {alias}: lock FAILED via {how}; retrying next run")
+
+
+def apply_notes(api, org, classroom, lab, owners, state, rows, reference, board_url,
+                generated_label, log, dry_run):
+    cap = lab["cap"] or 0
+    by_alias = {r["alias"]: r for r in rows}
+    public_lab = {"slug": lab["slug"], "title": lab["title"], "podium": lab["podium"],
+                  "metric": public_metric(lab["metric"])}
+    for alias, username in owners.items():
+        player = state["players"][alias]
+        row = by_alias.get(alias)
+        used = len(rules.counted_submissions(player))
+        locked = bool(player.get("locked"))
+        fp = notes.fingerprint(row, used, cap, locked, len(rows), reference)
+        note = player.setdefault("note", {})
+        if note.get("fp") == fp:
+            continue
+        body = notes.render(public_lab, alias, row, used, cap, locked, len(rows), reference,
+                            board_url, generated_label)
+        if dry_run:
+            log(f"  {alias}: would update note")
+            continue
+        repo = f"{org}/{classroom}-{lab['slug']}-{username}"
+        try:
+            if note.get("kind") == "issue" and note.get("number"):
+                api.update_issue(repo, note["number"], body)
+            else:
+                number = note.get("number") or api.feedback_pr(repo)
+                if number is None:
+                    number = api.create_issue(repo, notes.ISSUE_TITLE, body)
+                    note.update({"kind": "issue", "number": number, "comment_id": None})
+                else:
+                    comment_id = note.get("comment_id") or notes.find_note(api.issue_comments(repo, number))
+                    if comment_id:
+                        api.update_comment(repo, comment_id, body)
+                    else:
+                        comment_id = api.create_comment(repo, number, body)
+                    note.update({"kind": "pr", "number": number, "comment_id": comment_id})
+            note["fp"] = fp
+            note["updated_at"] = rules.iso(now_utc())
+            log(f"  {alias}: note updated")
+        except GitHubError as err:
+            log(f"  {alias}: note not updated (HTTP {err.status}); retrying next run")
+
+
+# --- commands ---------------------------------------------------------------------
+
+def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, board_url: str,
+          only: set | None, dry_run: bool, log: Log, config_dir: Path | None = None) -> int:
+    config = ConfigSource(api, org, config_dir)
+    labs = load_labs(config, classroom, only)
+    if not labs:
+        log("no assignment has a leaderboard block; nothing to do")
+        return 0
+    staff = load_staff(api, org, classroom)
+    for login in staff:
+        log.redact(login)
+    if not staff:
+        log("staff teams are empty or unreadable; refusing to run (staff repos would look like students)")
+        return 1
+    repos = api.org_repos(org)
+    script_text = load_lock_script(config, classroom, log)
+    generated = now_utc()
+    generated_at = rules.iso(generated)
+    generated_label = generated.strftime("%Y-%m-%d %H:%M UTC")
+    index = {"schema": SCHEMA, "generated_at": generated_at, "org": org, "classroom": classroom,
+             "labs": []}
+    for lab in labs:
+        log(f"{lab['slug']}: scanning")
+        path = data_dir / f"{lab['slug']}.json"
+        state = load_state(path)
+        owners = scan_lab(api, org, classroom, lab, repos, staff, salt, state, log)
+        due = rules.parse_time(lab["due"]) if lab.get("due") else None
+        apply_locks(api, org, classroom, lab, owners, state, token, script_text, log, dry_run)
+        rows, unranked = rules.rank_players(state["players"], lab["metric"], lab["cap"] or 10**9, due)
+        reference = rules.best_reference(state["reference_submissions"], lab["metric"])
+        apply_notes(api, org, classroom, lab, owners, state, rows, reference, board_url,
+                    generated_label, log, dry_run)
+        write_json(path, lab_document(lab, state, rows, unranked, reference, generated_at))
+        index["labs"].append({
+            "slug": lab["slug"], "title": lab["title"], "board_title": lab["board_title"],
+            "due": lab["due"], "available_from": lab["available_from"], "cap": lab["cap"],
+            "podium": lab["podium"], "metric": public_metric(lab["metric"]),
+            "rows": len(rows), "unranked": len(unranked), "reference": reference is not None,
+            "file": f"{lab['slug']}.json"})
+        log(f"{lab['slug']}: {len(rows)} ranked, {len(unranked)} waiting, "
+            f"reference {'set' if reference else 'missing'}")
+    write_json(data_dir / "index.json", index)
+    return 0
+
+
+def reveal(salt: str, slug: str, usernames: list, data_dir: Path) -> int:
+    doc = json.loads((data_dir / f"{slug}.json").read_text())
+    players = doc.get("players", {})
+    by_alias = {r["alias"]: r for r in doc.get("rows", [])}
+    for username in usernames:
+        alias = aliases.resolve_alias(salt, username, players)
+        player = players.get(alias)
+        if player is None:
+            print(f"{username}\t{alias}\t(no graded submission yet)")
+            continue
+        row = by_alias.get(alias)
+        used = len(rules.counted_submissions(player))
+        where = f"rank {row['rank']} with {row['metric']}" if row else "not on the board"
+        print(f"{username}\t{alias}\t{where}\tused {used}\tlocked {player.get('locked', False)}")
+    return 0
+
+
+def refund(api, org: str, classroom: str, salt: str, slug: str, username: str, tag: str,
+           data_dir: Path, unlock: bool) -> int:
+    path = data_dir / f"{slug}.json"
+    doc = json.loads(path.read_text())
+    alias = aliases.resolve_alias(salt, username, doc.get("players", {}))
+    player = doc["players"].get(alias)
+    if player is None:
+        print(f"{username} has no submissions in {slug}")
+        return 1
+    hits = [s for s in player["submissions"] if s["tag"] == tag]
+    if not hits:
+        print(f"{username} has no submission tagged {tag}; known: "
+              + ", ".join(s["tag"] for s in player["submissions"]))
+        return 1
+    hits[0]["refunded"] = True
+    if unlock:
+        if not lock.unlock_repo(api, org, classroom, slug, username):
+            print("unlock did not take; check the collaborator permission by hand")
+            return 1
+        player["locked"] = False
+        player.pop("locked_at", None)
+    player.setdefault("note", {}).pop("fp", None)   # forces a fresh note on the next build
+    path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+    print(f"refunded {tag} for {username} ({alias}); commit data/{slug}.json and rebuild")
+    return 0
+
+
+def who(salt: str, slug: str, roster: Path, data_dir: Path) -> int:
+    doc = json.loads((data_dir / f"{slug}.json").read_text())
+    players = doc.get("players", {})
+    by_alias = {r["alias"]: r for r in doc.get("rows", [])}
+    with roster.open(newline="") as fh:
+        rows = list(csv.DictReader(fh))
+    out = []
+    for entry in rows:
+        username = (entry.get("username") or "").strip()
+        if not username:
+            continue
+        alias = aliases.resolve_alias(salt, username, players)
+        row = by_alias.get(alias)
+        out.append((row["rank"] if row else 10**9, alias, username, row["metric"] if row else ""))
+    for rank, alias, username, metric in sorted(out):
+        print(f"{'' if rank == 10**9 else rank}\t{alias}\t{username}\t{metric}")
+    return 0
+
+
+def main(argv: list) -> int:
+    parser = argparse.ArgumentParser(prog="builder")
+    sub = parser.add_subparsers(dest="command", required=True)
+    common = argparse.ArgumentParser(add_help=False)
+    common.add_argument("--org", default=os.environ.get("LEADERBOARD_ORG", "RoboRacer-Class"))
+    common.add_argument("--classroom", default=os.environ.get("LEADERBOARD_CLASSROOM", "ese-6150"))
+    common.add_argument("--data-dir", default="data")
+    p = sub.add_parser("build", parents=[common], help="rebuild every lab board")
+    p.add_argument("--labs", default="", help="comma-separated slugs to limit the run")
+    p.add_argument("--dry-run", action="store_true", help="no notes, no locks; data is still written")
+    p.add_argument("--config-dir", default="", help="local classroom50 checkout to read config from instead of the API")
+    p.add_argument("--board-url", default=os.environ.get("BOARD_URL", "https://roboracer-class.github.io/leaderboard"))
+    p = sub.add_parser("reveal", parents=[common], help="which alias a username holds")
+    p.add_argument("slug")
+    p.add_argument("usernames", nargs="+")
+    p = sub.add_parser("refund", parents=[common], help="give an attempt back and unlock")
+    p.add_argument("slug")
+    p.add_argument("username")
+    p.add_argument("tag")
+    p.add_argument("--no-unlock", action="store_true")
+    p = sub.add_parser("who", parents=[common], help="alias -> username for a roster")
+    p.add_argument("slug")
+    p.add_argument("--roster", required=True)
+    args = parser.parse_args(argv)
+
+    salt = os.environ.get("LEADERBOARD_SALT", "")
+    if not salt:
+        print("LEADERBOARD_SALT is not set", file=sys.stderr)
+        return 2
+    data_dir = Path(args.data_dir)
+    if args.command == "reveal":
+        return reveal(salt, args.slug, args.usernames, data_dir)
+    if args.command == "who":
+        return who(salt, args.slug, Path(args.roster), data_dir)
+
+    token = os.environ.get("LEADERBOARD_TOKEN") or os.environ.get("GH_TOKEN") or ""
+    if not token:
+        print("LEADERBOARD_TOKEN is not set (the repo secret holding the fine-grained PAT)",
+              file=sys.stderr)
+        return 2
+    api = GitHub(token)
+    log = Log()
+    log.redact(token, salt)
+    if args.command == "refund":
+        return refund(api, args.org, args.classroom, salt, args.slug, args.username, args.tag,
+                      data_dir, unlock=not args.no_unlock)
+    only = {s.strip() for s in args.labs.split(",") if s.strip()} or None
+    try:
+        rc = build(api, args.org, args.classroom, salt, token, data_dir, args.board_url,
+                   only, args.dry_run, log, Path(args.config_dir) if args.config_dir else None)
+    except Exception as err:  # noqa: BLE001 - keep names out of the public log
+        log(f"build failed: {type(err).__name__}: {err}")
+        return 1
+    log(f"done in {api.calls} API calls")
+    return rc

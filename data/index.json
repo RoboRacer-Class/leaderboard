@@ -1,0 +1,39 @@
+{
+ "classroom": "ese-6150",
+ "generated_at": "2026-09-07T17:32:51Z",
+ "labs": [
+  {
+   "available_from": "2026-09-09T16:00:00Z",
+   "board_title": "Fastest clean lap",
+   "cap": 5,
+   "due": "2026-09-17T03:59:00Z",
+   "file": "lab-3-wall-following.json",
+   "metric": {
+    "direction": "lower",
+    "extras": [
+     {
+      "key": "avg_mps",
+      "label": "Avg speed",
+      "unit": "m/s"
+     },
+     {
+      "key": "top_mps",
+      "label": "Top speed",
+      "unit": "m/s"
+     }
+    ],
+    "key": "lap_s",
+    "label": "Lap time",
+    "unit": "s"
+   },
+   "podium": 5,
+   "reference": true,
+   "rows": 0,
+   "slug": "lab-3-wall-following",
+   "title": "Lab 3: Wall Following",
+   "unranked": 0
+  }
+ ],
+ "org": "RoboRacer-Class",
+ "schema": "ese6150/leaderboard/v1"
+}

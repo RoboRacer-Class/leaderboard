@@ -1,0 +1,64 @@
+{
+ "available_from": "2026-09-09T16:00:00Z",
+ "board_title": "Fastest clean lap",
+ "cap": 5,
+ "due": "2026-09-17T03:59:00Z",
+ "generated_at": "2026-09-07T17:32:51Z",
+ "metric": {
+  "direction": "lower",
+  "extras": [
+   {
+    "key": "avg_mps",
+    "label": "Avg speed",
+    "unit": "m/s"
+   },
+   {
+    "key": "top_mps",
+    "label": "Top speed",
+    "unit": "m/s"
+   }
+  ],
+  "key": "lap_s",
+  "label": "Lap time",
+  "unit": "s"
+ },
+ "players": {},
+ "podium": 5,
+ "reference": {
+  "at": "2026-09-07T03:46:06Z",
+  "extras": {
+   "avg_mps": 4.66,
+   "top_mps": 5.0
+  },
+  "metric": 13.47
+ },
+ "reference_submissions": [
+  {
+   "at": "2026-09-07T03:40:15Z",
+   "full": false,
+   "metrics": null,
+   "tag": "submit/2026-09-07T03-40-23Z-4e092c4"
+  },
+  {
+   "at": "2026-09-07T03:43:36Z",
+   "full": false,
+   "metrics": null,
+   "tag": "submit/2026-09-07T03-43-50Z-537a1b0"
+  },
+  {
+   "at": "2026-09-07T03:46:06Z",
+   "full": true,
+   "metrics": {
+    "avg_mps": 4.66,
+    "lap_s": 13.47,
+    "top_mps": 5.0
+   },
+   "tag": "submit/2026-09-07T03-46-22Z-9bb0e0a"
+  }
+ ],
+ "rows": [],
+ "schema": "ese6150/leaderboard/v1",
+ "slug": "lab-3-wall-following",
+ "title": "Lab 3: Wall Following",
+ "unranked": []
+}

@@ -1,0 +1,84 @@
+# Rebuilds the board: every five minutes, on demand, or when something pokes
+# it with a `graded` repository_dispatch. Runs in this public repo, so the
+# minutes are free and every log line is public: the builder prints aliases
+# only, never usernames or repo names.
+name: Build the board
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+    inputs:
+      labs:
+        description: "Only these labs (comma-separated slugs); blank = every lab with a leaderboard block"
+        required: false
+        default: ""
+      dry_run:
+        description: "Dry run: write data, but post no notes and lock nothing"
+        type: boolean
+        default: false
+  repository_dispatch:
+    types: [graded]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-the-board
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      # Without the secrets a scheduled run has nothing to do: exit green with
+      # a warning instead of failing every five minutes. A manual run fails
+      # loudly so a missing secret is noticed.
+      - name: Check configuration
+        id: check
+        env:
+          LEADERBOARD_TOKEN: ${{ secrets.LEADERBOARD_TOKEN }}
+          LEADERBOARD_SALT: ${{ secrets.LEADERBOARD_SALT }}
+        run: |
+          set -euo pipefail
+          ready=true
+          [[ -n "$LEADERBOARD_TOKEN" ]] || { echo "::warning::LEADERBOARD_TOKEN secret is not set; the board was not rebuilt (see README)"; ready=false; }
+          [[ -n "$LEADERBOARD_SALT" ]] || { echo "::warning::LEADERBOARD_SALT secret is not set; the board was not rebuilt (see README)"; ready=false; }
+          echo "ready=$ready" >> "$GITHUB_OUTPUT"
+          if [[ "$ready" == false && "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then exit 1; fi
+
+      - name: Rebuild every board
+        if: steps.check.outputs.ready == 'true'
+        env:
+          # Fine-grained PAT (see README): read student repos and the class
+          # config, comment on Feedback PRs, change collaborator permission.
+          LEADERBOARD_TOKEN: ${{ secrets.LEADERBOARD_TOKEN }}
+          # The alias key. Never rotate it: every alias would change.
+          LEADERBOARD_SALT: ${{ secrets.LEADERBOARD_SALT }}
+          BOARD_URL: https://roboracer-class.github.io/leaderboard
+          LABS: ${{ inputs.labs || '' }}
+          DRY_RUN: ${{ inputs.dry_run == true && '--dry-run' || '' }}
+        run: |
+          set -euo pipefail
+          python3 -c "import yaml" 2>/dev/null || python3 -m pip install --quiet pyyaml
+          python3 -m builder build --labs "$LABS" $DRY_RUN
+
+      - name: Publish the data that changed
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          git add data
+          if git diff --cached --quiet; then
+            echo "board unchanged"
+            exit 0
+          fi
+          git -c user.name="leaderboard bot" -c user.email="leaderboard-bot@users.noreply.github.com" \
+            commit -q -m "board: $(date -u +%Y-%m-%dT%H:%MZ)"
+          for attempt in 1 2 3; do
+            git push && exit 0
+            git pull --rebase -q
+          done
+          exit 1

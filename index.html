@@ -436,7 +436,7 @@
       <strong>How a row gets here</strong>
       <ul>
         <li>The grader records your ${esc(doc.metric.label.toLowerCase())} on every submission. Only submissions with the full autograded score count, and only those graded before the deadline.</li>
-        <li>Each driver has ${doc.cap ? doc.cap : "a limited number of"} graded submissions per lab. Your best qualifying one is kept; after the last allowed submission the repository becomes read-only.</li>
+        <li>Each driver gets ${doc.cap ? doc.cap : "a limited number of"} submissions per lab; every submission tag spends one, graded or not. Your best qualifying one is kept; after the last allowed submission the repository becomes read-only.</li>
         <li>The top ${doc.podium} earn extra credit. Rows above the TA reference beat the reference solution.</li>
         <li>Your alias is in the note posted to your repository's Feedback pull request. It never changes, and nobody else can link it to you.</li>
       </ul>

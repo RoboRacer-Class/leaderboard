@@ -46,7 +46,7 @@ def test_full_score():
 
 def sub(tag, at, lap=None, full=True, refunded=False):
     metrics = {"lap_s": lap, "avg_mps": 4.0} if lap is not None else None
-    s = {"tag": tag, "at": at, "full": full, "metrics": metrics}
+    s = {"id": rules.attempt_id(tag), "at": at, "graded": True, "full": full, "metrics": metrics}
     if refunded:
         s["refunded"] = True
     return s

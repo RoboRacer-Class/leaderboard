@@ -1,6 +1,7 @@
 """The board rules as pure functions: what a metric is, which submissions
 qualify, and how the rows are ranked. No network, no files."""
 import datetime as dt
+import hashlib
 import re
 from dataclasses import dataclass, field
 
@@ -73,15 +74,22 @@ def iso(when: dt.datetime) -> str:
     return when.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def attempt_id(tag: str) -> str:
+    """A one-way id for a submission tag, so the public data never carries
+    the tag name (it embeds the student's commit sha)."""
+    return hashlib.sha256(tag.encode("utf-8")).hexdigest()[:16]
+
+
 def counted_submissions(player: dict) -> list:
-    """The player's non-refunded submissions in grading order."""
-    subs = [s for s in player.get("submissions", []) if not (s.get("refunded") or s.get("ignored"))]
-    subs.sort(key=lambda s: (s["at"], s["tag"]))
+    """The player's non-refunded attempts in submission order. An attempt is
+    a submit/* tag: graded or not, it spent one of the allowed submissions."""
+    subs = [s for s in player.get("submissions", []) if not s.get("refunded")]
+    subs.sort(key=lambda s: (s["at"], s["id"]))
     return subs
 
 
 def qualifies(sub: dict, metric: Metric, due: dt.datetime | None) -> bool:
-    if not sub.get("full") or not sub.get("metrics"):
+    if not sub.get("graded", True) or not sub.get("full") or not sub.get("metrics"):
         return False
     if metric.key not in sub["metrics"]:
         return False
@@ -129,7 +137,7 @@ def rank_players(players: dict, metric: Metric, cap: int, due: dt.datetime | Non
 
 def best_reference(subs: list, metric: Metric):
     """The staff reference: best full-score submission, no cap or deadline."""
-    best = best_of(sorted(subs, key=lambda s: (s["at"], s["tag"])), metric, None)
+    best = best_of(sorted(subs, key=lambda s: (s["at"], s["id"])), metric, None)
     if best is None:
         return None
     n, sub = best

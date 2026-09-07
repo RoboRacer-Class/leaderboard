@@ -3,7 +3,7 @@
  "board_title": "Fastest clean lap",
  "cap": 5,
  "due": "2026-09-17T03:59:00Z",
- "generated_at": "2026-09-07T17:37:19Z",
+ "generated_at": "2026-09-07T17:44:45Z",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -36,34 +36,38 @@
   {
    "at": "2026-09-07T03:40:15Z",
    "full": false,
-   "metrics": null,
-   "tag": "submit/2026-09-07T03-40-23Z-4e092c4"
+   "graded": true,
+   "id": "94ffe05aa1217fc2",
+   "metrics": null
   },
   {
    "at": "2026-09-07T03:43:36Z",
    "full": false,
-   "metrics": null,
-   "tag": "submit/2026-09-07T03-43-50Z-537a1b0"
+   "graded": true,
+   "id": "e8318ed3bc48040a",
+   "metrics": null
   },
   {
    "at": "2026-09-07T03:46:06Z",
    "full": true,
+   "graded": true,
+   "id": "364cb496ad0f73fd",
    "metrics": {
     "avg_mps": 4.66,
     "lap_s": 13.47,
     "top_mps": 5.0
-   },
-   "tag": "submit/2026-09-07T03-46-22Z-9bb0e0a"
+   }
   },
   {
    "at": "2026-09-07T17:33:00Z",
    "full": true,
+   "graded": true,
+   "id": "d21eeac32d020d43",
    "metrics": {
     "avg_mps": 4.66,
     "lap_s": 13.47,
     "top_mps": 5.0
-   },
-   "tag": "submit/2026-09-07T17-33-10Z-bfd5f02"
+   }
   }
  ],
  "rows": [],

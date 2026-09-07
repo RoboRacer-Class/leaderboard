@@ -113,6 +113,16 @@ class GitHub:
     def releases(self, repo: str) -> list:
         return self.get_all(f"/repos/{repo}/releases")
 
+    def tag_refs(self, repo: str, prefix: str = "submit/") -> list:
+        """[{name, sha}] for every tag under `prefix` (lightweight tags point
+        straight at the commit, which is what the runner creates)."""
+        refs = self.get_all(f"/repos/{repo}/git/matching-refs/tags/{prefix}")
+        return [{"name": r["ref"][len("refs/tags/"):], "sha": (r.get("object") or {}).get("sha", "")}
+                for r in refs if r.get("ref", "").startswith("refs/tags/" + prefix)]
+
+    def delete_tag(self, repo: str, tag: str) -> None:
+        self.request("DELETE", f"/repos/{repo}/git/refs/tags/{tag}")
+
     def download_asset(self, asset_url: str) -> bytes:
         """Release assets redirect to a signed storage URL that must be
         fetched WITHOUT the GitHub token, so follow that hop by hand."""

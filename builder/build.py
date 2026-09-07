@@ -114,56 +114,42 @@ def load_lock_script(config: ConfigSource, classroom: str, log: Log):
 
 # --- scanning --------------------------------------------------------------------
 
-def submission_time(release: dict, runs: list) -> str:
+def submission_time(sha: str, runs: list, fallback: str) -> str:
     """When the student pushed: the creation time of the Actions run that
-    graded this tag (server-side, survives regrades). Falls back to the
-    release time."""
-    tag = release.get("tag_name", "")
-    short = tag.rsplit("-", 1)[-1] if "-" in tag else ""
-    times = []
-    if re.fullmatch(r"[0-9a-f]{7,40}", short):
-        for run in runs:
-            if str(run.get("head_sha", "")).startswith(short) and run.get("created_at"):
-                times.append(run["created_at"])
+    graded this commit (server-side, survives regrades). Falls back to the
+    given time."""
+    times = [run["created_at"] for run in runs
+             if sha and str(run.get("head_sha", "")).startswith(sha) and run.get("created_at")]
     if times:
         return rules.iso(rules.parse_time(min(times)))
-    return rules.iso(rules.parse_time(release["created_at"]))
+    return rules.iso(rules.parse_time(fallback))
 
 
-def graded_releases(releases: list) -> list:
-    out = []
+def graded_releases(releases: list) -> dict:
+    """tag -> release, for releases that carry a result.json."""
+    out = {}
     for rel in releases:
-        if not str(rel.get("tag_name", "")).startswith("submit/"):
-            continue
-        if any(a.get("name") == "result.json" for a in rel.get("assets") or []):
-            out.append(rel)
+        tag = str(rel.get("tag_name", ""))
+        if tag.startswith("submit/") and any(a.get("name") == "result.json" for a in rel.get("assets") or []):
+            out[tag] = rel
     return out
 
 
-def record_release(api, repo: str, rel: dict, metric: rules.Metric, runs_cache: dict) -> dict:
+def read_result(api, rel: dict) -> dict:
     asset = next(a for a in rel["assets"] if a["name"] == "result.json")
-    result = json.loads(api.download_asset(asset["url"]))
-    if repo not in runs_cache:
-        try:
-            runs_cache[repo] = api.workflow_runs(repo)
-        except GitHubError:
-            runs_cache[repo] = []
-    record = {"tag": rel["tag_name"], "at": submission_time(rel, runs_cache[repo]),
-              "full": rules.full_score(result), "metrics": rules.extract_metrics(result, metric)}
-    if not isinstance(result.get("max-score"), int) or result.get("max-score", 0) <= 0:
-        record["ignored"] = True      # a synthetic/vacuous result, not a graded run
-    return record
+    return json.loads(api.download_asset(asset["url"]))
 
 
 def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
              salt: str, state: dict, log: Log) -> dict:
-    """Merge every new graded release into `state`; returns alias -> username
-    for this run only (never written anywhere)."""
+    """Merge every new attempt (a submit/* tag) and every newly graded one
+    into `state`; returns alias -> username for this run only (never
+    written anywhere)."""
     prefix = f"{classroom}-{lab['slug']}-"
     players = state.setdefault("players", {})
     reference = state.setdefault("reference_submissions", [])
     owners: dict[str, str] = {}
-    runs_cache: dict = {}
+    metric = lab["metric"]
     for name in sorted(r for r in repos if r.startswith(prefix)):
         username = name[len(prefix):]
         log.redact(username, name)
@@ -178,23 +164,51 @@ def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
             owners[alias] = username
             label, target = alias, player["submissions"]
         try:
+            tags = api.tag_refs(repo)
+        except GitHubError as err:
+            log(f"  {label}: tags unreadable (HTTP {err.status}); skipped this run")
+            continue
+        known = {s["id"]: s for s in target}
+        pending = [t for t in tags if rules.attempt_id(t["name"]) not in known
+                   or not known[rules.attempt_id(t["name"])].get("graded")]
+        if not pending:
+            continue
+        try:
             releases = graded_releases(api.releases(repo))
         except GitHubError as err:
-            log(f"  {label}: releases unreadable (HTTP {err.status}); skipped this run")
-            continue
-        known = {s["tag"] for s in target}
-        for rel in sorted((r for r in releases if r["tag_name"] not in known),
-                          key=lambda r: r.get("created_at", "")):
+            log(f"  {label}: releases unreadable (HTTP {err.status}); attempts still counted")
+            releases = {}
+        runs = []
+        try:
+            runs = api.workflow_runs(repo)
+        except GitHubError:
+            pass
+        now = rules.iso(now_utc())
+        for tag in sorted(pending, key=lambda t: t["name"]):
+            tid = rules.attempt_id(tag["name"])
+            record = known.get(tid)
+            if record is None:
+                record = {"id": tid, "at": submission_time(tag["sha"], runs, now),
+                          "graded": False, "full": False, "metrics": None}
+                target.append(record)
+                known[tid] = record
+                log(f"  {label}: new attempt")
+            rel = releases.get(tag["name"])
+            if rel is None:
+                continue
             try:
-                record = record_release(api, repo, rel, lab["metric"], runs_cache)
+                result = read_result(api, rel)
             except Exception as err:  # noqa: BLE001 - retried next run
                 log(f"  {label}: could not read one result ({type(err).__name__}); retry next run")
                 continue
-            target.append(record)
-            what = "full score" if record["full"] else "not full score"
-            value = (record.get("metrics") or {}).get(lab["metric"].key)
-            log(f"  {label}: new submission ({what}"
-                + (f", {lab['metric'].key}={value}" if value is not None else "") + ")")
+            if not isinstance(result.get("max-score"), int) or result.get("max-score", 0) <= 0:
+                continue      # a synthetic/vacuous result, not a graded run
+            record.update({"graded": True, "full": rules.full_score(result),
+                           "metrics": rules.extract_metrics(result, metric),
+                           "at": submission_time(tag["sha"], runs, record["at"])})
+            value = (record.get("metrics") or {}).get(metric.key)
+            log(f"  {label}: graded ({'full score' if record['full'] else 'not full score'}"
+                + (f", {metric.key}={value}" if value is not None else "") + ")")
     return owners
 
 
@@ -376,12 +390,22 @@ def refund(api, org: str, classroom: str, salt: str, slug: str, username: str, t
     if player is None:
         print(f"{username} has no submissions in {slug}")
         return 1
-    hits = [s for s in player["submissions"] if s["tag"] == tag]
+    tid = rules.attempt_id(tag)
+    hits = [s for s in player["submissions"] if s["id"] == tid]
     if not hits:
-        print(f"{username} has no submission tagged {tag}; known: "
-              + ", ".join(s["tag"] for s in player["submissions"]))
+        print(f"{username} has no attempt tagged {tag} ({len(player['submissions'])} attempts on record)")
         return 1
     hits[0]["refunded"] = True
+    repo = f"{org}/{classroom}-{slug}-{username}"
+    if hits[0].get("graded"):
+        print(f"note: {tag} was graded, so its tag and release stay; the grader's own count still "
+              "includes it until the tag is deleted by hand")
+    else:
+        try:
+            api.delete_tag(repo, tag)
+            print(f"deleted the tag {tag} so the grader stops counting it")
+        except Exception as err:  # noqa: BLE001
+            print(f"could not delete the tag {tag} ({err}); delete it by hand")
     if unlock:
         if not lock.unlock_repo(api, org, classroom, slug, username):
             print("unlock did not take; check the collaborator permission by hand")

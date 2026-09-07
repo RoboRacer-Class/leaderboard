@@ -3,7 +3,7 @@
  "board_title": "Fastest clean lap",
  "cap": 5,
  "due": "2026-09-17T03:59:00Z",
- "generated_at": "2026-09-07T17:44:45Z",
+ "generated_at": "2026-09-07T17:48:02Z",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -66,6 +66,17 @@
    "metrics": {
     "avg_mps": 4.66,
     "lap_s": 13.47,
+    "top_mps": 5.0
+   }
+  },
+  {
+   "at": "2026-09-07T17:44:55Z",
+   "full": true,
+   "graded": true,
+   "id": "6f6727efaa5f1348",
+   "metrics": {
+    "avg_mps": 4.65,
+    "lap_s": 13.48,
     "top_mps": 5.0
    }
   }

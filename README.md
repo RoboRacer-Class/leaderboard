@@ -1,17 +1,12 @@
 # ESE 6150 leaderboard
 
-Board: https://roboracer-class.github.io/leaderboard/ (public page; this repo is private and only `docs/` is published).
+Board: https://roboracer-class.github.io/leaderboard/ (GitHub Pages serves the `docs/` folder of this repo).
 
 A row is a driver's best full-score lap graded before the deadline, among their first five attempts, under an alias. Staff repos give the reference row. Students learn their alias from the note on their Feedback PR.
 
-## Secrets
-
-- `LEADERBOARD_SALT`: repo secret, copy in `~/.config/ese6150-leaderboard/salt`. Never change it.
-- `LEADERBOARD_TOKEN`: fine-grained PAT (see the link in the class notes). Save it with `./tools/token.sh`, which checks the permissions, writes `~/.config/ese6150-leaderboard/token`, and sets the repo secret.
-
 ## Rebuilds
 
-`tools/rebuild.sh` runs from cron every five minutes on Cedric's machine (`crontab -l`). It clones into `~/.local/share/ese6150-leaderboard/repo`, rebuilds, and pushes changed data. It does nothing until the token exists. Fallback: Actions, "Build the board", "Run workflow" (billed minutes, private repo).
+The workflow "Build the board" runs every five minutes (free: public repo), on demand from the Actions tab, and on a `graded` repository_dispatch. It rebuilds, commits changed data under `docs/data`, and Pages redeploys. GitHub switches the schedule off after 60 days without commits; re-enable it on the Actions tab. Fallback without Actions: `tools/rebuild.sh` from any machine holding the two secret files (see the end).
 
 ## Commands
 
@@ -29,3 +24,8 @@ Run from this directory with `export LEADERBOARD_SALT=$(cat ~/.config/ese6150-le
 - `docs/index.html`: the page. `docs/data/`: generated, committed by the rebuild.
 - `builder/`: the rebuild logic. `tools/`: token and cron scripts.
 - Cap and lock: five `submit/*` tags per repo; the grader refuses the sixth, the rebuild locks the repo with `lab-access.sh`.
+
+## Secrets (staff only)
+
+- `LEADERBOARD_SALT`: repo secret, copy in `~/.config/ese6150-leaderboard/salt`. Never change it.
+- `LEADERBOARD_TOKEN`: fine-grained PAT (see the link in the class notes). Save it with `./tools/token.sh`, which checks the permissions, writes `~/.config/ese6150-leaderboard/token`, and sets the repo secret.

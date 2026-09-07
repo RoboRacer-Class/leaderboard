@@ -209,6 +209,7 @@
   /* Rules */
   .rules { margin-top: 2.2rem; padding-top: 1.2rem; border-top: 1px solid var(--line); color: var(--ink-2); font-size: .92rem; }
   .rules ul { padding-left: 1.2rem; margin: .4rem 0 0; max-width: 72ch; }
+  .rules code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; background: var(--surface-2); padding: .05em .35em; border-radius: 4px; }
   .rules li + li { margin-top: .25rem; }
   .rules .fine { margin-top: .9rem; color: var(--ink-3); font-size: .85rem; }
   .notice { margin: 1rem 0 0; padding: .8rem 1rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface); color: var(--ink-2); }
@@ -219,7 +220,7 @@
 <header class="masthead">
   <div class="wrap">
     <h1>ESE 6150 Leaderboard</h1>
-    <p class="lede">Every driver's best clean lap in the grading simulator, under a racing alias. Full score, before the deadline, first five graded submissions.</p>
+    <p class="lede">Every driver's best clean lap in the grading simulator, under a racing alias. Rebuilt every few minutes from graded submissions.</p>
     <nav class="tabs" id="tabs" aria-label="Labs"></nav>
   </div>
 </header>
@@ -432,15 +433,17 @@
 
   function renderRules(doc) {
     const unit = doc.metric.unit;
+    const cap = doc.cap ? doc.cap : "a limited number of";
     $("rules").innerHTML = `
-      <strong>How a row gets here</strong>
+      <strong>The rules</strong>
       <ul>
-        <li>The grader records your ${esc(doc.metric.label.toLowerCase())} on every submission. Only submissions with the full autograded score count, and only those graded before the deadline.</li>
-        <li>Each driver gets ${doc.cap ? doc.cap : "a limited number of"} submissions per lab; every submission tag spends one, graded or not. Your best qualifying one is kept; after the last allowed submission the repository becomes read-only.</li>
-        <li>The top ${doc.podium} earn extra credit. Rows above the TA reference beat the reference solution.</li>
-        <li>Your alias is in the note posted to your repository's Feedback pull request. It never changes, and nobody else can link it to you.</li>
+        <li>Every push of your <code>submission</code> tag is one attempt. You get ${cap} attempts per lab, graded or not.</li>
+        <li>After attempt ${doc.cap ? doc.cap : "limit"} your repository becomes read-only. Need to change anything after that, such as the video link in Submission.md? Ask a TA to unlock it.</li>
+        <li>Only runs with the full autograded score, graded before the deadline, count here. Your best one is kept.</li>
+        <li>The top ${doc.podium} earn extra credit. Rows above the TA reference beat the staff solution${doc.reference ? " (" + esc(fmtValue(doc.reference.metric, unit)) + ")" : ""}.</li>
+        <li>Your alias is in the note on your repository's Feedback pull request. It never changes and nobody else can link it to you.</li>
       </ul>
-      <p class="fine">Times are simulator time on the sealed grading map, measured by the same run that produced your grade. ${doc.reference ? "Reference: " + esc(fmtValue(doc.reference.metric, unit)) + "." : ""} Questions go to the course staff, not the comments.</p>`;
+      <p class="fine">Times are simulator time on the sealed grading map, from the same run that produced your grade. Questions go to the course staff.</p>`;
   }
 
   function locate(announce) {

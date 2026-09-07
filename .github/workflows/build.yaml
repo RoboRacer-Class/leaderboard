@@ -1,12 +1,11 @@
-# Rebuilds the board: every five minutes, on demand, or when something pokes
-# it with a `graded` repository_dispatch. Runs in this public repo, so the
-# minutes are free and every log line is public: the builder prints aliases
+# Rebuilds the board on demand, or when something pokes it with a `graded`
+# repository_dispatch. The five-minute rebuild runs from a TA machine
+# (tools/rebuild.sh) because this repo is private and every Actions run
+# here is billed against the org's minutes. The builder prints aliases
 # only, never usernames or repo names.
 name: Build the board
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"
   workflow_dispatch:
     inputs:
       labs:
@@ -70,7 +69,7 @@ jobs:
         if: steps.check.outputs.ready == 'true'
         run: |
           set -euo pipefail
-          git add data
+          git add docs/data
           if git diff --cached --quiet; then
             echo "board unchanged"
             exit 0

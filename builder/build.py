@@ -360,6 +360,16 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
             "file": f"{lab['slug']}.json"})
         log(f"{lab['slug']}: {len(rows)} ranked, {len(unranked)} waiting, "
             f"reference {'set' if reference else 'missing'}")
+    # Demo labs (index entries flagged "demo": true, with their own data
+    # file) are kept until someone deletes them by hand.
+    old_index = data_dir / "index.json"
+    if old_index.is_file():
+        try:
+            for entry in json.loads(old_index.read_text()).get("labs", []):
+                if entry.get("demo") and (data_dir / entry.get("file", "")).is_file():
+                    index["labs"].append(entry)
+        except (ValueError, OSError):
+            pass
     write_json(data_dir / "index.json", index)
     return 0
 
@@ -437,13 +447,54 @@ def who(salt: str, slug: str, roster: Path, data_dir: Path) -> int:
     return 0
 
 
+def check_token(api, org: str, classroom: str) -> int:
+    """Try each call the builder makes and name the permission behind any
+    failure. Returns 0 when everything works."""
+    config_repo = f"{org}/{CONFIG_REPO}"
+    checks = [
+        ("Contents: Read (class config)", lambda: api.file_text(config_repo, f"{classroom}/assignments.json")),
+        ("Organization Members: Read (staff teams)", lambda: api.team_members(org, f"classroom50-{classroom}-teacher")),
+        ("Metadata: Read (repo listing)", lambda: api.org_repos(org)),
+    ]
+    prefix = f"{classroom}-"
+    repos = []
+    try:
+        repos = [r for r in api.org_repos(org) if r.startswith(prefix + "lab-")]
+    except GitHubError:
+        pass
+    if repos:
+        sample = f"{org}/{sorted(repos)[0]}"
+        login = sorted(repos)[0].rsplit("-", 1)[-1]
+        checks += [
+            ("Contents: Read (tags and releases)", lambda: api.tag_refs(sample)),
+            ("Actions: Read (run times)", lambda: api.workflow_runs(sample)),
+            ("Pull requests: Read (Feedback PR)", lambda: api.feedback_pr(sample)),
+            ("Administration: Read (collaborator permission)", lambda: api.permission(sample, login)),
+        ]
+    failed = 0
+    for label, call in checks:
+        try:
+            call()
+            print(f"  ok   {label}")
+        except GitHubError as err:
+            failed += 1
+            print(f"  FAIL {label}: HTTP {err.status}")
+    if failed:
+        print(f"{failed} permission(s) missing; edit the token at "
+              "https://github.com/settings/personal-access-tokens and try again")
+        return 1
+    print("write permissions (Pull requests, Issues, Administration) cannot be probed without "
+          "writing; they are used on the first student note and lock")
+    return 0
+
+
 def main(argv: list) -> int:
     parser = argparse.ArgumentParser(prog="builder")
     sub = parser.add_subparsers(dest="command", required=True)
     common = argparse.ArgumentParser(add_help=False)
     common.add_argument("--org", default=os.environ.get("LEADERBOARD_ORG", "RoboRacer-Class"))
     common.add_argument("--classroom", default=os.environ.get("LEADERBOARD_CLASSROOM", "ese-6150"))
-    common.add_argument("--data-dir", default="data")
+    common.add_argument("--data-dir", default="docs/data")
     p = sub.add_parser("build", parents=[common], help="rebuild every lab board")
     p.add_argument("--labs", default="", help="comma-separated slugs to limit the run")
     p.add_argument("--dry-run", action="store_true", help="no notes, no locks; data is still written")
@@ -457,13 +508,14 @@ def main(argv: list) -> int:
     p.add_argument("username")
     p.add_argument("tag")
     p.add_argument("--no-unlock", action="store_true")
+    sub.add_parser("check-token", parents=[common], help="probe the token's permissions")
     p = sub.add_parser("who", parents=[common], help="alias -> username for a roster")
     p.add_argument("slug")
     p.add_argument("--roster", required=True)
     args = parser.parse_args(argv)
 
     salt = os.environ.get("LEADERBOARD_SALT", "")
-    if not salt:
+    if not salt and args.command != "check-token":
         print("LEADERBOARD_SALT is not set", file=sys.stderr)
         return 2
     data_dir = Path(args.data_dir)
@@ -480,6 +532,8 @@ def main(argv: list) -> int:
     api = GitHub(token)
     log = Log()
     log.redact(token, salt)
+    if args.command == "check-token":
+        return check_token(api, args.org, args.classroom)
     if args.command == "refund":
         return refund(api, args.org, args.classroom, salt, args.slug, args.username, args.tag,
                       data_dir, unlock=not args.no_unlock)

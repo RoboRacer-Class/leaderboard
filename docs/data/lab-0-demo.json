@@ -1,0 +1,391 @@
+{
+ "available_from": "2026-09-01T16:00:00Z",
+ "board_title": "Fastest clean lap",
+ "cap": 5,
+ "demo": true,
+ "due": "2026-09-21T03:59:00Z",
+ "generated_at": "2026-09-07T18:09:34Z",
+ "metric": {
+  "direction": "lower",
+  "extras": [
+   {
+    "key": "avg_mps",
+    "label": "Avg speed",
+    "unit": "m/s"
+   },
+   {
+    "key": "top_mps",
+    "label": "Top speed",
+    "unit": "m/s"
+   }
+  ],
+  "key": "lap_s",
+  "label": "Lap time",
+  "unit": "s"
+ },
+ "players": {},
+ "podium": 5,
+ "reference": {
+  "at": "2026-09-07T03:46:06Z",
+  "extras": {
+   "avg_mps": 4.66,
+   "top_mps": 5.0
+  },
+  "metric": 13.47
+ },
+ "reference_submissions": [],
+ "rows": [
+  {
+   "alias": "Turbo Falcon 75",
+   "at": "2026-09-15T17:00:00Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 4.96,
+    "top_mps": 5.0
+   },
+   "locked": true,
+   "metric": 12.63,
+   "rank": 1,
+   "used": 5
+  },
+  {
+   "alias": "Crimson Hawk 90",
+   "at": "2026-09-11T18:00:00Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 4.85,
+    "top_mps": 5.0
+   },
+   "locked": true,
+   "metric": 12.91,
+   "rank": 2,
+   "used": 5
+  },
+  {
+   "alias": "Cobalt Otter 48",
+   "at": "2026-09-11T17:00:00Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 4.79,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 13.08,
+   "rank": 3,
+   "used": 4
+  },
+  {
+   "alias": "Neon Badger 60",
+   "at": "2026-09-15T11:00:00Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 4.74,
+    "top_mps": 5.0
+   },
+   "locked": true,
+   "metric": 13.21,
+   "rank": 4,
+   "used": 5
+  },
+  {
+   "alias": "Silent Fox 77",
+   "at": "2026-09-11T10:00:00Z",
+   "attempt": 5,
+   "extras": {
+    "avg_mps": 4.62,
+    "top_mps": 5.0
+   },
+   "locked": true,
+   "metric": 13.56,
+   "rank": 5,
+   "used": 5
+  },
+  {
+   "alias": "Rapid Wolf 86",
+   "at": "2026-09-10T03:00:00Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 4.6,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 13.61,
+   "rank": 6,
+   "used": 3
+  },
+  {
+   "alias": "Blazing Lynx 85",
+   "at": "2026-09-14T16:00:00Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 4.53,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 13.82,
+   "rank": 7,
+   "used": 4
+  },
+  {
+   "alias": "Frosty Panther 73",
+   "at": "2026-09-15T06:00:00Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 4.42,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 14.17,
+   "rank": 8,
+   "used": 4
+  },
+  {
+   "alias": "Golden Jaguar 62",
+   "at": "2026-09-10T15:00:00Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 4.4,
+    "top_mps": 5.0
+   },
+   "locked": true,
+   "metric": 14.23,
+   "rank": 9,
+   "used": 5
+  },
+  {
+   "alias": "Silver Cheetah 39",
+   "at": "2026-09-10T15:00:00Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 4.28,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 14.62,
+   "rank": 10,
+   "used": 4
+  },
+  {
+   "alias": "Quantum Comet 23",
+   "at": "2026-09-10T01:00:00Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 4.25,
+    "top_mps": 5.0
+   },
+   "locked": true,
+   "metric": 14.74,
+   "rank": 11,
+   "used": 5
+  },
+  {
+   "alias": "Rogue Meteor 12",
+   "at": "2026-09-12T20:00:00Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 4.19,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 14.93,
+   "rank": 12,
+   "used": 4
+  },
+  {
+   "alias": "Stealth Rocket 16",
+   "at": "2026-09-09T18:00:00Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 4.11,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 15.22,
+   "rank": 13,
+   "used": 3
+  },
+  {
+   "alias": "Nimble Glider 82",
+   "at": "2026-09-13T23:00:00Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 4.08,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 15.36,
+   "rank": 14,
+   "used": 4
+  },
+  {
+   "alias": "Bold Kite 49",
+   "at": "2026-09-12T15:00:00Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 4.01,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 15.6,
+   "rank": 15,
+   "used": 3
+  },
+  {
+   "alias": "Brave Arrow 41",
+   "at": "2026-09-14T02:00:00Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 3.97,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 15.76,
+   "rank": 16,
+   "used": 2
+  },
+  {
+   "alias": "Misty Dart 72",
+   "at": "2026-09-09T20:00:00Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 3.9,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 16.04,
+   "rank": 17,
+   "used": 4
+  },
+  {
+   "alias": "Solar Bolt 75",
+   "at": "2026-09-15T17:00:00Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 3.88,
+    "top_mps": 5.0
+   },
+   "locked": true,
+   "metric": 16.15,
+   "rank": 18,
+   "used": 5
+  },
+  {
+   "alias": "Lunar Spark 24",
+   "at": "2026-09-11T03:00:00Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 3.83,
+    "top_mps": 5.0
+   },
+   "locked": true,
+   "metric": 16.36,
+   "rank": 19,
+   "used": 5
+  },
+  {
+   "alias": "Cosmic Ember 85",
+   "at": "2026-09-12T00:00:00Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 3.77,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 16.61,
+   "rank": 20,
+   "used": 3
+  },
+  {
+   "alias": "Zesty Wombat 60",
+   "at": "2026-09-09T23:00:00Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 3.73,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 16.8,
+   "rank": 21,
+   "used": 3
+  },
+  {
+   "alias": "Peppy Koala 28",
+   "at": "2026-09-15T21:00:00Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 3.65,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 17.14,
+   "rank": 22,
+   "used": 1
+  },
+  {
+   "alias": "Snappy Yak 52",
+   "at": "2026-09-12T12:00:00Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 3.64,
+    "top_mps": 5.0
+   },
+   "locked": true,
+   "metric": 17.21,
+   "rank": 23,
+   "used": 5
+  },
+  {
+   "alias": "Dusty Llama 21",
+   "at": "2026-09-13T20:00:00Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 3.57,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 17.53,
+   "rank": 24,
+   "used": 1
+  }
+ ],
+ "schema": "ese6150/leaderboard/v1",
+ "slug": "lab-0-demo",
+ "title": "Lab 0: Demo",
+ "unranked": [
+  {
+   "alias": "Arctic Photon 71",
+   "locked": true,
+   "used": 5
+  },
+  {
+   "alias": "Humble Heron 84",
+   "locked": false,
+   "used": 2
+  },
+  {
+   "alias": "Mellow Dragon 89",
+   "locked": false,
+   "used": 3
+  },
+  {
+   "alias": "Plucky Gecko 57",
+   "locked": true,
+   "used": 5
+  },
+  {
+   "alias": "Radiant Orca 11",
+   "locked": false,
+   "used": 2
+  },
+  {
+   "alias": "Velvet Vertex 27",
+   "locked": true,
+   "used": 5
+  },
+  {
+   "alias": "Witty Piston 26",
+   "locked": false,
+   "used": 4
+  }
+ ]
+}

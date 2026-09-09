@@ -42,7 +42,10 @@ def render(lab: dict, alias: str, row, used: int, cap: int, locked: bool,
                      "deadline. Your best one is kept once you have it.")
     if reference:
         lines.append(f"- TA reference solution: {format_value(reference['metric'], unit)}.")
-    if locked:
+    if not cap:
+        lines.append(f"- Submissions used: **{used}**. There is no limit on this lab: "
+                     "push the tag again whenever you improve.")
+    elif locked:
         lines.append(f"- Submissions used: **{used} of {cap}**. The cap is spent, so this "
                      "repository is now read-only. Your grade is your latest graded submission.")
     else:

@@ -2,7 +2,7 @@
 
 Board: https://roboracer-class.github.io/leaderboard/ (GitHub Pages serves the `docs/` folder of this repo).
 
-A row is a driver's best full-score lap graded before the deadline, among their first five attempts, under an alias. Staff repos give the reference row. Students learn their alias from the note on their Feedback PR.
+A row is a driver's best full-score lap graded before the deadline, under an alias (and among the first `submissions.cap` attempts on a lab that sets one). Staff repos give the reference row. Students learn their alias from the note on their Feedback PR.
 
 ## Rebuilds
 
@@ -23,7 +23,7 @@ Run from this directory with `export LEADERBOARD_SALT=$(cat ~/.config/ese6150-le
 
 - `docs/index.html`: the page. `docs/data/`: generated, committed by the rebuild.
 - `builder/`: the rebuild logic. `tools/`: token and cron scripts.
-- Cap and lock: five `submit/*` tags per repo; the grader refuses the sixth, the rebuild locks the repo with `lab-access.sh`.
+- Cap and lock: **off** — `submissions.cap: 0` in the lab's grader config means unlimited `submit/*` tags. Set a positive cap and it comes back: the grader refuses the next tag, the rebuild locks the repo read-only with `lab-access.sh`, and `builder refund` gives an attempt back.
 
 ## Secrets (staff only)
 

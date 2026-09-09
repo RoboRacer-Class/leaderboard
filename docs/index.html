@@ -433,12 +433,14 @@
 
   function renderRules(doc) {
     const unit = doc.metric.unit;
-    const cap = doc.cap ? doc.cap : "a limited number of";
+    const capRules = doc.cap
+      ? `<li>Every push of your <code>submission</code> tag is one attempt. You get ${doc.cap} attempts per lab, graded or not.</li>
+        <li>After attempt ${doc.cap} your repository becomes read-only. Need to change anything after that, such as the video link in Submission.md? Ask a TA to unlock it.</li>`
+      : `<li>Every push of your <code>submission</code> tag is one attempt, graded or not. There is no limit on this lab: resubmit whenever you improve.</li>`;
     $("rules").innerHTML = `
       <strong>The rules</strong>
       <ul>
-        <li>Every push of your <code>submission</code> tag is one attempt. You get ${cap} attempts per lab, graded or not.</li>
-        <li>After attempt ${doc.cap ? doc.cap : "limit"} your repository becomes read-only. Need to change anything after that, such as the video link in Submission.md? Ask a TA to unlock it.</li>
+        ${capRules}
         <li>Only runs with the full autograded score, graded before the deadline, count here. Your best one is kept.</li>
         <li>The top ${doc.podium} earn extra credit. Rows above the TA reference beat the staff solution${doc.reference ? " (" + esc(fmtValue(doc.reference.metric, unit)) + ")" : ""}.</li>
         <li>Your alias is in the note on your repository's Feedback pull request. It never changes and nobody else can link it to you.</li>

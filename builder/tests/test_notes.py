@@ -21,6 +21,14 @@ def test_render_when_unranked_and_locked():
     assert "Not on the board yet" in text and "read-only" in text and "5 of 5" in text
 
 
+def test_render_without_a_cap_promises_no_limit():
+    row = {"rank": 4, "metric": 13.47, "attempt": 9}
+    text = notes.render(LAB, "Turbo Falcon 42", row, used=9, cap=0, locked=False, total_rows=31,
+                        reference=None, board_url="https://x", generated_at="now")
+    assert "Submissions used: **9**" in text and "no limit" in text
+    assert "read-only" not in text and "of 0" not in text
+
+
 def test_fingerprint_changes_with_rank_or_usage():
     row = {"rank": 1, "metric": 12.0}
     a = notes.fingerprint(row, 1, 5, False, 10, None)

@@ -3,7 +3,7 @@
  "board_title": "Fastest clean lap",
  "cap": 5,
  "due": "2026-09-17T03:59:00Z",
- "generated_at": "2026-09-09T16:23:00Z",
+ "generated_at": "2026-09-09T17:03:44Z",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -33,6 +33,18 @@
     "updated_at": "2026-09-09T16:23:02Z"
    },
    "owner": "eeea81700df78cee",
+   "submissions": []
+  },
+  "Lightning Sprocket 88": {
+   "locked": false,
+   "note": {
+    "comment_id": 5605700032,
+    "fp": "-/0|-|0/5|0|13.47",
+    "kind": "pr",
+    "number": 1,
+    "updated_at": "2026-09-09T17:03:46Z"
+   },
+   "owner": "3ee0ceb1c97c9ed4",
    "submissions": []
   }
  },
@@ -112,6 +124,11 @@
  "unranked": [
   {
    "alias": "Dawn Gecko 23",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Lightning Sprocket 88",
    "locked": false,
    "used": 0
   }

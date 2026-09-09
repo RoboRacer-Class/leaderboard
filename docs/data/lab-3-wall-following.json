@@ -3,7 +3,7 @@
  "board_title": "Fastest clean lap",
  "cap": 5,
  "due": "2026-09-17T03:59:00Z",
- "generated_at": "2026-09-09T19:11:11Z",
+ "generated_at": "2026-09-09T20:14:49Z",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -23,6 +23,18 @@
   "unit": "s"
  },
  "players": {
+  "Crystal Beagle 36": {
+   "locked": false,
+   "note": {
+    "comment_id": 5608103650,
+    "fp": "-/0|-|0/5|0|13.47",
+    "kind": "pr",
+    "number": 1,
+    "updated_at": "2026-09-09T20:14:52Z"
+   },
+   "owner": "a6af6cf45de448d9",
+   "submissions": []
+  },
   "Dawn Gecko 23": {
    "locked": false,
    "note": {
@@ -134,6 +146,11 @@
  "slug": "lab-3-wall-following",
  "title": "Lab 3: Wall Following",
  "unranked": [
+  {
+   "alias": "Crystal Beagle 36",
+   "locked": false,
+   "used": 0
+  },
   {
    "alias": "Dawn Gecko 23",
    "locked": false,

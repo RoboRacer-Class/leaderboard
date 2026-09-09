@@ -1,9 +1,9 @@
 {
  "available_from": "2026-09-09T15:30:00Z",
  "board_title": "Fastest clean lap",
- "cap": 5,
+ "cap": null,
  "due": "2026-09-17T03:59:00Z",
- "generated_at": "2026-09-09T20:14:49Z",
+ "generated_at": "2026-09-09T20:20:39Z",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -27,10 +27,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608103650,
-    "fp": "-/0|-|0/5|0|13.47",
+    "fp": "-/0|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T20:14:52Z"
+    "updated_at": "2026-09-09T20:20:42Z"
    },
    "owner": "a6af6cf45de448d9",
    "submissions": []
@@ -39,10 +39,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605162767,
-    "fp": "-/0|-|0/5|0|13.47",
+    "fp": "-/0|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T16:23:02Z"
+    "updated_at": "2026-09-09T20:20:44Z"
    },
    "owner": "eeea81700df78cee",
    "submissions": []
@@ -51,10 +51,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605700032,
-    "fp": "-/0|-|0/5|0|13.47",
+    "fp": "-/0|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T17:03:46Z"
+    "updated_at": "2026-09-09T20:20:42Z"
    },
    "owner": "3ee0ceb1c97c9ed4",
    "submissions": []
@@ -63,10 +63,10 @@
    "locked": false,
    "note": {
     "comment_id": 5607301879,
-    "fp": "-/0|-|0/5|0|13.47",
+    "fp": "-/0|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T19:11:14Z"
+    "updated_at": "2026-09-09T20:20:43Z"
    },
    "owner": "63e05f13e990aac2",
    "submissions": []

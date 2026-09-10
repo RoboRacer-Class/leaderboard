@@ -3,7 +3,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-17T03:59:00Z",
- "generated_at": "2026-09-09T22:27:25Z",
+ "generated_at": "2026-09-10T02:29:28Z",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -27,10 +27,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608103650,
-    "fp": "-/0|-|0/0|0|13.47",
+    "fp": "-/1|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T20:20:42Z"
+    "updated_at": "2026-09-10T02:29:35Z"
    },
    "owner": "a6af6cf45de448d9",
    "submissions": []
@@ -39,10 +39,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605162767,
-    "fp": "-/0|-|0/0|0|13.47",
+    "fp": "-/1|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T20:20:44Z"
+    "updated_at": "2026-09-10T02:29:37Z"
    },
    "owner": "eeea81700df78cee",
    "submissions": []
@@ -51,10 +51,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605700032,
-    "fp": "-/0|-|0/0|0|13.47",
+    "fp": "-/1|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T20:20:42Z"
+    "updated_at": "2026-09-10T02:29:34Z"
    },
    "owner": "3ee0ceb1c97c9ed4",
    "submissions": []
@@ -63,10 +63,10 @@
    "locked": false,
    "note": {
     "comment_id": 5609222498,
-    "fp": "-/0|-|0/0|0|13.47",
+    "fp": "-/1|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T21:49:56Z"
+    "updated_at": "2026-09-10T02:29:36Z"
    },
    "owner": "da8f415b7996d027",
    "submissions": []
@@ -75,10 +75,10 @@
    "locked": false,
    "note": {
     "comment_id": 5609596439,
-    "fp": "-/0|-|0/0|0|13.47",
+    "fp": "-/1|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T22:27:29Z"
+    "updated_at": "2026-09-10T02:29:38Z"
    },
    "owner": "83663b62299e6a36",
    "submissions": []
@@ -87,22 +87,45 @@
    "locked": false,
    "note": {
     "comment_id": 5607301879,
-    "fp": "-/0|-|0/0|0|13.47",
+    "fp": "1/1|13.05|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T20:20:43Z"
+    "updated_at": "2026-09-10T02:29:36Z"
    },
    "owner": "63e05f13e990aac2",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-10T02:29:30Z",
+     "full": true,
+     "graded": true,
+     "id": "ed749f37ced00f14",
+     "metrics": {
+      "avg_mps": 4.66,
+      "lap_s": 13.05,
+      "top_mps": 6.58
+     }
+    },
+    {
+     "at": "2026-09-10T02:15:09Z",
+     "full": true,
+     "graded": true,
+     "id": "b52b67cacf3bdf61",
+     "metrics": {
+      "avg_mps": 4.64,
+      "lap_s": 13.08,
+      "top_mps": 6.58
+     }
+    }
+   ]
   },
   "Tropic Cipher 39": {
    "locked": false,
    "note": {
     "comment_id": 5608817259,
-    "fp": "-/0|-|0/0|0|13.47",
+    "fp": "-/1|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-09T21:12:09Z"
+    "updated_at": "2026-09-10T02:29:33Z"
    },
    "owner": "28a881accf52d2a7",
    "submissions": []
@@ -177,7 +200,21 @@
    }
   }
  ],
- "rows": [],
+ "rows": [
+  {
+   "alias": "Stormy Magnet 44",
+   "at": "2026-09-10T02:29:30Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 4.66,
+    "top_mps": 6.58
+   },
+   "locked": false,
+   "metric": 13.05,
+   "rank": 1,
+   "used": 2
+  }
+ ],
  "schema": "ese6150/leaderboard/v1",
  "slug": "lab-3-wall-following",
  "title": "Lab 3: Wall Following",
@@ -204,11 +241,6 @@
   },
   {
    "alias": "Quantum Bobcat 80",
-   "locked": false,
-   "used": 0
-  },
-  {
-   "alias": "Stormy Magnet 44",
    "locked": false,
    "used": 0
   },

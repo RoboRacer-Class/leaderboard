@@ -3,7 +3,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-10T23:38:57Z",
+ "generated_at": "2026-09-11T00:36:01Z",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -27,22 +27,34 @@
    "locked": false,
    "note": {
     "comment_id": 5626954957,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "-/2|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T23:39:01Z"
+    "updated_at": "2026-09-11T00:36:14Z"
    },
    "owner": "2b483a472c57d22e",
+   "submissions": []
+  },
+  "Brave Puffin 30": {
+   "locked": false,
+   "note": {
+    "comment_id": 5627555403,
+    "fp": "-/2|-|0/0|0|13.47",
+    "kind": "pr",
+    "number": 1,
+    "updated_at": "2026-09-11T00:36:16Z"
+   },
+   "owner": "adc06e716de74a39",
    "submissions": []
   },
   "Breezy Bolt 20": {
    "locked": false,
    "note": {
     "comment_id": 5623729860,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "-/2|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T18:44:14Z"
+    "updated_at": "2026-09-11T00:36:15Z"
    },
    "owner": "dc01db7aa4b33dde",
    "submissions": []
@@ -51,10 +63,10 @@
    "locked": false,
    "note": {
     "comment_id": 5620155210,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "-/2|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T14:17:47Z"
+    "updated_at": "2026-09-11T00:36:09Z"
    },
    "owner": "6bf53b1c646268f2",
    "submissions": []
@@ -63,10 +75,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608103650,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "-/2|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T02:29:35Z"
+    "updated_at": "2026-09-11T00:36:09Z"
    },
    "owner": "a6af6cf45de448d9",
    "submissions": []
@@ -75,10 +87,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605162767,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "-/2|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T02:29:37Z"
+    "updated_at": "2026-09-11T00:36:12Z"
    },
    "owner": "eeea81700df78cee",
    "submissions": []
@@ -87,10 +99,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605700032,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "-/2|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T02:29:34Z"
+    "updated_at": "2026-09-11T00:36:07Z"
    },
    "owner": "3ee0ceb1c97c9ed4",
    "submissions": []
@@ -99,22 +111,34 @@
    "locked": false,
    "note": {
     "comment_id": 5609222498,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "2/2|18.22|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T02:29:36Z"
+    "updated_at": "2026-09-11T00:36:10Z"
    },
    "owner": "da8f415b7996d027",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-11T00:30:34Z",
+     "full": true,
+     "graded": true,
+     "id": "4a35361b41e4e51c",
+     "metrics": {
+      "avg_mps": 3.43,
+      "lap_s": 18.22,
+      "top_mps": 4.0
+     }
+    }
+   ]
   },
   "Quantum Bobcat 80": {
    "locked": false,
    "note": {
     "comment_id": 5609596439,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "-/2|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T02:29:38Z"
+    "updated_at": "2026-09-11T00:36:14Z"
    },
    "owner": "83663b62299e6a36",
    "submissions": []
@@ -123,10 +147,10 @@
    "locked": false,
    "note": {
     "comment_id": 5611993692,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "-/2|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T03:01:21Z"
+    "updated_at": "2026-09-11T00:36:17Z"
    },
    "owner": "dfe9505c5e9a278b",
    "submissions": []
@@ -135,10 +159,10 @@
    "locked": false,
    "note": {
     "comment_id": 5625536344,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "-/2|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T21:14:57Z"
+    "updated_at": "2026-09-11T00:36:13Z"
    },
    "owner": "8eaa1adde81f240d",
    "submissions": []
@@ -147,10 +171,10 @@
    "locked": false,
    "note": {
     "comment_id": 5607301879,
-    "fp": "1/1|13.05|2/0|0|13.47",
+    "fp": "1/2|13.05|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T02:29:36Z"
+    "updated_at": "2026-09-11T00:36:12Z"
    },
    "owner": "63e05f13e990aac2",
    "submissions": [
@@ -182,10 +206,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608817259,
-    "fp": "-/1|-|0/0|0|13.47",
+    "fp": "-/2|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-10T02:29:33Z"
+    "updated_at": "2026-09-11T00:36:07Z"
    },
    "owner": "28a881accf52d2a7",
    "submissions": []
@@ -273,6 +297,19 @@
    "metric": 13.05,
    "rank": 1,
    "used": 2
+  },
+  {
+   "alias": "Mighty Puffin 96",
+   "at": "2026-09-11T00:30:34Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 3.43,
+    "top_mps": 4.0
+   },
+   "locked": false,
+   "metric": 18.22,
+   "rank": 2,
+   "used": 1
   }
  ],
  "schema": "ese6150/leaderboard/v1",
@@ -281,6 +318,11 @@
  "unranked": [
   {
    "alias": "Bold Pixel 17",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Brave Puffin 30",
    "locked": false,
    "used": 0
   },
@@ -306,11 +348,6 @@
   },
   {
    "alias": "Lightning Sprocket 88",
-   "locked": false,
-   "used": 0
-  },
-  {
-   "alias": "Mighty Puffin 96",
    "locked": false,
    "used": 0
   },

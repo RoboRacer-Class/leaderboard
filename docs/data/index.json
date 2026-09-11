@@ -33,38 +33,6 @@
    "slug": "lab-3-wall-following",
    "title": "Lab 3: Wall Following",
    "unranked": 22
-  },
-  {
-   "available_from": "2026-09-01T16:00:00Z",
-   "board_title": "Fastest clean lap",
-   "cap": 5,
-   "demo": true,
-   "due": "2026-09-21T03:59:00Z",
-   "file": "lab-0-demo.json",
-   "metric": {
-    "direction": "lower",
-    "extras": [
-     {
-      "key": "avg_mps",
-      "label": "Avg speed",
-      "unit": "m/s"
-     },
-     {
-      "key": "top_mps",
-      "label": "Top speed",
-      "unit": "m/s"
-     }
-    ],
-    "key": "lap_s",
-    "label": "Lap time",
-    "unit": "s"
-   },
-   "podium": 5,
-   "reference": true,
-   "rows": 24,
-   "slug": "lab-0-demo",
-   "title": "Lab 0: Demo",
-   "unranked": 7
   }
  ],
  "org": "RoboRacer-Class",

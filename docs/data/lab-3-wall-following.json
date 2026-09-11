@@ -3,7 +3,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-11T01:58:17Z",
+ "generated_at": "2026-09-11T02:28:25Z",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -123,10 +123,10 @@
    "locked": false,
    "note": {
     "comment_id": 5609222498,
-    "fp": "2/2|18.22|3/0|0|13.47",
+    "fp": "1/2|12.06|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-11T01:58:24Z"
+    "updated_at": "2026-09-11T02:28:33Z"
    },
    "owner": "da8f415b7996d027",
    "submissions": [
@@ -154,10 +154,14 @@
     },
     {
      "at": "2026-09-11T01:56:45Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "c37e779d7d825172",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 5.23,
+      "lap_s": 12.06,
+      "top_mps": 6.54
+     }
     }
    ]
   },
@@ -197,14 +201,26 @@
    "owner": "8eaa1adde81f240d",
    "submissions": []
   },
+  "Spiky Beacon 49": {
+   "locked": false,
+   "note": {
+    "comment_id": 5628545457,
+    "fp": "-/2|-|0/0|0|13.47",
+    "kind": "pr",
+    "number": 1,
+    "updated_at": "2026-09-11T02:28:39Z"
+   },
+   "owner": "1faa8e8f95d6a56b",
+   "submissions": []
+  },
   "Stormy Magnet 44": {
    "locked": false,
    "note": {
     "comment_id": 5607301879,
-    "fp": "1/2|13.05|2/0|0|13.47",
+    "fp": "2/2|13.05|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-11T00:36:12Z"
+    "updated_at": "2026-09-11T02:28:34Z"
    },
    "owner": "63e05f13e990aac2",
    "submissions": [
@@ -242,6 +258,30 @@
     "updated_at": "2026-09-11T00:36:07Z"
    },
    "owner": "28a881accf52d2a7",
+   "submissions": []
+  },
+  "Turbo Heron 72": {
+   "locked": false,
+   "note": {
+    "comment_id": 5628545259,
+    "fp": "-/2|-|0/0|0|13.47",
+    "kind": "pr",
+    "number": 1,
+    "updated_at": "2026-09-11T02:28:37Z"
+   },
+   "owner": "19b88e48fb5659be",
+   "submissions": []
+  },
+  "Zesty Orca 53": {
+   "locked": false,
+   "note": {
+    "comment_id": 5628545092,
+    "fp": "-/2|-|0/0|0|13.47",
+    "kind": "pr",
+    "number": 1,
+    "updated_at": "2026-09-11T02:28:36Z"
+   },
+   "owner": "f5eeae1864756280",
    "submissions": []
   }
  },
@@ -316,6 +356,19 @@
  ],
  "rows": [
   {
+   "alias": "Mighty Puffin 96",
+   "at": "2026-09-11T01:56:45Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 5.23,
+    "top_mps": 6.54
+   },
+   "locked": false,
+   "metric": 12.06,
+   "rank": 1,
+   "used": 3
+  },
+  {
    "alias": "Stormy Magnet 44",
    "at": "2026-09-10T02:29:30Z",
    "attempt": 2,
@@ -325,21 +378,8 @@
    },
    "locked": false,
    "metric": 13.05,
-   "rank": 1,
-   "used": 2
-  },
-  {
-   "alias": "Mighty Puffin 96",
-   "at": "2026-09-11T00:30:34Z",
-   "attempt": 1,
-   "extras": {
-    "avg_mps": 3.43,
-    "top_mps": 4.0
-   },
-   "locked": false,
-   "metric": 18.22,
    "rank": 2,
-   "used": 3
+   "used": 2
   }
  ],
  "schema": "ese6150/leaderboard/v1",
@@ -402,7 +442,22 @@
    "used": 0
   },
   {
+   "alias": "Spiky Beacon 49",
+   "locked": false,
+   "used": 0
+  },
+  {
    "alias": "Tropic Cipher 39",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Turbo Heron 72",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Zesty Orca 53",
    "locked": false,
    "used": 0
   }

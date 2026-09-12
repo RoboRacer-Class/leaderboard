@@ -28,14 +28,12 @@
     --danger-ink: #8a2c1e;
     --chart-dot: #3a72d4;      /* every driver */
     --rank-ink: #1e3f7a;       /* position cells: a wash of the chart blue for the field... */
-    --gold: #d9a400;           /* ...medal washes for the top three... */
-    --gold-ink: #5a4200;
-    --silver: #8f97a3;
-    --silver-ink: #3a4048;
+    --gold: #d9a400;           /* ...solid medals for the top three... */
+    --silver: #a9b0ba;
     --bronze: #c4763a;
-    --bronze-ink: #5c3313;
+    --medal-ink: #15181c;
     --ref: #7c4dff;            /* ...and purple for the TA reference row */
-    --ref-ink: #3b1f8f;
+    --ref-ink: #ffffff;
     --chart-ref: #737981;      /* the TA reference rule */
     --chart-me: #0e7f5b;       /* the alias you highlighted */
     --shadow: 0 1px 2px rgba(20, 24, 28, .06), 0 8px 24px -12px rgba(20, 24, 28, .25);
@@ -64,13 +62,11 @@
       --chart-dot: #4f8fff;
       --rank-ink: #a9c6ff;
       --gold: #e0b22a;
-      --gold-ink: #f3d98a;
       --silver: #aab1ba;
-      --silver-ink: #dfe3e8;
       --bronze: #c98549;
-      --bronze-ink: #f0c9a6;
+      --medal-ink: #15181c;
       --ref: #9d84f5;
-      --ref-ink: #ddd2ff;
+      --ref-ink: #15181c;
       --chart-ref: #868c94;
       --chart-me: #259f70;
       --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -12px rgba(0, 0, 0, .7);
@@ -217,12 +213,12 @@
   td.gap { color: var(--ink-2); }
   td.when { color: var(--ink-3); white-space: nowrap; }
   tbody tr td.rank { background: color-mix(in srgb, var(--chart-dot) 16%, var(--surface)); color: var(--rank-ink); }
-  tr.rank-1 td.rank { background: color-mix(in srgb, var(--gold) 34%, var(--surface)); color: var(--gold-ink); }
-  tr.rank-2 td.rank { background: color-mix(in srgb, var(--silver) 34%, var(--surface)); color: var(--silver-ink); }
-  tr.rank-3 td.rank { background: color-mix(in srgb, var(--bronze) 34%, var(--surface)); color: var(--bronze-ink); }
+  tr.rank-1 td.rank { background: var(--gold); color: var(--medal-ink); }
+  tr.rank-2 td.rank { background: var(--silver); color: var(--medal-ink); }
+  tr.rank-3 td.rank { background: var(--bronze); color: var(--medal-ink); }
   tr.ref { color: var(--ink-2); }
-  tr.ref td { background: color-mix(in srgb, var(--ref) 9%, var(--surface)); border-top: 1px dashed color-mix(in srgb, var(--ref) 45%, var(--surface)); border-bottom: 1px dashed color-mix(in srgb, var(--ref) 45%, var(--surface)); font-style: italic; }
-  tr.ref td.rank { background: color-mix(in srgb, var(--ref) 34%, var(--surface)); color: var(--ref-ink); font-style: normal; font-size: .8rem; letter-spacing: .06em; }
+  tr.ref td { background: color-mix(in srgb, var(--ref) 16%, var(--surface)); border-top: 1px dashed color-mix(in srgb, var(--ref) 55%, var(--surface)); border-bottom: 1px dashed color-mix(in srgb, var(--ref) 55%, var(--surface)); font-style: italic; }
+  tr.ref td.rank { background: var(--ref); color: var(--ref-ink); font-style: normal; font-size: .8rem; letter-spacing: .06em; }
   tr.ref td.time { font-style: normal; }
   tr.me td { background: var(--me-tint); }
   tr.me td:first-child { box-shadow: inset 3px 0 0 var(--me); }

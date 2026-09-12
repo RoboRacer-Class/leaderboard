@@ -1,6 +1,6 @@
 {
  "classroom": "ese-6150",
- "generated_at": "2026-09-12T04:24:42Z",
+ "generated_at": "2026-09-12T04:37:38Z",
  "labs": [
   {
    "assignment": "lab-3-wall-following",
@@ -43,7 +43,7 @@
    "cap": null,
    "due": "2026-09-26T03:59:00Z",
    "file": "lab-4-follow-the-gap-lap.json",
-   "generated_at": "2026-09-12T04:24:42Z",
+   "generated_at": "2026-09-12T04:37:38Z",
    "metric": {
     "direction": "lower",
     "extras": [
@@ -63,7 +63,7 @@
     "unit": "s"
    },
    "podium": 5,
-   "reference": false,
+   "reference": true,
    "requirement": "full marks on everything but the obstacle course",
    "rows": 0,
    "slug": "lab-4-follow-the-gap-lap",
@@ -77,7 +77,7 @@
    "cap": null,
    "due": "2026-09-26T03:59:00Z",
    "file": "lab-4-follow-the-gap-obstacles.json",
-   "generated_at": "2026-09-12T04:24:42Z",
+   "generated_at": "2026-09-12T04:37:38Z",
    "metric": {
     "direction": "lower",
     "extras": [
@@ -97,7 +97,7 @@
     "unit": "s"
    },
    "podium": 5,
-   "reference": false,
+   "reference": true,
    "requirement": "the full score, obstacle course included",
    "rows": 0,
    "slug": "lab-4-follow-the-gap-obstacles",

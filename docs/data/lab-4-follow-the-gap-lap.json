@@ -4,7 +4,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-12T04:24:42Z",
+ "generated_at": "2026-09-12T04:37:38Z",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -25,8 +25,38 @@
  },
  "players": {},
  "podium": 5,
- "reference": null,
- "reference_submissions": [],
+ "reference": {
+  "at": "2026-09-12T04:31:36Z",
+  "extras": {
+   "avg_mps": 5.4,
+   "top_mps": 7.59
+  },
+  "metric": 11.51
+ },
+ "reference_submissions": [
+  {
+   "at": "2026-09-12T04:26:38Z",
+   "full": true,
+   "graded": true,
+   "id": "33bee30ccf5f3329",
+   "metrics": {
+    "avg_mps": 2.37,
+    "lap_s": 25.61,
+    "top_mps": 3.33
+   }
+  },
+  {
+   "at": "2026-09-12T04:31:36Z",
+   "full": true,
+   "graded": true,
+   "id": "34d1f3d1ab89be3d",
+   "metrics": {
+    "avg_mps": 5.4,
+    "lap_s": 11.51,
+    "top_mps": 7.59
+   }
+  }
+ ],
  "requirement": "full marks on everything but the obstacle course",
  "rows": [],
  "schema": "ese6150/leaderboard/v1",

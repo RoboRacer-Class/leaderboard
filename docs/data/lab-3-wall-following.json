@@ -4,7 +4,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-12T21:27:45Z",
+ "generated_at": "2026-09-12T21:54:43Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -435,10 +435,10 @@
    "locked": false,
    "note": {
     "comment_id": 5637419461,
-    "fp": "6/6|41.39|3/0|0|13.47",
+    "fp": "6/6|41.39|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-12T20:59:42Z"
+    "updated_at": "2026-09-12T21:54:51Z"
    },
    "owner": "62f2c7fbc20fdcb1",
    "submissions": [
@@ -468,6 +468,17 @@
      "metrics": {
       "avg_mps": 1.49,
       "lap_s": 41.39,
+      "top_mps": 1.5
+     }
+    },
+    {
+     "at": "2026-09-12T21:47:00Z",
+     "full": true,
+     "graded": true,
+     "id": "648dc8765a7e2ba4",
+     "metrics": {
+      "avg_mps": 1.49,
+      "lap_s": 41.4,
       "top_mps": 1.5
      }
     }
@@ -645,7 +656,7 @@
    "locked": false,
    "metric": 41.39,
    "rank": 6,
-   "used": 3
+   "used": 4
   }
  ],
  "schema": "ese6150/leaderboard/v1",

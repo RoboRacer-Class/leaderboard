@@ -64,13 +64,17 @@ class ConfigSource:
 
 
 def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> list:
-    """Assignments whose grader config carries a `leaderboard:` block."""
+    """One board per `leaderboard:` block (or per entry of a `leaderboards:`
+    list) in an assignment's grader config. A board is a lab entry with its
+    own data file and tab: `slug` is the assignment (repo prefix), `board`
+    the file/tab id (the slug, or slug-key for a keyed block), `ignore` the
+    tests its `require:` rule excuses."""
     raw = json.loads(config.text(f"{classroom}/assignments.json"))
     entries = raw if isinstance(raw, list) else raw.get("assignments", [])
     labs = []
     for entry in entries:
         slug = entry.get("slug")
-        if not slug or (only and slug not in only):
+        if not slug:
             continue
         try:
             text = config.text(f"{classroom}/autograders/{slug}/config.yaml")
@@ -79,21 +83,32 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
                 continue
             raise
         cfg = yaml.safe_load(text) or {}
-        block = cfg.get("leaderboard")
-        if not block:
-            continue
-        metric = rules.metric_from_config(block)
+        blocks = cfg.get("leaderboards") or ([cfg["leaderboard"]] if cfg.get("leaderboard") else [])
         cap = (cfg.get("submissions") or {}).get("cap")
-        labs.append({
-            "slug": slug,
-            "title": entry.get("name") or slug,
-            "board_title": block.get("title") or metric.label,
-            "due": entry.get("due"),
-            "available_from": entry.get("available_from"),
-            "cap": int(cap) if cap else None,
-            "podium": int(block.get("podium", 5)),
-            "metric": metric,
-        })
+        name = entry.get("name") or slug
+        for block in blocks:
+            key = str(block.get("key") or "").strip()
+            board = f"{slug}-{key}" if key else slug
+            if only and slug not in only and board not in only:
+                continue
+            metric = rules.metric_from_config(block)
+            ignore = rules.ignored_tests(block)
+            board_title = block.get("title") or metric.label
+            labs.append({
+                "slug": slug,
+                "board": board,
+                "key": key,
+                "title": f"{name} · {board_title}" if len(blocks) > 1 else name,
+                "board_title": board_title,
+                "due": entry.get("due"),
+                "available_from": entry.get("available_from"),
+                "cap": int(cap) if cap else None,
+                "podium": int(block.get("podium", 5)),
+                "metric": metric,
+                "ignore": ignore,
+                "requirement": (str(block.get("requirement")) if block.get("requirement")
+                                else "the full autograded score"),
+            })
     return labs
 
 
@@ -203,7 +218,7 @@ def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
                 continue
             if not isinstance(result.get("max-score"), int) or result.get("max-score", 0) <= 0:
                 continue      # a synthetic/vacuous result, not a graded run
-            record.update({"graded": True, "full": rules.full_score(result),
+            record.update({"graded": True, "full": rules.full_score(result, lab.get("ignore", ())),
                            "metrics": rules.extract_metrics(result, metric),
                            "at": submission_time(tag["sha"], runs, record["at"])})
             value = (record.get("metrics") or {}).get(metric.key)
@@ -222,9 +237,11 @@ def public_metric(metric: rules.Metric) -> dict:
 def lab_document(lab: dict, state: dict, rows: list, unranked: list, reference, generated_at: str) -> dict:
     return {
         "schema": SCHEMA,
-        "slug": lab["slug"],
+        "slug": lab["board"],
+        "assignment": lab["slug"],
         "title": lab["title"],
         "board_title": lab["board_title"],
+        "requirement": lab["requirement"],
         "metric": public_metric(lab["metric"]),
         "due": lab["due"],
         "available_from": lab["available_from"],
@@ -291,8 +308,10 @@ def apply_notes(api, org, classroom, lab, owners, state, rows, reference, board_
                 generated_label, log, dry_run):
     cap = lab["cap"] or 0
     by_alias = {r["alias"]: r for r in rows}
-    public_lab = {"slug": lab["slug"], "title": lab["title"], "podium": lab["podium"],
-                  "metric": public_metric(lab["metric"])}
+    public_lab = {"slug": lab["board"], "title": lab["title"], "podium": lab["podium"],
+                  "metric": public_metric(lab["metric"]), "key": lab.get("key", ""),
+                  "requirement": lab["requirement"]}
+    marker = notes.marker_for(lab.get("key", ""))
     for alias, username in owners.items():
         player = state["players"][alias]
         row = by_alias.get(alias)
@@ -317,7 +336,7 @@ def apply_notes(api, org, classroom, lab, owners, state, rows, reference, board_
                     number = api.create_issue(repo, notes.ISSUE_TITLE, body)
                     note.update({"kind": "issue", "number": number, "comment_id": None})
                 else:
-                    comment_id = note.get("comment_id") or notes.find_note(api.issue_comments(repo, number))
+                    comment_id = note.get("comment_id") or notes.find_note(api.issue_comments(repo, number), marker=marker)
                     if comment_id:
                         api.update_comment(repo, comment_id, body)
                     else:
@@ -353,8 +372,8 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
     index = {"schema": SCHEMA, "generated_at": generated_at, "org": org, "classroom": classroom,
              "labs": []}
     for lab in labs:
-        log(f"{lab['slug']}: scanning")
-        path = data_dir / f"{lab['slug']}.json"
+        log(f"{lab['board']}: scanning")
+        path = data_dir / f"{lab['board']}.json"
         state = load_state(path)
         owners = scan_lab(api, org, classroom, lab, repos, staff, salt, state, log)
         due = rules.parse_time(lab["due"]) if lab.get("due") else None
@@ -366,12 +385,13 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
         changed = write_json(path, lab_document(lab, state, rows, unranked, reference, generated_at))
         lab_generated = generated_at if changed else json.loads(path.read_text()).get("generated_at", generated_at)
         index["labs"].append({
-            "slug": lab["slug"], "title": lab["title"], "board_title": lab["board_title"],
+            "slug": lab["board"], "assignment": lab["slug"], "title": lab["title"],
+            "board_title": lab["board_title"], "requirement": lab["requirement"],
             "due": lab["due"], "available_from": lab["available_from"], "cap": lab["cap"],
             "podium": lab["podium"], "metric": public_metric(lab["metric"]),
             "rows": len(rows), "unranked": len(unranked), "reference": reference is not None,
-            "file": f"{lab['slug']}.json", "generated_at": lab_generated})
-        log(f"{lab['slug']}: {len(rows)} ranked, {len(unranked)} waiting, "
+            "file": f"{lab['board']}.json", "generated_at": lab_generated})
+        log(f"{lab['board']}: {len(rows)} ranked, {len(unranked)} waiting, "
             f"reference {'set' if reference else 'missing'}")
     # Demo labs (index entries flagged "demo": true, with their own data
     # file) are kept until someone deletes them by hand.
@@ -404,10 +424,27 @@ def reveal(salt: str, slug: str, usernames: list, data_dir: Path) -> int:
     return 0
 
 
+def board_files(data_dir: Path, slug: str) -> list:
+    """The data files of every board of an assignment: its own slug and any
+    keyed board whose document names it as its assignment."""
+    files = []
+    for path in sorted(data_dir.glob("*.json")):
+        if path.name == "index.json":
+            continue
+        try:
+            doc = json.loads(path.read_text())
+        except (ValueError, OSError):
+            continue
+        if path.stem == slug or doc.get("assignment") == slug:
+            files.append(path)
+    return files
+
+
 def refund(api, org: str, classroom: str, salt: str, slug: str, username: str, tag: str,
            data_dir: Path, unlock: bool) -> int:
-    path = data_dir / f"{slug}.json"
-    doc = json.loads(path.read_text())
+    paths = board_files(data_dir, slug) or [data_dir / f"{slug}.json"]
+    docs = [(p, json.loads(p.read_text())) for p in paths]
+    path, doc = docs[0]
     alias = aliases.resolve_alias(salt, username, doc.get("players", {}))
     player = doc["players"].get(alias)
     if player is None:
@@ -419,6 +456,14 @@ def refund(api, org: str, classroom: str, salt: str, slug: str, username: str, t
         print(f"{username} has no attempt tagged {tag} ({len(player['submissions'])} attempts on record)")
         return 1
     hits[0]["refunded"] = True
+    for other_path, other in docs[1:]:   # the same attempt on the assignment's other boards
+        other_player = other.get("players", {}).get(alias)
+        for sub in (other_player or {}).get("submissions", []):
+            if sub["id"] == tid:
+                sub["refunded"] = True
+        if other_player:
+            other_player.setdefault("note", {}).pop("fp", None)
+        other_path.write_text(json.dumps(other, indent=1, sort_keys=True) + "\n")
     repo = f"{org}/{classroom}-{slug}-{username}"
     if hits[0].get("graded"):
         print(f"note: {tag} was graded, so its tag and release stay; the grader's own count still "
@@ -437,7 +482,8 @@ def refund(api, org: str, classroom: str, salt: str, slug: str, username: str, t
         player.pop("locked_at", None)
     player.setdefault("note", {}).pop("fp", None)   # forces a fresh note on the next build
     path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
-    print(f"refunded {tag} for {username} ({alias}); commit data/{slug}.json and rebuild")
+    print(f"refunded {tag} for {username} ({alias}); commit "
+          f"{', '.join('data/' + p.name for p, _ in docs)} and rebuild")
     return 0
 
 

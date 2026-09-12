@@ -87,3 +87,20 @@ def test_reference_ignores_cap_and_deadline():
             sub("submit/z", "2026-09-02T00:00:00Z", 5.0, full=False)]
     assert rules.best_reference(subs, m)["metric"] == 13.47
     assert rules.best_reference([], m) is None
+
+
+def test_full_score_can_ignore_tests():
+    result = {"score": 80, "max-score": 90, "tests": [
+        {"test-name": "A1 package", "score": 10, "max-score": 10},
+        {"test-name": "D1 lap", "score": 10, "max-score": 10},
+        {"test-name": "D2 corners", "score": 0, "max-score": 5},
+        {"test-name": "D3 bonus", "score": 0, "max-score": 5},
+    ]}
+    assert not rules.full_score(result)
+    assert rules.full_score(result, ignore=("D2", "D3"))
+    assert not rules.full_score(result, ignore=("D3",))
+    assert not rules.full_score({"score": 90, "max-score": 90, "tests": []}, ignore=("D2",))
+    assert rules.ignored_tests({"require": {"ignore": ["D2", "D3"]}}) == ("D2", "D3")
+    assert rules.ignored_tests({}) == () and rules.ignored_tests({"require": "full"}) == ()
+    with pytest.raises(ValueError):
+        rules.ignored_tests({"require": "some"})

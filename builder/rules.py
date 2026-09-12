@@ -23,6 +23,17 @@ class Metric:
         return value if self.direction == "lower" else -value
 
 
+def ignored_tests(block: dict) -> tuple:
+    """Test ids a board's `require:` block excuses (`{ignore: [D2, D3]}`);
+    empty for the default rule, the full score."""
+    require = block.get("require")
+    if not require or require == "full":
+        return ()
+    if isinstance(require, dict) and isinstance(require.get("ignore"), list):
+        return tuple(str(i) for i in require["ignore"])
+    raise ValueError("require must be 'full' or {ignore: [test ids]}")
+
+
 def metric_from_config(block: dict) -> Metric:
     """Build a Metric from a grader config.yaml `leaderboard:` block."""
     for required in ("test", "pattern", "metric"):
@@ -42,10 +53,25 @@ def metric_from_config(block: dict) -> Metric:
                   pattern=block["pattern"], extras=extras)
 
 
-def full_score(result: dict) -> bool:
+def full_score(result: dict, ignore: tuple = ()) -> bool:
+    """Whether a result qualifies: the full automated score, or, when a board
+    ignores some tests (their ids, matched against the start of the test
+    name), full marks on every test that is not ignored."""
     score, max_score = result.get("score"), result.get("max-score")
-    return (isinstance(score, int) and isinstance(max_score, int)
-            and not isinstance(score, bool) and max_score > 0 and score == max_score)
+    if not (isinstance(score, int) and isinstance(max_score, int)
+            and not isinstance(score, bool) and max_score > 0):
+        return False
+    if not ignore:
+        return score == max_score
+    tests = result.get("tests") or []
+    counted = [t for t in tests if not _ignored(str(t.get("test-name", "")), ignore)]
+    if not counted:
+        return False
+    return all(t.get("score") == t.get("max-score") for t in counted)
+
+
+def _ignored(name: str, ignore: tuple) -> bool:
+    return any(name == i or name.startswith(i + " ") for i in ignore)
 
 
 def extract_metrics(result: dict, metric: Metric) -> dict | None:

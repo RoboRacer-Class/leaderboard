@@ -247,7 +247,7 @@
 
     <section class="grid hidden" id="grid" aria-labelledby="grid-title">
       <h2 id="grid-title">On the grid <span id="grid-count"></span></h2>
-      <p>Drivers who have submitted but have no full-score lap before the deadline yet.</p>
+      <p>Drivers who have submitted but have no qualifying run before the deadline yet.</p>
       <ul class="chips" id="grid-list"></ul>
     </section>
 
@@ -399,7 +399,7 @@
     $("board-title").innerHTML = `${esc(doc.board_title)} <span>${esc(doc.title)}</span>`;
     if (!rows.length) {
       const ref = doc.reference ? ` The TA reference is ${esc(fmtValue(doc.reference.metric, m.unit))}.` : "";
-      $("board").innerHTML = `<p class="empty"><strong>No clean full-score lap yet.</strong> The first driver to post one takes P1.${ref}</p>`;
+      $("board").innerHTML = `<p class="empty"><strong>No qualifying run yet.</strong> It takes ${esc(doc.requirement || "the full autograded score")}; the first driver to post one takes P1.${ref}</p>`;
       $("alias-list").innerHTML = doc.unranked.map((u) => `<option value="${esc(u.alias)}">`).join("");
       return;
     }
@@ -441,11 +441,11 @@
       <strong>The rules</strong>
       <ul>
         ${capRules}
-        <li>Only runs with the full autograded score, graded before the deadline, count here. Your best one is kept.</li>
+        <li>Only runs with ${esc(doc.requirement || "the full autograded score")}, graded before the deadline, count here. Your best one is kept.</li>
         <li>The top ${doc.podium} earn extra credit. Rows above the TA reference beat the staff solution${doc.reference ? " (" + esc(fmtValue(doc.reference.metric, unit)) + ")" : ""}.</li>
         <li>Your alias is in the note on your repository's Feedback pull request. It never changes and nobody else can link it to you.</li>
       </ul>
-      <p class="fine">Times are simulator time on the sealed grading map, from the same run that produced your grade. Questions go to the course staff.</p>`;
+      <p class="fine">Times are simulator time on the grading map, from the same run that produced your grade. A lab can have more than one board (one tab each), each with its own qualifying rule. Questions go to the course staff.</p>`;
   }
 
   function locate(announce) {
@@ -472,7 +472,7 @@
     $("find-msg").className = "find-msg ok";
     $("find-msg").textContent = hitRow
       ? `${state.me}: P${hitRow.rank} of ${doc.rows.length} with ${fmtValue(hitRow.metric, doc.metric.unit)}, ${hitRow.used}${doc.cap ? " of " + doc.cap : ""} submissions used.`
-      : `${state.me}: on the grid, ${hitGrid.used}${doc.cap ? " of " + doc.cap : ""} submissions used, no full-score lap before the deadline yet.`;
+      : `${state.me}: on the grid, ${hitGrid.used}${doc.cap ? " of " + doc.cap : ""} submissions used, no qualifying run before the deadline yet.`;
   }
 
   $("find-btn").addEventListener("click", () => locate(true));

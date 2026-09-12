@@ -297,10 +297,102 @@ def test_unchanged_board_keeps_its_timestamp(world):
     run_build(api, data_dir, log)
     before = (data_dir / f"{SLUG}.json").read_text()
     index_before = (data_dir / "index.json").read_text()
+    real_now = build.now_utc
     build.now_utc = lambda: rules.parse_time("2030-01-01T00:00:00Z")   # a later run, nothing new
     try:
         run_build(api, data_dir, log)
     finally:
-        del build.now_utc
+        build.now_utc = real_now
     assert (data_dir / f"{SLUG}.json").read_text() == before
     assert (data_dir / "index.json").read_text() == index_before
+
+
+LAB4 = "lab-4-follow-the-gap"
+LAB4_YAML = """
+leaderboards:
+  - key: lap
+    title: Fastest clean lap
+    requirement: full marks on everything but the obstacle course
+    require: {ignore: [D2, D3]}
+    test: D1
+    pattern: 'lap time (?P<lap_s>[0-9.]+) s'
+    metric: lap_s
+    label: Lap time
+    unit: s
+  - key: obstacles
+    title: Fastest clean obstacle lap
+    test: D3
+    pattern: 'lap time (?P<lap_s>[0-9.]+) s'
+    metric: lap_s
+    label: Lap time
+    unit: s
+submissions:
+  cap: 0
+"""
+
+
+def add_lab4_student(api, username, tests_by_attempt, times):
+    name = f"{CLASSROOM}-{LAB4}-{username}"
+    api.repos.append(name)
+    repo = f"{ORG}/{name}"
+    rels, runs, tags = [], [], []
+    for i, (tests, at) in enumerate(zip(tests_by_attempt, times)):
+        sha = f"{i:07x}"
+        tag = f"submit/2026-09-2{i}T00-00-00Z-{sha}"
+        tags.append({"tag_name": tag, "sha": sha + "0" * 33})
+        runs.append({"head_sha": sha + "0" * 33, "created_at": at, "name": "Autograde"})
+        url = f"https://api.example/{name}/{i}"
+        score = sum(x["score"] for x in tests)
+        mx = sum(x["max-score"] for x in tests)
+        api.assets[url] = json.dumps({"score": score, "max-score": mx, "tests": tests}).encode()
+        rels.append({"tag_name": tag, "created_at": at, "assets": [{"name": "result.json", "url": url}]})
+    api.releases_by_repo[repo] = rels
+    api.runs_by_repo[repo] = runs
+    api.tags_by_repo[repo] = tags
+    api.pulls[repo] = 1
+    return repo
+
+
+def lab4_tests(lap_s, corners, obs_lap_s=None):
+    return [
+        {"test-name": "A1 package", "score": 10, "max-score": 10, "detail": ""},
+        {"test-name": "D1 lap", "score": 10, "max-score": 10, "detail": f"lap time {lap_s} s"},
+        {"test-name": "D2 corners", "score": corners, "max-score": 5, "detail": ""},
+        {"test-name": "D3 bonus", "score": 5 if obs_lap_s else 0, "max-score": 5,
+         "detail": f"lap time {obs_lap_s} s" if obs_lap_s else "no clean lap"},
+    ]
+
+
+def test_two_boards_per_lab(world):
+    api, data_dir, log, stream = world
+    api.files[(f"{ORG}/classroom50", f"{CLASSROOM}/assignments.json")] = json.dumps(
+        ASSIGNMENTS + [{"slug": LAB4, "name": "Lab 4: Follow the Gap", "due": "2026-09-26T03:59:00Z"}])
+    api.files[(f"{ORG}/classroom50", f"{CLASSROOM}/autograders/{LAB4}/config.yaml")] = LAB4_YAML
+    fast = add_lab4_student(api, "fay", [lab4_tests(12.0, 0)], ["2026-09-20T10:00:00Z"])      # fast, no obstacles
+    add_lab4_student(api, "gus", [lab4_tests(20.0, 5, 40.0)], ["2026-09-20T11:00:00Z"])        # everything
+    add_lab4_student(api, "cedrichld", [lab4_tests(15.0, 5, 30.0)], ["2026-09-19T10:00:00Z"]) # staff
+    assert run_build(api, data_dir, log) == 0
+    index = json.loads((data_dir / "index.json").read_text())
+    boards = {e["slug"]: e for e in index["labs"] if e.get("assignment") == LAB4}
+    assert set(boards) == {f"{LAB4}-lap", f"{LAB4}-obstacles"}
+    assert boards[f"{LAB4}-lap"]["title"] == "Lab 4: Follow the Gap · Fastest clean lap"
+    assert boards[f"{LAB4}-lap"]["requirement"].startswith("full marks on everything but")
+    lap_doc = json.loads((data_dir / f"{LAB4}-lap.json").read_text())
+    obs_doc = json.loads((data_dir / f"{LAB4}-obstacles.json").read_text())
+    assert [r["metric"] for r in lap_doc["rows"]] == [12.0, 20.0]      # fay first, no obstacles needed
+    assert [r["metric"] for r in obs_doc["rows"]] == [40.0]            # only gus lapped the course
+    assert lap_doc["reference"]["metric"] == 15.0 and obs_doc["reference"]["metric"] == 30.0
+    assert (data_dir / f"{LAB4}.json").exists() is False
+    # two sticky notes per student, one per board, and the wording carries the rule
+    bodies = [c["body"] for c in api.comments[(fast, 1)]]
+    assert len(bodies) == 2
+    assert any("<!-- ese6150-leaderboard:lap -->" in b for b in bodies)
+    assert any("<!-- ese6150-leaderboard:obstacles -->" in b and "Not on the board yet" in b for b in bodies)
+    assert any("full marks on everything but the obstacle course" in b for b in bodies)
+    # refund of an attempt reaches both boards
+    fay_alias = next(a for a, p in lap_doc["players"].items())
+    tag = api.tags_by_repo[fast][0]["tag_name"]
+    assert build.refund(api, ORG, CLASSROOM, "salt", LAB4, "fay", tag, data_dir, unlock=False) == 0
+    for name in (f"{LAB4}-lap.json", f"{LAB4}-obstacles.json"):
+        doc = json.loads((data_dir / name).read_text())
+        assert doc["players"][fay_alias]["submissions"][0]["refunded"] is True

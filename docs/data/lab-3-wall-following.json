@@ -4,7 +4,8 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-12T04:24:42Z",
+ "generated_at": "2026-09-12T05:10:33Z",
+ "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -569,6 +570,7 @@
   }
  ],
  "schema": "ese6150/leaderboard/v1",
+ "short": "Wall follow",
  "slug": "lab-3-wall-following",
  "title": "Lab 3: Wall Following",
  "unranked": [

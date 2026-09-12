@@ -4,7 +4,7 @@
  "board_title": "Fastest clean obstacle lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-12T05:10:33Z",
+ "generated_at": "2026-09-12T05:24:33Z",
  "lab_title": "Lab 4: Follow the Gap",
  "metric": {
   "direction": "lower",
@@ -57,7 +57,6 @@
  "requirement": "the full score, obstacle course included",
  "rows": [],
  "schema": "ese6150/leaderboard/v1",
- "short": "FTG",
  "slug": "lab-4-follow-the-gap-obstacles",
  "title": "Lab 4: Follow the Gap \u00b7 Fastest clean obstacle lap",
  "unranked": []

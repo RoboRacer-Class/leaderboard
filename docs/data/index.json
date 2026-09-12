@@ -1,6 +1,6 @@
 {
  "classroom": "ese-6150",
- "generated_at": "2026-09-12T05:10:33Z",
+ "generated_at": "2026-09-12T05:24:33Z",
  "labs": [
   {
    "assignment": "lab-3-wall-following",
@@ -9,7 +9,7 @@
    "cap": null,
    "due": "2026-09-19T03:59:00Z",
    "file": "lab-3-wall-following.json",
-   "generated_at": "2026-09-12T05:10:33Z",
+   "generated_at": "2026-09-12T05:24:33Z",
    "lab_title": "Lab 3: Wall Following",
    "metric": {
     "direction": "lower",
@@ -33,7 +33,6 @@
    "reference": true,
    "requirement": "the full autograded score",
    "rows": 5,
-   "short": "Wall follow",
    "slug": "lab-3-wall-following",
    "title": "Lab 3: Wall Following",
    "unranked": 19
@@ -45,7 +44,7 @@
    "cap": null,
    "due": "2026-09-26T03:59:00Z",
    "file": "lab-4-follow-the-gap-lap.json",
-   "generated_at": "2026-09-12T05:10:33Z",
+   "generated_at": "2026-09-12T05:24:33Z",
    "lab_title": "Lab 4: Follow the Gap",
    "metric": {
     "direction": "lower",
@@ -69,7 +68,6 @@
    "reference": true,
    "requirement": "full marks on everything but the obstacle course",
    "rows": 0,
-   "short": "FTG",
    "slug": "lab-4-follow-the-gap-lap",
    "title": "Lab 4: Follow the Gap \u00b7 Fastest clean lap",
    "unranked": 0
@@ -81,7 +79,7 @@
    "cap": null,
    "due": "2026-09-26T03:59:00Z",
    "file": "lab-4-follow-the-gap-obstacles.json",
-   "generated_at": "2026-09-12T05:10:33Z",
+   "generated_at": "2026-09-12T05:24:33Z",
    "lab_title": "Lab 4: Follow the Gap",
    "metric": {
     "direction": "lower",
@@ -105,7 +103,6 @@
    "reference": true,
    "requirement": "the full score, obstacle course included",
    "rows": 0,
-   "short": "FTG",
    "slug": "lab-4-follow-the-gap-obstacles",
    "title": "Lab 4: Follow the Gap \u00b7 Fastest clean obstacle lap",
    "unranked": 0

@@ -1,0 +1,36 @@
+{
+ "assignment": "lab-4-follow-the-gap",
+ "available_from": "2026-09-16T15:30:00Z",
+ "board_title": "Fastest clean lap",
+ "cap": null,
+ "due": "2026-09-26T03:59:00Z",
+ "generated_at": "2026-09-12T04:24:42Z",
+ "metric": {
+  "direction": "lower",
+  "extras": [
+   {
+    "key": "avg_mps",
+    "label": "Avg speed",
+    "unit": "m/s"
+   },
+   {
+    "key": "top_mps",
+    "label": "Top speed",
+    "unit": "m/s"
+   }
+  ],
+  "key": "lap_s",
+  "label": "Lap time",
+  "unit": "s"
+ },
+ "players": {},
+ "podium": 5,
+ "reference": null,
+ "reference_submissions": [],
+ "requirement": "full marks on everything but the obstacle course",
+ "rows": [],
+ "schema": "ese6150/leaderboard/v1",
+ "slug": "lab-4-follow-the-gap-lap",
+ "title": "Lab 4: Follow the Gap \u00b7 Fastest clean lap",
+ "unranked": []
+}

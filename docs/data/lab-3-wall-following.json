@@ -1,9 +1,10 @@
 {
+ "assignment": "lab-3-wall-following",
  "available_from": "2026-09-09T15:30:00Z",
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-12T02:48:15Z",
+ "generated_at": "2026-09-12T04:24:42Z",
  "metric": {
   "direction": "lower",
   "extras": [
@@ -499,6 +500,7 @@
    }
   }
  ],
+ "requirement": "the full autograded score",
  "rows": [
   {
    "alias": "Dawn Gecko 23",

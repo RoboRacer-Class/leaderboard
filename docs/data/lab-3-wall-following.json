@@ -4,7 +4,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-12T20:29:53Z",
+ "generated_at": "2026-09-12T20:59:36Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -423,10 +423,10 @@
    "locked": false,
    "note": {
     "comment_id": 5637419461,
-    "fp": "6/6|51.62|2/0|0|13.47",
+    "fp": "6/6|41.39|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-12T20:30:11Z"
+    "updated_at": "2026-09-12T20:59:42Z"
    },
    "owner": "62f2c7fbc20fdcb1",
    "submissions": [
@@ -446,6 +446,17 @@
       "avg_mps": 1.2,
       "lap_s": 51.62,
       "top_mps": 1.2
+     }
+    },
+    {
+     "at": "2026-09-12T20:54:51Z",
+     "full": true,
+     "graded": true,
+     "id": "5ccf7befc224a424",
+     "metrics": {
+      "avg_mps": 1.49,
+      "lap_s": 41.39,
+      "top_mps": 1.5
      }
     }
    ]
@@ -613,16 +624,16 @@
   },
   {
    "alias": "Turbo Hawk 96",
-   "at": "2026-09-12T20:15:40Z",
-   "attempt": 2,
+   "at": "2026-09-12T20:54:51Z",
+   "attempt": 3,
    "extras": {
-    "avg_mps": 1.2,
-    "top_mps": 1.2
+    "avg_mps": 1.49,
+    "top_mps": 1.5
    },
    "locked": false,
-   "metric": 51.62,
+   "metric": 41.39,
    "rank": 6,
-   "used": 2
+   "used": 3
   }
  ],
  "schema": "ese6150/leaderboard/v1",

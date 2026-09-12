@@ -68,9 +68,9 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
     list) in an assignment's grader config. A board is a lab entry with its
     own data file: `slug` is the assignment (repo prefix), `board` the file
     id (the slug, or slug-key for a keyed block), `ignore` the tests its
-    `require:` rule excuses. The page shows one tab per assignment, labelled
-    by `short` (the first block's `short:`, else the assignment's name), with
-    a switch between the assignment's boards."""
+    `require:` rule excuses. The page shows one tab per assignment (its
+    label is set in docs/index.html) with a switch between the assignment's
+    boards; `lab_title` is the assignment's name for that tab."""
     raw = json.loads(config.text(f"{classroom}/assignments.json"))
     entries = raw if isinstance(raw, list) else raw.get("assignments", [])
     labs = []
@@ -88,7 +88,6 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
         blocks = cfg.get("leaderboards") or ([cfg["leaderboard"]] if cfg.get("leaderboard") else [])
         cap = (cfg.get("submissions") or {}).get("cap")
         name = entry.get("name") or slug
-        short = next((str(b["short"]).strip() for b in blocks if b.get("short")), None) or name
         for block in blocks:
             key = str(block.get("key") or "").strip()
             board = f"{slug}-{key}" if key else slug
@@ -104,7 +103,6 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
                 "title": f"{name} · {board_title}" if len(blocks) > 1 else name,
                 "board_title": board_title,
                 "lab_title": name,
-                "short": short,
                 "due": entry.get("due"),
                 "available_from": entry.get("available_from"),
                 "cap": int(cap) if cap else None,
@@ -247,7 +245,6 @@ def lab_document(lab: dict, state: dict, rows: list, unranked: list, reference, 
         "title": lab["title"],
         "board_title": lab["board_title"],
         "lab_title": lab["lab_title"],
-        "short": lab["short"],
         "requirement": lab["requirement"],
         "metric": public_metric(lab["metric"]),
         "due": lab["due"],
@@ -393,7 +390,7 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
         lab_generated = generated_at if changed else json.loads(path.read_text()).get("generated_at", generated_at)
         index["labs"].append({
             "slug": lab["board"], "assignment": lab["slug"], "title": lab["title"],
-            "board_title": lab["board_title"], "lab_title": lab["lab_title"], "short": lab["short"],
+            "board_title": lab["board_title"], "lab_title": lab["lab_title"],
             "requirement": lab["requirement"],
             "due": lab["due"], "available_from": lab["available_from"], "cap": lab["cap"],
             "podium": lab["podium"], "metric": public_metric(lab["metric"]),

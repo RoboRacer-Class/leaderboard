@@ -113,7 +113,7 @@
   .tab:hover { color: var(--ink); }
   .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
   .tab .state { font-weight: 500; color: var(--ink-3); margin-left: .35rem; font-size: .85rem; }
-  .switch { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0 0; }
+  .switch { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0 .9rem; }
   .switch button {
     appearance: none; font: inherit; font-weight: 600; font-size: .9rem; cursor: pointer;
     padding: .4rem .85rem; border-radius: 999px; border: 1px solid var(--line-strong);
@@ -305,7 +305,12 @@
   const STORE = "ese6150-leaderboard-alias";
   const state = { index: null, docs: {}, slug: params.get("lab"), me: "", justFound: false, pick: {} };
   const labOf = (l) => l.assignment || l.slug;                 // boards of one lab share an assignment
-  const labName = (l) => l.short || l.lab_title || String(l.title).split(" · ")[0];
+  // tab labels, by assignment slug; a lab missing here shows its full name
+  const SHORT_NAMES = {
+    "lab-3-wall-following": "Wall follow",
+    "lab-4-follow-the-gap": "FTG",
+  };
+  const labName = (l) => SHORT_NAMES[labOf(l)] || l.lab_title || String(l.title).split(" · ")[0];
 
   try { state.me = params.get("me") || localStorage.getItem(STORE) || ""; } catch (e) { state.me = params.get("me") || ""; }
   if (params.get("me")) state.justFound = true;

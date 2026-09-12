@@ -311,7 +311,6 @@ LAB4 = "lab-4-follow-the-gap"
 LAB4_YAML = """
 leaderboards:
   - key: lap
-    short: FTG
     title: Fastest clean lap
     requirement: full marks on everything but the obstacle course
     require: {ignore: [D2, D3]}
@@ -377,10 +376,7 @@ def test_two_boards_per_lab(world):
     boards = {e["slug"]: e for e in index["labs"] if e.get("assignment") == LAB4}
     assert set(boards) == {f"{LAB4}-lap", f"{LAB4}-obstacles"}
     assert boards[f"{LAB4}-lap"]["title"] == "Lab 4: Follow the Gap · Fastest clean lap"
-    assert boards[f"{LAB4}-lap"]["short"] == "FTG" and boards[f"{LAB4}-obstacles"]["short"] == "FTG"
     assert boards[f"{LAB4}-lap"]["lab_title"] == "Lab 4: Follow the Gap"
-    lab3 = next(e for e in index["labs"] if e["slug"] == SLUG)
-    assert lab3["short"] == lab3["title"]          # no short: in the config -> the assignment's name
     assert boards[f"{LAB4}-lap"]["requirement"].startswith("full marks on everything but")
     lap_doc = json.loads((data_dir / f"{LAB4}-lap.json").read_text())
     obs_doc = json.loads((data_dir / f"{LAB4}-obstacles.json").read_text())

@@ -4,7 +4,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-12T21:54:43Z",
+ "generated_at": "2026-09-12T22:08:53Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -41,13 +41,21 @@
    "locked": false,
    "note": {
     "comment_id": 5627555403,
-    "fp": "-/6|-|0/0|0|13.47",
+    "fp": "-/6|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-12T20:30:20Z"
+    "updated_at": "2026-09-12T22:09:02Z"
    },
    "owner": "adc06e716de74a39",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-12T22:06:28Z",
+     "full": false,
+     "graded": false,
+     "id": "2e63a9c40360372e",
+     "metrics": null
+    }
+   ]
   },
   "Breezy Bolt 20": {
    "locked": false,
@@ -671,7 +679,7 @@
   {
    "alias": "Brave Puffin 30",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Breezy Bolt 20",

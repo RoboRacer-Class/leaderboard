@@ -27,7 +27,7 @@
     --me-ink: #0a4f3b;
     --danger-ink: #8a2c1e;
     --chart-dot: #3a72d4;      /* every driver */
-    --chart-podium: #e0aa00;   /* the top rows, extra credit */
+    --chart-ref: #737981;      /* the TA reference rule */
     --chart-me: #0e7f5b;       /* the alias you highlighted */
     --shadow: 0 1px 2px rgba(20, 24, 28, .06), 0 8px 24px -12px rgba(20, 24, 28, .25);
     --radius: 10px;
@@ -53,7 +53,7 @@
       --me-ink: #8fe7c6;
       --danger-ink: #f2a08f;
       --chart-dot: #4f8fff;
-      --chart-podium: #b98c14;
+      --chart-ref: #868c94;
       --chart-me: #259f70;
       --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -12px rgba(0, 0, 0, .7);
     }
@@ -169,7 +169,7 @@
   .chart .lbl.ink2 { fill: var(--ink-2); font-weight: 600; font-size: 11px; }
   .chart .key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin: .5rem .2rem 0; font-size: .82rem; color: var(--ink-3); }
   .chart .key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: .35rem; vertical-align: -1px; }
-  .chart .key i.line { width: 14px; height: 0; border-top: 2px solid var(--chart-podium); border-radius: 0; vertical-align: 2px; }
+  .chart .key i.line { width: 16px; height: 0; border-top: 1.5px dashed var(--chart-ref); border-radius: 0; vertical-align: 2px; }
   .chart .tip {
     position: absolute; z-index: 2; pointer-events: none; transform: translate(-50%, calc(-100% - 12px));
     background: var(--ink); color: var(--bg); padding: .4rem .65rem; border-radius: 6px; font-size: .82rem; line-height: 1.35; white-space: nowrap;
@@ -479,7 +479,7 @@
     const y = (v) => padT + plotH - (v / top) * plotH;
     const x = (i) => padL + i * col + col / 2;
     const y0 = y(0);
-    const colorOf = (r, me) => me ? "var(--chart-me)" : r.rank <= doc.podium ? "var(--chart-podium)" : "var(--chart-dot)";
+    const colorOf = (r, me) => me ? "var(--chart-me)" : "var(--chart-dot)";
     const parts = [];
     for (let v = 0; v <= top + 1e-9; v += step) {
       const yy = y(v);
@@ -488,7 +488,7 @@
     }
     parts.push(`<text class="lbl" x="${padL - 8}" y="${padT - 12}" text-anchor="end">${esc(unit)}</text>`);
     if (ref != null) {
-      parts.push(`<line x1="${padL}" x2="${W - padR}" y1="${y(ref)}" y2="${y(ref)}" stroke="var(--chart-podium)" stroke-width="2"/>`);
+      parts.push(`<line x1="${padL}" x2="${W - padR}" y1="${y(ref)}" y2="${y(ref)}" stroke="var(--chart-ref)" stroke-width="1.5" stroke-dasharray="6 5"/>`);
       parts.push(`<text class="lbl ink2" x="${W - padR + 8}" y="${y(ref) + 4}" text-anchor="start">TA ref ${esc(fmtValue(ref, unit))}</text>`);
     }
     const every = Math.max(1, Math.ceil(n / Math.max(4, Math.floor((W - padL - padR) / 60))));
@@ -512,9 +512,8 @@
     });
     parts.push(`<line x1="${padL}" x2="${W - padR}" y1="${y0}" y2="${y0}" stroke="var(--line-strong)" stroke-width="1"/>`);
     $("chart-scroll").innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Lap time per ranked driver">${parts.join("")}</svg>`;
-    $("chart-sub").textContent = m.direction === "lower" ? "lower is better" : "higher is better";
+    $("chart-sub").textContent = "";
     $("chart-key").innerHTML = `<span><i style="background:var(--chart-dot)"></i>drivers</span>` +
-      `<span><i style="background:var(--chart-podium)"></i>top ${doc.podium}, extra credit</span>` +
       (ref != null ? `<span><i class="line"></i>TA reference</span>` : "") +
       `<span><i style="background:var(--chart-me)"></i>you (type your alias above, or click a dot)</span>`;
 

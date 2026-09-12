@@ -26,6 +26,9 @@
     --me-tint: #d9f0e6;
     --me-ink: #0a4f3b;
     --danger-ink: #8a2c1e;
+    --chart-dot: #3a72d4;      /* every driver */
+    --chart-podium: #e0aa00;   /* the top rows, extra credit */
+    --chart-me: #0e7f5b;       /* the alias you highlighted */
     --shadow: 0 1px 2px rgba(20, 24, 28, .06), 0 8px 24px -12px rgba(20, 24, 28, .25);
     --radius: 10px;
     --display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
@@ -49,6 +52,9 @@
       --me-tint: #10352a;
       --me-ink: #8fe7c6;
       --danger-ink: #f2a08f;
+      --chart-dot: #4f8fff;
+      --chart-podium: #b98c14;
+      --chart-me: #259f70;
       --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -12px rgba(0, 0, 0, .7);
     }
   }
@@ -107,6 +113,14 @@
   .tab:hover { color: var(--ink); }
   .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
   .tab .state { font-weight: 500; color: var(--ink-3); margin-left: .35rem; font-size: .85rem; }
+  .switch { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0 0; }
+  .switch button {
+    appearance: none; font: inherit; font-weight: 600; font-size: .9rem; cursor: pointer;
+    padding: .4rem .85rem; border-radius: 999px; border: 1px solid var(--line-strong);
+    background: var(--surface); color: var(--ink-2);
+  }
+  .switch button:hover { color: var(--ink); }
+  .switch button[aria-selected="true"] { background: var(--accent-tint); border-color: var(--accent); color: var(--accent-ink); }
 
   main .wrap { padding: 1.5rem 0 3rem; }
 
@@ -144,12 +158,30 @@
   .find-msg.ok { color: var(--me-ink); }
 
   /* Board */
+  .chart { margin-top: 1.4rem; position: relative; }
+  .chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: .6rem .6rem .2rem; }
+  .chart-scroll { overflow-x: auto; }
+  .chart svg { display: block; font-family: var(--body); }
+  .chart .hit { fill: transparent; cursor: pointer; outline: none; }
+  .chart .hit:focus-visible + .mark circle, .chart .mark.hot circle { r: 7; }
+  .chart .axis text, .chart .lbl { font-size: 11px; fill: var(--ink-3); }
+  .chart .lbl.ink { fill: var(--ink); font-weight: 600; font-size: 12px; }
+  .chart .lbl.ink2 { fill: var(--ink-2); font-weight: 600; font-size: 11px; }
+  .chart .key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin: .5rem .2rem 0; font-size: .82rem; color: var(--ink-3); }
+  .chart .key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: .35rem; vertical-align: -1px; }
+  .chart .key i.line { width: 14px; height: 0; border-top: 2px solid var(--chart-podium); border-radius: 0; vertical-align: 2px; }
+  .chart .tip {
+    position: absolute; z-index: 2; pointer-events: none; transform: translate(-50%, calc(-100% - 12px));
+    background: var(--ink); color: var(--bg); padding: .4rem .65rem; border-radius: 6px; font-size: .82rem; line-height: 1.35; white-space: nowrap;
+    box-shadow: var(--shadow);
+  }
+  .chart .tip strong { display: block; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
   .board { margin-top: 1.2rem; }
-  .board h2, .grid h2 {
+  .board h2, .grid h2, .chart h2 {
     font-family: var(--display); font-weight: 700; font-size: 1.35rem; text-transform: uppercase;
     letter-spacing: .01em; margin: 0 0 .5rem;
   }
-  .board h2 span, .grid h2 span { color: var(--ink-3); font-weight: 600; margin-left: .5rem; }
+  .board h2 span, .grid h2 span, .chart h2 span { color: var(--ink-3); font-weight: 600; margin-left: .5rem; }
   .table-wrap {
     overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius);
     background: var(--surface); box-shadow: var(--shadow);
@@ -227,6 +259,7 @@
 <main>
   <div class="wrap">
     <p class="notice hidden" id="notice"></p>
+    <div class="switch hidden" id="switch" role="tablist" aria-label="Boards of this lab"></div>
     <section class="status" id="status" aria-live="polite"></section>
 
     <section class="find" aria-labelledby="find-label">
@@ -238,6 +271,15 @@
       <button class="btn" id="find-btn" type="button">Highlight me</button>
       <button class="btn quiet hidden" id="forget-btn" type="button">Forget</button>
       <p class="find-msg" id="find-msg" aria-live="polite"></p>
+    </section>
+
+    <section class="chart hidden" id="chart" aria-labelledby="chart-title">
+      <h2 id="chart-title">Lap times <span id="chart-sub"></span></h2>
+      <div class="chart-card">
+        <div class="chart-scroll" id="chart-scroll"></div>
+        <p class="key" id="chart-key"></p>
+      </div>
+      <div class="tip hidden" id="chart-tip" role="status" aria-live="polite"></div>
     </section>
 
     <section class="board" aria-labelledby="board-title">
@@ -261,7 +303,9 @@
   const $ = (id) => document.getElementById(id);
   const params = new URLSearchParams(location.search);
   const STORE = "ese6150-leaderboard-alias";
-  const state = { index: null, docs: {}, slug: params.get("lab"), me: "", justFound: false };
+  const state = { index: null, docs: {}, slug: params.get("lab"), me: "", justFound: false, pick: {} };
+  const labOf = (l) => l.assignment || l.slug;                 // boards of one lab share an assignment
+  const labName = (l) => l.short || l.lab_title || String(l.title).split(" · ")[0];
 
   try { state.me = params.get("me") || localStorage.getItem(STORE) || ""; } catch (e) { state.me = params.get("me") || ""; }
   if (params.get("me")) state.justFound = true;
@@ -337,7 +381,9 @@
     const labs = state.index.labs;
     const doc = state.docs[state.slug];
     renderTabs(labs);
+    renderSwitch(labs);
     renderStatus(doc);
+    renderChart(doc);
     renderBoard(doc);
     renderGrid(doc);
     renderRules(doc);
@@ -347,15 +393,36 @@
   }
 
   function renderTabs(labs) {
-    $("tabs").innerHTML = labs.map((l) => {
+    // one tab per lab; a lab with several boards gets a switch below the tabs
+    const current = labs.find((l) => l.slug === state.slug);
+    const seen = new Set();
+    const groups = labs.filter((l) => !seen.has(labOf(l)) && seen.add(labOf(l)));
+    $("tabs").innerHTML = groups.map((l) => {
       const closed = l.due && new Date(l.due) < Date.now();
-      return `<button class="tab" role="tab" data-slug="${esc(l.slug)}" aria-selected="${l.slug === state.slug}">${esc(l.title)}<span class="state">${closed ? "closed" : "open"}</span></button>`;
+      const selected = current && labOf(current) === labOf(l);
+      return `<button class="tab" role="tab" data-lab="${esc(labOf(l))}" aria-selected="${selected}" title="${esc(l.lab_title || l.title)}">${esc(labName(l))}<span class="state">${closed ? "closed" : "open"}</span></button>`;
     }).join("");
-    $("tabs").querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => switchLab(b.dataset.slug)));
+    $("tabs").querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => {
+      const boards = labs.filter((l) => labOf(l) === b.dataset.lab);
+      const remembered = boards.find((l) => l.slug === state.pick[b.dataset.lab]);
+      switchLab((remembered || boards[0]).slug);
+    }));
+  }
+
+  function renderSwitch(labs) {
+    const current = labs.find((l) => l.slug === state.slug);
+    const boards = current ? labs.filter((l) => labOf(l) === labOf(current)) : [];
+    $("switch").classList.toggle("hidden", boards.length < 2);
+    if (boards.length < 2) { $("switch").innerHTML = ""; return; }
+    $("switch").innerHTML = boards.map((l) =>
+      `<button type="button" role="tab" data-slug="${esc(l.slug)}" aria-selected="${l.slug === state.slug}">${esc(l.board_title || l.title)}</button>`).join("");
+    $("switch").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => switchLab(b.dataset.slug)));
   }
 
   async function switchLab(slug) {
     state.slug = slug;
+    const picked = state.index.labs.find((l) => l.slug === slug);
+    if (picked) state.pick[labOf(picked)] = slug;
     const url = new URL(location.href);
     url.searchParams.set("lab", slug);
     history.replaceState(null, "", url);
@@ -383,6 +450,101 @@
     parts.push(`<div><p class="k">Drivers</p><p class="v">${doc.rows.length}<small>ranked</small> ${doc.unranked.length}<small>on the grid</small></p></div>`);
     parts.push(`<div><p class="k">Last change</p><p class="v">${esc(ago(doc.generated_at))}<small>checked every 5 min</small></p></div>`);
     $("status").innerHTML = parts.join("");
+  }
+
+  const niceStep = (raw) => {
+    const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+    const f = raw / pow;
+    return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * pow;
+  };
+
+  function renderChart(doc) {
+    // one lollipop per ranked driver, left to right by position; height = the lap time
+    const sec = $("chart"), tip = $("chart-tip");
+    const rows = doc.rows || [];
+    tip.classList.add("hidden");
+    if (!rows.length) { sec.classList.add("hidden"); $("chart-scroll").innerHTML = ""; return; }
+    sec.classList.remove("hidden");
+    const m = doc.metric, unit = m.unit || "";
+    const ref = doc.reference ? doc.reference.metric : null;
+    const n = rows.length;
+    const padL = 48, padT = 26, padB = 30, plotH = 190;
+    const padR = ref != null ? 132 : 18;          // the reference label lives past the last column
+    const avail = $("chart-scroll").clientWidth || 600;
+    const col = Math.max(28, Math.floor((avail - padL - padR) / n));    // >= 28px: the hit target
+    const W = padL + n * col + padR, H = padT + plotH + padB;
+    const maxV = Math.max(...rows.map((r) => r.metric), ref || 0);
+    const step = niceStep(Math.max(maxV, 1e-6) / 5);
+    const top = Math.ceil((maxV * 1.08) / step) * step;
+    const y = (v) => padT + plotH - (v / top) * plotH;
+    const x = (i) => padL + i * col + col / 2;
+    const y0 = y(0);
+    const colorOf = (r, me) => me ? "var(--chart-me)" : r.rank <= doc.podium ? "var(--chart-podium)" : "var(--chart-dot)";
+    const parts = [];
+    for (let v = 0; v <= top + 1e-9; v += step) {
+      const yy = y(v);
+      parts.push(`<line x1="${padL}" x2="${W - padR}" y1="${yy}" y2="${yy}" stroke="var(--line)" stroke-width="1"/>`);
+      parts.push(`<text class="axis" x="${padL - 8}" y="${yy + 4}" text-anchor="end"><tspan class="lbl">${esc(fmtValue(v, "").replace(/\.00$/, ""))}</tspan></text>`);
+    }
+    parts.push(`<text class="lbl" x="${padL - 8}" y="${padT - 12}" text-anchor="end">${esc(unit)}</text>`);
+    if (ref != null) {
+      parts.push(`<line x1="${padL}" x2="${W - padR}" y1="${y(ref)}" y2="${y(ref)}" stroke="var(--chart-podium)" stroke-width="2"/>`);
+      parts.push(`<text class="lbl ink2" x="${W - padR + 8}" y="${y(ref) + 4}" text-anchor="start">TA ref ${esc(fmtValue(ref, unit))}</text>`);
+    }
+    const every = Math.max(1, Math.ceil(n / Math.max(4, Math.floor((W - padL - padR) / 60))));
+    rows.forEach((r, i) => {
+      const me = same(r.alias, state.me);
+      const c = colorOf(r, me);
+      const cx = x(i), cy = y(r.metric);
+      let ly = cy - 12;                                        // a label never sits on the reference rule
+      if (ref != null && Math.abs(ly - y(ref)) < 10) ly = Math.min(ly, y(ref) - 10);
+      if (i === 0 || (i + 1) % every === 0) {
+        parts.push(`<text class="lbl" x="${cx}" y="${H - 10}" text-anchor="middle">P${r.rank}</text>`);
+      }
+      parts.push(`<rect class="hit" x="${padL + i * col}" y="${padT - 10}" width="${col}" height="${plotH + padB}" tabindex="0" role="img" data-i="${i}" aria-label="${esc(`P${r.rank} ${r.alias}: ${fmtValue(r.metric, unit)}`)}"/>`);
+      parts.push(`<g class="mark${me ? " me" : ""}" data-i="${i}" pointer-events="none">` +
+        `<line x1="${cx}" x2="${cx}" y1="${y0}" y2="${cy}" stroke="${c}" stroke-width="2"/>` +
+        `<circle cx="${cx}" cy="${cy}" r="${me ? 6 : 5}" fill="${c}" stroke="var(--surface)" stroke-width="2"/>` +
+        (me ? `<text class="lbl ink" x="${cx}" y="${ly}" text-anchor="middle">${esc(r.alias)} · ${esc(fmtValue(r.metric, unit))}</text>`
+            : i === 0 && !(rows[1] && same(rows[1].alias, state.me) && col < 90)
+              ? `<text class="lbl ink2" x="${cx}" y="${ly}" text-anchor="${col < 60 ? "start" : "middle"}">${esc(fmtValue(r.metric, unit))}</text>` : "") +
+        `</g>`);
+    });
+    parts.push(`<line x1="${padL}" x2="${W - padR}" y1="${y0}" y2="${y0}" stroke="var(--line-strong)" stroke-width="1"/>`);
+    $("chart-scroll").innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Lap time per ranked driver">${parts.join("")}</svg>`;
+    $("chart-sub").textContent = m.direction === "lower" ? "lower is better" : "higher is better";
+    $("chart-key").innerHTML = `<span><i style="background:var(--chart-dot)"></i>drivers</span>` +
+      `<span><i style="background:var(--chart-podium)"></i>top ${doc.podium}, extra credit</span>` +
+      (ref != null ? `<span><i class="line"></i>TA reference</span>` : "") +
+      `<span><i style="background:var(--chart-me)"></i>you (type your alias above, or click a dot)</span>`;
+
+    const svg = $("chart-scroll").querySelector("svg");
+    const marks = svg.querySelectorAll(".mark");
+    const show = (i) => {
+      const r = rows[i];
+      marks.forEach((g) => g.classList.toggle("hot", g.dataset.i === String(i)));
+      const gap = rows[0].metric === r.metric ? "leader" : fmtGap(r.metric, rows[0].metric, m.direction) + " " + unit + " to P1";
+      tip.textContent = "";
+      const strong = document.createElement("strong"); strong.textContent = fmtValue(r.metric, unit);
+      tip.append(strong, document.createTextNode(`P${r.rank} · ${r.alias}`), document.createElement("br"),
+                 document.createTextNode(`${gap} · attempt #${r.attempt} of ${r.used}`));
+      const dot = svg.querySelector(`.mark[data-i="${i}"] circle`).getBoundingClientRect();
+      const box = sec.getBoundingClientRect();
+      tip.classList.remove("hidden");
+      const half = tip.offsetWidth / 2 + 4;
+      tip.style.left = `${Math.min(Math.max(dot.left - box.left + dot.width / 2, half), box.width - half)}px`;
+      tip.style.top = `${dot.top - box.top}px`;
+    };
+    const hide = () => { tip.classList.add("hidden"); marks.forEach((g) => g.classList.remove("hot")); };
+    svg.querySelectorAll(".hit").forEach((h) => {
+      const i = Number(h.dataset.i);
+      h.addEventListener("pointerenter", () => show(i));
+      h.addEventListener("focus", () => show(i));
+      h.addEventListener("pointerleave", hide);
+      h.addEventListener("blur", hide);
+      h.addEventListener("click", () => { $("find-input").value = rows[i].alias; locate(true); });
+    });
+    $("chart-scroll").addEventListener("scroll", hide, { passive: true });
   }
 
   function renderBoard(doc) {
@@ -445,7 +607,7 @@
         <li>The top ${doc.podium} earn extra credit. Rows above the TA reference beat the staff solution${doc.reference ? " (" + esc(fmtValue(doc.reference.metric, unit)) + ")" : ""}.</li>
         <li>Your alias is in the note on your repository's Feedback pull request. It never changes and nobody else can link it to you.</li>
       </ul>
-      <p class="fine">Times are simulator time on the grading map, from the same run that produced your grade. A lab can have more than one board (one tab each), each with its own qualifying rule. Questions go to the course staff.</p>`;
+      <p class="fine">Times are simulator time on the grading map, from the same run that produced your grade. A lab can have more than one board (switch above the deadline card), each with its own qualifying rule. Questions go to the course staff.</p>`;
   }
 
   function locate(announce) {
@@ -489,6 +651,11 @@
   });
 
   load(true);
+  let resizeTimer = null;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { if (state.docs[state.slug]) renderChart(state.docs[state.slug]); }, 150);
+  });
   setInterval(() => { if (state.docs[state.slug]) renderStatus(state.docs[state.slug]); }, 30000);
   setInterval(() => load(false), 120000);
 })();

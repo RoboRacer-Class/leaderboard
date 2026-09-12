@@ -27,6 +27,14 @@
     --me-ink: #0a4f3b;
     --danger-ink: #8a2c1e;
     --chart-dot: #3a72d4;      /* every driver */
+    --rank-bg: #dbe7fb;        /* position cells: blue for the field... */
+    --rank-ink: #1e3f7a;
+    --gold-bg: #f0c94a;        /* ...and medals for the top three */
+    --gold-ink: #3d2c00;
+    --silver-bg: #d5d9df;
+    --silver-ink: #2b3036;
+    --bronze-bg: #dfa66e;
+    --bronze-ink: #4a2a0c;
     --chart-ref: #737981;      /* the TA reference rule */
     --chart-me: #0e7f5b;       /* the alias you highlighted */
     --shadow: 0 1px 2px rgba(20, 24, 28, .06), 0 8px 24px -12px rgba(20, 24, 28, .25);
@@ -53,6 +61,14 @@
       --me-ink: #8fe7c6;
       --danger-ink: #f2a08f;
       --chart-dot: #4f8fff;
+      --rank-bg: #1e3357;
+      --rank-ink: #a9c6ff;
+      --gold-bg: #c9a227;
+      --gold-ink: #15181c;
+      --silver-bg: #aab1ba;
+      --silver-ink: #15181c;
+      --bronze-bg: #b97a3f;
+      --bronze-ink: #15181c;
       --chart-ref: #868c94;
       --chart-me: #259f70;
       --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -12px rgba(0, 0, 0, .7);
@@ -198,8 +214,10 @@
   td.time { font-family: var(--display); font-weight: 700; font-size: 1.35rem; letter-spacing: .01em; }
   td.gap { color: var(--ink-2); }
   td.when { color: var(--ink-3); white-space: nowrap; }
-  tr.podium td.rank { background: var(--accent-tint); color: var(--accent-ink); }
-  tr.podium:first-child td.rank { background: var(--accent); color: #15181c; }
+  tbody tr td.rank { background: var(--rank-bg); color: var(--rank-ink); }
+  tr.rank-1 td.rank { background: var(--gold-bg); color: var(--gold-ink); }
+  tr.rank-2 td.rank { background: var(--silver-bg); color: var(--silver-ink); }
+  tr.rank-3 td.rank { background: var(--bronze-bg); color: var(--bronze-ink); }
   tr.ref { background: var(--surface-2); color: var(--ink-2); }
   tr.ref td { border-top: 1px dashed var(--line-strong); border-bottom: 1px dashed var(--line-strong); font-style: italic; }
   tr.ref td.rank { font-style: normal; font-size: .8rem; letter-spacing: .06em; }
@@ -578,7 +596,7 @@
         return `<tr class="ref"><td class="rank">REF</td><td class="alias">${esc(r.alias)}</td><td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">${leader == null ? "—" : esc(fmtGap(r.metric, leader, m.direction))}</td>${extraCells}<td class="num">—</td><td class="when col-when">—</td></tr>`;
       }
       const me = same(r.alias, state.me);
-      const cls = [r.rank <= doc.podium ? "podium" : "", me ? "me" : "", me && state.justFound ? "just-found" : ""].filter(Boolean).join(" ");
+      const cls = [r.rank <= doc.podium ? "podium" : "", r.rank <= 3 ? `rank-${r.rank}` : "", me ? "me" : "", me && state.justFound ? "just-found" : ""].filter(Boolean).join(" ");
       return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank">${r.rank}</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}${r.locked ? '<span class="pill locked">locked</span>' : ""}</td><td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">${esc(fmtGap(r.metric, leader, m.direction))}</td>${extraCells}<td class="num">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td></tr>`;
     }).join("");
     $("board").innerHTML = `<table>${head}<tbody>${body}</tbody></table>`;

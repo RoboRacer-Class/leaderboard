@@ -307,8 +307,8 @@
   const labOf = (l) => l.assignment || l.slug;                 // boards of one lab share an assignment
   // tab labels, by assignment slug; a lab missing here shows its full name
   const SHORT_NAMES = {
-    "lab-3-wall-following": "Wall follow",
-    "lab-4-follow-the-gap": "FTG",
+    "lab-3-wall-following": "Lab 3: Wall Follow",
+    "lab-4-follow-the-gap": "Lab 4: FTG",
   };
   const labName = (l) => SHORT_NAMES[labOf(l)] || l.lab_title || String(l.title).split(" · ")[0];
 

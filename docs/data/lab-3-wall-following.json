@@ -4,7 +4,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-14T15:44:06Z",
+ "generated_at": "2026-09-14T16:21:34Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -373,13 +373,21 @@
    "locked": false,
    "note": {
     "comment_id": 5647661566,
-    "fp": "-/7|-|0/0|0|13.47",
+    "fp": "-/7|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-12T22:50:45Z"
+    "updated_at": "2026-09-14T16:21:46Z"
    },
    "owner": "5f8109372fa5c0e2",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-14T16:19:53Z",
+     "full": false,
+     "graded": false,
+     "id": "3680bd8bde355f30",
+     "metrics": null
+    }
+   ]
   },
   "Silent Torch 12": {
    "locked": false,
@@ -940,7 +948,7 @@
   {
    "alias": "Scarlet Owl 81",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Silent Torch 12",

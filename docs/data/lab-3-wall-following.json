@@ -4,7 +4,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-14T21:27:07Z",
+ "generated_at": "2026-09-14T21:54:56Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -685,10 +685,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665870614,
-    "fp": "6/9|17.77|1/0|0|13.47",
+    "fp": "6/9|17.77|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-14T21:27:24Z"
+    "updated_at": "2026-09-14T21:55:07Z"
    },
    "owner": "313e04804c0077d8",
    "submissions": [
@@ -701,6 +701,17 @@
       "avg_mps": 3.48,
       "lap_s": 17.77,
       "top_mps": 4.0
+     }
+    },
+    {
+     "at": "2026-09-14T21:47:53Z",
+     "full": true,
+     "graded": true,
+     "id": "53efd238fb10b1ee",
+     "metrics": {
+      "avg_mps": 3.34,
+      "lap_s": 17.79,
+      "top_mps": 5.0
      }
     }
    ]
@@ -865,7 +876,7 @@
    "locked": false,
    "metric": 17.77,
    "rank": 6,
-   "used": 1
+   "used": 2
   },
   {
    "alias": "Spiky Beacon 49",

@@ -4,7 +4,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-15T14:22:47Z",
+ "generated_at": "2026-09-15T16:21:49Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -469,13 +469,21 @@
    "locked": false,
    "note": {
     "comment_id": 5648089027,
-    "fp": "-/14|-|0/0|0|13.47",
+    "fp": "-/14|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-15T14:23:32Z"
+    "updated_at": "2026-09-15T16:22:00Z"
    },
    "owner": "3569acad27a8a5bf",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-15T16:11:00Z",
+     "full": false,
+     "graded": true,
+     "id": "8ccecb995858e422",
+     "metrics": null
+    }
+   ]
   },
   "Scarlet Owl 81": {
    "locked": false,
@@ -1244,7 +1252,7 @@
   {
    "alias": "Rapid Gecko 35",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Sonic Cougar 58",

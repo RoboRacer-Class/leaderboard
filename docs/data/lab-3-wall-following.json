@@ -4,7 +4,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-15T20:41:03Z",
+ "generated_at": "2026-09-15T21:17:03Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -216,10 +216,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628040707,
-    "fp": "-/15|-|2/0|0|13.47",
+    "fp": "-/15|-|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-15T20:41:19Z"
+    "updated_at": "2026-09-15T21:17:21Z"
    },
    "owner": "097ee0882b5c5422",
    "submissions": [
@@ -235,6 +235,24 @@
      "full": false,
      "graded": true,
      "id": "0b8002b96d8b93cc",
+     "metrics": null
+    },
+    {
+     "at": "2026-09-15T20:59:52Z",
+     "full": false,
+     "graded": true,
+     "id": "3038b21578baf0f9",
+     "metrics": {
+      "avg_mps": 1.73,
+      "lap_s": 36.49,
+      "top_mps": 4.0
+     }
+    },
+    {
+     "at": "2026-09-15T21:16:10Z",
+     "full": false,
+     "graded": false,
+     "id": "6d40c342bb1967b1",
      "metrics": null
     }
    ]
@@ -1204,7 +1222,7 @@
   {
    "alias": "Foggy Voxel 49",
    "locked": false,
-   "used": 2
+   "used": 4
   },
   {
    "alias": "Humble Compass 32",

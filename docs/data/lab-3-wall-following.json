@@ -4,7 +4,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-15T16:21:49Z",
+ "generated_at": "2026-09-15T20:20:01Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -327,13 +327,21 @@
    "locked": false,
    "note": {
     "comment_id": 5672793485,
-    "fp": "-/14|-|0/0|0|13.47",
+    "fp": "-/14|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-15T14:23:18Z"
+    "updated_at": "2026-09-15T20:20:16Z"
    },
    "owner": "52fad41b7508540c",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-15T20:17:39Z",
+     "full": false,
+     "graded": false,
+     "id": "f33abb3b0461e180",
+     "metrics": null
+    }
+   ]
   },
   "Mighty Puffin 96": {
    "locked": false,
@@ -1212,7 +1220,7 @@
   {
    "alias": "Mellow Llama 78",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Neon Bobcat 67",

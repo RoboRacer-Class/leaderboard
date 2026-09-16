@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-16T20:23:08Z",
+ "generated_at": "2026-09-16T20:34:14Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -169,10 +169,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605162767,
-    "fp": "2/22|11.16|3/0|0|13.47",
+    "fp": "1/22|9.42|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T20:23:25Z"
+    "updated_at": "2026-09-16T20:34:31Z"
    },
    "owner": "eeea81700df78cee",
    "submissions": [
@@ -196,10 +196,14 @@
     },
     {
      "at": "2026-09-16T20:20:52Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "99dccd361cbd0663",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 6.67,
+      "lap_s": 9.42,
+      "top_mps": 11.48
+     }
     }
    ]
   },
@@ -858,10 +862,10 @@
    "locked": false,
    "note": {
     "comment_id": 5690488556,
-    "fp": "1/22|10.04|6/0|0|13.47",
+    "fp": "2/22|10.04|7/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T19:26:48Z"
+    "updated_at": "2026-09-16T20:34:32Z"
    },
    "owner": "658d707d61ea19a2",
    "submissions": [
@@ -921,6 +925,17 @@
       "avg_mps": 6.13,
       "lap_s": 10.04,
       "top_mps": 11.76
+     }
+    },
+    {
+     "at": "2026-09-16T20:29:13Z",
+     "full": true,
+     "graded": true,
+     "id": "1bc31a1ce6f81003",
+     "metrics": {
+      "avg_mps": 6.07,
+      "lap_s": 10.11,
+      "top_mps": 11.86
      }
     }
    ]
@@ -1196,6 +1211,19 @@
  "requirement": "the full autograded score",
  "rows": [
   {
+   "alias": "Dawn Gecko 23",
+   "at": "2026-09-16T20:20:52Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 6.67,
+    "top_mps": 11.48
+   },
+   "locked": false,
+   "metric": 9.42,
+   "rank": 1,
+   "used": 3
+  },
+  {
    "alias": "Thunder Mamba 45",
    "at": "2026-09-16T19:20:21Z",
    "attempt": 6,
@@ -1205,21 +1233,8 @@
    },
    "locked": false,
    "metric": 10.04,
-   "rank": 1,
-   "used": 6
-  },
-  {
-   "alias": "Dawn Gecko 23",
-   "at": "2026-09-12T02:39:27Z",
-   "attempt": 1,
-   "extras": {
-    "avg_mps": 5.53,
-    "top_mps": 9.5
-   },
-   "locked": false,
-   "metric": 11.16,
    "rank": 2,
-   "used": 3
+   "used": 7
   },
   {
    "alias": "Scarlet Owl 81",

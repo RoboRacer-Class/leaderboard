@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-16T19:26:26Z",
+ "generated_at": "2026-09-16T20:23:08Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -169,10 +169,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605162767,
-    "fp": "2/22|11.16|1/0|0|13.47",
+    "fp": "2/22|11.16|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:48:37Z"
+    "updated_at": "2026-09-16T20:23:25Z"
    },
    "owner": "eeea81700df78cee",
    "submissions": [
@@ -186,6 +186,20 @@
       "lap_s": 11.16,
       "top_mps": 9.5
      }
+    },
+    {
+     "at": "2026-09-16T20:10:35Z",
+     "full": false,
+     "graded": true,
+     "id": "041f8b94595a640f",
+     "metrics": null
+    },
+    {
+     "at": "2026-09-16T20:20:52Z",
+     "full": false,
+     "graded": false,
+     "id": "99dccd361cbd0663",
+     "metrics": null
     }
    ]
   },
@@ -1205,7 +1219,7 @@
    "locked": false,
    "metric": 11.16,
    "rank": 2,
-   "used": 1
+   "used": 3
   },
   {
    "alias": "Scarlet Owl 81",

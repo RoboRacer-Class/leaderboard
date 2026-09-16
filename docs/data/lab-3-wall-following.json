@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-16T20:52:31Z",
+ "generated_at": "2026-09-16T21:40:51Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -85,10 +85,10 @@
    "locked": false,
    "note": {
     "comment_id": 5623729860,
-    "fp": "15/22|40.39|1/0|0|13.47",
+    "fp": "16/22|40.39|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:53Z"
+    "updated_at": "2026-09-16T21:41:14Z"
    },
    "owner": "dc01db7aa4b33dde",
    "submissions": [
@@ -235,10 +235,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628040707,
-    "fp": "17/22|45.0|4/0|0|13.47",
+    "fp": "18/22|45.0|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:20Z"
+    "updated_at": "2026-09-16T21:41:06Z"
    },
    "owner": "097ee0882b5c5422",
    "submissions": [
@@ -308,10 +308,10 @@
    "locked": false,
    "note": {
     "comment_id": 5637559338,
-    "fp": "12/22|27.76|1/0|0|13.47",
+    "fp": "13/22|27.48|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:27Z"
+    "updated_at": "2026-09-16T21:41:08Z"
    },
    "owner": "1a60cc5f56498f02",
    "submissions": [
@@ -323,6 +323,28 @@
      "metrics": {
       "avg_mps": 2.31,
       "lap_s": 27.76,
+      "top_mps": 4.5
+     }
+    },
+    {
+     "at": "2026-09-16T21:32:48Z",
+     "full": true,
+     "graded": true,
+     "id": "34e5eb10b2bebba1",
+     "metrics": {
+      "avg_mps": 2.32,
+      "lap_s": 27.63,
+      "top_mps": 4.5
+     }
+    },
+    {
+     "at": "2026-09-16T21:38:12Z",
+     "full": true,
+     "graded": true,
+     "id": "00529b6ff4876401",
+     "metrics": {
+      "avg_mps": 2.33,
+      "lap_s": 27.48,
       "top_mps": 4.5
      }
     }
@@ -392,10 +414,10 @@
    "locked": false,
    "note": {
     "comment_id": 5672793485,
-    "fp": "18/22|47.91|2/0|0|13.47",
+    "fp": "19/22|47.91|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:35Z"
+    "updated_at": "2026-09-16T21:41:09Z"
    },
    "owner": "52fad41b7508540c",
    "submissions": [
@@ -561,10 +583,10 @@
    "locked": false,
    "note": {
     "comment_id": 5689796667,
-    "fp": "11/22|22.76|1/0|0|13.47",
+    "fp": "12/22|22.76|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:24Z"
+    "updated_at": "2026-09-16T21:41:07Z"
    },
    "owner": "b1e7e39d205230b2",
    "submissions": [
@@ -659,10 +681,10 @@
    "locked": false,
    "note": {
     "comment_id": 5666639627,
-    "fp": "19/22|51.31|2/0|0|13.47",
+    "fp": "20/22|51.31|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:46Z"
+    "updated_at": "2026-09-16T21:41:13Z"
    },
    "owner": "d9b2bc4cdc63f0b8",
    "submissions": [
@@ -690,10 +712,10 @@
    "locked": false,
    "note": {
     "comment_id": 5654038360,
-    "fp": "14/22|36.2|1/0|0|13.47",
+    "fp": "15/22|36.2|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:42Z"
+    "updated_at": "2026-09-16T21:41:11Z"
    },
    "owner": "7659d41e1ff6f55f",
    "submissions": [
@@ -750,10 +772,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628545457,
-    "fp": "13/22|29.5|4/0|0|13.47",
+    "fp": "14/22|29.5|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:45Z"
+    "updated_at": "2026-09-16T21:41:12Z"
    },
    "owner": "1faa8e8f95d6a56b",
    "submissions": [
@@ -988,10 +1010,10 @@
    "locked": false,
    "note": {
     "comment_id": 5637419461,
-    "fp": "16/22|41.39|4/0|0|13.47",
+    "fp": "17/22|41.39|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:34Z"
+    "updated_at": "2026-09-16T21:41:09Z"
    },
    "owner": "62f2c7fbc20fdcb1",
    "submissions": [
@@ -1112,10 +1134,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628545092,
-    "fp": "20/22|53.51|3/0|0|13.47",
+    "fp": "11/22|22.64|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:40Z"
+    "updated_at": "2026-09-16T21:41:10Z"
    },
    "owner": "f5eeae1864756280",
    "submissions": [
@@ -1143,6 +1165,17 @@
      "graded": true,
      "id": "582bafadcdb4a79b",
      "metrics": null
+    },
+    {
+     "at": "2026-09-16T21:33:02Z",
+     "full": true,
+     "graded": true,
+     "id": "466bb43b84a9be95",
+     "metrics": {
+      "avg_mps": 2.74,
+      "lap_s": 22.64,
+      "top_mps": 4.0
+     }
     }
    ]
   }
@@ -1349,6 +1382,19 @@
    "used": 2
   },
   {
+   "alias": "Zesty Orca 53",
+   "at": "2026-09-16T21:33:02Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 2.74,
+    "top_mps": 4.0
+   },
+   "locked": false,
+   "metric": 22.64,
+   "rank": 11,
+   "used": 4
+  },
+  {
    "alias": "Radar Gazelle 19",
    "at": "2026-09-16T18:14:29Z",
    "attempt": 1,
@@ -1358,21 +1404,21 @@
    },
    "locked": false,
    "metric": 22.76,
-   "rank": 11,
+   "rank": 12,
    "used": 1
   },
   {
    "alias": "Ivory Diode 28",
-   "at": "2026-09-16T17:10:58Z",
-   "attempt": 1,
+   "at": "2026-09-16T21:38:12Z",
+   "attempt": 3,
    "extras": {
-    "avg_mps": 2.31,
+    "avg_mps": 2.33,
     "top_mps": 4.5
    },
    "locked": false,
-   "metric": 27.76,
-   "rank": 12,
-   "used": 1
+   "metric": 27.48,
+   "rank": 13,
+   "used": 3
   },
   {
    "alias": "Spiky Beacon 49",
@@ -1384,7 +1430,7 @@
    },
    "locked": false,
    "metric": 29.5,
-   "rank": 13,
+   "rank": 14,
    "used": 4
   },
   {
@@ -1397,7 +1443,7 @@
    },
    "locked": false,
    "metric": 36.2,
-   "rank": 14,
+   "rank": 15,
    "used": 1
   },
   {
@@ -1410,7 +1456,7 @@
    },
    "locked": false,
    "metric": 40.39,
-   "rank": 15,
+   "rank": 16,
    "used": 1
   },
   {
@@ -1423,7 +1469,7 @@
    },
    "locked": false,
    "metric": 41.39,
-   "rank": 16,
+   "rank": 17,
    "used": 4
   },
   {
@@ -1436,7 +1482,7 @@
    },
    "locked": false,
    "metric": 45.0,
-   "rank": 17,
+   "rank": 18,
    "used": 4
   },
   {
@@ -1449,7 +1495,7 @@
    },
    "locked": false,
    "metric": 47.91,
-   "rank": 18,
+   "rank": 19,
    "used": 2
   },
   {
@@ -1462,21 +1508,8 @@
    },
    "locked": false,
    "metric": 51.31,
-   "rank": 19,
-   "used": 2
-  },
-  {
-   "alias": "Zesty Orca 53",
-   "at": "2026-09-16T01:10:10Z",
-   "attempt": 2,
-   "extras": {
-    "avg_mps": 1.16,
-    "top_mps": 1.5
-   },
-   "locked": false,
-   "metric": 53.51,
    "rank": 20,
-   "used": 3
+   "used": 2
   },
   {
    "alias": "Brave Puffin 30",

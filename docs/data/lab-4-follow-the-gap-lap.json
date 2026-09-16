@@ -1,11 +1,11 @@
 {
  "anonymous": false,
  "assignment": "lab-4-follow-the-gap",
- "available_from": "2026-09-16T15:30:00Z",
+ "available_from": "2026-09-16T04:00:00Z",
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-16T04:35:35Z",
+ "generated_at": "2026-09-16T05:42:13Z",
  "lab_title": "Lab 4: Follow the Gap",
  "metric": {
   "direction": "lower",
@@ -25,7 +25,32 @@
   "label": "Best lap",
   "unit": "s"
  },
- "players": {},
+ "players": {
+  "Team 3": {
+   "locked": false,
+   "note": {
+    "comment_id": 5692618681,
+    "fp": "-/0|-|0/0|0|11.31",
+    "kind": "pr",
+    "number": 1,
+    "updated_at": "2026-09-16T05:42:34Z"
+   },
+   "owner": "group-3",
+   "submissions": []
+  },
+  "Team 8": {
+   "locked": false,
+   "note": {
+    "comment_id": 5692618928,
+    "fp": "-/0|-|0/0|0|11.31",
+    "kind": "pr",
+    "number": 1,
+    "updated_at": "2026-09-16T05:42:36Z"
+   },
+   "owner": "group-8",
+   "submissions": []
+  }
+ },
  "podium": 5,
  "reference": {
   "at": "2026-09-12T04:31:36Z",
@@ -86,5 +111,16 @@
  "schema": "ese6150/leaderboard/v1",
  "slug": "lab-4-follow-the-gap-lap",
  "title": "Lab 4: Follow the Gap \u00b7 Fastest clean lap",
- "unranked": []
+ "unranked": [
+  {
+   "alias": "Team 3",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 8",
+   "locked": false,
+   "used": 0
+  }
+ ]
 }

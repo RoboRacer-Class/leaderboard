@@ -106,6 +106,16 @@ def attempt_id(tag: str) -> str:
     return hashlib.sha256(tag.encode("utf-8")).hexdigest()[:16]
 
 
+def label_key(label: str) -> tuple:
+    """Sort key for a board label. Splitting the digits out makes `Team 2`
+    come before `Team 10` instead of after it; racing aliases ("Turbo Falcon
+    42") keep plain alphabetical order. re.split always alternates text and
+    digits starting with text, so two keys never compare a str against an int
+    at the same position."""
+    return tuple(int(part) if part.isdigit() else part.lower()
+                 for part in re.split(r"(\d+)", label))
+
+
 def counted_submissions(player: dict) -> list:
     """The player's non-refunded attempts in submission order. An attempt is
     a submit/* tag: graded or not, it spent one of the allowed submissions."""
@@ -136,6 +146,10 @@ def best_of(subs: list, metric: Metric, due: dt.datetime | None):
     return best
 
 
+def label_key_of(row: dict) -> tuple:
+    return label_key(row["alias"])
+
+
 def rank_players(players: dict, metric: Metric, cap: int, due: dt.datetime | None):
     """Rows for the board and the list of players not on it yet.
 
@@ -154,10 +168,10 @@ def rank_players(players: dict, metric: Metric, cap: int, due: dt.datetime | Non
         rows.append({**common, "metric": sub["metrics"][metric.key],
                      "extras": {k: v for k, v in sub["metrics"].items() if k != metric.key},
                      "at": sub["at"], "attempt": n})
-    rows.sort(key=lambda r: (metric.sort_key(r["metric"]), r["at"], r["alias"]))
+    rows.sort(key=lambda r: (metric.sort_key(r["metric"]), r["at"], label_key(r["alias"])))
     for i, row in enumerate(rows, start=1):
         row["rank"] = i
-    unranked.sort(key=lambda r: r["alias"])
+    unranked.sort(key=label_key_of)
     return rows, unranked
 
 

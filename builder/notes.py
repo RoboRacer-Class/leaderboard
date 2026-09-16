@@ -4,12 +4,28 @@ import urllib.parse
 
 MARKER = "<!-- ese6150-leaderboard -->"
 ISSUE_TITLE = "Leaderboard alias"
+TEAM_ISSUE_TITLE = "Leaderboard"
+
+
+def issue_title(lab: dict) -> str:
+    """The fallback issue's title. A team board has no alias to announce, so
+    it drops the word."""
+    return ISSUE_TITLE if lab.get("anonymous", True) else TEAM_ISSUE_TITLE
 
 
 def marker_for(key: str = "") -> str:
     """The sticky comment's marker: the plain one for an assignment's default
     board, a keyed one for each extra board (each board keeps its own note)."""
     return f"<!-- ese6150-leaderboard:{key} -->" if key else MARKER
+
+
+def identity_line(lab: dict, label: str) -> str:
+    """The sentence naming the row this repo owns. An alias board promises
+    anonymity; a team board names the team, which is public by design."""
+    if lab.get("anonymous", True):
+        return f"Your alias on the public board is **{label}**. Nobody else can tell it is you."
+    return (f"Your row on the public board is **{label}**. The board is no longer anonymous: "
+            "every team races under its own number.")
 
 
 def board_link(board_url: str, slug: str, alias: str) -> str:
@@ -37,7 +53,7 @@ def render(lab: dict, alias: str, row, used: int, cap: int, locked: bool,
     lines = [marker_for(lab.get("key", "")),
              f"### 🏁 {lab['title']} leaderboard",
              "",
-             f"Your alias on the public board is **{alias}**. Nobody else can tell it is you.",
+             identity_line(lab, alias),
              "",
              f"[Open the board with your row highlighted]({link})",
              ""]
@@ -45,8 +61,9 @@ def render(lab: dict, alias: str, row, used: int, cap: int, locked: bool,
         lines.append(f"- **Rank {row['rank']} of {total_rows}** with "
                      f"{format_value(row['metric'], unit)} on submission #{row['attempt']}.")
     else:
+        whose = "Your" if lab.get("anonymous", True) else "Your team's"
         lines.append(f"- Not on the board yet: it takes a submission with {requirement} "
-                     "before the deadline. Your best one is kept once you have it.")
+                     f"before the deadline. {whose} best one is kept once you have it.")
     if reference:
         lines.append(f"- TA reference solution: {format_value(reference['metric'], unit)}.")
     if not cap:

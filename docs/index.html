@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ESE 6150 Leaderboard</title>
-<meta name="description" content="Live lap-time leaderboard for the ESE 6150 Roboracer labs: best clean lap per driver, anonymous aliases, TA reference.">
+<meta name="description" content="Live lap-time leaderboard for the ESE 6150 Roboracer labs: each team's best clean lap in the grading simulator, with the TA reference.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -268,7 +268,7 @@
 <header class="masthead">
   <div class="wrap">
     <h1>ESE 6150 Leaderboard</h1>
-    <p class="lede">Every driver's best clean lap in the grading simulator, under a racing alias. Rebuilt every few minutes from graded submissions.</p>
+    <p class="lede" id="lede">Best clean lap in the grading simulator. Rebuilt every few minutes from graded submissions.</p>
     <nav class="tabs" id="tabs" aria-label="Labs"></nav>
   </div>
 </header>
@@ -305,7 +305,7 @@
 
     <section class="grid hidden" id="grid" aria-labelledby="grid-title">
       <h2 id="grid-title">On the grid <span id="grid-count"></span></h2>
-      <p>Drivers who have submitted but have no qualifying run before the deadline yet.</p>
+      <p id="grid-note">Drivers who have submitted but have no qualifying run before the deadline yet.</p>
       <ul class="chips" id="grid-list"></ul>
     </section>
 
@@ -360,6 +360,11 @@
     return h < 48 ? `${h} h ago` : `${Math.round(h / 24)} d ago`;
   };
   const same = (a, b) => a && b && a.trim().toLowerCase() === b.trim().toLowerCase();
+  // Team boards (`mode: team`) are keyed by team number and are not anonymous;
+  // older individual boards keep their racing aliases. Absent => anonymous, so
+  // a board published before this flag existed still reads correctly.
+  const anon = (doc) => doc.anonymous !== false;
+  const racer = (doc, n) => (anon(doc) ? (n === 1 ? "driver" : "drivers") : (n === 1 ? "team" : "teams"));
 
   async function fetchJSON(path) {
     const r = await fetch(path + "?t=" + Date.now(), { cache: "no-store" });
@@ -408,9 +413,22 @@
     renderBoard(doc);
     renderGrid(doc);
     renderRules(doc);
+    renderCopy(doc);
     document.title = `${doc.title} · ESE 6150 Leaderboard`;
     $("forget-btn").classList.toggle("hidden", !state.me);
     if (state.me && !$("find-input").value) $("find-input").value = state.me;
+  }
+
+  function renderCopy(doc) {
+    $("lede").textContent = anon(doc)
+      ? "Every driver's best clean lap in the grading simulator, under a racing alias. Rebuilt every few minutes from graded submissions."
+      : "Every team's best clean lap in the grading simulator. Rebuilt every few minutes from graded submissions.";
+    $("find-label").textContent = anon(doc)
+      ? "Find your row: type the alias from the note in your repository's Feedback pull request"
+      : "Find your row: type your team number";
+    $("find-input").placeholder = anon(doc) ? "e.g. Turbo Falcon 42" : "e.g. 7";
+    $("grid-note").textContent =
+      `${anon(doc) ? "Drivers" : "Teams"} who have submitted but have no qualifying run before the deadline yet.`;
   }
 
   function renderTabs(labs) {
@@ -468,7 +486,7 @@
       parts.push(`<div><p class="k">Closes in</p><p class="v">${esc(countdown(doc.due))}<small>${esc(fmtDeadline(doc.due))}</small></p></div>`);
     }
     parts.push(`<div><p class="k">TA reference</p><p class="v">${doc.reference ? esc(fmtValue(doc.reference.metric, unit)) : "—"}</p></div>`);
-    parts.push(`<div><p class="k">Drivers</p><p class="v">${doc.rows.length}<small>ranked</small> ${doc.unranked.length}<small>on the grid</small></p></div>`);
+    parts.push(`<div><p class="k">${anon(doc) ? "Drivers" : "Teams"}</p><p class="v">${doc.rows.length}<small>ranked</small> ${doc.unranked.length}<small>on the grid</small></p></div>`);
     parts.push(`<div><p class="k">Last change</p><p class="v">${esc(ago(doc.generated_at))}<small>checked every 5 min</small></p></div>`);
     $("status").innerHTML = parts.join("");
   }
@@ -532,11 +550,11 @@
         `</g>`);
     });
     parts.push(`<line x1="${padL}" x2="${W - padR}" y1="${y0}" y2="${y0}" stroke="var(--line-strong)" stroke-width="1"/>`);
-    $("chart-scroll").innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Lap time per ranked driver">${parts.join("")}</svg>`;
+    $("chart-scroll").innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Lap time per ranked ${racer(doc, 1)}">${parts.join("")}</svg>`;
     $("chart-sub").textContent = "";
-    $("chart-key").innerHTML = `<span><i style="background:var(--chart-dot)"></i>drivers</span>` +
+    $("chart-key").innerHTML = `<span><i style="background:var(--chart-dot)"></i>${racer(doc, 2)}</span>` +
       (ref != null ? `<span><i class="line"></i>TA reference</span>` : "") +
-      `<span><i style="background:var(--chart-me)"></i>you (type your alias above, or click a dot)</span>`;
+      `<span><i style="background:var(--chart-me)"></i>you (type your ${anon(doc) ? "alias" : "team number"} above, or click a dot)</span>`;
 
     const svg = $("chart-scroll").querySelector("svg");
     const marks = svg.querySelectorAll(".mark");
@@ -581,12 +599,12 @@
     $("board-title").innerHTML = `${esc(doc.board_title)} <span>${esc(doc.title)}</span>`;
     if (!rows.length) {
       const ref = doc.reference ? ` The TA reference is ${esc(fmtValue(doc.reference.metric, m.unit))}.` : "";
-      $("board").innerHTML = `<p class="empty"><strong>No qualifying run yet.</strong> It takes ${esc(doc.requirement || "the full autograded score")}; the first driver to post one takes P1.${ref}</p>`;
+      $("board").innerHTML = `<p class="empty"><strong>No qualifying run yet.</strong> It takes ${esc(doc.requirement || "the full autograded score")}; the first ${racer(doc, 1)} to post one takes P1.${ref}</p>`;
       $("alias-list").innerHTML = doc.unranked.map((u) => `<option value="${esc(u.alias)}">`).join("");
       return;
     }
     const extraHead = extras.map((x) => `<th class="num col-${esc(x.key.split("_")[0])}">${esc(x.label)}</th>`).join("");
-    const head = `<thead><tr><th>Pos</th><th>Driver</th><th class="num">${esc(m.label)}</th><th class="num">Gap</th>${extraHead}<th class="num">Attempt</th><th class="col-when">When</th></tr></thead>`;
+    const head = `<thead><tr><th>Pos</th><th>${anon(doc) ? "Driver" : "Team"}</th><th class="num">${esc(m.label)}</th><th class="num">Gap</th>${extraHead}<th class="num">Attempt</th><th class="col-when">When</th></tr></thead>`;
     const body = entries.map((e) => {
       const r = e.r;
       const extraCells = extras.map((x) => `<td class="num col-${esc(x.key.split("_")[0])}">${r.extras && r.extras[x.key] != null ? esc(fmtValue(r.extras[x.key], x.unit)) : "—"}</td>`).join("");
@@ -625,7 +643,9 @@
         ${capRules}
         <li>Only runs with ${esc(doc.requirement || "the full autograded score")}, graded before the deadline, count here. Your best one is kept.</li>
         <li>The top ${doc.podium} earn extra credit. Rows above the TA reference beat the staff solution${doc.reference ? " (" + esc(fmtValue(doc.reference.metric, unit)) + ")" : ""}.</li>
-        <li>Your alias is in the note on your repository's Feedback pull request. It never changes and nobody else can link it to you.</li>
+        ${anon(doc)
+          ? `<li>Your alias is in the note on your repository's Feedback pull request. It never changes and nobody else can link it to you.</li>`
+          : `<li>Rows are team numbers — the board is not anonymous. Your team's row is also linked from the note on your repository's Feedback pull request.</li>`}
       </ul>
       <p class="fine">Times are simulator time on the grading map, from the same run that produced your grade. A lab can have more than one board (switch above the deadline card), each with its own qualifying rule. Questions go to the course staff.</p>`;
   }
@@ -634,11 +654,15 @@
     const query = $("find-input").value.trim() || state.me;
     if (!query) { $("find-msg").textContent = ""; return; }
     const doc = state.docs[state.slug];
-    const hitRow = doc.rows.find((r) => same(r.alias, query));
-    const hitGrid = doc.unranked.find((u) => same(u.alias, query));
+    // On a team board accept what a student actually types: 7, #7, team 7.
+    const wanted = anon(doc) ? query : query.replace(/^\s*(?:#|team\s*)?([0-9]+)\s*$/i, "Team $1");
+    const hitRow = doc.rows.find((r) => same(r.alias, wanted));
+    const hitGrid = doc.unranked.find((u) => same(u.alias, wanted));
     if (!hitRow && !hitGrid) {
       $("find-msg").className = "find-msg";
-      $("find-msg").textContent = `No driver called “${query}” on this lab's board yet. Check the alias in your Feedback PR note; it appears here after your first graded submission.`;
+      $("find-msg").textContent = anon(doc)
+        ? `No driver called “${query}” on this lab's board yet. Check the alias in your Feedback PR note; it appears here after your first graded submission.`
+        : `No team “${query}” on this lab's board yet. A team appears here after its first graded submission.`;
       return;
     }
     state.me = (hitRow || hitGrid).alias;

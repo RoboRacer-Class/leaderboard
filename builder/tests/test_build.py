@@ -115,10 +115,10 @@ class FakeApi:
         self.perms[(repo, username)] = "read" if permission == "pull" else "write"
 
 
-def add_student(api, username, results, times, pr=1):
+def add_student(api, username, results, times, pr=1, slug=SLUG):
     """results: list of (score, max, detail) or None for an attempt that never
     graded (tag only); times: list of ISO push times."""
-    name = f"{CLASSROOM}-{SLUG}-{username}"
+    name = f"{CLASSROOM}-{slug}-{username}"
     api.repos.append(name)
     repo = f"{ORG}/{name}"
     rels, runs, tags = [], [], []

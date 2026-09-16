@@ -2,7 +2,9 @@
 
 Board: https://roboracer-class.github.io/leaderboard/ (GitHub Pages serves the `docs/` folder of this repo).
 
-A row is a driver's best full-score lap graded before the deadline, under an alias (and among the first `submissions.cap` attempts on a lab that sets one). Staff repos give the reference row. Students learn their alias from the note on their Feedback PR.
+A row is a best full-score lap graded before the deadline (and among the first `submissions.cap` attempts on a lab that sets one). Staff repos give the reference row.
+
+**Who a row is depends on the assignment's mode.** A `mode: team` lab (lab 4 onward) has one repo per team, named `<classroom>-<slug>-group-<n>`, so the row is `Team <n>` and the board is **not anonymous** — the team number is the key, and students just look for their own number. Every other lab keeps the racing aliases, which students learn from the note on their Feedback PR. The builder decides per board from `mode` in `assignments.json` and publishes it as `anonymous` in the board's data file, which is what switches the page's wording.
 
 ## Rebuilds
 
@@ -16,6 +18,7 @@ Run from this directory with `export LEADERBOARD_SALT=$(cat ~/.config/ese6150-le
 - Whole class ranked: `python3 -m builder who lab-3-wall-following --roster ../classroom50/ese-6150/roster.csv`
 - Give an attempt back and unlock: `python3 -m builder refund lab-3-wall-following <username> submit/<tag>` then commit `docs/data` and push.
 - Unlock by hand: `classroom50/ese-6150/scripts/lab-access.sh unlock lab-3-wall-following --user <username>`
+- **On a team board** the same commands take the team instead of a username, written any way you like — `7`, `group-7` or `"Team 7"`: `python3 -m builder refund lab-4-follow-the-gap 7 submit/<tag>`. `reveal` takes a team too; `who` just prints the standings, because the rows already name the teams. To see the people behind each team use `classroom50/ese-6150/scripts/leaderboard-status.py`, which joins the board against `teams.json`.
 - Add a lab: copy the `leaderboard:` and `submissions:` blocks from lab 3's `config.yaml` into the new grader config. A lab can have several boards (one tab and one data file each): use a `leaderboards:` list instead, give each entry a `key` (the tab id becomes `<slug>-<key>`), a `title`, a `requirement` sentence for the page and notes, and a `require:` rule: `full` (the default, the full autograded score) or `{ignore: [D2, D3]}` (full marks on every test except those ids). Lab 4 is the example: a `lap` board that ignores the obstacle-course lines and an `obstacles` board that needs everything. `refund` reaches every board of the assignment; `reveal`/`who` take a board id (`lab-4-follow-the-gap-lap`). The page shows one tab per lab with a switch between the lab's boards; the tab labels (`Lab 3: Wall Follow`, `Lab 4: FTG`) are the `SHORT_NAMES` map at the top of the script in `docs/index.html`, keyed by assignment slug (a lab missing there shows its full name). Above the standings a lollipop chart plots every ranked driver's time (hover or focus a column for the tooltip, click one to highlight that alias; the TA reference as a dashed rule); its colors live in the `--chart-*` tokens of `docs/index.html`, one validated step per theme.
 - Tests: `python3 -m pytest builder/tests`
 
@@ -23,6 +26,7 @@ Run from this directory with `export LEADERBOARD_SALT=$(cat ~/.config/ese6150-le
 
 - `docs/index.html`: the page. `docs/data/`: generated, committed by the rebuild.
 - `builder/`: the rebuild logic. `tools/`: token and cron scripts.
+- Team boards: the label `Team <n>` comes from the repo tail alone, never from a team's display name in `teams.json`, so renaming a team cannot move its attempt history. `teams.json` is read for one purpose only — a group team whose every member is staff becomes the reference row instead of a competitor, which is how a TA posts a reference lap on a lab where no individual repo exists. An unreadable `teams.json` only costs the reference row; no team is ever dropped from the board because of it.
 - Cap and lock: **off** — `submissions.cap: 0` in the lab's grader config means unlimited `submit/*` tags. Set a positive cap and it comes back: the grader refuses the next tag, the rebuild locks the repo read-only with `lab-access.sh`, and `builder refund` gives an attempt back.
 
 ## Secrets (staff only)

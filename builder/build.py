@@ -14,7 +14,7 @@ from pathlib import Path
 
 import yaml
 
-from . import aliases, lock, notes, rules
+from . import aliases, lock, notes, rules, teams
 from .gh import GitHub, GitHubError
 
 SCHEMA = "ese6150/leaderboard/v1"
@@ -85,6 +85,10 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
                 continue
             raise
         cfg = yaml.safe_load(text) or {}
+        # `mode: team` is the only mode whose repos are named `-group-<n>`;
+        # legacy `group` repos still carry the founder's username, so they are
+        # scanned (and kept anonymous) exactly like individual ones.
+        team_mode = str(entry.get("mode") or "").strip().lower() == "team"
         blocks = cfg.get("leaderboards") or ([cfg["leaderboard"]] if cfg.get("leaderboard") else [])
         cap = (cfg.get("submissions") or {}).get("cap")
         name = entry.get("name") or slug
@@ -99,6 +103,7 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
             labs.append({
                 "slug": slug,
                 "board": board,
+                "team_mode": team_mode,
                 "key": key,
                 "title": f"{name} · {board_title}" if len(blocks) > 1 else name,
                 "board_title": board_title,
@@ -158,29 +163,51 @@ def read_result(api, rel: dict) -> dict:
     return json.loads(api.download_asset(asset["url"]))
 
 
+def team_of(lab: dict, owner: str):
+    """The team number a repo tail names on a team lab, else None. A staff
+    test repo left over from before an assignment was flipped to team mode
+    still carries a username, so it takes the alias path and stays redacted."""
+    return teams.number(owner) if lab["team_mode"] else None
+
+
 def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
-             salt: str, state: dict, log: Log) -> dict:
+             salt: str, state: dict, log: Log, snapshot: dict | None = None) -> dict:
     """Merge every new attempt (a submit/* tag) and every newly graded one
-    into `state`; returns alias -> username for this run only (never
-    written anywhere)."""
+    into `state`; returns board key -> repo tail for this run only (never
+    written anywhere). The tail is what every side effect rebuilds the repo
+    name from, so it is the username on an alias board and `group-<n>` on a
+    team board."""
     prefix = f"{classroom}-{lab['slug']}-"
     players = state.setdefault("players", {})
     reference = state.setdefault("reference_submissions", [])
     owners: dict[str, str] = {}
+    snapshot = snapshot or {}
     metric = lab["metric"]
     for name in sorted(r for r in repos if r.startswith(prefix)):
         username = name[len(prefix):]
-        log.redact(username, name)
+        number = team_of(lab, username)
+        if number is None:
+            # A username: keep it and its repo out of the public Actions log,
+            # and key the board off an alias.
+            log.redact(username, name)
+            key = aliases.resolve_alias(salt, username, players)
+            owner_mark = aliases.owner_fingerprint(salt, username)
+            is_staff = username.lower() in staff
+        else:
+            # A team number is public, so nothing here is hashed or redacted.
+            # A team whose snapshot membership is entirely staff is the
+            # reference row, never a competitor.
+            key = teams.label(number)
+            owner_mark = username
+            is_staff = teams.is_staff_team(snapshot.get(lab["slug"], {}).get(number, []), staff)
         repo = f"{org}/{name}"
-        is_staff = username.lower() in staff
         if is_staff:
             label, target = "reference", reference
         else:
-            alias = aliases.resolve_alias(salt, username, players)
-            player = players.setdefault(alias, {
-                "owner": aliases.owner_fingerprint(salt, username), "submissions": [], "locked": False})
-            owners[alias] = username
-            label, target = alias, player["submissions"]
+            player = players.setdefault(key, {
+                "owner": owner_mark, "submissions": [], "locked": False})
+            owners[key] = username
+            label, target = key, player["submissions"]
         try:
             tags = api.tag_refs(repo)
         except GitHubError as err:
@@ -246,6 +273,7 @@ def lab_document(lab: dict, state: dict, rows: list, unranked: list, reference, 
         "board_title": lab["board_title"],
         "lab_title": lab["lab_title"],
         "requirement": lab["requirement"],
+        "anonymous": not lab["team_mode"],
         "metric": public_metric(lab["metric"]),
         "due": lab["due"],
         "available_from": lab["available_from"],
@@ -314,7 +342,7 @@ def apply_notes(api, org, classroom, lab, owners, state, rows, reference, board_
     by_alias = {r["alias"]: r for r in rows}
     public_lab = {"slug": lab["board"], "title": lab["title"], "podium": lab["podium"],
                   "metric": public_metric(lab["metric"]), "key": lab.get("key", ""),
-                  "requirement": lab["requirement"]}
+                  "requirement": lab["requirement"], "anonymous": not lab["team_mode"]}
     marker = notes.marker_for(lab.get("key", ""))
     for alias, username in owners.items():
         player = state["players"][alias]
@@ -337,7 +365,7 @@ def apply_notes(api, org, classroom, lab, owners, state, rows, reference, board_
             else:
                 number = note.get("number") or api.feedback_pr(repo)
                 if number is None:
-                    number = api.create_issue(repo, notes.ISSUE_TITLE, body)
+                    number = api.create_issue(repo, notes.issue_title(public_lab), body)
                     note.update({"kind": "issue", "number": number, "comment_id": None})
                 else:
                     comment_id = note.get("comment_id") or notes.find_note(api.issue_comments(repo, number), marker=marker)
@@ -369,6 +397,9 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
         log("staff teams are empty or unreadable; refusing to run (staff repos would look like students)")
         return 1
     repos = api.org_repos(org)
+    # Only a team lab needs the membership snapshot, and only to spot a staff
+    # team; skip the read entirely while every lab is alias-keyed.
+    snapshot = teams.snapshot(config, classroom, log) if any(l["team_mode"] for l in labs) else {}
     script_text = load_lock_script(config, classroom, log)
     generated = now_utc()
     generated_at = rules.iso(generated)
@@ -379,7 +410,7 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
         log(f"{lab['board']}: scanning")
         path = data_dir / f"{lab['board']}.json"
         state = load_state(path)
-        owners = scan_lab(api, org, classroom, lab, repos, staff, salt, state, log)
+        owners = scan_lab(api, org, classroom, lab, repos, staff, salt, state, log, snapshot)
         due = rules.parse_time(lab["due"]) if lab.get("due") else None
         apply_locks(api, org, classroom, lab, owners, state, token, script_text, log, dry_run)
         rows, unranked = rules.rank_players(state["players"], lab["metric"], lab["cap"] or 10**9, due)
@@ -391,7 +422,7 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
         index["labs"].append({
             "slug": lab["board"], "assignment": lab["slug"], "title": lab["title"],
             "board_title": lab["board_title"], "lab_title": lab["lab_title"],
-            "requirement": lab["requirement"],
+            "requirement": lab["requirement"], "anonymous": not lab["team_mode"],
             "due": lab["due"], "available_from": lab["available_from"], "cap": lab["cap"],
             "podium": lab["podium"], "metric": public_metric(lab["metric"]),
             "rows": len(rows), "unranked": len(unranked), "reference": reference is not None,
@@ -412,20 +443,45 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
     return 0
 
 
+def board_key(doc: dict, salt: str, who_arg: str) -> tuple:
+    """`(players key, repo tail)` for the subject an ops command names.
+
+    On a team board that is the team, written any of the ways a TA would
+    reach for it (`7`, `group-7`, `Team 7`); on an alias board it is the
+    student's GitHub username, whose alias is derived as always.
+    """
+    players = doc.get("players", {})
+    if doc.get("anonymous", True):
+        return aliases.resolve_alias(salt, who_arg, players), who_arg
+    text = who_arg.strip()
+    number = teams.number(text if text.lower().startswith("group-") else f"group-{text}")
+    if number is None:
+        match = re.fullmatch(r"(?i)team\s*([1-9][0-9]*)", text)
+        number = int(match.group(1)) if match else None
+    if number is None:
+        raise ValueError(f"{who_arg!r} is not a team on this board; pass a team number "
+                         "(7), a repo tail (group-7), or a label (\"Team 7\")")
+    return teams.label(number), f"group-{number}"
+
+
 def reveal(salt: str, slug: str, usernames: list, data_dir: Path) -> int:
     doc = json.loads((data_dir / f"{slug}.json").read_text())
     players = doc.get("players", {})
     by_alias = {r["alias"]: r for r in doc.get("rows", [])}
-    for username in usernames:
-        alias = aliases.resolve_alias(salt, username, players)
+    for subject in usernames:
+        try:
+            alias, _ = board_key(doc, salt, subject)
+        except ValueError as err:
+            print(f"{subject}\t{err}")
+            continue
         player = players.get(alias)
         if player is None:
-            print(f"{username}\t{alias}\t(no graded submission yet)")
+            print(f"{subject}\t{alias}\t(no graded submission yet)")
             continue
         row = by_alias.get(alias)
         used = len(rules.counted_submissions(player))
         where = f"rank {row['rank']} with {row['metric']}" if row else "not on the board"
-        print(f"{username}\t{alias}\t{where}\tused {used}\tlocked {player.get('locked', False)}")
+        print(f"{subject}\t{alias}\t{where}\tused {used}\tlocked {player.get('locked', False)}")
     return 0
 
 
@@ -450,7 +506,11 @@ def refund(api, org: str, classroom: str, salt: str, slug: str, username: str, t
     paths = board_files(data_dir, slug) or [data_dir / f"{slug}.json"]
     docs = [(p, json.loads(p.read_text())) for p in paths]
     path, doc = docs[0]
-    alias = aliases.resolve_alias(salt, username, doc.get("players", {}))
+    try:
+        alias, tail = board_key(doc, salt, username)
+    except ValueError as err:
+        print(err)
+        return 1
     player = doc["players"].get(alias)
     if player is None:
         print(f"{username} has no submissions in {slug}")
@@ -469,7 +529,7 @@ def refund(api, org: str, classroom: str, salt: str, slug: str, username: str, t
         if other_player:
             other_player.setdefault("note", {}).pop("fp", None)
         other_path.write_text(json.dumps(other, indent=1, sort_keys=True) + "\n")
-    repo = f"{org}/{classroom}-{slug}-{username}"
+    repo = f"{org}/{classroom}-{slug}-{tail}"
     if hits[0].get("graded"):
         print(f"note: {tag} was graded, so its tag and release stay; the grader's own count still "
               "includes it until the tag is deleted by hand")
@@ -480,7 +540,7 @@ def refund(api, org: str, classroom: str, salt: str, slug: str, username: str, t
         except Exception as err:  # noqa: BLE001
             print(f"could not delete the tag {tag} ({err}); delete it by hand")
     if unlock:
-        if not lock.unlock_repo(api, org, classroom, slug, username):
+        if not lock.unlock_repo(api, org, classroom, slug, tail):
             print("unlock did not take; check the collaborator permission by hand")
             return 1
         player["locked"] = False
@@ -495,6 +555,15 @@ def refund(api, org: str, classroom: str, salt: str, slug: str, username: str, t
 def who(salt: str, slug: str, roster: Path, data_dir: Path) -> int:
     doc = json.loads((data_dir / f"{slug}.json").read_text())
     players = doc.get("players", {})
+    if not doc.get("anonymous", True):
+        # Nothing to de-anonymise: the rows already name the teams. Who is ON
+        # each team lives in the classroom50 config repo, not here.
+        print(f"{slug} is a team board — its rows are public team numbers, not aliases.\n"
+              "For the members behind each team, use classroom50's "
+              "ese-6150/scripts/leaderboard-status.py.")
+        for row in sorted(doc.get("rows", []), key=lambda r: r["rank"]):
+            print(f"{row['rank']}\t{row['alias']}\t{row['metric']}")
+        return 0
     by_alias = {r["alias"]: r for r in doc.get("rows", [])}
     with roster.open(newline="") as fh:
         rows = list(csv.DictReader(fh))
@@ -526,9 +595,10 @@ def check_token(api, org: str, classroom: str) -> int:
         repos = [r for r in api.org_repos(org) if r.startswith(prefix + "lab-")]
     except GitHubError:
         pass
-    if repos:
-        sample = f"{org}/{sorted(repos)[0]}"
-        login = sorted(repos)[0].rsplit("-", 1)[-1]
+    named = [r for r in sorted(repos) if not teams.is_team_repo(r)]
+    if named:
+        sample = f"{org}/{named[0]}"
+        login = named[0].rsplit("-", 1)[-1]
         checks += [
             ("Contents: Read (tags and releases)", lambda: api.tag_refs(sample)),
             ("Actions: Read (run times)", lambda: api.workflow_runs(sample)),
@@ -564,16 +634,19 @@ def main(argv: list) -> int:
     p.add_argument("--dry-run", action="store_true", help="no notes, no locks; data is still written")
     p.add_argument("--config-dir", default="", help="local classroom50 checkout to read config from instead of the API")
     p.add_argument("--board-url", default=os.environ.get("BOARD_URL", "https://roboracer-class.github.io/leaderboard"))
-    p = sub.add_parser("reveal", parents=[common], help="which alias a username holds")
+    p = sub.add_parser("reveal", parents=[common],
+                       help="which row a username holds (team board: a team number)")
     p.add_argument("slug")
-    p.add_argument("usernames", nargs="+")
+    p.add_argument("usernames", nargs="+", metavar="subject")
     p = sub.add_parser("refund", parents=[common], help="give an attempt back and unlock")
     p.add_argument("slug")
-    p.add_argument("username")
+    p.add_argument("username", metavar="subject",
+                   help="GitHub username, or on a team board the team (7, group-7, \"Team 7\")")
     p.add_argument("tag")
     p.add_argument("--no-unlock", action="store_true")
     sub.add_parser("check-token", parents=[common], help="probe the token's permissions")
-    p = sub.add_parser("who", parents=[common], help="alias -> username for a roster")
+    p = sub.add_parser("who", parents=[common],
+                       help="alias -> username for a roster (team board: prints the standings)")
     p.add_argument("slug")
     p.add_argument("--roster", required=True)
     args = parser.parse_args(argv)

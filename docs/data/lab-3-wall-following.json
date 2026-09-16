@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-16T21:40:51Z",
+ "generated_at": "2026-09-16T23:13:30Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -1134,10 +1134,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628545092,
-    "fp": "11/22|22.64|4/0|0|13.47",
+    "fp": "11/22|18.53|5/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T21:41:10Z"
+    "updated_at": "2026-09-16T23:13:45Z"
    },
    "owner": "f5eeae1864756280",
    "submissions": [
@@ -1175,6 +1175,17 @@
       "avg_mps": 2.74,
       "lap_s": 22.64,
       "top_mps": 4.0
+     }
+    },
+    {
+     "at": "2026-09-16T22:55:56Z",
+     "full": true,
+     "graded": true,
+     "id": "b0bd78ea16cf96b2",
+     "metrics": {
+      "avg_mps": 3.34,
+      "lap_s": 18.53,
+      "top_mps": 5.0
      }
     }
    ]
@@ -1383,16 +1394,16 @@
   },
   {
    "alias": "Zesty Orca 53",
-   "at": "2026-09-16T21:33:02Z",
-   "attempt": 4,
+   "at": "2026-09-16T22:55:56Z",
+   "attempt": 5,
    "extras": {
-    "avg_mps": 2.74,
-    "top_mps": 4.0
+    "avg_mps": 3.34,
+    "top_mps": 5.0
    },
    "locked": false,
-   "metric": 22.64,
+   "metric": 18.53,
    "rank": 11,
-   "used": 4
+   "used": 5
   },
   {
    "alias": "Radar Gazelle 19",

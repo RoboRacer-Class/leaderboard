@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-16T14:34:29Z",
+ "generated_at": "2026-09-16T14:45:12Z",
  "lab_title": "Lab 4: Follow the Gap",
  "metric": {
   "direction": "lower",
@@ -98,6 +98,18 @@
    "owner": "group-4",
    "submissions": []
   },
+  "Team 5": {
+   "locked": false,
+   "note": {
+    "comment_id": 5699396527,
+    "fp": "-/0|-|0/0|0|11.31",
+    "kind": "pr",
+    "number": 1,
+    "updated_at": "2026-09-16T14:45:31Z"
+   },
+   "owner": "group-5",
+   "submissions": []
+  },
   "Team 8": {
    "locked": false,
    "note": {
@@ -184,6 +196,11 @@
   },
   {
    "alias": "Team 4",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 5",
    "locked": false,
    "used": 0
   },

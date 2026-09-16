@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-16T23:36:06Z",
+ "generated_at": "2026-09-16T23:44:14Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -169,10 +169,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605162767,
-    "fp": "1/22|9.42|3/0|0|13.47",
+    "fp": "2/22|9.42|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T20:34:31Z"
+    "updated_at": "2026-09-16T23:44:29Z"
    },
    "owner": "eeea81700df78cee",
    "submissions": [
@@ -892,10 +892,10 @@
    "locked": false,
    "note": {
     "comment_id": 5690488556,
-    "fp": "2/22|10.04|8/0|0|13.47",
+    "fp": "1/22|8.94|9/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T23:36:20Z"
+    "updated_at": "2026-09-16T23:44:30Z"
    },
    "owner": "658d707d61ea19a2",
    "submissions": [
@@ -970,10 +970,25 @@
     },
     {
      "at": "2026-09-16T23:34:47Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "c16a7c4031b347ad",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 6.77,
+      "lap_s": 8.94,
+      "top_mps": 11.19
+     }
+    },
+    {
+     "at": "2026-09-16T23:40:03Z",
+     "full": true,
+     "graded": true,
+     "id": "c4ec6629d2fda62a",
+     "metrics": {
+      "avg_mps": 6.65,
+      "lap_s": 9.04,
+      "top_mps": 11.44
+     }
     }
    ]
   },
@@ -1270,6 +1285,19 @@
  "requirement": "the full autograded score",
  "rows": [
   {
+   "alias": "Thunder Mamba 45",
+   "at": "2026-09-16T23:34:47Z",
+   "attempt": 8,
+   "extras": {
+    "avg_mps": 6.77,
+    "top_mps": 11.19
+   },
+   "locked": false,
+   "metric": 8.94,
+   "rank": 1,
+   "used": 9
+  },
+  {
    "alias": "Dawn Gecko 23",
    "at": "2026-09-16T20:20:52Z",
    "attempt": 3,
@@ -1279,21 +1307,8 @@
    },
    "locked": false,
    "metric": 9.42,
-   "rank": 1,
-   "used": 3
-  },
-  {
-   "alias": "Thunder Mamba 45",
-   "at": "2026-09-16T19:20:21Z",
-   "attempt": 6,
-   "extras": {
-    "avg_mps": 6.13,
-    "top_mps": 11.76
-   },
-   "locked": false,
-   "metric": 10.04,
    "rank": 2,
-   "used": 8
+   "used": 3
   },
   {
    "alias": "Scarlet Owl 81",

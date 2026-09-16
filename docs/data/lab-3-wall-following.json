@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-16T20:34:14Z",
+ "generated_at": "2026-09-16T20:52:31Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -493,13 +493,21 @@
    "locked": false,
    "note": {
     "comment_id": 5665534958,
-    "fp": "-/22|-|0/0|0|13.47",
+    "fp": "-/22|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:39Z"
+    "updated_at": "2026-09-16T20:52:47Z"
    },
    "owner": "3236ae0f883c4efa",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-16T20:46:18Z",
+     "full": false,
+     "graded": true,
+     "id": "0cb856d0f588fb0d",
+     "metrics": null
+    }
+   ]
   },
   "Onyx Shuttle 58": {
    "locked": false,
@@ -1584,7 +1592,7 @@
   {
    "alias": "Nitro Voxel 16",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Onyx Shuttle 58",

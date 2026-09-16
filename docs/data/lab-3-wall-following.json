@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-16T18:36:43Z",
+ "generated_at": "2026-09-16T18:48:24Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -169,10 +169,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605162767,
-    "fp": "1/22|11.16|1/0|0|13.47",
+    "fp": "2/22|11.16|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:23:38Z"
+    "updated_at": "2026-09-16T18:48:37Z"
    },
    "owner": "eeea81700df78cee",
    "submissions": [
@@ -844,10 +844,10 @@
    "locked": false,
    "note": {
     "comment_id": 5690488556,
-    "fp": "2/22|11.53|4/0|0|13.47",
+    "fp": "1/22|10.61|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-16T18:36:59Z"
+    "updated_at": "2026-09-16T18:48:38Z"
    },
    "owner": "658d707d61ea19a2",
    "submissions": [
@@ -878,10 +878,14 @@
     },
     {
      "at": "2026-09-16T18:34:26Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "2f06e4aa40368924",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 5.81,
+      "lap_s": 10.61,
+      "top_mps": 9.98
+     }
     }
    ]
   },
@@ -1156,6 +1160,19 @@
  "requirement": "the full autograded score",
  "rows": [
   {
+   "alias": "Thunder Mamba 45",
+   "at": "2026-09-16T18:34:26Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 5.81,
+    "top_mps": 9.98
+   },
+   "locked": false,
+   "metric": 10.61,
+   "rank": 1,
+   "used": 4
+  },
+  {
    "alias": "Dawn Gecko 23",
    "at": "2026-09-12T02:39:27Z",
    "attempt": 1,
@@ -1165,21 +1182,8 @@
    },
    "locked": false,
    "metric": 11.16,
-   "rank": 1,
-   "used": 1
-  },
-  {
-   "alias": "Thunder Mamba 45",
-   "at": "2026-09-16T16:56:40Z",
-   "attempt": 2,
-   "extras": {
-    "avg_mps": 5.28,
-    "top_mps": 6.0
-   },
-   "locked": false,
-   "metric": 11.53,
    "rank": 2,
-   "used": 4
+   "used": 1
   },
   {
    "alias": "Scarlet Owl 81",

@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-17T14:45:35Z",
+ "generated_at": "2026-09-17T14:53:46Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -223,10 +223,10 @@
    "locked": false,
    "note": {
     "comment_id": 5639491145,
-    "fp": "18/27|30.6|5/0|0|13.47",
+    "fp": "16/27|25.72|6/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-17T14:23:52Z"
+    "updated_at": "2026-09-17T14:54:07Z"
    },
    "owner": "c5aba988539511bb",
    "submissions": [
@@ -271,6 +271,17 @@
       "avg_mps": 1.93,
       "lap_s": 33.39,
       "top_mps": 3.0
+     }
+    },
+    {
+     "at": "2026-09-17T14:47:03Z",
+     "full": true,
+     "graded": true,
+     "id": "d193a950768f120a",
+     "metrics": {
+      "avg_mps": 2.5,
+      "lap_s": 25.72,
+      "top_mps": 5.0
      }
     }
    ]
@@ -364,10 +375,10 @@
    "locked": false,
    "note": {
     "comment_id": 5637559338,
-    "fp": "16/27|27.48|3/0|0|13.47",
+    "fp": "17/27|27.48|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-17T14:23:59Z"
+    "updated_at": "2026-09-17T14:54:08Z"
    },
    "owner": "1a60cc5f56498f02",
    "submissions": [
@@ -921,10 +932,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628545457,
-    "fp": "17/27|29.5|4/0|0|13.47",
+    "fp": "18/27|29.5|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-17T14:24:17Z"
+    "updated_at": "2026-09-17T14:54:09Z"
    },
    "owner": "1faa8e8f95d6a56b",
    "submissions": [
@@ -1680,6 +1691,19 @@
    "used": 1
   },
   {
+   "alias": "Emerald Bison 26",
+   "at": "2026-09-17T14:47:03Z",
+   "attempt": 6,
+   "extras": {
+    "avg_mps": 2.5,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 25.72,
+   "rank": 16,
+   "used": 6
+  },
+  {
    "alias": "Ivory Diode 28",
    "at": "2026-09-16T21:38:12Z",
    "attempt": 3,
@@ -1689,7 +1713,7 @@
    },
    "locked": false,
    "metric": 27.48,
-   "rank": 16,
+   "rank": 17,
    "used": 3
   },
   {
@@ -1702,21 +1726,8 @@
    },
    "locked": false,
    "metric": 29.5,
-   "rank": 17,
-   "used": 4
-  },
-  {
-   "alias": "Emerald Bison 26",
-   "at": "2026-09-17T05:55:14Z",
-   "attempt": 3,
-   "extras": {
-    "avg_mps": 2.01,
-    "top_mps": 2.5
-   },
-   "locked": false,
-   "metric": 30.6,
    "rank": 18,
-   "used": 5
+   "used": 4
   },
   {
    "alias": "Silver Otter 38",

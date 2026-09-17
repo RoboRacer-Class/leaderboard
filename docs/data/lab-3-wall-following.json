@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-17T22:32:43Z",
+ "generated_at": "2026-09-17T22:40:47Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -711,7 +711,7 @@
     {
      "at": "2026-09-17T22:32:01Z",
      "full": false,
-     "graded": false,
+     "graded": true,
      "id": "8f88024ba7027b90",
      "metrics": null
     }

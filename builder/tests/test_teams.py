@@ -84,15 +84,14 @@ def test_unreadable_teams_json_still_builds(world):
     assert [r["alias"] for r in doc["rows"]] == ["Team 2"]
 
 
-def test_note_names_the_team_and_drops_the_anonymity_promise(world):
+def test_team_boards_post_no_notes(world):
     api, data_dir, log = world
     add_team(api, 2, [lap(12.0)], ["2026-09-20T10:00:00Z"])
+    api.pulls[f"{ORG}/{CLASSROOM}-{SLUG}-group-2"] = 1
     assert run(api, data_dir, log) == 0
-    bodies = [c["body"] for lst in api.comments.values() for c in lst]
-    assert len(bodies) == 1
-    assert "**Team 2**" in bodies[0]
-    assert "Nobody else can tell it is you" not in bodies[0]
-    assert "no longer anonymous" in bodies[0]
+    assert api.comments == {} and api.issues == {}
+    doc = json.loads((data_dir / f"{SLUG}.json").read_text())
+    assert "note" not in doc["players"]["Team 2"]
 
 
 def test_teams_sort_numerically_not_lexically():

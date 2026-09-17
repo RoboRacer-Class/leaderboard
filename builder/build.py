@@ -338,6 +338,12 @@ def apply_locks(api, org, classroom, lab, owners, state, token, script_text, log
 
 def apply_notes(api, org, classroom, lab, owners, state, rows, reference, board_url,
                 generated_label, log, dry_run):
+    # A team board has no alias to hand out, so a note would only add a
+    # comment (and a notification for the token's owner) to every team repo.
+    if lab["team_mode"]:
+        for player in state["players"].values():
+            player.pop("note", None)
+        return
     cap = lab["cap"] or 0
     by_alias = {r["alias"]: r for r in rows}
     public_lab = {"slug": lab["board"], "title": lab["title"], "podium": lab["podium"],

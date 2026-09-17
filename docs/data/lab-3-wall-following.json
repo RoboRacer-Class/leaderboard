@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-17T04:48:30Z",
+ "generated_at": "2026-09-17T05:43:45Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -830,13 +830,21 @@
    "locked": false,
    "note": {
     "comment_id": 5625536344,
-    "fp": "-/24|-|0/0|0|13.47",
+    "fp": "-/24|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-17T04:49:12Z"
+    "updated_at": "2026-09-17T05:43:56Z"
    },
    "owner": "8eaa1adde81f240d",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-17T05:39:32Z",
+     "full": false,
+     "graded": true,
+     "id": "e6e9fba876973a79",
+     "metrics": null
+    }
+   ]
   },
   "Spiky Beacon 49": {
    "locked": false,
@@ -1830,7 +1838,7 @@
   {
    "alias": "Sonic Cougar 58",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Spiky Wolf 44",

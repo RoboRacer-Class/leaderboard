@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-17T06:36:37Z",
+ "generated_at": "2026-09-17T13:20:36Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -223,10 +223,10 @@
    "locked": false,
    "note": {
     "comment_id": 5639491145,
-    "fp": "17/26|30.6|4/0|0|13.47",
+    "fp": "17/26|30.6|5/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-17T06:36:49Z"
+    "updated_at": "2026-09-17T13:20:56Z"
    },
    "owner": "c5aba988539511bb",
    "submissions": [
@@ -261,6 +261,17 @@
      "graded": true,
      "id": "2d26b6d6f703d58b",
      "metrics": null
+    },
+    {
+     "at": "2026-09-17T13:14:58Z",
+     "full": true,
+     "graded": true,
+     "id": "7326950d07c26607",
+     "metrics": {
+      "avg_mps": 1.93,
+      "lap_s": 33.39,
+      "top_mps": 3.0
+     }
     }
    ]
   },
@@ -1661,7 +1672,7 @@
    "locked": false,
    "metric": 30.6,
    "rank": 17,
-   "used": 4
+   "used": 5
   },
   {
    "alias": "Silver Otter 38",

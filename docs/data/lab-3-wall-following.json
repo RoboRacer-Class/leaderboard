@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-17T16:54:21Z",
+ "generated_at": "2026-09-17T17:40:45Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -54,10 +54,10 @@
    "locked": false,
    "note": {
     "comment_id": 5627555403,
-    "fp": "28/29|76.92|2/0|0|13.47",
+    "fp": "28/29|76.92|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-17T16:55:04Z"
+    "updated_at": "2026-09-17T17:41:02Z"
    },
    "owner": "adc06e716de74a39",
    "submissions": [
@@ -76,6 +76,17 @@
      "metrics": {
       "avg_mps": 0.82,
       "lap_s": 76.92,
+      "top_mps": 1.5
+     }
+    },
+    {
+     "at": "2026-09-17T17:35:24Z",
+     "full": true,
+     "graded": true,
+     "id": "491e20f3903bc970",
+     "metrics": {
+      "avg_mps": 0.82,
+      "lap_s": 77.03,
       "top_mps": 1.5
      }
     }
@@ -1894,7 +1905,7 @@
    "locked": false,
    "metric": 76.92,
    "rank": 28,
-   "used": 2
+   "used": 3
   },
   {
    "alias": "Wobbly Penguin 27",

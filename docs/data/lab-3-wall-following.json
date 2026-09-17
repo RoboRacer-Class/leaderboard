@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-17T17:40:45Z",
+ "generated_at": "2026-09-17T18:24:44Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -689,13 +689,21 @@
    "locked": false,
    "note": {
     "comment_id": 5674963674,
-    "fp": "-/29|-|0/0|0|13.47",
+    "fp": "-/29|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-17T16:54:41Z"
+    "updated_at": "2026-09-17T18:25:05Z"
    },
    "owner": "76c21f166dbb9c26",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-17T18:12:32Z",
+     "full": false,
+     "graded": true,
+     "id": "5a528518a88f91ce",
+     "metrics": null
+    }
+   ]
   },
   "Plucky Quark 15": {
    "locked": false,
@@ -1988,7 +1996,7 @@
   {
    "alias": "Onyx Shuttle 58",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Plucky Quark 15",

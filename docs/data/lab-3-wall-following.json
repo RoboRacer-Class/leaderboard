@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-17T03:48:48Z",
+ "generated_at": "2026-09-17T03:56:54Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -410,13 +410,21 @@
    "locked": false,
    "note": {
     "comment_id": 5671505935,
-    "fp": "-/23|-|0/0|0|13.47",
+    "fp": "-/23|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-17T03:20:48Z"
+    "updated_at": "2026-09-17T03:57:07Z"
    },
    "owner": "3c5c94515eb40949",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-17T03:55:36Z",
+     "full": false,
+     "graded": false,
+     "id": "fdc67f896278cd01",
+     "metrics": null
+    }
+   ]
   },
   "Mellow Kraken 10": {
    "locked": false,
@@ -1718,7 +1726,7 @@
   {
    "alias": "Lucky Dragon 15",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Mellow Kraken 10",

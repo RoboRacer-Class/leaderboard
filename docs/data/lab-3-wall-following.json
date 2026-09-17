@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-17T03:56:54Z",
+ "generated_at": "2026-09-17T04:23:23Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -420,7 +420,7 @@
     {
      "at": "2026-09-17T03:55:36Z",
      "full": false,
-     "graded": false,
+     "graded": true,
      "id": "fdc67f896278cd01",
      "metrics": null
     }
@@ -932,10 +932,10 @@
    "locked": false,
    "note": {
     "comment_id": 5690488556,
-    "fp": "1/23|8.88|13/0|0|13.47",
+    "fp": "1/23|8.88|14/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-17T03:49:07Z"
+    "updated_at": "2026-09-17T04:23:39Z"
    },
    "owner": "658d707d61ea19a2",
    "submissions": [
@@ -1068,6 +1068,17 @@
       "avg_mps": 6.54,
       "lap_s": 9.27,
       "top_mps": 12.52
+     }
+    },
+    {
+     "at": "2026-09-17T04:07:00Z",
+     "full": true,
+     "graded": true,
+     "id": "2ac1828a10b6b0e7",
+     "metrics": {
+      "avg_mps": 6.68,
+      "lap_s": 8.96,
+      "top_mps": 12.16
      }
     }
    ]
@@ -1375,7 +1386,7 @@
    "locked": false,
    "metric": 8.88,
    "rank": 1,
-   "used": 13
+   "used": 14
   },
   {
    "alias": "Dawn Gecko 23",

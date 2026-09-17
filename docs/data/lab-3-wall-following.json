@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-17T13:20:36Z",
+ "generated_at": "2026-09-17T13:43:18Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -478,13 +478,21 @@
    "locked": false,
    "note": {
     "comment_id": 5697724006,
-    "fp": "-/26|-|0/0|0|13.47",
+    "fp": "-/26|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-17T06:01:41Z"
+    "updated_at": "2026-09-17T13:43:29Z"
    },
    "owner": "bfcd523a0abf6391",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-17T13:41:24Z",
+     "full": false,
+     "graded": false,
+     "id": "7f1f42c8813d6eac",
+     "metrics": null
+    }
+   ]
   },
   "Mellow Llama 78": {
    "locked": false,
@@ -1849,7 +1857,7 @@
   {
    "alias": "Mellow Kraken 10",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Neon Bobcat 67",

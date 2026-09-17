@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-17T02:56:00Z",
+ "generated_at": "2026-09-17T04:48:30Z",
  "lab_title": "Lab 4: Follow the Gap",
  "metric": {
   "direction": "lower",
@@ -28,121 +28,51 @@
  "players": {
   "Team 10": {
    "locked": false,
-   "note": {
-    "comment_id": 5698494446,
-    "fp": "-/0|-|0/0|0|11.31",
-    "kind": "pr",
-    "number": 1,
-    "updated_at": "2026-09-16T13:44:20Z"
-   },
    "owner": "group-10",
    "submissions": []
   },
   "Team 11": {
    "locked": false,
-   "note": {
-    "comment_id": 5703153248,
-    "fp": "-/0|-|0/0|0|11.31",
-    "kind": "pr",
-    "number": 1,
-    "updated_at": "2026-09-16T19:15:44Z"
-   },
    "owner": "group-11",
    "submissions": []
   },
   "Team 13": {
    "locked": false,
-   "note": {
-    "comment_id": 5699240834,
-    "fp": "-/0|-|0/0|0|11.31",
-    "kind": "pr",
-    "number": 1,
-    "updated_at": "2026-09-16T14:34:45Z"
-   },
    "owner": "group-13",
    "submissions": []
   },
   "Team 14": {
    "locked": false,
-   "note": {
-    "comment_id": 5696208214,
-    "fp": "-/0|-|0/0|0|11.31",
-    "kind": "pr",
-    "number": 1,
-    "updated_at": "2026-09-16T10:45:40Z"
-   },
    "owner": "group-14",
    "submissions": []
   },
   "Team 2": {
    "locked": false,
-   "note": {
-    "comment_id": 5699075680,
-    "fp": "-/0|-|0/0|0|11.31",
-    "kind": "pr",
-    "number": 1,
-    "updated_at": "2026-09-16T14:23:15Z"
-   },
    "owner": "group-2",
    "submissions": []
   },
   "Team 3": {
    "locked": false,
-   "note": {
-    "comment_id": 5692618681,
-    "fp": "-/0|-|0/0|0|11.31",
-    "kind": "pr",
-    "number": 1,
-    "updated_at": "2026-09-16T05:42:34Z"
-   },
    "owner": "group-3",
    "submissions": []
   },
   "Team 4": {
    "locked": false,
-   "note": {
-    "comment_id": 5699076049,
-    "fp": "-/0|-|0/0|0|11.31",
-    "kind": "pr",
-    "number": 1,
-    "updated_at": "2026-09-16T14:23:17Z"
-   },
    "owner": "group-4",
    "submissions": []
   },
   "Team 5": {
    "locked": false,
-   "note": {
-    "comment_id": 5699396527,
-    "fp": "-/0|-|0/0|0|11.31",
-    "kind": "pr",
-    "number": 1,
-    "updated_at": "2026-09-16T14:45:31Z"
-   },
    "owner": "group-5",
    "submissions": []
   },
   "Team 8": {
    "locked": false,
-   "note": {
-    "comment_id": 5692618928,
-    "fp": "-/0|-|0/0|0|11.31",
-    "kind": "pr",
-    "number": 1,
-    "updated_at": "2026-09-16T05:42:36Z"
-   },
    "owner": "group-8",
    "submissions": []
   },
   "Team 9": {
    "locked": false,
-   "note": {
-    "comment_id": 5707774031,
-    "fp": "-/0|-|0/0|0|11.31",
-    "kind": "pr",
-    "number": 1,
-    "updated_at": "2026-09-17T02:56:22Z"
-   },
    "owner": "group-9",
    "submissions": []
   }

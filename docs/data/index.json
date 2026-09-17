@@ -1,6 +1,6 @@
 {
  "classroom": "ese-6150",
- "generated_at": "2026-09-17T04:23:23Z",
+ "generated_at": "2026-09-17T04:48:30Z",
  "labs": [
   {
    "anonymous": true,
@@ -10,7 +10,7 @@
    "cap": null,
    "due": "2026-09-19T03:59:00Z",
    "file": "lab-3-wall-following.json",
-   "generated_at": "2026-09-17T04:23:23Z",
+   "generated_at": "2026-09-17T04:48:30Z",
    "lab_title": "Lab 3: Wall Following",
    "metric": {
     "direction": "lower",
@@ -33,10 +33,10 @@
    "podium": 5,
    "reference": true,
    "requirement": "the full autograded score",
-   "rows": 23,
+   "rows": 24,
    "slug": "lab-3-wall-following",
    "title": "Lab 3: Wall Following",
-   "unranked": 28
+   "unranked": 27
   },
   {
    "anonymous": false,
@@ -46,7 +46,7 @@
    "cap": null,
    "due": "2026-09-26T03:59:00Z",
    "file": "lab-4-follow-the-gap-lap.json",
-   "generated_at": "2026-09-17T02:56:00Z",
+   "generated_at": "2026-09-17T04:48:30Z",
    "lab_title": "Lab 4: Follow the Gap",
    "metric": {
     "direction": "lower",
@@ -82,7 +82,7 @@
    "cap": null,
    "due": "2026-09-26T03:59:00Z",
    "file": "lab-4-follow-the-gap-obstacles.json",
-   "generated_at": "2026-09-17T02:56:00Z",
+   "generated_at": "2026-09-17T04:48:30Z",
    "lab_title": "Lab 4: Follow the Gap",
    "metric": {
     "direction": "lower",

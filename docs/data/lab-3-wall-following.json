@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T05:48:46Z",
+ "generated_at": "2026-09-18T05:56:41Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -265,10 +265,10 @@
    "locked": false,
    "note": {
     "comment_id": 5673130368,
-    "fp": "-/37|-|2/0|0|13.47",
+    "fp": "-/37|-|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:49:00Z"
+    "updated_at": "2026-09-18T05:56:56Z"
    },
    "owner": "ac2ed214155b131c",
    "submissions": [
@@ -282,9 +282,20 @@
     {
      "at": "2026-09-18T05:48:01Z",
      "full": false,
-     "graded": false,
+     "graded": true,
      "id": "91b92030946d0796",
      "metrics": null
+    },
+    {
+     "at": "2026-09-18T05:53:48Z",
+     "full": false,
+     "graded": true,
+     "id": "4e7fa164a98a8c1b",
+     "metrics": {
+      "avg_mps": 3.09,
+      "lap_s": 19.93,
+      "top_mps": 3.75
+     }
     }
    ]
   },
@@ -2261,7 +2272,7 @@
   {
    "alias": "Denim Tensor 14",
    "locked": false,
-   "used": 2
+   "used": 3
   },
   {
    "alias": "Neon Wolf 52",

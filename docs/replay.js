@@ -100,7 +100,14 @@
     return n;
   };
   const button = (cls, text) => { const b = el("button", cls, text); b.type = "button"; return b; };
-  const isFull = () => document.fullscreenElement === ui.frame;
+  // Full screen is the real thing where the browser offers it for an element, and the player
+  // filling the whole viewport where it does not (iPhones only ever full-screen a video).
+  const isFull = () => document.fullscreenElement === ui.frame || dialog.classList.contains("rr-max");
+  function setMax(on) {
+    dialog.classList.toggle("rr-max", on);
+    ui.full.textContent = isFull() ? "Exit full screen" : "Full screen";
+    if (state) { layout(); draw(); }
+  }
 
   function build() {
     dialog = el("dialog", "rr-player");
@@ -169,8 +176,11 @@
       if (entry) watch(entry);
     });
     ui.full.addEventListener("click", () => {
-      if (document.fullscreenElement) document.exitFullscreen();
-      else if (ui.frame.requestFullscreen) ui.frame.requestFullscreen().catch(() => {});
+      if (document.fullscreenElement) return document.exitFullscreen();
+      if (dialog.classList.contains("rr-max")) return setMax(false);
+      const request = ui.frame.requestFullscreen || ui.frame.webkitRequestFullscreen;
+      if (!request) return setMax(true);
+      Promise.resolve(request.call(ui.frame)).catch(() => setMax(true));
     });
     document.addEventListener("fullscreenchange", () => {
       ui.full.textContent = isFull() ? "Exit full screen" : "Full screen";
@@ -216,7 +226,7 @@
     // full screen: everything the header, the readout strip and the controls leave over
     const strip = getComputedStyle(ui.hud).position === "static" && !ui.hud.hidden ? ui.hud.offsetHeight : 0;
     const around = ui.head.offsetHeight + ui.bar.offsetHeight + strip + (ui.note.hidden ? 0 : ui.note.offsetHeight);
-    const cssH = isFull() ? Math.max(200, window.innerHeight - around)
+    const cssH = isFull() ? Math.max(120, ui.frame.clientHeight - around)
                           : Math.max(200, Math.min(cssW * (y1 - y0) / (x1 - x0), window.innerHeight * 0.58));
     const dpr = window.devicePixelRatio || 1;
     ui.canvas.style.height = cssH + "px";
@@ -401,6 +411,8 @@
     if (state) cancelAnimationFrame(state.raf);
     state = null;
     if (document.fullscreenElement) document.exitFullscreen();
+    dialog.classList.remove("rr-max");
+    ui.full.textContent = "Full screen";
     const url = new URL(location.href);
     if (url.searchParams.has("watch")) { url.searchParams.delete("watch"); history.replaceState(null, "", url); }
   }

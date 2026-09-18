@@ -9,15 +9,21 @@ import datetime as dt
 import json
 import os
 import re
+import shutil
 import sys
 from pathlib import Path
 
 import yaml
 
-from . import aliases, lock, notes, replays, rules, teams
+from . import aliases, lock, maps, notes, replays, rules, teams
 from .gh import GitHub, GitHubError
 
 SCHEMA = "ese6150/leaderboard/v1"
+# the course this board belongs to: repository variables (or the environment) override these
+DEFAULT_ORG = os.environ.get("LEADERBOARD_ORG") or "RoboRacer-Class"
+DEFAULT_CLASSROOM = os.environ.get("LEADERBOARD_CLASSROOM") or "ese-6150"
+# nobody can submit to a lab much before it opens: an older student attempt is a previous term's
+TERM_SLACK = dt.timedelta(days=14)
 STAFF_TEAMS = ("teacher", "hta", "ta")
 CONFIG_REPO = "classroom50"
 
@@ -62,6 +68,11 @@ class ConfigSource:
             return path.read_text()
         return self.api.file_text(f"{self.org}/{CONFIG_REPO}", relpath)
 
+    def bytes(self, relpath: str) -> bytes:
+        if self.local_dir is not None:
+            return (self.local_dir / relpath).read_bytes()
+        return self.api.file_bytes(f"{self.org}/{CONFIG_REPO}", relpath)
+
 
 def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> list:
     """One board per `leaderboard:` block (or per entry of a `leaderboards:`
@@ -92,6 +103,7 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
         blocks = cfg.get("leaderboards") or ([cfg["leaderboard"]] if cfg.get("leaderboard") else [])
         cap = (cfg.get("submissions") or {}).get("cap")
         name = entry.get("name") or slug
+        tab = next((str(b["tab"]).strip() for b in blocks if b.get("tab")), "")
         for block in blocks:
             key = str(block.get("key") or "").strip()
             board = f"{slug}-{key}" if key else slug
@@ -108,6 +120,7 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
                 "title": f"{name} · {board_title}" if len(blocks) > 1 else name,
                 "board_title": board_title,
                 "lab_title": name,
+                "tab_title": tab,
                 "due": entry.get("due"),
                 "available_from": entry.get("available_from"),
                 "cap": int(cap) if cap else None,
@@ -190,7 +203,7 @@ def replay_behind(lab: dict, key: str, subs: list, data_dir: Path | None):
 
 
 def capture_replay(api, rel: dict, lab: dict, key: str, record: dict, subs: list,
-                   data_dir: Path | None, log: Log) -> None:
+                   data_dir: Path | None, log: Log, config=None, classroom: str = "") -> None:
     """Publish the run recorded for this attempt when it is the entry's best so
     far, by the board's own rule (cap and deadline for a player, neither for the
     reference). A release is read once, so this is the only chance; a missing,
@@ -206,7 +219,11 @@ def capture_replay(api, rel: dict, lab: dict, key: str, record: dict, subs: list
         return
     value = record["metrics"][metric.key]
     try:
-        doc = replays.clean(api.download_asset(asset["url"]), replays.known_maps(data_dir),
+        raw = api.download_asset(asset["url"])
+        track = replays.map_of(raw)
+        if config is not None and track and track not in replays.known_maps(data_dir):
+            maps.ensure(config, classroom, lab["slug"], track, data_dir, log)     # a new lab's map: no manual step
+        doc = replays.clean(raw, replays.known_maps(data_dir),
                             lap_seconds=value if metric.unit == "s" else None)
     except Exception as err:  # noqa: BLE001 - a replay never fails a build
         log(f"  {key}: recording unreadable ({type(err).__name__})")
@@ -239,6 +256,59 @@ def merge_backfill(data_dir: Path, lab: dict, state: dict, rows: list, reference
             reference["replay"] = entry["replay"]
 
 
+def term_start(lab: dict):
+    """Student attempts older than this belong to an earlier term (None: no opening date)."""
+    return rules.parse_time(lab["available_from"]) - TERM_SLACK if lab.get("available_from") else None
+
+
+def archive_term(data_dir: Path, label: str, log: Log):
+    """Move the boards, their index and their recordings to `archive/<label>/`, where the
+    page still shows them (`?term=<label>`). Returns the folder's name, or None when
+    there was nothing to move. A label is never overwritten."""
+    data_dir = Path(data_dir)
+    files = [p for p in data_dir.glob("*.json")]
+    if not files:
+        return None
+    base = replays.file_name(label)
+    name, n = base, 1
+    while (data_dir / "archive" / name).exists():
+        n += 1
+        name = f"{base}-{n}"
+    target = data_dir / "archive" / name
+    target.mkdir(parents=True)
+    index = data_dir / "index.json"
+    classroom = json.loads(index.read_text()).get("classroom", "") if index.is_file() else ""
+    for path in files:
+        shutil.move(str(path), str(target / path.name))
+    if (data_dir / "replays").is_dir():
+        shutil.move(str(data_dir / "replays"), str(target / "replays"))
+    listing = data_dir / "archive" / "index.json"
+    terms = json.loads(listing.read_text()).get("terms", []) if listing.is_file() else []
+    terms.append({"label": name, "title": label, "classroom": classroom, "archived_at": rules.iso(now_utc())})
+    listing.write_text(json.dumps({"terms": terms}, indent=1) + "\n")
+    log(f"archived the previous term as {name}")
+    return name
+
+
+def previous_term(data_dir: Path, classroom: str, labs: list):
+    """A label when the published boards belong to an earlier term: another classroom,
+    or student attempts from before a lab's current opening date."""
+    index = Path(data_dir) / "index.json"
+    if index.is_file():
+        was = json.loads(index.read_text()).get("classroom")
+        if was and was != classroom:
+            return was
+    for lab in labs:
+        start, path = term_start(lab), Path(data_dir) / f"{lab['board']}.json"
+        if start is None or not path.is_file():
+            continue
+        old = [s["at"] for p in load_state(path)["players"].values() for s in p["submissions"]
+               if rules.parse_time(s["at"]) < start]
+        if old:
+            return f"{classroom}-{min(old)[:4]}"
+    return None
+
+
 def team_of(lab: dict, owner: str):
     """The team number a repo tail names on a team lab, else None. A staff
     test repo left over from before an assignment was flipped to team mode
@@ -248,7 +318,7 @@ def team_of(lab: dict, owner: str):
 
 def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
              salt: str, state: dict, log: Log, snapshot: dict | None = None,
-             data_dir: Path | None = None) -> dict:
+             data_dir: Path | None = None, config=None) -> dict:
     """Merge every new attempt (a submit/* tag) and every newly graded one
     into `state`; returns board key -> repo tail for this run only (never
     written anywhere). The tail is what every side effect rebuilds the repo
@@ -290,6 +360,14 @@ def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
         except GitHubError as err:
             log(f"  {label}: tags unreadable (HTTP {err.status}); skipped this run")
             continue
+        start = term_start(lab)
+        if start is not None and not is_staff:        # last term's repositories may still be in the org
+            had = len(tags)
+            tags = [t for t in tags if (rules.tag_time(t["name"]) or start) >= start]
+            if had and not tags and not player["submissions"]:
+                players.pop(key, None)                # every submission predates this term: not this term's entry
+                owners.pop(key, None)
+                continue
         known = {s["id"]: s for s in target}
         pending = [t for t in tags if rules.attempt_id(t["name"]) not in known
                    or not known[rules.attempt_id(t["name"])].get("graded")
@@ -333,13 +411,13 @@ def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
             value = (record.get("metrics") or {}).get(metric.key)
             log(f"  {label}: graded ({'full score' if record['full'] else 'not full score'}"
                 + (f", {metric.key}={value}" if value is not None else "") + ")")
-            capture_replay(api, rel, lab, label, record, subs_now(), data_dir, log)
+            capture_replay(api, rel, lab, label, record, subs_now(), data_dir, log, config, classroom)
         behind = replay_behind(lab, label, subs_now(), data_dir)
         if behind is not None:
             behind["replay_checked"] = True
             rel = next((r for t, r in releases.items() if rules.attempt_id(t) == behind["id"]), None)
             if rel is not None:
-                capture_replay(api, rel, lab, label, behind, subs_now(), data_dir, log)
+                capture_replay(api, rel, lab, label, behind, subs_now(), data_dir, log, config, classroom)
     return owners
 
 
@@ -488,6 +566,9 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
     if not staff:
         log("staff teams are empty or unreadable; refusing to run (staff repos would look like students)")
         return 1
+    label = previous_term(data_dir, classroom, labs)
+    if label:
+        archive_term(data_dir, label, log)
     repos = api.org_repos(org)
     # Only a team lab needs the membership snapshot, and only to spot a staff
     # team; skip the read entirely while every lab is alias-keyed.
@@ -502,7 +583,7 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
         log(f"{lab['board']}: scanning")
         path = data_dir / f"{lab['board']}.json"
         state = load_state(path)
-        owners = scan_lab(api, org, classroom, lab, repos, staff, salt, state, log, snapshot, data_dir)
+        owners = scan_lab(api, org, classroom, lab, repos, staff, salt, state, log, snapshot, data_dir, config)
         due = rules.parse_time(lab["due"]) if lab.get("due") else None
         apply_locks(api, org, classroom, lab, owners, state, token, script_text, log, dry_run)
         rows, unranked = rules.rank_players(state["players"], lab["metric"], lab["cap"] or 10**9, due)
@@ -514,7 +595,7 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
         lab_generated = generated_at if changed else json.loads(path.read_text()).get("generated_at", generated_at)
         index["labs"].append({
             "slug": lab["board"], "assignment": lab["slug"], "title": lab["title"],
-            "board_title": lab["board_title"], "lab_title": lab["lab_title"],
+            "board_title": lab["board_title"], "lab_title": lab["lab_title"], "tab_title": lab["tab_title"],
             "requirement": lab["requirement"], "anonymous": not lab["team_mode"],
             "due": lab["due"], "available_from": lab["available_from"], "cap": lab["cap"],
             "podium": lab["podium"], "metric": public_metric(lab["metric"]),
@@ -719,8 +800,8 @@ def main(argv: list) -> int:
     parser = argparse.ArgumentParser(prog="builder")
     sub = parser.add_subparsers(dest="command", required=True)
     common = argparse.ArgumentParser(add_help=False)
-    common.add_argument("--org", default=os.environ.get("LEADERBOARD_ORG", "RoboRacer-Class"))
-    common.add_argument("--classroom", default=os.environ.get("LEADERBOARD_CLASSROOM", "ese-6150"))
+    common.add_argument("--org", default=DEFAULT_ORG)
+    common.add_argument("--classroom", default=DEFAULT_CLASSROOM)
     common.add_argument("--data-dir", default="docs/data")
     p = sub.add_parser("build", parents=[common], help="rebuild every lab board")
     p.add_argument("--labs", default="", help="comma-separated slugs to limit the run")
@@ -738,6 +819,8 @@ def main(argv: list) -> int:
     p.add_argument("tag")
     p.add_argument("--no-unlock", action="store_true")
     sub.add_parser("check-token", parents=[common], help="probe the token's permissions")
+    p = sub.add_parser("new-term", parents=[common], help="archive the boards by hand (the rebuild does it by itself when the classroom or the dates change)")
+    p.add_argument("label", help="what to call the term being archived, e.g. \"Fall 2026\"")
     p = sub.add_parser("who", parents=[common],
                        help="alias -> username for a roster (team board: prints the standings)")
     p.add_argument("slug")
@@ -749,6 +832,10 @@ def main(argv: list) -> int:
         print("LEADERBOARD_SALT is not set", file=sys.stderr)
         return 2
     data_dir = Path(args.data_dir)
+    if args.command == "new-term":
+        done = archive_term(Path(args.data_dir), args.label, Log())
+        print(f"archived as {done}; commit docs/data and push" if done else "nothing to archive")
+        return 0
     if args.command == "reveal":
         return reveal(salt, args.slug, args.usernames, data_dir)
     if args.command == "who":

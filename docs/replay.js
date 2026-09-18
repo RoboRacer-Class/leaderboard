@@ -64,7 +64,7 @@
   }
 
   function load(path) {
-    const url = "data/" + path;
+    const url = (window.RR_DATA_BASE || "data/") + path;      // an archived term keeps its recordings beside its boards
     if (!cache.has(url)) {
       const p = Promise.all([fetchJSON(url), maps || (maps = fetchJSON("assets/maps/maps.json"))])
         .then(([doc]) => decode(doc));

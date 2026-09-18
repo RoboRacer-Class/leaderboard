@@ -83,6 +83,17 @@ def clean(raw: bytes, maps: set, lap_seconds: float | None = None) -> dict | Non
     return out
 
 
+def map_of(raw: bytes):
+    """The map stem a recording names, read without trusting anything else in it."""
+    if len(raw) > MAX_BYTES:
+        return None
+    try:
+        doc = json.loads(raw)
+    except ValueError:
+        return None
+    return doc.get("map") if isinstance(doc, dict) and isinstance(doc.get("map"), str) else None
+
+
 def file_name(key: str) -> str:
     """A file stem from the public board key: an alias, `Team 7`, `reference`."""
     return re.sub(r"[^a-z0-9]+", "-", key.lower()).strip("-") or "entry"

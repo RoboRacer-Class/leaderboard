@@ -312,6 +312,8 @@
   .rules code { font-family: var(--mono); font-size: .88em; background: var(--surface-2); padding: .05em .35em; border-radius: 4px; }
   .rules li + li { margin-top: .25rem; }
   .rules .fine { margin-top: .9rem; color: var(--ink-3); font-size: .85rem; }
+  .terms { margin: 1rem 0 0; color: var(--ink-3); font-size: .85rem; }
+  .terms a[aria-current] { color: var(--ink); font-weight: 600; text-decoration: none; }
   .notice { margin: 1rem 0 0; padding: .8rem 1rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); color: var(--ink-2); }
   .hidden { display: none !important; }
 </style>
@@ -373,6 +375,7 @@
     </section>
 
     <footer class="rules" id="rules"></footer>
+    <p class="fine terms hidden" id="terms"></p>
   </div>
 </main>
 
@@ -383,15 +386,14 @@
   const $ = (id) => document.getElementById(id);
   const params = new URLSearchParams(location.search);
   const STORE = "ese6150-leaderboard-alias";
+  // ?term=<label> shows an archived term: the rebuild moves a finished term to data/archive/<label>/
+  const TERM = /^[a-z0-9-]{1,80}$/.test(params.get("term") || "") ? params.get("term") : "";
+  const DATA = TERM ? `data/archive/${TERM}/` : "data/";
+  window.RR_DATA_BASE = DATA;                                   // replay.js reads recordings from the same place
   const state = { index: null, docs: {}, slug: params.get("lab"), me: "", justFound: false, pick: {} };
   const labOf = (l) => l.assignment || l.slug;                 // boards of one lab share an assignment
-  // tab labels, by assignment slug; a lab missing here shows its full name
-  const SHORT_NAMES = {
-    "lab-3-wall-following": "Lab 3: Wall Follow",
-    "lab-4-follow-the-gap": "Lab 4: FTG",
-    "lab-5-pure-pursuit": "Lab 5: Pure Pursuit",
-  };
-  const labName = (l) => SHORT_NAMES[labOf(l)] || l.lab_title || String(l.title).split(" · ")[0];
+  // tab label: `tab:` in the lab's grader config (published as tab_title), else the lab's full name
+  const labName = (l) => l.tab_title || l.lab_title || String(l.title).split(" · ")[0];
 
   try { state.me = params.get("me") || localStorage.getItem(STORE) || ""; } catch (e) { state.me = params.get("me") || ""; }
   if (params.get("me")) state.justFound = true;
@@ -443,7 +445,7 @@
 
   async function load(initial) {
     try {
-      state.index = await fetchJSON("data/index.json");
+      state.index = await fetchJSON(DATA + "index.json");
     } catch (err) {
       $("notice").textContent = "The board data could not be loaded right now. It rebuilds every few minutes; try again shortly.";
       $("notice").classList.remove("hidden");
@@ -462,7 +464,7 @@
     }
     const lab = labs.find((l) => l.slug === state.slug);
     try {
-      state.docs[state.slug] = await fetchJSON("data/" + lab.file);
+      state.docs[state.slug] = await fetchJSON(DATA + lab.file);
     } catch (err) {
       $("notice").textContent = "This lab's data could not be loaded right now.";
       $("notice").classList.remove("hidden");
@@ -540,7 +542,7 @@
     history.replaceState(null, "", url);
     if (!state.docs[slug]) {
       const lab = state.index.labs.find((l) => l.slug === slug);
-      try { state.docs[slug] = await fetchJSON("data/" + lab.file); } catch (e) { return; }
+      try { state.docs[slug] = await fetchJSON(DATA + lab.file); } catch (e) { return; }
     }
     render();
     if (state.me) locate(false);
@@ -821,6 +823,14 @@
   });
 
   load(true);
+  // earlier terms, when the rebuild has archived any
+  fetchJSON("data/archive/index.json").then((list) => {
+    const terms = (list.terms || []).slice().reverse();
+    if (!terms.length) return;
+    const link = (t) => `<a href="?term=${encodeURIComponent(t.label)}"${t.label === TERM ? ' aria-current="page"' : ""}>${esc(t.title || t.label)}</a>`;
+    $("terms").innerHTML = (TERM ? '<a href="./">Current term</a> · ' : "") + "Earlier terms: " + terms.map(link).join(" · ");
+    $("terms").classList.remove("hidden");
+  }, () => {});
   let resizeTimer = null;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);

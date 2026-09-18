@@ -106,6 +106,12 @@ def attempt_id(tag: str) -> str:
     return hashlib.sha256(tag.encode("utf-8")).hexdigest()[:16]
 
 
+def tag_time(tag: str):
+    """When a canonical `submit/<UTC>-<sha>` tag was made, or None."""
+    m = re.match(r"submit/(\d{4}-\d{2}-\d{2})T(\d{2})-(\d{2})-(\d{2})Z-", tag)
+    return parse_time(f"{m.group(1)}T{m.group(2)}:{m.group(3)}:{m.group(4)}Z") if m else None
+
+
 def label_key(label: str) -> tuple:
     """Sort key for a board label. Splitting the digits out makes `Team 2`
     come before `Team 10` instead of after it; racing aliases ("Turbo Falcon

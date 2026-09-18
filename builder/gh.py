@@ -104,6 +104,14 @@ class GitHub:
             raise GitHubError(200, path, "unexpected content encoding")
         return base64.b64decode(data["content"]).decode("utf-8")
 
+    def file_bytes(self, repo: str, path: str, ref: str = "main") -> bytes:
+        """A file too large for the contents API's inline base64 (a map image) comes through its blob."""
+        data = self.get(f"/repos/{repo}/contents/{path}", {"ref": ref})
+        if data.get("encoding") == "base64" and data.get("content"):
+            return base64.b64decode(data["content"])
+        blob = self.get(f"/repos/{repo}/git/blobs/{data['sha']}")
+        return base64.b64decode(blob["content"])
+
     def org_repos(self, org: str) -> list:
         return [r["name"] for r in self.get_all(f"/orgs/{org}/repos", {"type": "all"})]
 

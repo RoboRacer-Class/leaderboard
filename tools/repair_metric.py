@@ -41,7 +41,7 @@ def main() -> int:
     args = ap.parse_args()
 
     data_dir = ROOT / "docs/data"
-    labs = build.load_labs(build.ConfigSource(None, "RoboRacer-Class", Path(args.classroom50)), "ese-6150")
+    labs = build.load_labs(build.ConfigSource(None, build.DEFAULT_ORG, Path(args.classroom50)), build.DEFAULT_CLASSROOM)
     lab = next((l for l in labs if l["board"] == args.board), None)
     if lab is None:
         return print(f"{args.board}: no such board") or 1

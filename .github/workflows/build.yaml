@@ -60,18 +60,26 @@ jobs:
           # The alias key. Never rotate it: every alias would change.
           LEADERBOARD_SALT: ${{ secrets.LEADERBOARD_SALT }}
           BOARD_URL: https://roboracer-class.github.io/leaderboard
+          # Another org or classroom (a new term's, say): set these repository variables.
+          # Unset, the builder's own defaults apply.
+          LEADERBOARD_ORG: ${{ vars.LEADERBOARD_ORG }}
+          LEADERBOARD_CLASSROOM: ${{ vars.LEADERBOARD_CLASSROOM }}
           LABS: ${{ inputs.labs || '' }}
           DRY_RUN: ${{ inputs.dry_run == true && '--dry-run' || '' }}
         run: |
           set -euo pipefail
-          python3 -c "import yaml" 2>/dev/null || python3 -m pip install --quiet pyyaml
+          # PyYAML reads the grader configs; Pillow makes the track image of a map the page has not seen yet
+          python3 -c "import yaml, PIL" 2>/dev/null || python3 -m pip install --quiet pyyaml pillow
           python3 -m builder build --labs "$LABS" $DRY_RUN
 
       - name: Publish the data that changed
         if: steps.check.outputs.ready == 'true'
         run: |
           set -euo pipefail
-          git add docs/data
+          # GitHub switches a schedule off after 60 days without a commit, which is every summer:
+          # after 45 quiet days, leave a dated mark so the board is still building when term starts.
+          if (( $(date +%s) - $(git log -1 --format=%ct) > 45 * 86400 )); then date -u +%F > docs/data/.keepalive; fi
+          git add docs/data docs/assets/maps
           if git diff --cached --quiet; then
             echo "board unchanged"
             exit 0

@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T20:22:01Z",
+ "generated_at": "2026-09-18T21:27:39Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -1670,10 +1670,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608817259,
-    "fp": "12/42|15.55|1/0|0|13.47",
+    "fp": "12/42|15.55|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:37:55Z"
+    "updated_at": "2026-09-18T21:27:56Z"
    },
    "owner": "28a881accf52d2a7",
    "submissions": [
@@ -1688,6 +1688,13 @@
       "top_mps": 5.34
      },
      "replay_checked": true
+    },
+    {
+     "at": "2026-09-18T21:16:55Z",
+     "full": false,
+     "graded": true,
+     "id": "8ee13b155472f50a",
+     "metrics": null
     }
    ]
   },
@@ -2131,7 +2138,7 @@
    "metric": 15.55,
    "rank": 12,
    "replay": "replays/lab-3-wall-following/tropic-cipher-39.json?v=54849053",
-   "used": 1
+   "used": 2
   },
   {
    "alias": "Onyx Shuttle 58",

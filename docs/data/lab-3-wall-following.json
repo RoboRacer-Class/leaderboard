@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T06:32:53Z",
+ "generated_at": "2026-09-18T11:55:14Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -1265,13 +1265,21 @@
    "locked": false,
    "note": {
     "comment_id": 5639307878,
-    "fp": "-/38|-|0/0|0|13.47",
+    "fp": "-/38|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T06:33:10Z"
+    "updated_at": "2026-09-18T11:55:27Z"
    },
    "owner": "fb878597624ebe2f",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-18T11:53:05Z",
+     "full": false,
+     "graded": false,
+     "id": "b9a53f60de16016c",
+     "metrics": null
+    }
+   ]
   },
   "Steady Falcon 50": {
    "locked": false,
@@ -2343,7 +2351,7 @@
   {
    "alias": "Spiky Wolf 44",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Steady Falcon 50",

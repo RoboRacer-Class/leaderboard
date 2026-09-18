@@ -292,7 +292,8 @@ def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
             continue
         known = {s["id"]: s for s in target}
         pending = [t for t in tags if rules.attempt_id(t["name"]) not in known
-                   or not known[rules.attempt_id(t["name"])].get("graded")]
+                   or not known[rules.attempt_id(t["name"])].get("graded")
+                   or rules.glitched(known[rules.attempt_id(t["name"])], metric)]
         subs_now = (lambda: target) if is_staff else (lambda: rules.counted_submissions(player))
         if not pending and replay_behind(lab, label, subs_now(), data_dir) is None:
             continue

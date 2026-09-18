@@ -124,10 +124,20 @@ def counted_submissions(player: dict) -> list:
     return subs
 
 
+def glitched(sub: dict, metric: Metric) -> bool:
+    """A graded attempt whose lower-is-better metric is not positive. No lap takes
+    zero seconds: it is a grader glitch (lab 3's referee once closed a run between
+    the sim's lap_count and lap_time messages), so it never ranks, and the attempt
+    is read again every build so that a regrade can replace it."""
+    value = (sub.get("metrics") or {}).get(metric.key)
+    return (metric.direction == "lower" and isinstance(value, (int, float))
+            and not isinstance(value, bool) and value <= 0)
+
+
 def qualifies(sub: dict, metric: Metric, due: dt.datetime | None) -> bool:
     if not sub.get("graded", True) or not sub.get("full") or not sub.get("metrics"):
         return False
-    if metric.key not in sub["metrics"]:
+    if metric.key not in sub["metrics"] or glitched(sub, metric):
         return False
     if due is not None and parse_time(sub["at"]) > due:
         return False

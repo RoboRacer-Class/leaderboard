@@ -13,7 +13,6 @@ import functools
 import http.server
 import json
 import shutil
-import signal
 import sys
 import tempfile
 from pathlib import Path
@@ -41,10 +40,9 @@ def main() -> int:
         print(f"http://127.0.0.1:{args.port}/?lab={lab['board']}")
     handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(site))
     handler.log_message = lambda *a: None
-    signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))     # killed, not Ctrl-C: still remove the copy
     try:
         http.server.ThreadingHTTPServer(("127.0.0.1", args.port), handler).serve_forever()
-    except (KeyboardInterrupt, SystemExit):
+    except KeyboardInterrupt:
         pass
     finally:
         shutil.rmtree(site.parent, ignore_errors=True)

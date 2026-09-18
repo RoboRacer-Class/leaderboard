@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T23:12:47Z",
+ "generated_at": "2026-09-18T23:27:41Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -277,10 +277,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605162767,
-    "fp": "2/46|9.42|3/0|0|13.47",
+    "fp": "1/46|8.24|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:19Z"
+    "updated_at": "2026-09-18T23:27:57Z"
    },
    "owner": "eeea81700df78cee",
    "submissions": [
@@ -313,6 +313,18 @@
       "top_mps": 11.48
      },
      "replay_checked": true
+    },
+    {
+     "at": "2026-09-18T23:24:25Z",
+     "full": true,
+     "graded": true,
+     "id": "5bdfa5e81f15ab21",
+     "metrics": {
+      "avg_mps": 7.46,
+      "lap_s": 8.24,
+      "top_mps": 12.44
+     },
+     "replay": "replays/lab-3-wall-following/dawn-gecko-23.json?v=94e781c6"
     }
    ]
   },
@@ -1556,10 +1568,10 @@
    "locked": false,
    "note": {
     "comment_id": 5690488556,
-    "fp": "1/46|8.88|14/0|0|13.47",
+    "fp": "2/46|8.88|14/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:34Z"
+    "updated_at": "2026-09-18T23:27:58Z"
    },
    "owner": "658d707d61ea19a2",
    "submissions": [
@@ -2052,6 +2064,20 @@
  "requirement": "the full autograded score",
  "rows": [
   {
+   "alias": "Dawn Gecko 23",
+   "at": "2026-09-18T23:24:25Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 7.46,
+    "top_mps": 12.44
+   },
+   "locked": false,
+   "metric": 8.24,
+   "rank": 1,
+   "replay": "replays/lab-3-wall-following/dawn-gecko-23.json?v=94e781c6",
+   "used": 4
+  },
+  {
    "alias": "Thunder Mamba 45",
    "at": "2026-09-17T00:02:21Z",
    "attempt": 10,
@@ -2061,23 +2087,9 @@
    },
    "locked": false,
    "metric": 8.88,
-   "rank": 1,
+   "rank": 2,
    "replay": "replays/lab-3-wall-following/thunder-mamba-45.json?v=0b21edd2",
    "used": 14
-  },
-  {
-   "alias": "Dawn Gecko 23",
-   "at": "2026-09-16T20:20:52Z",
-   "attempt": 3,
-   "extras": {
-    "avg_mps": 6.67,
-    "top_mps": 11.48
-   },
-   "locked": false,
-   "metric": 9.42,
-   "rank": 2,
-   "replay": "replays/lab-3-wall-following/dawn-gecko-23.json?v=a9b7a163",
-   "used": 3
   },
   {
    "alias": "Lightning Owl 33",

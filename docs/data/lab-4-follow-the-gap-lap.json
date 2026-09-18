@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-17T04:48:30Z",
+ "generated_at": "2026-09-18T20:04:53Z",
  "lab_title": "Lab 4: Follow the Gap",
  "metric": {
   "direction": "lower",
@@ -84,7 +84,8 @@
    "avg_mps": 5.5,
    "top_mps": 7.58
   },
-  "metric": 11.31
+  "metric": 11.31,
+  "replay": "replays/lab-4-follow-the-gap-lap/reference.json?v=cacefa9d"
  },
  "reference_submissions": [
   {
@@ -129,7 +130,8 @@
     "avg_mps": 5.5,
     "lap_s": 11.31,
     "top_mps": 7.58
-   }
+   },
+   "replay_checked": true
   }
  ],
  "requirement": "full marks on everything but the obstacle course (three clean laps in a row)",

@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T22:08:41Z",
+ "generated_at": "2026-09-18T22:22:23Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -1154,13 +1154,21 @@
    "locked": false,
    "note": {
     "comment_id": 5690681477,
-    "fp": "-/43|-|0/0|0|13.47",
+    "fp": "-/43|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T22:09:23Z"
+    "updated_at": "2026-09-18T22:22:43Z"
    },
    "owner": "97c69b3be3d295c2",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-18T22:12:55Z",
+     "full": false,
+     "graded": true,
+     "id": "cc1f976ae347c1af",
+     "metrics": null
+    }
+   ]
   },
   "Rapid Gecko 35": {
    "locked": false,
@@ -2629,7 +2637,7 @@
   {
    "alias": "Rainy Meteor 40",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Sapphire Ibex 58",

@@ -211,13 +211,33 @@
   // The part of the track the first watched car covers, with a margin. It is kept
   // while cars are switched, so the track never moves under the viewer.
   function boxOf(run) {
-    const pad = 2.5;
     let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
     for (let i = 0; i < run.n; i++) {
       x0 = Math.min(x0, run.x[i]); x1 = Math.max(x1, run.x[i]);
       y0 = Math.min(y0, run.y[i]); y1 = Math.max(y1, run.y[i]);
     }
+    // room for the walls beside the driving line: a fixed few metres suit a hallway loop
+    // and leave a 100 m circuit pressed against the edge, so the margin grows with the track
+    const pad = Math.max(2.5, 0.06 * Math.max(x1 - x0, y1 - y0));
     return { x0: x0 - pad, x1: x1 + pad, y0: y0 - pad, y1: y1 + pad };
+  }
+
+  // The readout floats over the track, so it goes where it hides the least of the driving
+  // line: a corner if one is free, else the middle of the loop. Chosen once per race.
+  function hudSpot(run) {
+    const v = state.view, w = ui.hud.offsetWidth + 16, h = ui.hud.offsetHeight + 16;
+    const cw = ui.canvas.width / v.dpr, ch = ui.canvas.height / v.dpr, m = 12;
+    const spots = [[m, m], [cw - w - m + 16, m], [m, ch - h - m + 16], [cw - w - m + 16, ch - h - m + 16], [(cw - w) / 2 + 8, (ch - h) / 2 + 8]];
+    let best = spots[0], least = Infinity;
+    for (const [left, top] of spots) {
+      let hits = 0;
+      for (let i = 0; i < run.n; i += 2) {
+        const x = v.px(run.x[i]) / v.dpr, y = v.py(run.y[i]) / v.dpr;
+        if (x > left - 8 && x < left + w - 8 && y > top - 8 && y < top + h - 8) hits++;
+      }
+      if (hits < least) { least = hits; best = [left, top]; }
+    }
+    return best;
   }
 
   function layout() {
@@ -249,13 +269,26 @@
       tg.fillStyle = css("--ink-2") || "#3b3f55";
       tg.fillRect(0, 0, m.w, m.h);
       g.imageSmoothingEnabled = true;
-      g.drawImage(tint, v.px(m.x0), v.py(m.y0 + m.h * m.res), m.w * m.res * scale, m.h * m.res * scale);
+      // a large map drawn small turns its one-pixel walls into hairlines: draw it a few times,
+      // nudged, so a wall is never thinner than about a pixel and a half on screen
+      const grow = Math.max(0, (1.6 * dpr - m.res * scale) / 2);
+      const nudges = grow > 0.05 ? [[0, 0], [grow, 0], [-grow, 0], [0, grow], [0, -grow], [grow, grow], [-grow, -grow], [grow, -grow], [-grow, grow]] : [[0, 0]];
+      for (const [dx, dy] of nudges) {
+        g.drawImage(tint, v.px(m.x0) + dx, v.py(m.y0 + m.h * m.res) + dy, m.w * m.res * scale, m.h * m.res * scale);
+      }
     }
     g.lineWidth = 1.5 * dpr; g.strokeStyle = css("--line-strong") || "#c9cddc"; g.lineJoin = "round";
     g.beginPath();
     for (let i = 0; i < run.n; i++) g[i ? "lineTo" : "moveTo"](v.px(run.x[i]), v.py(run.y[i]));
     g.stroke();
     state.layer = layer;
+    if (getComputedStyle(ui.hud).position === "absolute") {
+      const cw = ui.canvas.width / dpr, ch = ui.canvas.height / dpr;
+      // kept as fractions of the canvas so a resize or full screen keeps the same place
+      if (!state.spotFrac) { const spot = hudSpot(run); state.spotFrac = [spot[0] / cw, spot[1] / ch]; }
+      ui.hud.style.left = Math.round(Math.min(state.spotFrac[0] * cw, cw - ui.hud.offsetWidth - 8)) + "px";
+      ui.hud.style.top = Math.round(Math.min(state.spotFrac[1] * ch, ch - ui.hud.offsetHeight - 8)) + "px";
+    } else { ui.hud.style.left = ui.hud.style.top = ""; }
   }
 
   function drawCar(g, pose, fill, stroke, opts) {
@@ -293,8 +326,9 @@
     // below the car. Only the hover name: the TA tag stays above its car wherever it drives, or it
     // flips under and back as the TA car rounds the corner by the readout.
     if (big && getComputedStyle(ui.hud).position === "absolute" && !ui.hud.hidden) {
-      const hudRight = (ui.hud.offsetLeft + ui.hud.offsetWidth + 6) * v.dpr, hudBottom = (ui.hud.offsetTop + ui.hud.offsetHeight + 6) * v.dpr;
-      if (left < hudRight && top < hudBottom) top = v.py(pose.y) + 16 * v.dpr;
+      const hl = (ui.hud.offsetLeft - 6) * v.dpr, ht = (ui.hud.offsetTop - 6) * v.dpr;
+      const hr = (ui.hud.offsetLeft + ui.hud.offsetWidth + 6) * v.dpr, hb = (ui.hud.offsetTop + ui.hud.offsetHeight + 6) * v.dpr;
+      if (left < hr && left + w > hl && top < hb && top + h > ht) top = v.py(pose.y) + 16 * v.dpr;
     }
     g.beginPath(); g.roundRect(left, top, w, h, 4 * v.dpr);
     g.fillStyle = back; g.fill();
@@ -457,6 +491,7 @@
       const others = same ? keep.others.filter((o) => o.entry.replay !== entry.replay) : [];
       if (same && keep.entry.replay !== entry.replay) others.push({ entry: keep.entry, run: keep.run });
       state = { entry, fieldEntries, run, map, mapImage: image, box: same ? keep.box : boxOf(run),
+                spotFrac: same ? keep.spotFrac : null,
                 rel: same ? keep.rel : -PRE_ROLL, raceEnd: run.finish + TAIL, loopAt: 0,
                 rate: Number(ui.rate.value), playing: false, others, hover: null, shown: [] };
       race();

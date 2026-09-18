@@ -50,7 +50,10 @@
     run.best = Number.isInteger(doc.best) && run.laps[doc.best] ? doc.best : (run.laps.length ? 0 : -1);
     // the race clock is zero at `start`; the car has finished `finish` seconds later
     run.start = run.best >= 0 ? run.laps[run.best].t0 : 0;
-    run.finish = run.best >= 0 ? run.laps[run.best].t1 - run.start : run.duration;
+    // ... by the official lap time when the recording carries it: sample indices round to
+    // 1/hz s, enough to swap the finishing order of two cars a few hundredths apart
+    const ranked = run.best >= 0 ? run.laps[run.best] : null;
+    run.finish = !ranked ? run.duration : ranked.ms > 0 ? ranked.ms / 1000 : ranked.t1 - run.start;
     // colour scale: the speed range of the timed laps (a standing start would
     // stretch it to zero and leave a fast lap one flat colour)
     const first = run.laps.length ? Math.round(run.laps[0].t0 * run.hz) : Math.min(run.n - 1, Math.round(2 * run.hz));

@@ -73,10 +73,11 @@ tr.ref button.watch { background: var(--ref); border-color: var(--ref); color: v
 .rr-ghost input { accent-color: var(--accent); }
 .rr-pick { max-width: 16rem; text-overflow: ellipsis; }
 .rr-note { margin: 0; padding: 0 1rem .8rem; max-width: 80ch; font-size: .8rem; color: var(--ink-3); }
-/* full screen: the track takes everything the header and controls leave */
-.rr-player:fullscreen { width: 100%; height: 100%; max-width: none; max-height: none; border: 0; border-radius: 0; display: flex; flex-direction: column; }
-.rr-player:fullscreen .rr-stage { flex: 1 1 auto; display: flex; align-items: center; }
-.rr-player:fullscreen::backdrop { background: var(--bg); }
+/* full screen: the Fullscreen API refuses <dialog>, so the frame inside it goes full
+   screen and the track takes everything the header and controls leave */
+.rr-frame:fullscreen { width: 100%; height: 100%; display: flex; flex-direction: column; background: var(--surface); color: var(--ink); overflow: auto; }
+.rr-frame:fullscreen .rr-stage { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; }
+.rr-frame:fullscreen::backdrop { background: var(--bg); }
 @media (max-width: 700px) {
   .rr-player { width: calc(100% - 1rem); }
   /* a small canvas cannot spare a corner: the readout becomes a strip under it */

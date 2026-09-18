@@ -5,10 +5,11 @@
  * data/<row.replay>, and this draws it on a canvas. The board script only calls
  * RRReplay.attach(boardElement, doc) after it renders a table.
  *
- * The run being watched drives in colour; every other entry of the board drives
- * along greyed out, all of them crossing their ranked lap's start line at the
- * same moment, and the TA reference is always picked out. Hover a car to name
- * it, click it (or pick it from the list) to watch that one instead.
+ * It is a race: one clock, zero when every car crosses the start line of its
+ * ranked lap, running until the slowest car has finished, then starting over.
+ * The watched car drives in colour, the rest of the board greyed out, the TA
+ * reference always picked out. Hover a car to name it, click it (or pick it
+ * from the list) to watch that one instead; the clock and the view stay put.
  *
  * A recording is numbers only; every name shown comes from the board and is
  * set with textContent or drawn with fillText.
@@ -16,7 +17,9 @@
 (function () {
   "use strict";
   const CAR = { length: 0.58, width: 0.31, ahead: 0.165 };  // the gym's contact box; the pose is the rear axle
-  const PRE_ROLL = 1.0;                                     // seconds shown before the ranked lap starts
+  const PRE_ROLL = 1.0;                                     // seconds of race clock before the start line
+  const TAIL = 1.0;                                         // ... and after the last car finishes
+  const LOOP_PAUSE = 1500;                                  // ms the finished race stays up before it restarts
   const SPEEDS = [0.25, 0.5, 1, 2, 4, 8];
   const PICK_RADIUS = 18;                                   // CSS px around a car that counts as pointing at it
   const cache = new Map();                                  // url -> Promise<run>
@@ -45,7 +48,9 @@
       .filter((l) => Array.isArray(l) && l[0] >= 0 && l[1] < run.n && l[1] > l[0])
       .map((l, k) => ({ t0: l[0] / run.hz, t1: l[1] / run.hz, ms: (doc.lap_ms || [])[k] }));
     run.best = Number.isInteger(doc.best) && run.laps[doc.best] ? doc.best : (run.laps.length ? 0 : -1);
-    run.start = run.best >= 0 ? run.laps[run.best].t0 : 0;  // every car is lined up on this moment
+    // the race clock is zero at `start`; the car has finished `finish` seconds later
+    run.start = run.best >= 0 ? run.laps[run.best].t0 : 0;
+    run.finish = run.best >= 0 ? run.laps[run.best].t1 - run.start : run.duration;
     // colour scale: the speed range of the timed laps (a standing start would
     // stretch it to zero and leave a fast lap one flat colour)
     const first = run.laps.length ? Math.round(run.laps[0].t0 * run.hz) : Math.min(run.n - 1, Math.round(2 * run.hz));
@@ -66,8 +71,10 @@
     return cache.get(url);
   }
 
+  // a car waits at its first sample before its recording begins and rests at its last one after it ends
+  const timeOf = (run, rel) => Math.min(run.duration, Math.max(0, run.start + rel));
   function poseAt(run, t) {
-    const f = Math.min(Math.max(t, 0), run.duration) * run.hz;
+    const f = t * run.hz;
     const i = Math.min(Math.floor(f), run.n - 2), a = f - i;
     return { x: run.x[i] + a * (run.x[i + 1] - run.x[i]), y: run.y[i] + a * (run.y[i + 1] - run.y[i]),
              yaw: run.yaw[i] + a * (run.yaw[i + 1] - run.yaw[i]), v: run.v[i] + a * (run.v[i + 1] - run.v[i]) };
@@ -90,20 +97,20 @@
     return n;
   };
   const button = (cls, text) => { const b = el("button", cls, text); b.type = "button"; return b; };
+  const isFull = () => document.fullscreenElement === ui.frame;
 
   function build() {
     dialog = el("dialog", "rr-player");
     dialog.setAttribute("aria-labelledby", "rr-player-title");
-    const head = el("header");
+    ui = { frame: el("div", "rr-frame"), head: el("header"), title: el("h2"), sub: el("p", "sub") };
     const titles = el("div");
-    ui = { title: el("h2"), sub: el("p", "sub") };
     ui.title.id = "rr-player-title";
     titles.append(ui.title, ui.sub);
     const actions = el("div", "rr-actions");
     ui.full = button("rr-full", "Full screen");
     ui.close = button("rr-close", "Close");
     actions.append(ui.full, ui.close);
-    head.append(titles, actions);
+    ui.head.append(titles, actions);
 
     const stage = el("div", "rr-stage");
     ui.canvas = el("canvas");
@@ -116,48 +123,54 @@
     ui.msg = el("p", "rr-msg");
     stage.append(ui.canvas, ui.hud, ui.msg);
 
-    const bar = el("div", "rr-bar");
+    ui.bar = el("div", "rr-bar");
     ui.play = button("rr-play", "Play");
     ui.play.autofocus = true;                       // Space/Enter work the moment it opens
     ui.seek = el("input");
     Object.assign(ui.seek, { type: "range", min: 0, max: 1000, step: 1, value: 0 });
-    ui.seek.setAttribute("aria-label", "Position in the run");
+    ui.seek.setAttribute("aria-label", "Position in the race");
     ui.rate = el("select");
     ui.rate.setAttribute("aria-label", "Playback speed");
     SPEEDS.forEach((s) => { const o = el("option", "", s + "×"); o.value = s; ui.rate.append(o); });
     ui.rate.value = 1;
     ui.pick = el("select", "rr-pick");              // the field, for keyboards and touch screens
     ui.pick.setAttribute("aria-label", "Car to watch");
-    const fieldLabel = el("label", "rr-ghost");
+    ui.fieldLabel = el("label", "rr-ghost");
     ui.field = el("input");
     ui.field.type = "checkbox";
     ui.field.checked = true;
-    fieldLabel.append(ui.field, document.createTextNode(" Other cars"));
-    ui.fieldLabel = fieldLabel;
+    ui.fieldLabel.append(ui.field, document.createTextNode(" Other cars"));
     ui.share = button("rr-share", "Copy link");
-    bar.append(ui.play, ui.seek, ui.rate, ui.pick, fieldLabel, ui.share);
+    ui.bar.append(ui.play, ui.seek, ui.rate, ui.pick, ui.fieldLabel, ui.share);
     ui.note = el("p", "rr-note");
 
-    dialog.append(head, stage, bar, ui.note);
+    // the Fullscreen API refuses <dialog> itself, so everything lives in a frame that can take it
+    ui.frame.append(ui.head, stage, ui.bar, ui.note);
+    dialog.append(ui.frame);
     document.body.append(dialog);
 
     ui.close.addEventListener("click", () => dialog.close());
     dialog.addEventListener("close", onClose);
     dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
     ui.play.addEventListener("click", toggle);
-    ui.seek.addEventListener("input", () => { if (state) { state.t = (ui.seek.value / 1000) * state.run.duration; draw(); } });
+    ui.seek.addEventListener("input", () => {
+      if (!state) return;
+      state.rel = -PRE_ROLL + (ui.seek.value / 1000) * (state.raceEnd + PRE_ROLL);
+      state.loopAt = 0;
+      draw();
+    });
     ui.rate.addEventListener("change", () => { if (state) state.rate = Number(ui.rate.value); });
-    ui.field.addEventListener("change", () => { if (state) draw(); });
+    ui.field.addEventListener("change", () => { if (state) { race(); draw(); } });
     ui.pick.addEventListener("change", () => {
       const entry = state && state.fieldEntries.find((e) => e.name === ui.pick.value);
       if (entry) watch(entry);
     });
     ui.full.addEventListener("click", () => {
       if (document.fullscreenElement) document.exitFullscreen();
-      else if (dialog.requestFullscreen) dialog.requestFullscreen().catch(() => {});
+      else if (ui.frame.requestFullscreen) ui.frame.requestFullscreen().catch(() => {});
     });
     document.addEventListener("fullscreenchange", () => {
-      ui.full.textContent = document.fullscreenElement === dialog ? "Exit full screen" : "Full screen";
+      ui.full.textContent = isFull() ? "Exit full screen" : "Full screen";
       if (state) { layout(); draw(); }
     });
     ui.share.addEventListener("click", () => {
@@ -170,7 +183,8 @@
       if (e.key === "f" || e.key === "F") ui.full.click();
       if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
         e.preventDefault();
-        state.t = Math.min(state.run.duration, Math.max(0, state.t + (e.key === "ArrowLeft" ? -1 : 1)));
+        state.rel = Math.min(state.raceEnd, Math.max(-PRE_ROLL, state.rel + (e.key === "ArrowLeft" ? -1 : 1)));
+        state.loopAt = 0;
         draw();
       }
     });
@@ -181,21 +195,26 @@
     matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (state) { layout(); draw(); } });
   }
 
-  function layout() {
-    // fit the run (not the whole building) so the car is as large as the screen allows
-    const run = state.run, m = state.map, pad = 2.5;
+  // The part of the track the first watched car covers, with a margin. It is kept
+  // while cars are switched, so the track never moves under the viewer.
+  function boxOf(run) {
+    const pad = 2.5;
     let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
     for (let i = 0; i < run.n; i++) {
       x0 = Math.min(x0, run.x[i]); x1 = Math.max(x1, run.x[i]);
       y0 = Math.min(y0, run.y[i]); y1 = Math.max(y1, run.y[i]);
     }
-    x0 -= pad; x1 += pad; y0 -= pad; y1 += pad;
-    const full = document.fullscreenElement === dialog;
+    return { x0: x0 - pad, x1: x1 + pad, y0: y0 - pad, y1: y1 + pad };
+  }
+
+  function layout() {
+    const run = state.run, m = state.map, { x0, x1, y0, y1 } = state.box;
     const cssW = ui.canvas.parentElement.clientWidth;
-    // full screen: everything the header and the controls leave over
-    const around = dialog.scrollHeight - ui.canvas.offsetHeight;
-    const cssH = full ? Math.max(200, window.innerHeight - around - 2)
-                      : Math.max(200, Math.min(cssW * (y1 - y0) / (x1 - x0), window.innerHeight * 0.58));
+    // full screen: everything the header, the readout strip and the controls leave over
+    const strip = getComputedStyle(ui.hud).position === "static" && !ui.hud.hidden ? ui.hud.offsetHeight : 0;
+    const around = ui.head.offsetHeight + ui.bar.offsetHeight + strip + (ui.note.hidden ? 0 : ui.note.offsetHeight);
+    const cssH = isFull() ? Math.max(200, window.innerHeight - around)
+                          : Math.max(200, Math.min(cssW * (y1 - y0) / (x1 - x0), window.innerHeight * 0.58));
     const dpr = window.devicePixelRatio || 1;
     ui.canvas.style.height = cssH + "px";
     ui.canvas.width = Math.round(cssW * dpr);
@@ -204,7 +223,7 @@
     const ox = (ui.canvas.width - scale * (x1 - x0)) / 2, oy = (ui.canvas.height - scale * (y1 - y0)) / 2;
     state.view = { scale, dpr, px: (x) => ox + (x - x0) * scale, py: (y) => ui.canvas.height - oy - (y - y0) * scale };
 
-    // static layer: tinted walls + the whole line, faint
+    // static layer: tinted walls + the watched car's whole line, faint
     const layer = document.createElement("canvas");
     layer.width = ui.canvas.width; layer.height = ui.canvas.height;
     const g = layer.getContext("2d"), v = state.view;
@@ -249,26 +268,33 @@
     g.restore();
   }
 
-  function tag(g, pose, text, colour) {
-    const v = state.view, x = v.px(pose.x), y = v.py(pose.y) - 14 * v.dpr;
+  // a name plate above a car: solid, theme-aware, ringed so it reads over anything
+  function tag(g, pose, text, back, ink, big) {
+    const v = state.view, x = v.px(pose.x), y = v.py(pose.y) - 16 * v.dpr;
     g.save();
-    g.font = `600 ${11 * v.dpr}px ${css("--body") || "sans-serif"}`;
-    const w = g.measureText(text).width + 10 * v.dpr, h = 17 * v.dpr;
-    const left = Math.min(Math.max(x - w / 2, 2), ui.canvas.width - w - 2), top = Math.max(y - h, 2);
-    g.fillStyle = colour; g.beginPath(); g.roundRect(left, top, w, h, 3 * v.dpr); g.fill();
-    g.fillStyle = "#fff"; g.textBaseline = "middle"; g.fillText(text, left + 5 * v.dpr, top + h / 2 + v.dpr * 0.5);
+    g.font = `700 ${(big ? 13 : 11) * v.dpr}px ${css("--body") || "sans-serif"}`;
+    const w = g.measureText(text).width + (big ? 16 : 10) * v.dpr, h = (big ? 24 : 17) * v.dpr;
+    const left = Math.min(Math.max(x - w / 2, 3), ui.canvas.width - w - 3);
+    let top = Math.max(y - h, 3);
+    // the speed readout floats over the canvas's corner: a plate that would land under it goes below the car
+    if (getComputedStyle(ui.hud).position === "absolute" && !ui.hud.hidden) {
+      const hudRight = (ui.hud.offsetLeft + ui.hud.offsetWidth + 6) * v.dpr, hudBottom = (ui.hud.offsetTop + ui.hud.offsetHeight + 6) * v.dpr;
+      if (left < hudRight && top < hudBottom) top = v.py(pose.y) + 16 * v.dpr;
+    }
+    g.beginPath(); g.roundRect(left, top, w, h, 4 * v.dpr);
+    g.fillStyle = back; g.fill();
+    g.lineWidth = 2 * v.dpr; g.strokeStyle = css("--surface") || "#fff"; g.stroke();
+    g.fillStyle = ink; g.textBaseline = "middle"; g.textAlign = "center";
+    g.fillText(text, left + w / 2, top + h / 2 + v.dpr * 0.5);
     g.restore();
   }
 
-  // where each other car is right now: lined up on its own ranked lap's start
-  function fieldNow() {
-    const rel = state.t - state.run.start, out = [];
-    for (const o of state.others) {
-      const t = o.run.start + rel;
-      if (t < 0 || t > o.run.duration) continue;
-      out.push({ o, pose: poseAt(o.run, t) });
-    }
-    return out;
+  // The race lasts until the slowest car on show has finished its lap.
+  function race() {
+    let end = state.run.finish;
+    for (const o of state.others) if (ui.field.checked || o.entry.isRef) end = Math.max(end, o.run.finish);
+    state.raceEnd = end + TAIL;
+    state.rel = Math.min(state.rel, state.raceEnd);
   }
 
   function currentLap(run, t) {
@@ -277,12 +303,12 @@
   }
 
   function draw() {
-    const run = state.run, v = state.view, g = ui.canvas.getContext("2d");
+    const run = state.run, v = state.view, g = ui.canvas.getContext("2d"), t = timeOf(run, state.rel);
     g.clearRect(0, 0, ui.canvas.width, ui.canvas.height);
     g.drawImage(state.layer, 0, 0);
 
     // the trail: the last few seconds, coloured by speed
-    const upto = Math.min(run.n - 1, Math.floor(state.t * run.hz)), from = Math.max(0, upto - Math.round(6 * run.hz));
+    const upto = Math.min(run.n - 1, Math.floor(t * run.hz)), from = Math.max(0, upto - Math.round(6 * run.hz));
     g.lineWidth = 3 * v.dpr; g.lineCap = "round";
     for (let i = from; i < upto; i++) {
       g.globalAlpha = 0.25 + 0.75 * ((i - from) / Math.max(1, upto - from));
@@ -293,30 +319,32 @@
 
     // the rest of the field, greyed out; the TA car and the one under the pointer stand out
     const grey = css("--ink-3") || "#62677f", ref = css("--ref") || "#c026d3", accent = css("--accent") || "#7c3aed";
-    const field = fieldNow();
+    const surface = css("--surface") || "#fff", ink = css("--ink") || "#0b0c14";
+    const field = state.others.map((o) => ({ o, pose: poseAt(o.run, timeOf(o.run, state.rel)) }));
     state.shown = field;
     for (const c of field) {
       if (c.o.entry.isRef || c.o === state.hover || !ui.field.checked) continue;
       drawCar(g, c.pose, null, grey, { alpha: 0.5, width: 1 });
     }
-    for (const c of field) if (c.o.entry.isRef && c.o !== state.hover) {
-      drawCar(g, c.pose, null, ref, { dashed: true, width: 1.75 });
-      tag(g, c.pose, "TA", ref);
-    }
-    const pose = poseAt(run, state.t);
-    drawCar(g, pose, css("--surface") || "#fff", state.entry.isRef ? ref : accent, { width: 1.75 });
+    const ta = field.find((c) => c.o.entry.isRef);
+    if (ta && ta.o !== state.hover) drawCar(g, ta.pose, null, ref, { dashed: true, width: 1.75 });
+    const pose = poseAt(run, t);
+    drawCar(g, pose, surface, state.entry.isRef ? ref : accent, { width: 1.75 });
+    if (ta && ta.o !== state.hover) tag(g, ta.pose, "TA", ref, css("--ref-ink") || "#fff", false);
     const hovered = field.find((c) => c.o === state.hover);
-    if (hovered) {
-      drawCar(g, hovered.pose, css("--surface") || "#fff", hovered.o.entry.isRef ? ref : css("--ink") || "#0b0c14", { width: 2 });
-      tag(g, hovered.pose, hovered.o.entry.label, hovered.o.entry.isRef ? ref : css("--ink") || "#0b0c14");
+    if (hovered) {                                   // last, so nothing covers the name
+      const isRef = hovered.o.entry.isRef;
+      drawCar(g, hovered.pose, surface, isRef ? ref : ink, { width: 2 });
+      tag(g, hovered.pose, hovered.o.entry.label, isRef ? ref : ink, isRef ? css("--ref-ink") || "#fff" : css("--bg") || "#fff", true);
     }
 
-    const lap = currentLap(run, state.t);
+    const lap = currentLap(run, t), done = state.rel >= run.finish;
     ui.speed.textContent = pose.v.toFixed(1) + " m/s";
-    ui.clock.textContent = lap >= 0 ? fmtTime(state.t - run.laps[lap].t0) : (state.t < run.start ? "run-up" : fmtTime(state.t));
-    ui.lap.textContent = lap < 0 ? "" : (run.laps.length > 1 ? `lap ${lap + 1} of ${run.laps.length} · ` : "lap · ")
-      + (run.laps[lap].ms ? fmtTime(run.laps[lap].ms / 1000) : "") + (run.laps.length > 1 && lap === run.best ? " · ranked" : "");
-    ui.seek.value = Math.round((state.t / run.duration) * 1000);
+    ui.clock.textContent = state.rel < 0 ? "run-up" : done ? "finished" : fmtTime(state.rel);
+    const k = done ? run.best : lap;
+    ui.lap.textContent = k < 0 ? "" : (run.laps.length > 1 ? `lap ${k + 1} of ${run.laps.length} · ` : "lap · ")
+      + (run.laps[k].ms ? fmtTime(run.laps[k].ms / 1000) : "") + (run.laps.length > 1 && k === run.best ? " · ranked" : "");
+    ui.seek.value = Math.round(((state.rel + PRE_ROLL) / (state.raceEnd + PRE_ROLL)) * 1000);
   }
 
   // hover names a car, a click watches it
@@ -342,50 +370,51 @@
 
   function frame(now) {
     if (!state || !state.playing) return;
-    state.t += ((now - state.last) / 1000) * state.rate;
+    if (state.loopAt) {                              // the finished race stays up a moment, then starts over
+      if (now >= state.loopAt) { state.loopAt = 0; state.rel = -PRE_ROLL; }
+    } else {
+      state.rel += ((now - state.last) / 1000) * state.rate;
+      if (state.rel >= state.raceEnd) { state.rel = state.raceEnd; state.loopAt = now + LOOP_PAUSE; }
+    }
     state.last = now;
-    if (state.t >= state.run.duration) { state.t = state.run.duration; setPlaying(false); }
     draw();
-    if (state.playing) state.raf = requestAnimationFrame(frame);
+    state.raf = requestAnimationFrame(frame);
   }
 
   function setPlaying(on) {
     state.playing = on;
-    ui.play.textContent = on ? "Pause" : (state.t >= state.run.duration ? "Replay" : "Play");
+    ui.play.textContent = on ? "Pause" : "Play";
     cancelAnimationFrame(state.raf);
     if (on) { state.last = performance.now(); state.raf = requestAnimationFrame(frame); }
   }
 
   function toggle() {
     if (!state) return;
-    if (!state.playing && state.t >= state.run.duration) state.t = Math.max(0, state.run.start - PRE_ROLL);
+    if (!state.playing && state.rel >= state.raceEnd) { state.rel = -PRE_ROLL; state.loopAt = 0; }
     setPlaying(!state.playing);
   }
 
   function onClose() {
     if (state) cancelAnimationFrame(state.raf);
     state = null;
-    if (document.fullscreenElement === dialog) document.exitFullscreen();
+    if (document.fullscreenElement) document.exitFullscreen();
     const url = new URL(location.href);
     if (url.searchParams.has("watch")) { url.searchParams.delete("watch"); history.replaceState(null, "", url); }
   }
 
-  /* Watch another car of the same field, keeping the moment of the lap. */
+  /* Watch another car of the same race: the clock, the view and the cars already loaded all stay. */
   function watch(entry) {
     if (!state) return open(entry, []);
-    const rel = state.t - state.run.start, playing = state.playing;
-    open(entry, state.fieldEntries, { rel, playing });
+    open(entry, state.fieldEntries, state);
   }
 
   async function open(entry, fieldEntries, keep) {
     if (!dialog) build();
     if (state) cancelAnimationFrame(state.raf);
-    const previous = state;
     ui.title.textContent = entry.name;
     ui.sub.textContent = entry.summary || "";
     ui.canvas.setAttribute("aria-label", `Top-down replay of ${entry.name}'s graded run`);
-    if (!previous) { ui.msg.textContent = "Loading the run…"; ui.msg.hidden = false; ui.hud.hidden = true; }
-    ui.note.hidden = true;
+    if (!keep) { ui.msg.textContent = "Loading the run…"; ui.msg.hidden = false; ui.hud.hidden = true; ui.note.hidden = true; }
     ui.pick.textContent = "";
     fieldEntries.forEach((e) => { const o = el("option", "", e.label); o.value = e.name; ui.pick.append(o); });
     ui.pick.value = entry.name;
@@ -402,13 +431,18 @@
       if (token !== open.token || !dialog.open) return;
       const map = index[run.map];
       if (!map) throw new Error("no track image for " + run.map);
-      const image = (previous && previous.map === map && previous.mapImage) || await new Promise((ok) => {
+      const same = keep && keep.map === map;
+      const image = (same && keep.mapImage) || await new Promise((ok) => {
         const im = new Image(); im.onload = () => ok(im); im.onerror = () => ok(null); im.src = "assets/maps/" + map.file;
       });
       if (token !== open.token || !dialog.open) return;
-      const t = keep ? run.start + keep.rel : run.start - PRE_ROLL;
-      state = { entry, fieldEntries, run, map, mapImage: image, t: Math.min(run.duration, Math.max(0, t)),
-                rate: Number(ui.rate.value), playing: false, others: [], hover: null, shown: [] };
+      // the car that was being watched rejoins the field; the newly watched one leaves it
+      const others = same ? keep.others.filter((o) => o.entry.replay !== entry.replay) : [];
+      if (same && keep.entry.replay !== entry.replay) others.push({ entry: keep.entry, run: keep.run });
+      state = { entry, fieldEntries, run, map, mapImage: image, box: same ? keep.box : boxOf(run),
+                rel: same ? keep.rel : -PRE_ROLL, raceEnd: run.finish + TAIL, loopAt: 0,
+                rate: Number(ui.rate.value), playing: false, others, hover: null, shown: [] };
+      race();
       ui.msg.hidden = true;
       ui.hud.hidden = false;
       ui.note.textContent = run.rerun
@@ -418,16 +452,18 @@
       layout();
       draw();
       // the rest of the field arrives car by car and joins in as it loads
-      fieldEntries.filter((e) => e.replay !== entry.replay).forEach((e) => {
+      const have = new Set(others.map((o) => o.entry.replay).concat(entry.replay));
+      fieldEntries.filter((e) => !have.has(e.replay)).forEach((e) => {
         load(e.replay).then((other) => {
           if (token !== open.token || !state || other.map !== run.map) return;
           state.others.push({ entry: e, run: other });
+          race();
           if (!state.playing) draw();
         }, () => {});
       });
       const play = keep ? keep.playing : !matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (play && state.t < run.duration) setPlaying(true);
-      else ui.play.textContent = state.t >= run.duration ? "Replay" : "Play";
+      if (play) setPlaying(true);
+      else ui.play.textContent = "Play";
     } catch (err) {
       if (token !== open.token) return;
       ui.msg.textContent = "This run's recording could not be loaded. Try again in a few minutes.";

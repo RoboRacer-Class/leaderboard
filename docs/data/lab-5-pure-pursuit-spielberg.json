@@ -1,0 +1,57 @@
+{
+ "anonymous": false,
+ "assignment": "lab-5-pure-pursuit",
+ "available_from": "2026-09-23T04:00:00Z",
+ "board_title": "Spielberg, fastest clean lap",
+ "cap": null,
+ "due": "2026-10-08T03:59:00Z",
+ "generated_at": "2026-09-18T19:16:31Z",
+ "lab_title": "Lab 5: SLAM and Pure Pursuit",
+ "metric": {
+  "direction": "lower",
+  "extras": [
+   {
+    "key": "avg_mps",
+    "label": "Avg speed",
+    "unit": "m/s"
+   },
+   {
+    "key": "top_mps",
+    "label": "Top speed",
+    "unit": "m/s"
+   }
+  ],
+  "key": "lap_s",
+  "label": "Lap time",
+  "unit": "s"
+ },
+ "players": {},
+ "podium": 5,
+ "reference": {
+  "at": "2026-09-18T19:06:34Z",
+  "extras": {
+   "avg_mps": 7.73,
+   "top_mps": 9.0
+  },
+  "metric": 43.31
+ },
+ "reference_submissions": [
+  {
+   "at": "2026-09-18T19:06:34Z",
+   "full": true,
+   "graded": true,
+   "id": "19d51098fec723ca",
+   "metrics": {
+    "avg_mps": 7.73,
+    "lap_s": 43.31,
+    "top_mps": 9.0
+   }
+  }
+ ],
+ "requirement": "full marks on compilation, the steering checks and Spielberg (one clean lap)",
+ "rows": [],
+ "schema": "ese6150/leaderboard/v1",
+ "slug": "lab-5-pure-pursuit-spielberg",
+ "title": "Lab 5: SLAM and Pure Pursuit \u00b7 Spielberg, fastest clean lap",
+ "unranked": []
+}

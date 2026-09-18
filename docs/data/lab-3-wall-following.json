@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T18:50:57Z",
+ "generated_at": "2026-09-18T19:16:31Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -222,13 +222,21 @@
    "locked": false,
    "note": {
     "comment_id": 5608103650,
-    "fp": "-/40|-|0/0|0|13.47",
+    "fp": "-/40|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T15:59:06Z"
+    "updated_at": "2026-09-18T19:16:44Z"
    },
    "owner": "a6af6cf45de448d9",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-18T19:14:54Z",
+     "full": false,
+     "graded": false,
+     "id": "081a7bfe5eb1f49b",
+     "metrics": null
+    }
+   ]
   },
   "Dawn Gecko 23": {
    "locked": false,
@@ -2412,7 +2420,7 @@
   {
    "alias": "Crystal Beagle 36",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Neon Wolf 52",

@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T20:04:53Z",
+ "generated_at": "2026-09-18T20:22:01Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -938,10 +938,10 @@
    "locked": false,
    "note": {
     "comment_id": 5674963674,
-    "fp": "13/42|15.57|5/0|0|13.47",
+    "fp": "13/42|15.57|6/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:38:03Z"
+    "updated_at": "2026-09-18T20:22:16Z"
    },
    "owner": "76c21f166dbb9c26",
    "submissions": [
@@ -996,6 +996,13 @@
       "top_mps": 5.0
      },
      "replay_checked": true
+    },
+    {
+     "at": "2026-09-18T20:06:01Z",
+     "full": false,
+     "graded": true,
+     "id": "de7c7378f5638f5d",
+     "metrics": null
     }
    ]
   },
@@ -2138,7 +2145,7 @@
    "metric": 15.57,
    "rank": 13,
    "replay": "replays/lab-3-wall-following/onyx-shuttle-58.json?v=f81c541f",
-   "used": 5
+   "used": 6
   },
   {
    "alias": "Tidy Proton 16",

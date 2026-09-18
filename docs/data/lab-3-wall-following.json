@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T12:18:46Z",
+ "generated_at": "2026-09-18T15:00:00Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -531,10 +531,10 @@
    "locked": false,
    "note": {
     "comment_id": 5671748661,
-    "fp": "37/39|65.9|2/0|0|13.47",
+    "fp": "37/39|65.9|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T12:19:42Z"
+    "updated_at": "2026-09-18T15:00:21Z"
    },
    "owner": "1fc7783fd061dfcb",
    "submissions": [
@@ -553,6 +553,17 @@
      "metrics": {
       "avg_mps": 0.96,
       "lap_s": 65.9,
+      "top_mps": 1.1
+     }
+    },
+    {
+     "at": "2026-09-18T14:53:56Z",
+     "full": true,
+     "graded": true,
+     "id": "0643f77a98bb5652",
+     "metrics": {
+      "avg_mps": 0.96,
+      "lap_s": 65.91,
       "top_mps": 1.1
      }
     }
@@ -2282,7 +2293,7 @@
    "locked": false,
    "metric": 65.9,
    "rank": 37,
-   "used": 2
+   "used": 3
   },
   {
    "alias": "Brave Puffin 30",

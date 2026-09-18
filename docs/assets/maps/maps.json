@@ -1,0 +1,18 @@
+{
+ "levine_blocked": {
+  "file": "levine_blocked.png",
+  "h": 489,
+  "res": 0.05,
+  "w": 712,
+  "x0": -17.825,
+  "y0": -8.725
+ },
+ "levine_obs": {
+  "file": "levine_obs.png",
+  "h": 489,
+  "res": 0.05,
+  "w": 712,
+  "x0": -17.825,
+  "y0": -8.725
+ }
+}

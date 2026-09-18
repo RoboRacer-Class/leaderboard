@@ -167,7 +167,8 @@ def rank_players(players: dict, metric: Metric, cap: int, due: dt.datetime | Non
         n, sub = best
         rows.append({**common, "metric": sub["metrics"][metric.key],
                      "extras": {k: v for k, v in sub["metrics"].items() if k != metric.key},
-                     "at": sub["at"], "attempt": n})
+                     "at": sub["at"], "attempt": n,
+                     **({"replay": sub["replay"]} if sub.get("replay") else {})})
     rows.sort(key=lambda r: (metric.sort_key(r["metric"]), r["at"], label_key(r["alias"])))
     for i, row in enumerate(rows, start=1):
         row["rank"] = i
@@ -183,4 +184,4 @@ def best_reference(subs: list, metric: Metric):
     n, sub = best
     return {"metric": sub["metrics"][metric.key],
             "extras": {k: v for k, v in sub["metrics"].items() if k != metric.key},
-            "at": sub["at"]}
+            "at": sub["at"], **({"replay": sub["replay"]} if sub.get("replay") else {})}

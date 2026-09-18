@@ -14,7 +14,7 @@ from pathlib import Path
 
 import yaml
 
-from . import aliases, lock, notes, rules, teams
+from . import aliases, lock, notes, replays, rules, teams
 from .gh import GitHub, GitHubError
 
 SCHEMA = "ese6150/leaderboard/v1"
@@ -116,6 +116,8 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
                 "ignore": ignore,
                 "requirement": (str(block.get("requirement")) if block.get("requirement")
                                 else "the full autograded score"),
+                # release asset holding this board's recorded run; unset = no replays
+                "replay": str(block.get("replay") or "").strip(),
             })
     return labs
 
@@ -163,6 +165,80 @@ def read_result(api, rel: dict) -> dict:
     return json.loads(api.download_asset(asset["url"]))
 
 
+def best_attempt(lab: dict, key: str, subs: list):
+    """The attempt the board shows for this entry: cap and deadline for a
+    player, neither for the reference."""
+    metric = lab["metric"]
+    if key == "reference":
+        best = rules.best_of(sorted(subs, key=lambda s: (s["at"], s["id"])), metric, None)
+    else:
+        due = rules.parse_time(lab["due"]) if lab.get("due") else None
+        best = rules.best_of(subs[:lab["cap"] or 10**9], metric, due)
+    return best[1] if best else None
+
+
+def replay_behind(lab: dict, key: str, subs: list, data_dir: Path | None):
+    """The entry's best attempt when it has no recording and has not had its one
+    extra look yet: it was graded before this builder read recordings (the
+    grader shipped first), and a release is otherwise read only once."""
+    if not lab.get("replay") or data_dir is None:
+        return None
+    best = best_attempt(lab, key, subs)
+    if best is None or best.get("replay") or best.get("replay_checked"):
+        return None
+    return best
+
+
+def capture_replay(api, rel: dict, lab: dict, key: str, record: dict, subs: list,
+                   data_dir: Path | None, log: Log) -> None:
+    """Publish the run recorded for this attempt when it is the entry's best so
+    far, by the board's own rule (cap and deadline for a player, neither for the
+    reference). A release is read once, so this is the only chance; a missing,
+    oversized or refused recording costs the row its eye button, nothing more."""
+    name = lab.get("replay")
+    if not name or data_dir is None:
+        return
+    metric = lab["metric"]
+    if best_attempt(lab, key, subs) is not record:
+        return
+    asset = next((a for a in rel.get("assets") or [] if a.get("name") == name), None)
+    if asset is None or (asset.get("size") or 0) > replays.MAX_BYTES:
+        return
+    value = record["metrics"][metric.key]
+    try:
+        doc = replays.clean(api.download_asset(asset["url"]), replays.known_maps(data_dir),
+                            lap_seconds=value if metric.unit == "s" else None)
+    except Exception as err:  # noqa: BLE001 - a replay never fails a build
+        log(f"  {key}: recording unreadable ({type(err).__name__})")
+        return
+    if doc is None:
+        log(f"  {key}: recording refused")
+        return
+    record["replay"] = replays.save(data_dir, lab["board"], key, doc)
+    log(f"  {key}: recording published")
+
+
+def merge_backfill(data_dir: Path, lab: dict, state: dict, rows: list, reference) -> None:
+    """Give an entry the recording staff made for it (replays.load_backfill) when it
+    has none of its own and the recording is of the very attempt the board shows:
+    a later, better run is never passed off with an older run's replay."""
+    index = replays.load_backfill(data_dir, lab["board"])
+    if not index:
+        return
+    for row in rows:
+        entry = index.get(row["alias"])
+        if entry is None or row.get("replay"):
+            continue
+        subs = rules.counted_submissions(state["players"][row["alias"]])
+        if subs[row["attempt"] - 1]["id"] == entry["attempt"]:
+            row["replay"] = entry["replay"]
+    entry = index.get("reference")
+    if entry is not None and reference is not None and not reference.get("replay"):
+        best = best_attempt(lab, "reference", state["reference_submissions"])
+        if best is not None and best["id"] == entry["attempt"]:
+            reference["replay"] = entry["replay"]
+
+
 def team_of(lab: dict, owner: str):
     """The team number a repo tail names on a team lab, else None. A staff
     test repo left over from before an assignment was flipped to team mode
@@ -171,7 +247,8 @@ def team_of(lab: dict, owner: str):
 
 
 def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
-             salt: str, state: dict, log: Log, snapshot: dict | None = None) -> dict:
+             salt: str, state: dict, log: Log, snapshot: dict | None = None,
+             data_dir: Path | None = None) -> dict:
     """Merge every new attempt (a submit/* tag) and every newly graded one
     into `state`; returns board key -> repo tail for this run only (never
     written anywhere). The tail is what every side effect rebuilds the repo
@@ -216,7 +293,8 @@ def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
         known = {s["id"]: s for s in target}
         pending = [t for t in tags if rules.attempt_id(t["name"]) not in known
                    or not known[rules.attempt_id(t["name"])].get("graded")]
-        if not pending:
+        subs_now = (lambda: target) if is_staff else (lambda: rules.counted_submissions(player))
+        if not pending and replay_behind(lab, label, subs_now(), data_dir) is None:
             continue
         try:
             releases = graded_releases(api.releases(repo))
@@ -254,6 +332,13 @@ def scan_lab(api, org: str, classroom: str, lab: dict, repos: list, staff: set,
             value = (record.get("metrics") or {}).get(metric.key)
             log(f"  {label}: graded ({'full score' if record['full'] else 'not full score'}"
                 + (f", {metric.key}={value}" if value is not None else "") + ")")
+            capture_replay(api, rel, lab, label, record, subs_now(), data_dir, log)
+        behind = replay_behind(lab, label, subs_now(), data_dir)
+        if behind is not None:
+            behind["replay_checked"] = True
+            rel = next((r for t, r in releases.items() if rules.attempt_id(t) == behind["id"]), None)
+            if rel is not None:
+                capture_replay(api, rel, lab, label, behind, subs_now(), data_dir, log)
     return owners
 
 
@@ -416,11 +501,12 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
         log(f"{lab['board']}: scanning")
         path = data_dir / f"{lab['board']}.json"
         state = load_state(path)
-        owners = scan_lab(api, org, classroom, lab, repos, staff, salt, state, log, snapshot)
+        owners = scan_lab(api, org, classroom, lab, repos, staff, salt, state, log, snapshot, data_dir)
         due = rules.parse_time(lab["due"]) if lab.get("due") else None
         apply_locks(api, org, classroom, lab, owners, state, token, script_text, log, dry_run)
         rows, unranked = rules.rank_players(state["players"], lab["metric"], lab["cap"] or 10**9, due)
         reference = rules.best_reference(state["reference_submissions"], lab["metric"])
+        merge_backfill(data_dir, lab, state, rows, reference)
         apply_notes(api, org, classroom, lab, owners, state, rows, reference, board_url,
                     generated_label, log, dry_run)
         changed = write_json(path, lab_document(lab, state, rows, unranked, reference, generated_at))

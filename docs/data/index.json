@@ -1,6 +1,6 @@
 {
  "classroom": "ese-6150",
- "generated_at": "2026-09-18T04:22:38Z",
+ "generated_at": "2026-09-18T04:36:13Z",
  "labs": [
   {
    "anonymous": true,
@@ -10,7 +10,7 @@
    "cap": null,
    "due": "2026-09-19T03:59:00Z",
    "file": "lab-3-wall-following.json",
-   "generated_at": "2026-09-18T04:22:38Z",
+   "generated_at": "2026-09-18T04:36:13Z",
    "lab_title": "Lab 3: Wall Following",
    "metric": {
     "direction": "lower",
@@ -33,10 +33,10 @@
    "podium": 5,
    "reference": true,
    "requirement": "the full autograded score",
-   "rows": 34,
+   "rows": 36,
    "slug": "lab-3-wall-following",
    "title": "Lab 3: Wall Following",
-   "unranked": 18
+   "unranked": 16
   },
   {
    "anonymous": false,

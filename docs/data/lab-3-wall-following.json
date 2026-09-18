@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T17:26:42Z",
+ "generated_at": "2026-09-18T17:38:01Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -1041,13 +1041,21 @@
    "locked": false,
    "note": {
     "comment_id": 5723724285,
-    "fp": "-/40|-|0/0|0|13.47",
+    "fp": "-/40|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T15:59:32Z"
+    "updated_at": "2026-09-18T17:38:17Z"
    },
    "owner": "299d98b027faf6fa",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-18T17:29:50Z",
+     "full": false,
+     "graded": true,
+     "id": "9f174721372f20dd",
+     "metrics": null
+    }
+   ]
   },
   "Rainy Meteor 40": {
    "locked": false,
@@ -2417,7 +2425,7 @@
   {
    "alias": "Radiant Wolf 62",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Rainy Meteor 40",

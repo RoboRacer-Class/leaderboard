@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T23:27:41Z",
+ "generated_at": "2026-09-18T23:35:39Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -30,10 +30,10 @@
    "locked": false,
    "note": {
     "comment_id": 5666315200,
-    "fp": "31/46|32.4|2/0|0|13.47",
+    "fp": "32/46|32.4|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:07Z"
+    "updated_at": "2026-09-18T23:36:04Z"
    },
    "owner": "2d59560e3fc143ea",
    "submissions": [
@@ -66,10 +66,10 @@
    "locked": false,
    "note": {
     "comment_id": 5626954957,
-    "fp": "18/46|18.5|1/0|0|13.47",
+    "fp": "19/46|18.5|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:29Z"
+    "updated_at": "2026-09-18T23:36:18Z"
    },
    "owner": "2b483a472c57d22e",
    "submissions": [
@@ -134,10 +134,10 @@
    "locked": false,
    "note": {
     "comment_id": 5623729860,
-    "fp": "33/46|40.39|1/0|0|13.47",
+    "fp": "34/46|40.39|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:32Z"
+    "updated_at": "2026-09-18T23:36:20Z"
    },
    "owner": "dc01db7aa4b33dde",
    "submissions": [
@@ -159,10 +159,10 @@
    "locked": false,
    "note": {
     "comment_id": 5658211771,
-    "fp": "23/46|21.8|2/0|0|13.47",
+    "fp": "24/46|21.8|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:14Z"
+    "updated_at": "2026-09-18T23:36:11Z"
    },
    "owner": "28649bf69220097d",
    "submissions": [
@@ -191,10 +191,10 @@
    "locked": false,
    "note": {
     "comment_id": 5620155210,
-    "fp": "21/46|19.91|1/0|0|13.47",
+    "fp": "22/46|19.91|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:09Z"
+    "updated_at": "2026-09-18T23:36:06Z"
    },
    "owner": "6bf53b1c646268f2",
    "submissions": [
@@ -216,10 +216,10 @@
    "locked": false,
    "note": {
     "comment_id": 5673493608,
-    "fp": "8/46|12.23|1/0|0|13.47",
+    "fp": "9/46|12.23|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:13Z"
+    "updated_at": "2026-09-18T23:36:09Z"
    },
    "owner": "63982ff770837c44",
    "submissions": [
@@ -241,10 +241,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608103650,
-    "fp": "36/46|46.09|2/0|0|13.47",
+    "fp": "37/46|46.09|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:05Z"
+    "updated_at": "2026-09-18T23:36:03Z"
    },
    "owner": "a6af6cf45de448d9",
    "submissions": [
@@ -332,10 +332,10 @@
    "locked": false,
    "note": {
     "comment_id": 5673130368,
-    "fp": "20/46|19.77|5/0|0|13.47",
+    "fp": "21/46|19.77|5/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:21Z"
+    "updated_at": "2026-09-18T23:36:14Z"
    },
    "owner": "ac2ed214155b131c",
    "submissions": [
@@ -389,10 +389,10 @@
    "locked": false,
    "note": {
     "comment_id": 5639491145,
-    "fp": "27/46|25.72|6/0|0|13.47",
+    "fp": "28/46|25.72|6/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:04Z"
+    "updated_at": "2026-09-18T23:36:02Z"
    },
    "owner": "c5aba988539511bb",
    "submissions": [
@@ -457,10 +457,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628040707,
-    "fp": "35/46|45.0|4/0|0|13.47",
+    "fp": "36/46|45.0|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:04Z"
+    "updated_at": "2026-09-18T23:36:01Z"
    },
    "owner": "097ee0882b5c5422",
    "submissions": [
@@ -507,10 +507,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665726736,
-    "fp": "28/46|27.21|1/0|0|13.47",
+    "fp": "29/46|27.21|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:31Z"
+    "updated_at": "2026-09-18T23:36:18Z"
    },
    "owner": "676db07052252e87",
    "submissions": [
@@ -532,10 +532,10 @@
    "locked": false,
    "note": {
     "comment_id": 5668355435,
-    "fp": "26/46|24.28|1/0|0|13.47",
+    "fp": "27/46|24.28|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:11Z"
+    "updated_at": "2026-09-18T23:36:08Z"
    },
    "owner": "c5628b5144de5386",
    "submissions": [
@@ -557,10 +557,10 @@
    "locked": false,
    "note": {
     "comment_id": 5637559338,
-    "fp": "29/46|27.48|3/0|0|13.47",
+    "fp": "30/46|27.48|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:10Z"
+    "updated_at": "2026-09-18T23:36:07Z"
    },
    "owner": "1a60cc5f56498f02",
    "submissions": [
@@ -683,10 +683,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605700032,
-    "fp": "37/46|46.1|1/0|0|13.47",
+    "fp": "7/46|11.83|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:02Z"
+    "updated_at": "2026-09-18T23:36:00Z"
    },
    "owner": "3ee0ceb1c97c9ed4",
    "submissions": [
@@ -701,6 +701,18 @@
       "top_mps": 1.5
      },
      "replay_checked": true
+    },
+    {
+     "at": "2026-09-18T23:33:24Z",
+     "full": true,
+     "graded": true,
+     "id": "6e71e6180686712f",
+     "metrics": {
+      "avg_mps": 5.46,
+      "lap_s": 11.83,
+      "top_mps": 9.91
+     },
+     "replay": "replays/lab-3-wall-following/lightning-sprocket-88.json?v=c2ea92b4"
     }
    ]
   },
@@ -832,10 +844,10 @@
    "locked": false,
    "note": {
     "comment_id": 5609222498,
-    "fp": "7/46|12.06|3/0|0|13.47",
+    "fp": "8/46|12.06|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:10Z"
+    "updated_at": "2026-09-18T23:36:08Z"
    },
    "owner": "da8f415b7996d027",
    "submissions": [
@@ -879,10 +891,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665534590,
-    "fp": "11/46|14.02|1/0|0|13.47",
+    "fp": "12/46|14.02|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:16Z"
+    "updated_at": "2026-09-18T23:36:12Z"
    },
    "owner": "a2fd7d0fbb6a62aa",
    "submissions": [
@@ -962,10 +974,10 @@
    "locked": false,
    "note": {
     "comment_id": 5674963674,
-    "fp": "14/46|15.57|6/0|0|13.47",
+    "fp": "15/46|15.57|6/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:08Z"
+    "updated_at": "2026-09-18T23:36:05Z"
    },
    "owner": "76c21f166dbb9c26",
    "submissions": [
@@ -1046,10 +1058,10 @@
    "locked": false,
    "note": {
     "comment_id": 5629693633,
-    "fp": "12/46|15.02|1/0|0|13.47",
+    "fp": "13/46|15.02|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:13Z"
+    "updated_at": "2026-09-18T23:36:10Z"
    },
    "owner": "ab8a1e12bcdd9664",
    "submissions": [
@@ -1122,10 +1134,10 @@
    "locked": false,
    "note": {
     "comment_id": 5734706627,
-    "fp": "22/46|20.16|1/0|0|13.47",
+    "fp": "23/46|20.16|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:37Z"
+    "updated_at": "2026-09-18T23:36:21Z"
    },
    "owner": "494fa305b1903b21",
    "submissions": [
@@ -1147,10 +1159,10 @@
    "locked": false,
    "note": {
     "comment_id": 5689796667,
-    "fp": "25/46|22.76|1/0|0|13.47",
+    "fp": "26/46|22.76|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:07Z"
+    "updated_at": "2026-09-18T23:36:05Z"
    },
    "owner": "b1e7e39d205230b2",
    "submissions": [
@@ -1219,10 +1231,10 @@
    "locked": false,
    "note": {
     "comment_id": 5648089027,
-    "fp": "13/46|15.55|3/0|0|13.47",
+    "fp": "14/46|15.55|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:32Z"
+    "updated_at": "2026-09-18T23:36:19Z"
    },
    "owner": "3569acad27a8a5bf",
    "submissions": [
@@ -1351,10 +1363,10 @@
    "locked": false,
    "note": {
     "comment_id": 5654038360,
-    "fp": "32/46|36.2|1/0|0|13.47",
+    "fp": "33/46|36.2|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:22Z"
+    "updated_at": "2026-09-18T23:36:15Z"
    },
    "owner": "7659d41e1ff6f55f",
    "submissions": [
@@ -1376,10 +1388,10 @@
    "locked": false,
    "note": {
     "comment_id": 5611993692,
-    "fp": "10/46|13.38|1/0|0|13.47",
+    "fp": "11/46|13.38|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:39Z"
+    "updated_at": "2026-09-18T23:36:21Z"
    },
    "owner": "dfe9505c5e9a278b",
    "submissions": [
@@ -1401,10 +1413,10 @@
    "locked": false,
    "note": {
     "comment_id": 5625536344,
-    "fp": "16/46|16.52|2/0|0|13.47",
+    "fp": "17/46|16.52|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:23Z"
+    "updated_at": "2026-09-18T23:36:16Z"
    },
    "owner": "8eaa1adde81f240d",
    "submissions": [
@@ -1433,10 +1445,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628545457,
-    "fp": "30/46|29.5|4/0|0|13.47",
+    "fp": "31/46|29.5|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:26Z"
+    "updated_at": "2026-09-18T23:36:17Z"
    },
    "owner": "1faa8e8f95d6a56b",
    "submissions": [
@@ -1483,10 +1495,10 @@
    "locked": false,
    "note": {
     "comment_id": 5639307878,
-    "fp": "24/46|21.96|1/0|0|13.47",
+    "fp": "25/46|21.96|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:03Z"
+    "updated_at": "2026-09-18T23:36:00Z"
    },
    "owner": "fb878597624ebe2f",
    "submissions": [
@@ -1520,10 +1532,10 @@
    "locked": false,
    "note": {
     "comment_id": 5607301879,
-    "fp": "9/46|13.05|2/0|0|13.47",
+    "fp": "10/46|13.05|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:17Z"
+    "updated_at": "2026-09-18T23:36:13Z"
    },
    "owner": "63e05f13e990aac2",
    "submissions": [
@@ -1724,10 +1736,10 @@
    "locked": false,
    "note": {
     "comment_id": 5635147758,
-    "fp": "15/46|16.06|1/0|0|13.47",
+    "fp": "16/46|16.06|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:39Z"
+    "updated_at": "2026-09-18T23:36:22Z"
    },
    "owner": "e7ba4fcd613d0dec",
    "submissions": [
@@ -1793,10 +1805,10 @@
    "locked": false,
    "note": {
     "comment_id": 5637419461,
-    "fp": "34/46|41.39|4/0|0|13.47",
+    "fp": "35/46|41.39|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:15Z"
+    "updated_at": "2026-09-18T23:36:11Z"
    },
    "owner": "62f2c7fbc20fdcb1",
    "submissions": [
@@ -1896,10 +1908,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665870614,
-    "fp": "17/46|17.77|2/0|0|13.47",
+    "fp": "18/46|17.77|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:06Z"
+    "updated_at": "2026-09-18T23:36:03Z"
    },
    "owner": "313e04804c0077d8",
    "submissions": [
@@ -1932,10 +1944,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628545092,
-    "fp": "19/46|18.53|5/0|0|13.47",
+    "fp": "20/46|18.53|5/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T23:13:20Z"
+    "updated_at": "2026-09-18T23:36:14Z"
    },
    "owner": "f5eeae1864756280",
    "submissions": [
@@ -2148,6 +2160,20 @@
    "used": 2
   },
   {
+   "alias": "Lightning Sprocket 88",
+   "at": "2026-09-18T23:33:24Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 5.46,
+    "top_mps": 9.91
+   },
+   "locked": false,
+   "metric": 11.83,
+   "rank": 7,
+   "replay": "replays/lab-3-wall-following/lightning-sprocket-88.json?v=c2ea92b4",
+   "used": 2
+  },
+  {
    "alias": "Mighty Puffin 96",
    "at": "2026-09-11T01:56:45Z",
    "attempt": 3,
@@ -2157,7 +2183,7 @@
    },
    "locked": false,
    "metric": 12.06,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-3-wall-following/mighty-puffin-96.json?v=b11cba5b",
    "used": 3
   },
@@ -2171,7 +2197,7 @@
    },
    "locked": false,
    "metric": 12.23,
-   "rank": 8,
+   "rank": 9,
    "replay": "replays/lab-3-wall-following/crimson-heron-58.json?v=da99bf08",
    "used": 1
   },
@@ -2185,7 +2211,7 @@
    },
    "locked": false,
    "metric": 13.05,
-   "rank": 9,
+   "rank": 10,
    "replay": "replays/lab-3-wall-following/stormy-magnet-44.json?v=b61ec8ba",
    "used": 2
   },
@@ -2199,7 +2225,7 @@
    },
    "locked": false,
    "metric": 13.38,
-   "rank": 10,
+   "rank": 11,
    "replay": "replays/lab-3-wall-following/solar-lion-63.json?v=fce460e6",
    "used": 1
   },
@@ -2213,7 +2239,7 @@
    },
    "locked": false,
    "metric": 14.02,
-   "rank": 11,
+   "rank": 12,
    "replay": "replays/lab-3-wall-following/neon-bobcat-67.json?v=09ed0a1a",
    "used": 1
   },
@@ -2227,7 +2253,7 @@
    },
    "locked": false,
    "metric": 15.02,
-   "rank": 12,
+   "rank": 13,
    "replay": "replays/lab-3-wall-following/polar-meteor-19.json?v=fc6def0b",
    "used": 1
   },
@@ -2241,7 +2267,7 @@
    },
    "locked": false,
    "metric": 15.55,
-   "rank": 13,
+   "rank": 14,
    "replay": "replays/lab-3-wall-following/rapid-gecko-35.json?v=f2d3856e",
    "used": 3
   },
@@ -2255,7 +2281,7 @@
    },
    "locked": false,
    "metric": 15.57,
-   "rank": 14,
+   "rank": 15,
    "replay": "replays/lab-3-wall-following/onyx-shuttle-58.json?v=f81c541f",
    "used": 6
   },
@@ -2269,7 +2295,7 @@
    },
    "locked": false,
    "metric": 16.06,
-   "rank": 15,
+   "rank": 16,
    "used": 1
   },
   {
@@ -2282,7 +2308,7 @@
    },
    "locked": false,
    "metric": 16.52,
-   "rank": 16,
+   "rank": 17,
    "replay": "replays/lab-3-wall-following/sonic-cougar-58.json?v=6af29acf",
    "used": 2
   },
@@ -2296,7 +2322,7 @@
    },
    "locked": false,
    "metric": 17.77,
-   "rank": 17,
+   "rank": 18,
    "replay": "replays/lab-3-wall-following/zesty-dingo-14.json?v=7790e6bc",
    "used": 2
   },
@@ -2310,7 +2336,7 @@
    },
    "locked": false,
    "metric": 18.5,
-   "rank": 18,
+   "rank": 19,
    "replay": "replays/lab-3-wall-following/bold-pixel-17.json?v=b5b8bbd2",
    "used": 1
   },
@@ -2324,7 +2350,7 @@
    },
    "locked": false,
    "metric": 18.53,
-   "rank": 19,
+   "rank": 20,
    "replay": "replays/lab-3-wall-following/zesty-orca-53.json?v=64e7df08",
    "used": 5
   },
@@ -2338,7 +2364,7 @@
    },
    "locked": false,
    "metric": 19.77,
-   "rank": 20,
+   "rank": 21,
    "replay": "replays/lab-3-wall-following/denim-tensor-14.json?v=3a43a611",
    "used": 5
   },
@@ -2352,7 +2378,7 @@
    },
    "locked": false,
    "metric": 19.91,
-   "rank": 21,
+   "rank": 22,
    "used": 1
   },
   {
@@ -2365,7 +2391,7 @@
    },
    "locked": false,
    "metric": 20.16,
-   "rank": 22,
+   "rank": 23,
    "replay": "replays/lab-3-wall-following/quantum-orca-30.json?v=3cb8df43",
    "used": 1
   },
@@ -2379,7 +2405,7 @@
    },
    "locked": false,
    "metric": 21.8,
-   "rank": 23,
+   "rank": 24,
    "replay": "replays/lab-3-wall-following/cobalt-tensor-48.json?v=cbe7ccb0",
    "used": 2
   },
@@ -2393,7 +2419,7 @@
    },
    "locked": false,
    "metric": 21.96,
-   "rank": 24,
+   "rank": 25,
    "replay": "replays/lab-3-wall-following/spiky-wolf-44.json?v=e5385e82",
    "used": 1
   },
@@ -2407,7 +2433,7 @@
    },
    "locked": false,
    "metric": 22.76,
-   "rank": 25,
+   "rank": 26,
    "replay": "replays/lab-3-wall-following/radar-gazelle-19.json?v=0d8971b3",
    "used": 1
   },
@@ -2421,7 +2447,7 @@
    },
    "locked": false,
    "metric": 24.28,
-   "rank": 26,
+   "rank": 27,
    "replay": "replays/lab-3-wall-following/ivory-comet-85.json?v=2a98dacf",
    "used": 1
   },
@@ -2435,7 +2461,7 @@
    },
    "locked": false,
    "metric": 25.72,
-   "rank": 27,
+   "rank": 28,
    "replay": "replays/lab-3-wall-following/emerald-bison-26.json?v=47c21711",
    "used": 6
   },
@@ -2449,7 +2475,7 @@
    },
    "locked": false,
    "metric": 27.21,
-   "rank": 28,
+   "rank": 29,
    "replay": "replays/lab-3-wall-following/humble-compass-32.json?v=5233f47b",
    "used": 1
   },
@@ -2463,7 +2489,7 @@
    },
    "locked": false,
    "metric": 27.48,
-   "rank": 29,
+   "rank": 30,
    "replay": "replays/lab-3-wall-following/ivory-diode-28.json?v=75dea03f",
    "used": 3
   },
@@ -2477,7 +2503,7 @@
    },
    "locked": false,
    "metric": 29.5,
-   "rank": 30,
+   "rank": 31,
    "replay": "replays/lab-3-wall-following/spiky-beacon-49.json?v=7afd129c",
    "used": 4
   },
@@ -2491,7 +2517,7 @@
    },
    "locked": false,
    "metric": 32.4,
-   "rank": 31,
+   "rank": 32,
    "replay": "replays/lab-3-wall-following/alpine-dolphin-75.json?v=5fe5703f",
    "used": 2
   },
@@ -2505,7 +2531,7 @@
    },
    "locked": false,
    "metric": 36.2,
-   "rank": 32,
+   "rank": 33,
    "replay": "replays/lab-3-wall-following/silver-otter-38.json?v=34d5769d",
    "used": 1
   },
@@ -2519,7 +2545,7 @@
    },
    "locked": false,
    "metric": 40.39,
-   "rank": 33,
+   "rank": 34,
    "replay": "replays/lab-3-wall-following/breezy-bolt-20.json?v=35cea0a1",
    "used": 1
   },
@@ -2533,7 +2559,7 @@
    },
    "locked": false,
    "metric": 41.39,
-   "rank": 34,
+   "rank": 35,
    "replay": "replays/lab-3-wall-following/turbo-hawk-96.json?v=632d4bf2",
    "used": 4
   },
@@ -2547,7 +2573,7 @@
    },
    "locked": false,
    "metric": 45.0,
-   "rank": 35,
+   "rank": 36,
    "replay": "replays/lab-3-wall-following/foggy-voxel-49.json?v=10c501f9",
    "used": 4
   },
@@ -2561,22 +2587,8 @@
    },
    "locked": false,
    "metric": 46.09,
-   "rank": 36,
-   "used": 2
-  },
-  {
-   "alias": "Lightning Sprocket 88",
-   "at": "2026-09-17T04:38:39Z",
-   "attempt": 1,
-   "extras": {
-    "avg_mps": 1.34,
-    "top_mps": 1.5
-   },
-   "locked": false,
-   "metric": 46.1,
    "rank": 37,
-   "replay": "replays/lab-3-wall-following/lightning-sprocket-88.json?v=ca274936",
-   "used": 1
+   "used": 2
   },
   {
    "alias": "Mellow Llama 78",

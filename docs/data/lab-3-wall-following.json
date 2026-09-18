@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T05:13:33Z",
+ "generated_at": "2026-09-18T05:28:20Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -187,10 +187,10 @@
    "locked": false,
    "note": {
     "comment_id": 5673493608,
-    "fp": "6/37|12.23|1/0|0|13.47",
+    "fp": "7/37|12.23|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:13:54Z"
+    "updated_at": "2026-09-18T05:28:35Z"
    },
    "owner": "63982ff770837c44",
    "submissions": [
@@ -698,10 +698,10 @@
    "locked": false,
    "note": {
     "comment_id": 5609222498,
-    "fp": "5/37|12.06|3/0|0|13.47",
+    "fp": "6/37|12.06|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:13:51Z"
+    "updated_at": "2026-09-18T05:28:33Z"
    },
    "owner": "da8f415b7996d027",
    "submissions": [
@@ -744,10 +744,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665534590,
-    "fp": "9/37|14.02|1/0|0|13.47",
+    "fp": "10/37|14.02|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:13:57Z"
+    "updated_at": "2026-09-18T05:28:35Z"
    },
    "owner": "a2fd7d0fbb6a62aa",
    "submissions": [
@@ -880,10 +880,10 @@
    "locked": false,
    "note": {
     "comment_id": 5609596439,
-    "fp": "15/37|18.17|3/0|0|13.47",
+    "fp": "4/37|10.76|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:14:05Z"
+    "updated_at": "2026-09-18T05:28:37Z"
    },
    "owner": "83663b62299e6a36",
    "submissions": [
@@ -911,6 +911,17 @@
      "graded": true,
      "id": "a9371ae7727f2e5f",
      "metrics": null
+    },
+    {
+     "at": "2026-09-18T05:18:08Z",
+     "full": true,
+     "graded": true,
+     "id": "ac9c2d87a2f1f5ef",
+     "metrics": {
+      "avg_mps": 5.72,
+      "lap_s": 10.76,
+      "top_mps": 9.1
+     }
     }
    ]
   },
@@ -966,10 +977,10 @@
    "locked": false,
    "note": {
     "comment_id": 5648089027,
-    "fp": "10/37|15.55|3/0|0|13.47",
+    "fp": "11/37|15.55|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:14:09Z"
+    "updated_at": "2026-09-18T05:28:38Z"
    },
    "owner": "3569acad27a8a5bf",
    "submissions": [
@@ -1020,10 +1031,10 @@
    "locked": false,
    "note": {
     "comment_id": 5647661566,
-    "fp": "4/37|11.66|2/0|0|13.47",
+    "fp": "5/37|11.66|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:13:53Z"
+    "updated_at": "2026-09-18T05:28:34Z"
    },
    "owner": "5f8109372fa5c0e2",
    "submissions": [
@@ -1106,10 +1117,10 @@
    "locked": false,
    "note": {
     "comment_id": 5611993692,
-    "fp": "8/37|13.38|1/0|0|13.47",
+    "fp": "9/37|13.38|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:14:16Z"
+    "updated_at": "2026-09-18T05:28:38Z"
    },
    "owner": "dfe9505c5e9a278b",
    "submissions": [
@@ -1130,10 +1141,10 @@
    "locked": false,
    "note": {
     "comment_id": 5625536344,
-    "fp": "13/37|16.52|2/0|0|13.47",
+    "fp": "14/37|16.52|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:14:02Z"
+    "updated_at": "2026-09-18T05:28:37Z"
    },
    "owner": "8eaa1adde81f240d",
    "submissions": [
@@ -1234,10 +1245,10 @@
    "locked": false,
    "note": {
     "comment_id": 5607301879,
-    "fp": "7/37|13.05|2/0|0|13.47",
+    "fp": "8/37|13.05|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:13:57Z"
+    "updated_at": "2026-09-18T05:28:36Z"
    },
    "owner": "63e05f13e990aac2",
    "submissions": [
@@ -1436,10 +1447,10 @@
    "locked": false,
    "note": {
     "comment_id": 5635147758,
-    "fp": "12/37|16.06|1/0|0|13.47",
+    "fp": "13/37|16.06|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:14:16Z"
+    "updated_at": "2026-09-18T05:28:39Z"
    },
    "owner": "e7ba4fcd613d0dec",
    "submissions": [
@@ -1460,10 +1471,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608817259,
-    "fp": "11/37|15.55|1/0|0|13.47",
+    "fp": "12/37|15.55|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:13:44Z"
+    "updated_at": "2026-09-18T05:28:32Z"
    },
    "owner": "28a881accf52d2a7",
    "submissions": [
@@ -1573,10 +1584,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665870614,
-    "fp": "14/37|17.77|2/0|0|13.47",
+    "fp": "15/37|17.77|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T05:13:48Z"
+    "updated_at": "2026-09-18T05:28:33Z"
    },
    "owner": "313e04804c0077d8",
    "submissions": [
@@ -1776,6 +1787,19 @@
    "used": 2
   },
   {
+   "alias": "Quantum Bobcat 80",
+   "at": "2026-09-18T05:18:08Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 5.72,
+    "top_mps": 9.1
+   },
+   "locked": false,
+   "metric": 10.76,
+   "rank": 4,
+   "used": 4
+  },
+  {
    "alias": "Scarlet Owl 81",
    "at": "2026-09-14T16:38:05Z",
    "attempt": 2,
@@ -1785,7 +1809,7 @@
    },
    "locked": false,
    "metric": 11.66,
-   "rank": 4,
+   "rank": 5,
    "used": 2
   },
   {
@@ -1798,7 +1822,7 @@
    },
    "locked": false,
    "metric": 12.06,
-   "rank": 5,
+   "rank": 6,
    "used": 3
   },
   {
@@ -1811,7 +1835,7 @@
    },
    "locked": false,
    "metric": 12.23,
-   "rank": 6,
+   "rank": 7,
    "used": 1
   },
   {
@@ -1824,7 +1848,7 @@
    },
    "locked": false,
    "metric": 13.05,
-   "rank": 7,
+   "rank": 8,
    "used": 2
   },
   {
@@ -1837,7 +1861,7 @@
    },
    "locked": false,
    "metric": 13.38,
-   "rank": 8,
+   "rank": 9,
    "used": 1
   },
   {
@@ -1850,7 +1874,7 @@
    },
    "locked": false,
    "metric": 14.02,
-   "rank": 9,
+   "rank": 10,
    "used": 1
   },
   {
@@ -1863,7 +1887,7 @@
    },
    "locked": false,
    "metric": 15.55,
-   "rank": 10,
+   "rank": 11,
    "used": 3
   },
   {
@@ -1876,7 +1900,7 @@
    },
    "locked": false,
    "metric": 15.55,
-   "rank": 11,
+   "rank": 12,
    "used": 1
   },
   {
@@ -1889,7 +1913,7 @@
    },
    "locked": false,
    "metric": 16.06,
-   "rank": 12,
+   "rank": 13,
    "used": 1
   },
   {
@@ -1902,7 +1926,7 @@
    },
    "locked": false,
    "metric": 16.52,
-   "rank": 13,
+   "rank": 14,
    "used": 2
   },
   {
@@ -1915,21 +1939,8 @@
    },
    "locked": false,
    "metric": 17.77,
-   "rank": 14,
-   "used": 2
-  },
-  {
-   "alias": "Quantum Bobcat 80",
-   "at": "2026-09-17T16:01:03Z",
-   "attempt": 1,
-   "extras": {
-    "avg_mps": 3.47,
-    "top_mps": 3.5
-   },
-   "locked": false,
-   "metric": 18.17,
    "rank": 15,
-   "used": 3
+   "used": 2
   },
   {
    "alias": "Bold Pixel 17",

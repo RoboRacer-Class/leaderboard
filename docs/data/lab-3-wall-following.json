@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T21:46:30Z",
+ "generated_at": "2026-09-18T21:54:37Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -216,10 +216,10 @@
    "locked": false,
    "note": {
     "comment_id": 5673493608,
-    "fp": "7/42|12.23|1/0|0|13.47",
+    "fp": "8/42|12.23|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:38:09Z"
+    "updated_at": "2026-09-18T21:54:56Z"
    },
    "owner": "63982ff770837c44",
    "submissions": [
@@ -820,10 +820,10 @@
    "locked": false,
    "note": {
     "comment_id": 5609222498,
-    "fp": "6/42|12.06|3/0|0|13.47",
+    "fp": "7/42|12.06|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:38:06Z"
+    "updated_at": "2026-09-18T21:54:54Z"
    },
    "owner": "da8f415b7996d027",
    "submissions": [
@@ -867,10 +867,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665534590,
-    "fp": "10/42|14.02|1/0|0|13.47",
+    "fp": "11/42|14.02|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:38:13Z"
+    "updated_at": "2026-09-18T21:54:56Z"
    },
    "owner": "a2fd7d0fbb6a62aa",
    "submissions": [
@@ -1034,10 +1034,10 @@
    "locked": false,
    "note": {
     "comment_id": 5609596439,
-    "fp": "4/42|10.76|4/0|0|13.47",
+    "fp": "5/42|10.76|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:38:25Z"
+    "updated_at": "2026-09-18T21:54:58Z"
    },
    "owner": "83663b62299e6a36",
    "submissions": [
@@ -1153,10 +1153,10 @@
    "locked": false,
    "note": {
     "comment_id": 5648089027,
-    "fp": "11/42|15.55|3/0|0|13.47",
+    "fp": "12/42|15.55|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:38:31Z"
+    "updated_at": "2026-09-18T21:54:59Z"
    },
    "owner": "3569acad27a8a5bf",
    "submissions": [
@@ -1208,10 +1208,10 @@
    "locked": false,
    "note": {
     "comment_id": 5647661566,
-    "fp": "5/42|11.66|2/0|0|13.47",
+    "fp": "6/42|11.66|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:38:08Z"
+    "updated_at": "2026-09-18T21:54:55Z"
    },
    "owner": "5f8109372fa5c0e2",
    "submissions": [
@@ -1297,10 +1297,10 @@
    "locked": false,
    "note": {
     "comment_id": 5611993692,
-    "fp": "9/42|13.38|1/0|0|13.47",
+    "fp": "10/42|13.38|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:38:41Z"
+    "updated_at": "2026-09-18T21:54:59Z"
    },
    "owner": "dfe9505c5e9a278b",
    "submissions": [
@@ -1441,10 +1441,10 @@
    "locked": false,
    "note": {
     "comment_id": 5607301879,
-    "fp": "8/42|13.05|2/0|0|13.47",
+    "fp": "9/42|13.05|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:38:14Z"
+    "updated_at": "2026-09-18T21:54:57Z"
    },
    "owner": "63e05f13e990aac2",
    "submissions": [
@@ -1670,10 +1670,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608817259,
-    "fp": "12/42|15.55|3/0|0|13.47",
+    "fp": "4/42|10.68|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T21:46:47Z"
+    "updated_at": "2026-09-18T21:54:54Z"
    },
    "owner": "28a881accf52d2a7",
    "submissions": [
@@ -1698,10 +1698,15 @@
     },
     {
      "at": "2026-09-18T21:45:02Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "18ccbbaa6aa6eda3",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 5.74,
+      "lap_s": 10.68,
+      "top_mps": 7.0
+     },
+     "replay": "replays/lab-3-wall-following/tropic-cipher-39.json?v=bc10fd43"
     }
    ]
   },
@@ -2022,6 +2027,20 @@
    "used": 2
   },
   {
+   "alias": "Tropic Cipher 39",
+   "at": "2026-09-18T21:45:02Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 5.74,
+    "top_mps": 7.0
+   },
+   "locked": false,
+   "metric": 10.68,
+   "rank": 4,
+   "replay": "replays/lab-3-wall-following/tropic-cipher-39.json?v=bc10fd43",
+   "used": 3
+  },
+  {
    "alias": "Quantum Bobcat 80",
    "at": "2026-09-18T05:18:08Z",
    "attempt": 4,
@@ -2031,7 +2050,7 @@
    },
    "locked": false,
    "metric": 10.76,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-3-wall-following/quantum-bobcat-80.json?v=277ae9e5",
    "used": 4
   },
@@ -2045,7 +2064,7 @@
    },
    "locked": false,
    "metric": 11.66,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-3-wall-following/scarlet-owl-81.json?v=a1b13050",
    "used": 2
   },
@@ -2059,7 +2078,7 @@
    },
    "locked": false,
    "metric": 12.06,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-3-wall-following/mighty-puffin-96.json?v=b11cba5b",
    "used": 3
   },
@@ -2073,7 +2092,7 @@
    },
    "locked": false,
    "metric": 12.23,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-3-wall-following/crimson-heron-58.json?v=da99bf08",
    "used": 1
   },
@@ -2087,7 +2106,7 @@
    },
    "locked": false,
    "metric": 13.05,
-   "rank": 8,
+   "rank": 9,
    "replay": "replays/lab-3-wall-following/stormy-magnet-44.json?v=b61ec8ba",
    "used": 2
   },
@@ -2101,7 +2120,7 @@
    },
    "locked": false,
    "metric": 13.38,
-   "rank": 9,
+   "rank": 10,
    "replay": "replays/lab-3-wall-following/solar-lion-63.json?v=fce460e6",
    "used": 1
   },
@@ -2115,7 +2134,7 @@
    },
    "locked": false,
    "metric": 14.02,
-   "rank": 10,
+   "rank": 11,
    "replay": "replays/lab-3-wall-following/neon-bobcat-67.json?v=09ed0a1a",
    "used": 1
   },
@@ -2129,22 +2148,8 @@
    },
    "locked": false,
    "metric": 15.55,
-   "rank": 11,
-   "replay": "replays/lab-3-wall-following/rapid-gecko-35.json?v=f2d3856e",
-   "used": 3
-  },
-  {
-   "alias": "Tropic Cipher 39",
-   "at": "2026-09-17T20:16:41Z",
-   "attempt": 1,
-   "extras": {
-    "avg_mps": 3.9,
-    "top_mps": 5.34
-   },
-   "locked": false,
-   "metric": 15.55,
    "rank": 12,
-   "replay": "replays/lab-3-wall-following/tropic-cipher-39.json?v=54849053",
+   "replay": "replays/lab-3-wall-following/rapid-gecko-35.json?v=f2d3856e",
    "used": 3
   },
   {

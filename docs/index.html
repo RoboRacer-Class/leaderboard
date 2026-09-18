@@ -6,70 +6,95 @@
 <title>ESE 6150 Leaderboard</title>
 <meta name="description" content="Live lap-time leaderboard for the ESE 6150 Roboracer labs: each team's best clean lap in the grading simulator, with the TA reference.">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#07070d">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon.png">
+<link rel="icon" type="image/svg+xml" href="assets/logo-square.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ESE 6150 Leaderboard">
+<meta property="og:description" content="Live lap-time leaderboard for the ESE 6150 RoboRacer labs.">
+<meta property="og:url" content="https://roboracer-class.github.io/leaderboard/">
+<meta property="og:image" content="https://roboracer-class.github.io/leaderboard/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f3f1ea;
-    --surface: #fbfaf6;
-    --surface-2: #ece9df;
-    --ink: #15181c;
-    --ink-2: #4c525a;
-    --ink-3: #737981;
-    --line: #d8d4c9;
-    --line-strong: #b9b4a6;
-    --accent: #e0aa00;
-    --accent-tint: #fdf0bf;
-    --accent-ink: #6f5200;
-    --me: #0c6b4f;
-    --me-tint: #d9f0e6;
-    --me-ink: #0a4f3b;
-    --danger-ink: #8a2c1e;
-    --chart-dot: #3a72d4;      /* every driver */
-    --rank-ink: #1e3f7a;       /* position cells: a wash of the chart blue for the field... */
+    /* Palette, type and radii follow roboracer.ai (roboracer-site src/index.css):
+       ink/paper bases, violet as the one accent, the logo's cyan -> magenta
+       gradient only on the logo and the masthead rule. */
+    --bg: #fbfbfd;
+    --surface: #ffffff;
+    --surface-2: #f3f4f8;
+    --ink: #0b0c14;
+    --ink-2: #3b3f55;
+    --ink-3: #62677f;
+    --line: #e6e8f0;
+    --line-strong: #c9cddc;
+    --accent: #7c3aed;
+    --accent-tint: #efe7fe;
+    --accent-ink: #6d28d9;
+    --on-accent: #ffffff;
+    --me: #0891a0;             /* the logo's cyan, deepened to read on paper */
+    --me-tint: #d8f6f8;
+    --me-ink: #0b6470;
+    --danger-ink: #a11d3f;
+    --chart-dot: #7c3aed;      /* every driver */
+    --rank-ink: #5b21b6;       /* position cells: a wash of the violet for the field... */
     --gold: #d9a400;           /* ...solid medals for the top three... */
     --silver: #a9b0ba;
     --bronze: #c4763a;
-    --medal-ink: #15181c;
-    --ref: #7c4dff;            /* ...and purple for the TA reference row */
+    --medal-ink: #0b0c14;
+    --ref: #c026d3;            /* ...and the logo's magenta for the TA reference row */
     --ref-ink: #ffffff;
-    --chart-ref: #737981;      /* the TA reference rule */
-    --chart-me: #0e7f5b;       /* the alias you highlighted */
-    --shadow: 0 1px 2px rgba(20, 24, 28, .06), 0 8px 24px -12px rgba(20, 24, 28, .25);
-    --radius: 10px;
-    --display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-    --body: "Barlow", "Helvetica Neue", Arial, system-ui, sans-serif;
+    --chart-ref: #62677f;      /* the TA reference rule */
+    --chart-me: #0891a0;       /* the alias you highlighted */
+    --mast-bg: #07070d;        /* the masthead is ink in both themes, like the site nav */
+    --mast-ink: #f5f5fa;
+    --mast-ink-2: #a8acc4;
+    --mast-line: #242841;
+    --mast-accent: #a78bfa;
+    --logo-grad: linear-gradient(90deg, #00d1da 0%, #fc00ff 100%);
+    --shadow: 0 1px 2px rgb(11 12 20 / .06), 0 4px 12px rgb(11 12 20 / .06);
+    --radius: 6px;
+    --radius-btn: 4px;
+    --display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     color-scheme: light dark;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #0f1113;
-      --surface: #171a1e;
-      --surface-2: #1f2328;
-      --ink: #f0eee7;
-      --ink-2: #b1b6bd;
-      --ink-3: #868c94;
-      --line: #2b3037;
-      --line-strong: #3d434b;
-      --accent: #f2c14e;
-      --accent-tint: #3a2f0d;
-      --accent-ink: #f6d174;
-      --me: #4fd1a3;
-      --me-tint: #10352a;
-      --me-ink: #8fe7c6;
-      --danger-ink: #f2a08f;
-      --chart-dot: #4f8fff;
-      --rank-ink: #a9c6ff;
+      --bg: #07070d;
+      --surface: #0e0f1a;
+      --surface-2: #171a2b;
+      --ink: #f5f5fa;
+      --ink-2: #a8acc4;
+      --ink-3: #8287a3;
+      --line: #1f2338;
+      --line-strong: #343a5a;
+      --accent: #8b5cf6;
+      --accent-tint: #241a4a;
+      --accent-ink: #c4b5fd;
+      --on-accent: #ffffff;
+      --me: #00d1da;
+      --me-tint: #06323a;
+      --me-ink: #7eeaf0;
+      --danger-ink: #fda4af;
+      --chart-dot: #a78bfa;
+      --rank-ink: #c4b5fd;
       --gold: #e0b22a;
       --silver: #aab1ba;
       --bronze: #c98549;
-      --medal-ink: #15181c;
-      --ref: #9d84f5;
-      --ref-ink: #15181c;
-      --chart-ref: #868c94;
-      --chart-me: #259f70;
-      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -12px rgba(0, 0, 0, .7);
+      --medal-ink: #0b0c14;
+      --ref: #e879f9;
+      --ref-ink: #0b0c14;
+      --chart-ref: #8287a3;
+      --chart-me: #00d1da;
+      --mast-bg: #0e0f1a;
+      --shadow: 0 1px 2px rgb(0 0 0 / .4), 0 8px 24px -12px rgb(0 0 0 / .7);
     }
   }
   * { box-sizing: border-box; }
@@ -86,51 +111,57 @@
     caret-color: var(--accent);
     scrollbar-color: var(--line-strong) transparent;
   }
-  ::selection { background: var(--accent); color: #15181c; }
+  ::selection { background: var(--accent); color: var(--on-accent); }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
   a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .18em; }
   .wrap { width: min(1080px, 100% - 2rem); margin-inline: auto; }
 
-  /* Masthead: the checkered band is the only ornament on the page. */
+  /* Masthead: ink in both themes, like the site nav. The logo gradient rule
+     under it is the only ornament on the page. */
   .masthead {
-    border-bottom: 1px solid var(--line);
-    background: var(--surface);
+    background: var(--mast-bg);
+    color: var(--mast-ink);
     position: relative;
   }
-  .masthead::before {
+  .masthead::after {
     content: "";
     display: block;
-    height: 10px;
-    background:
-      repeating-conic-gradient(var(--ink) 0 25%, var(--surface) 0 50%) 0 0 / 20px 20px;
-    opacity: .9;
+    height: 3px;
+    background: var(--logo-grad);
   }
-  .masthead .wrap { padding: 1.4rem 0 0; }
+  .masthead .wrap { padding: 1.5rem 0 0; }
+  .masthead :focus-visible { outline-color: var(--mast-accent); }
+  .brand { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem .8rem; text-decoration: none; color: var(--mast-ink); }
+  .brand .logo { display: block; height: 22px; width: auto; }
+  .brand .course {
+    font-family: var(--display); font-weight: 500; font-size: .75rem; line-height: 1.2;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--mast-ink-2);
+    padding-left: .8rem; border-left: 1px solid var(--mast-line);
+  }
   h1 {
     font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(2.2rem, 5vw, 3.4rem);
-    line-height: .95;
-    letter-spacing: -.01em;
-    text-transform: uppercase;
-    margin: 0;
+    font-weight: 600;
+    font-size: clamp(2.1rem, 4.6vw, 3.2rem);
+    line-height: 1;
+    letter-spacing: -.03em;
+    margin: 1.4rem 0 0;
     text-wrap: balance;
   }
-  .lede { margin: .5rem 0 0; max-width: 62ch; color: var(--ink-2); font-size: 1.02rem; }
-  .tabs { display: flex; gap: .25rem; margin-top: 1.1rem; overflow-x: auto; scrollbar-width: none; }
+  .lede { margin: .6rem 0 0; max-width: 62ch; color: var(--mast-ink-2); font-size: 1.02rem; }
+  .tabs { display: flex; gap: .25rem; margin-top: 1.2rem; overflow-x: auto; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
   .tab {
-    appearance: none; border: 0; background: transparent; color: var(--ink-2);
+    appearance: none; border: 0; background: transparent; color: var(--mast-ink-2);
     font: inherit; font-weight: 600; font-size: .95rem; padding: .7rem .9rem .8rem;
-    border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; margin-bottom: -1px;
+    border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap;
   }
-  .tab:hover { color: var(--ink); }
-  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
-  .tab .state { font-weight: 500; color: var(--ink-3); margin-left: .35rem; font-size: .85rem; }
+  .tab:hover { color: var(--mast-ink); }
+  .tab[aria-selected="true"] { color: var(--mast-ink); border-bottom-color: var(--mast-accent); }
+  .tab .state { font-weight: 500; color: var(--mast-ink-2); opacity: .75; margin-left: .35rem; font-size: .85rem; }
   .switch { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0 .9rem; }
   .switch button {
     appearance: none; font: inherit; font-weight: 600; font-size: .9rem; cursor: pointer;
-    padding: .4rem .85rem; border-radius: 999px; border: 1px solid var(--line-strong);
+    padding: .4rem .85rem; border-radius: var(--radius-btn); border: 1px solid var(--line-strong);
     background: var(--surface); color: var(--ink-2);
   }
   .switch button:hover { color: var(--ink); }
@@ -145,12 +176,12 @@
     overflow: hidden; box-shadow: var(--shadow);
   }
   .status > div { background: var(--surface); padding: .85rem 1rem; }
-  .status .k { font-size: .8rem; color: var(--ink-3); margin: 0; }
+  .status .k { font-family: var(--display); font-weight: 500; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); margin: 0; }
   .status .v {
-    margin: .15rem 0 0; font-family: var(--display); font-weight: 600; font-size: 1.55rem;
-    line-height: 1.1; font-variant-numeric: tabular-nums;
+    margin: .15rem 0 0; font-family: var(--display); font-weight: 600; font-size: 1.5rem;
+    line-height: 1.15; letter-spacing: -.02em; font-variant-numeric: tabular-nums;
   }
-  .status .v small { font-family: var(--body); font-weight: 500; font-size: .85rem; color: var(--ink-2); margin-left: .3rem; }
+  .status .v small { font-family: var(--body); font-weight: 500; font-size: .85rem; letter-spacing: 0; color: var(--ink-2); margin-left: .3rem; }
   .status .closed .v { color: var(--danger-ink); }
 
   /* Find me */
@@ -158,15 +189,17 @@
   .find label { display: block; font-size: .85rem; color: var(--ink-2); margin-bottom: .3rem; }
   .find .field { flex: 1 1 260px; }
   .find input {
-    width: 100%; font: inherit; padding: .6rem .75rem; border-radius: 8px;
+    width: 100%; font: inherit; padding: .6rem .75rem; border-radius: var(--radius-btn);
     border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink);
   }
   .find input::placeholder { color: var(--ink-3); }
   .btn {
-    font: inherit; font-weight: 600; padding: .6rem 1rem; border-radius: 8px; cursor: pointer;
-    border: 1px solid var(--ink); background: var(--ink); color: var(--bg);
+    font: inherit; font-weight: 600; padding: .6rem 1rem; border-radius: var(--radius-btn); cursor: pointer;
+    border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent);
+    transition: background-color 180ms, border-color 180ms;
   }
-  .btn:hover { opacity: .9; }
+  .btn:hover { background: var(--accent-ink); border-color: var(--accent-ink); }
+  .btn.quiet:hover { background: transparent; border-color: var(--ink-3); color: var(--ink); }
   .btn.quiet { background: transparent; color: var(--ink-2); border-color: var(--line-strong); }
   .find-msg { flex-basis: 100%; margin: 0; font-size: .92rem; color: var(--ink-2); min-height: 1.3em; }
   .find-msg.ok { color: var(--me-ink); }
@@ -179,23 +212,23 @@
   .chart .hit { fill: transparent; cursor: pointer; outline: none; }
   .chart .hit:focus-visible + .mark circle, .chart .mark.hot circle { r: 7; }
   .chart .axis text, .chart .lbl { font-size: 11px; fill: var(--ink-3); }
-  .chart .lbl.ink { fill: var(--ink); font-weight: 600; font-size: 12px; }
+  .chart .lbl.ink { fill: var(--ink); font-weight: 600; font-size: 12px; paint-order: stroke; stroke: var(--surface); stroke-width: 5px; stroke-linejoin: round; }
   .chart .lbl.ink2 { fill: var(--ink-2); font-weight: 600; font-size: 11px; }
   .chart .key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin: .5rem .2rem 0; font-size: .82rem; color: var(--ink-3); }
   .chart .key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: .35rem; vertical-align: -1px; }
   .chart .key i.line { width: 16px; height: 0; border-top: 1.5px dashed var(--chart-ref); border-radius: 0; vertical-align: 2px; }
   .chart .tip {
     position: absolute; z-index: 2; pointer-events: none; transform: translate(-50%, calc(-100% - 12px));
-    background: var(--ink); color: var(--bg); padding: .4rem .65rem; border-radius: 6px; font-size: .82rem; line-height: 1.35; white-space: nowrap;
+    background: var(--ink); color: var(--bg); padding: .4rem .65rem; border-radius: var(--radius-btn); font-size: .82rem; line-height: 1.35; white-space: nowrap;
     box-shadow: var(--shadow);
   }
-  .chart .tip strong { display: block; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+  .chart .tip strong { display: block; font-family: var(--mono); font-size: 1rem; font-variant-numeric: tabular-nums; }
   .board { margin-top: 1.2rem; }
   .board h2, .grid h2, .chart h2 {
-    font-family: var(--display); font-weight: 700; font-size: 1.35rem; text-transform: uppercase;
-    letter-spacing: .01em; margin: 0 0 .5rem;
+    font-family: var(--display); font-weight: 600; font-size: 1.3rem;
+    letter-spacing: -.015em; margin: 0 0 .6rem;
   }
-  .board h2 span, .grid h2 span, .chart h2 span { color: var(--ink-3); font-weight: 600; margin-left: .5rem; }
+  .board h2 span, .grid h2 span, .chart h2 span { color: var(--ink-3); font-weight: 500; font-size: .95rem; letter-spacing: 0; margin-left: .5rem; }
   .table-wrap {
     overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius);
     background: var(--surface); box-shadow: var(--shadow);
@@ -203,21 +236,24 @@
   table { border-collapse: collapse; width: 100%; min-width: 560px; }
   th, td { padding: .62rem .8rem; text-align: left; border-top: 1px solid var(--line); vertical-align: middle; }
   thead th {
-    border-top: 0; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em;
-    color: var(--ink-2); font-weight: 600; background: var(--surface-2);
+    border-top: 0; font-family: var(--display); font-size: .72rem; text-transform: uppercase; letter-spacing: .14em;
+    color: var(--ink-3); font-weight: 500; background: var(--surface-2);
   }
   td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  td.rank { width: 3.6rem; text-align: center; font-family: var(--display); font-weight: 700; font-size: 1.2rem; }
+  td.rank { width: 3.6rem; text-align: center; font-family: var(--display); font-weight: 600; font-size: 1.15rem; }
   td.alias { font-weight: 600; }
-  td.time { font-family: var(--display); font-weight: 700; font-size: 1.35rem; letter-spacing: .01em; }
+  td.time { font-family: var(--mono); font-weight: 600; font-size: 1.15rem; letter-spacing: -.01em; word-spacing: -.35em; }
   td.gap { color: var(--ink-2); }
   td.when { color: var(--ink-3); white-space: nowrap; }
-  tbody tr td.rank { background: color-mix(in srgb, var(--chart-dot) 16%, var(--surface)); color: var(--rank-ink); }
+  tbody tr td.rank { background: color-mix(in srgb, var(--chart-dot) 12%, var(--surface)); color: var(--rank-ink); }
+  tbody tr:hover td:not(.rank) { background: color-mix(in srgb, var(--accent) 5%, var(--surface)); }
+  tbody tr.ref:hover td:not(.rank) { background: color-mix(in srgb, var(--ref) 12%, var(--surface)); }
+  tbody tr.me:hover td:not(.rank) { background: var(--me-tint); }
   tr.rank-1 td.rank { background: var(--gold); color: var(--medal-ink); }
   tr.rank-2 td.rank { background: var(--silver); color: var(--medal-ink); }
   tr.rank-3 td.rank { background: var(--bronze); color: var(--medal-ink); }
   tr.ref { color: var(--ink-2); }
-  tr.ref td { background: color-mix(in srgb, var(--ref) 16%, var(--surface)); border-top: 1px dashed color-mix(in srgb, var(--ref) 55%, var(--surface)); border-bottom: 1px dashed color-mix(in srgb, var(--ref) 55%, var(--surface)); font-style: italic; }
+  tr.ref td { background: color-mix(in srgb, var(--ref) 9%, var(--surface)); border-top: 1px dashed color-mix(in srgb, var(--ref) 55%, var(--surface)); border-bottom: 1px dashed color-mix(in srgb, var(--ref) 55%, var(--surface)); font-style: italic; }
   tr.ref td.rank { background: var(--ref); color: var(--ref-ink); font-style: normal; font-size: .8rem; letter-spacing: .06em; }
   tr.ref td.time { font-style: normal; }
   tr.me td { background: var(--me-tint); }
@@ -226,7 +262,7 @@
     display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
     padding: .12rem .45rem; border-radius: 999px; margin-left: .5rem; vertical-align: middle;
   }
-  .pill.you { background: var(--me); color: var(--bg); }
+  .pill.you { background: var(--me); color: var(--medal-ink); }
   .pill.locked { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line-strong); }
   @keyframes land { 0% { transform: scale(.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
   .just-found .pill.you { animation: land .7s cubic-bezier(.16, 1, .3, 1) both; }
@@ -236,9 +272,15 @@
   @media (max-width: 700px) {
     .col-avg, .col-top, .col-when { display: none; }
     table { min-width: 0; }
-    th, td { padding: .55rem .5rem; }
-    td.rank { width: 2.6rem; font-size: 1.05rem; }
-    td.time { font-size: 1.15rem; }
+    th, td { padding: .5rem .35rem; }
+    th:first-child, td:first-child { padding-left: .3rem; }
+    th:last-child, td:last-child, th:nth-last-child(2), td:nth-last-child(2) { padding-right: .6rem; }
+    thead th { font-size: .66rem; letter-spacing: .08em; }
+    td.rank { width: 2.3rem; font-size: 1rem; }
+    td.alias { font-size: .95rem; }
+    td.time { font-size: .92rem; }
+    td.num { font-size: .9rem; }
+    td.time.num { font-size: .92rem; }
     .status { grid-template-columns: repeat(2, 1fr); }
     .status .v { font-size: 1.3rem; }
   }
@@ -248,7 +290,7 @@
   .chips { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0; padding: 0; list-style: none; }
   .chips li {
     border: 1px solid var(--line-strong); border-radius: 999px; padding: .3rem .7rem;
-    font-size: .92rem; background: var(--surface); font-variant-numeric: tabular-nums;
+    font-size: .92rem; background: var(--surface);
   }
   .chips li.me { border-color: var(--me); background: var(--me-tint); box-shadow: 0 0 0 1px var(--me); }
   .chips li span { color: var(--ink-3); margin-left: .35rem; }
@@ -257,16 +299,21 @@
   /* Rules */
   .rules { margin-top: 2.2rem; padding-top: 1.2rem; border-top: 1px solid var(--line); color: var(--ink-2); font-size: .92rem; }
   .rules ul { padding-left: 1.2rem; margin: .4rem 0 0; max-width: 72ch; }
-  .rules code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; background: var(--surface-2); padding: .05em .35em; border-radius: 4px; }
+  .rules code { font-family: var(--mono); font-size: .88em; background: var(--surface-2); padding: .05em .35em; border-radius: 4px; }
   .rules li + li { margin-top: .25rem; }
   .rules .fine { margin-top: .9rem; color: var(--ink-3); font-size: .85rem; }
-  .notice { margin: 1rem 0 0; padding: .8rem 1rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface); color: var(--ink-2); }
+  .notice { margin: 1rem 0 0; padding: .8rem 1rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); color: var(--ink-2); }
   .hidden { display: none !important; }
 </style>
 </head>
 <body>
 <header class="masthead">
   <div class="wrap">
+    <!-- wordmark: roboracer-site public/logos/logo-white-gradient.svg, letters on currentColor -->
+    <a class="brand" href="https://roboracer.ai/" aria-label="RoboRacer home">
+      <svg class="logo" viewBox="0 0 151 26" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RoboRacer"><path d="M34.9272 0.00153762H31.2692V25.0617H34.9272V22.6154C36.6309 24.1361 38.8743 25.0617 41.3291 25.0617C44.8279 25.0617 47.8955 23.1997 49.5984 20.4196C48.8196 19.3556 48.0915 18.2393 47.3673 17.1291L47.179 16.84C46.5293 19.4578 44.1598 21.4022 41.3291 21.4022C38.0232 21.4022 35.3439 18.7075 35.3439 15.3901C35.3439 12.0726 38.0232 9.39334 41.3291 9.39334H41.3498V9.38334C44.7188 9.37643 46.8553 12.6523 49.0572 16.0282C51.9563 20.4719 54.9463 25.0548 61.149 25.0548V25.0579H61.1698C66.4869 25.0579 70.8145 20.7264 70.8145 15.3939C70.8145 10.0614 66.4869 5.72457 61.1698 5.72457C57.4057 5.72457 54.1375 7.87955 52.536 11.0178C52.9666 11.6498 53.3871 12.2956 53.8092 12.9429C54.2536 13.6233 54.701 14.3099 55.1577 14.9657C55.3783 11.8489 57.9823 9.38411 61.1698 9.38411C64.3573 9.38411 67.155 12.0788 67.155 15.3962C67.155 18.7136 64.4757 21.3914 61.1698 21.3914H61.149V21.3945C56.9152 21.3945 54.4804 17.6611 52.1193 14.0423C49.367 9.82234 46.6946 5.72688 41.3483 5.73687V5.72688H41.3275C38.8727 5.72688 36.6293 6.65099 34.9256 8.16862V0L34.9272 0.00153762Z" fill="url(#rr-logo-grad)"/><path fill-rule="evenodd" clip-rule="evenodd" d="M113.305 25.6798C115.627 25.6798 117.954 24.8457 119.622 23.3734L117.404 20.4565C116.42 21.3845 114.87 22.0218 113.289 22.0218C110.102 22.0218 107.262 19.4825 107.262 15.9544C107.262 12.4555 110.086 9.88692 113.289 9.88692C114.854 9.88692 116.388 10.4935 117.341 11.4046L119.393 8.3516C117.74 6.99849 115.523 6.22738 113.289 6.22738C108.081 6.22738 103.604 10.4189 103.604 15.9544C103.604 21.5052 108.096 25.6814 113.304 25.6814L113.306 25.6798H113.305ZM3.658 22.9721V25.0633H0V14.9864H0.00999455C0.226799 9.85002 4.46603 5.72919 9.64474 5.72919C10.851 5.72919 12.0073 5.94984 13.0721 6.355C12.7715 6.60102 12.484 6.86088 12.208 7.13458C11.5191 7.82189 10.9148 8.59532 10.4136 9.43563C10.1621 9.40334 9.9046 9.38642 9.64474 9.38642C6.33885 9.38642 3.65954 12.0811 3.65954 15.3985V22.9713H3.658V22.9721ZM20.4727 25.0633C25.7898 25.0633 30.1159 20.7318 30.1159 15.3993C30.1159 10.0668 25.7882 5.72996 20.4727 5.72996C15.1571 5.72996 10.788 10.073 10.788 15.3993C10.788 20.7256 15.131 25.0633 20.4727 25.0633ZM20.4727 21.3945C17.1407 21.3945 14.4452 18.7152 14.4452 15.3993C14.4452 12.0826 17.1399 9.38719 20.4727 9.38719C23.8055 9.38719 26.4579 12.0819 26.4579 15.3993C26.4579 18.7167 23.7786 21.3945 20.4727 21.3945ZM141.584 22.9721V25.0633H137.926V14.9864H137.936C138.152 9.85002 142.392 5.72919 147.57 5.72919C148.777 5.72919 149.933 5.94984 150.998 6.355C150.697 6.60102 150.41 6.86088 150.134 7.13458C149.445 7.82189 148.84 8.59532 148.339 9.43563C148.088 9.40334 147.83 9.38642 147.57 9.38642C144.264 9.38642 141.585 12.0811 141.585 15.3985V22.9713H141.584V22.9721ZM75.8901 22.9721V25.0633H72.2321V14.9864H72.2421C72.4589 9.85002 76.6982 5.72919 81.8769 5.72919C83.0831 5.72919 84.2394 5.94984 85.3042 6.355C85.0036 6.60102 84.7161 6.86088 84.4401 7.13458C83.7512 7.82189 83.147 8.59532 82.6457 9.43563C82.3943 9.40334 82.1367 9.38642 81.8769 9.38642C78.571 9.38642 75.8917 12.0811 75.8917 15.3985V22.9713H75.8901V22.9721ZM102.332 14.9864H102.322C102.105 9.85002 97.8659 5.72919 92.6871 5.72919C87.5084 5.72919 83.0024 10.0722 83.0024 15.3985C83.0024 20.731 87.3454 25.0625 92.6871 25.0625C94.9459 25.0625 97.0271 24.2798 98.6723 22.9713V25.0625H102.33V14.9857H102.332V14.9864ZM92.6887 21.3953C89.3567 21.3953 86.6612 18.716 86.6612 15.4001C86.6612 12.0842 89.3559 9.38796 92.6887 9.38796C96.0215 9.38796 98.6739 12.0826 98.6739 15.4001C98.6739 18.7175 95.9946 21.3953 92.6887 21.3953ZM136.514 15.2286C136.514 10.5696 133.203 6.28965 127.968 6.28965C122.733 6.28965 118.759 10.389 118.759 15.9705C118.759 21.5521 122.858 25.6245 128.03 25.6245C130.337 25.6245 133.233 24.775 135.223 22.5985L132.752 20.1467C131.296 21.5206 129.502 22.0488 128.109 22.0488C125.362 22.0488 123.103 20.1782 122.481 17.442H136.09V17.4267L136.147 17.442C136.375 16.8047 136.515 16.1097 136.515 15.2294L136.513 15.2279L136.514 15.2286ZM127.985 9.85386C130.871 9.85386 132.581 11.932 132.95 14.559H122.436C122.979 11.7659 125.213 9.85386 127.986 9.85386H127.985Z" fill="currentColor"/><defs><linearGradient id="rr-logo-grad" x1="33.8023" y1="22.6248" x2="67.0782" y2="1.49995" gradientUnits="userSpaceOnUse"><stop stop-color="#00D1DA"/><stop offset="1" stop-color="#FC00FF"/></linearGradient></defs></svg>
+      <span class="course">Penn Engineering</span>
+    </a>
     <h1>ESE 6150 Leaderboard</h1>
     <p class="lede" id="lede">Best clean lap in the grading simulator. Rebuilt every few minutes from graded submissions.</p>
     <nav class="tabs" id="tabs" aria-label="Labs"></nav>

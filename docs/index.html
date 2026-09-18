@@ -456,7 +456,8 @@
       return;
     }
     if (!labs.some((l) => l.slug === state.slug)) {
-      const open = labs.filter((l) => l.due && new Date(l.due) > Date.now());
+      const open = labs.filter((l) => l.due && new Date(l.due) > Date.now()
+        && !(l.available_from && new Date(l.available_from) > Date.now()));
       state.slug = (open.length ? open : labs)[open.length ? 0 : labs.length - 1].slug;
     }
     const lab = labs.find((l) => l.slug === state.slug);
@@ -507,8 +508,11 @@
     const groups = labs.filter((l) => !seen.has(labOf(l)) && seen.add(labOf(l)));
     $("tabs").innerHTML = groups.map((l) => {
       const closed = l.due && new Date(l.due) < Date.now();
+      // a lab that is listed before it opens is neither open nor closed
+      const opens = l.available_from && new Date(l.available_from) > Date.now()
+        ? "opens " + new Date(l.available_from).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : "";
       const selected = current && labOf(current) === labOf(l);
-      return `<button class="tab" role="tab" data-lab="${esc(labOf(l))}" aria-selected="${selected}" title="${esc(l.lab_title || l.title)}">${esc(labName(l))}<span class="state">${closed ? "closed" : "open"}</span></button>`;
+      return `<button class="tab" role="tab" data-lab="${esc(labOf(l))}" aria-selected="${selected}" title="${esc(l.lab_title || l.title)}">${esc(labName(l))}<span class="state">${esc(opens || (closed ? "closed" : "open"))}</span></button>`;
     }).join("");
     $("tabs").querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => {
       const boards = labs.filter((l) => labOf(l) === b.dataset.lab);

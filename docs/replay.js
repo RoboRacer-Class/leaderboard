@@ -289,8 +289,10 @@
     const w = g.measureText(text).width + (big ? 16 : 10) * v.dpr, h = (big ? 24 : 17) * v.dpr;
     const left = Math.min(Math.max(x - w / 2, 3), ui.canvas.width - w - 3);
     let top = Math.max(y - h, 3);
-    // the speed readout floats over the canvas's corner: a plate that would land under it goes below the car
-    if (getComputedStyle(ui.hud).position === "absolute" && !ui.hud.hidden) {
+    // the speed readout floats over the canvas's corner: a hover name that would land under it goes
+    // below the car. Only the hover name: the TA tag stays above its car wherever it drives, or it
+    // flips under and back as the TA car rounds the corner by the readout.
+    if (big && getComputedStyle(ui.hud).position === "absolute" && !ui.hud.hidden) {
       const hudRight = (ui.hud.offsetLeft + ui.hud.offsetWidth + 6) * v.dpr, hudBottom = (ui.hud.offsetTop + ui.hud.offsetHeight + 6) * v.dpr;
       if (left < hudRight && top < hudBottom) top = v.py(pose.y) + 16 * v.dpr;
     }

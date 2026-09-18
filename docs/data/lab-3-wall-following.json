@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T19:37:37Z",
+ "generated_at": "2026-09-18T19:45:32Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -234,10 +234,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608103650,
-    "fp": "35/42|46.24|2/0|0|13.47",
+    "fp": "34/42|46.09|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:37:59Z"
+    "updated_at": "2026-09-18T19:45:50Z"
    },
    "owner": "a6af6cf45de448d9",
    "submissions": [
@@ -254,10 +254,14 @@
     },
     {
      "at": "2026-09-18T19:34:10Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "7d7a4fd40bc8b789",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 1.34,
+      "lap_s": 46.09,
+      "top_mps": 1.5
+     }
     }
    ]
   },
@@ -650,10 +654,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605700032,
-    "fp": "34/42|46.1|1/0|0|13.47",
+    "fp": "35/42|46.1|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T19:37:56Z"
+    "updated_at": "2026-09-18T19:45:49Z"
    },
    "owner": "3ee0ceb1c97c9ed4",
    "submissions": [
@@ -2340,6 +2344,19 @@
    "used": 4
   },
   {
+   "alias": "Crystal Beagle 36",
+   "at": "2026-09-18T19:34:10Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 1.34,
+    "top_mps": 1.5
+   },
+   "locked": false,
+   "metric": 46.09,
+   "rank": 34,
+   "used": 2
+  },
+  {
    "alias": "Lightning Sprocket 88",
    "at": "2026-09-17T04:38:39Z",
    "attempt": 1,
@@ -2349,21 +2366,8 @@
    },
    "locked": false,
    "metric": 46.1,
-   "rank": 34,
-   "used": 1
-  },
-  {
-   "alias": "Crystal Beagle 36",
-   "at": "2026-09-18T19:14:54Z",
-   "attempt": 1,
-   "extras": {
-    "avg_mps": 1.33,
-    "top_mps": 1.5
-   },
-   "locked": false,
-   "metric": 46.24,
    "rank": 35,
-   "used": 2
+   "used": 1
   },
   {
    "alias": "Mellow Llama 78",

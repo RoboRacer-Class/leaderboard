@@ -1,4 +1,12 @@
 {
+ "Spielberg": {
+  "file": "Spielberg.png",
+  "h": 2000,
+  "res": 0.05796,
+  "w": 2000,
+  "x0": -84.8536,
+  "y0": -36.303
+ },
  "levine_blocked": {
   "file": "levine_blocked.png",
   "h": 489,

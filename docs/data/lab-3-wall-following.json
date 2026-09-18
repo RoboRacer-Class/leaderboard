@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T15:58:40Z",
+ "generated_at": "2026-09-18T16:19:45Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -880,10 +880,10 @@
    "locked": false,
    "note": {
     "comment_id": 5674963674,
-    "fp": "13/40|15.6|4/0|0|13.47",
+    "fp": "13/40|15.57|5/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-18T15:59:10Z"
+    "updated_at": "2026-09-18T16:20:05Z"
    },
    "owner": "76c21f166dbb9c26",
    "submissions": [
@@ -924,6 +924,17 @@
      "metrics": {
       "avg_mps": 4.05,
       "lap_s": 15.6,
+      "top_mps": 5.0
+     }
+    },
+    {
+     "at": "2026-09-18T16:05:45Z",
+     "full": true,
+     "graded": true,
+     "id": "a0bca4e59682576d",
+     "metrics": {
+      "avg_mps": 4.05,
+      "lap_s": 15.57,
       "top_mps": 5.0
      }
     }
@@ -1994,16 +2005,16 @@
   },
   {
    "alias": "Onyx Shuttle 58",
-   "at": "2026-09-18T15:54:15Z",
-   "attempt": 4,
+   "at": "2026-09-18T16:05:45Z",
+   "attempt": 5,
    "extras": {
     "avg_mps": 4.05,
     "top_mps": 5.0
    },
    "locked": false,
-   "metric": 15.6,
+   "metric": 15.57,
    "rank": 13,
-   "used": 4
+   "used": 5
   },
   {
    "alias": "Tidy Proton 16",

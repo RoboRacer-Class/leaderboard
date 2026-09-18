@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-18T22:57:35Z",
+ "generated_at": "2026-09-18T23:09:32Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -1048,10 +1048,11 @@
      "id": "8be8043d194003ee",
      "metrics": {
       "avg_mps": 4.11,
-      "lap_s": 0.0,
+      "lap_s": 15.02,
       "top_mps": 5.0
      },
-     "replay": "replays/lab-3-wall-following/polar-meteor-19.json?v=5d0592ff"
+     "repaired": "lap_s was 0.0: lap time recovered from this run's own recording (sim start line calibrated on 43 graded runs, mean error 0.013 s); the grader reported 0.0 because the referee closed the run between the sim's lap_count and lap_time messages",
+     "replay": "replays/lab-3-wall-following/polar-meteor-19.json?v=fc6def0b"
     }
    ]
   },
@@ -2046,20 +2047,6 @@
  "requirement": "the full autograded score",
  "rows": [
   {
-   "alias": "Polar Meteor 19",
-   "at": "2026-09-18T22:02:27Z",
-   "attempt": 1,
-   "extras": {
-    "avg_mps": 4.11,
-    "top_mps": 5.0
-   },
-   "locked": false,
-   "metric": 0.0,
-   "rank": 1,
-   "replay": "replays/lab-3-wall-following/polar-meteor-19.json?v=5d0592ff",
-   "used": 1
-  },
-  {
    "alias": "Thunder Mamba 45",
    "at": "2026-09-17T00:02:21Z",
    "attempt": 10,
@@ -2069,7 +2056,7 @@
    },
    "locked": false,
    "metric": 8.88,
-   "rank": 2,
+   "rank": 1,
    "replay": "replays/lab-3-wall-following/thunder-mamba-45.json?v=0b21edd2",
    "used": 14
   },
@@ -2083,7 +2070,7 @@
    },
    "locked": false,
    "metric": 9.42,
-   "rank": 3,
+   "rank": 2,
    "replay": "replays/lab-3-wall-following/dawn-gecko-23.json?v=a9b7a163",
    "used": 3
   },
@@ -2097,7 +2084,7 @@
    },
    "locked": false,
    "metric": 10.65,
-   "rank": 4,
+   "rank": 3,
    "replay": "replays/lab-3-wall-following/lightning-owl-33.json?v=30a53932",
    "used": 2
   },
@@ -2111,7 +2098,7 @@
    },
    "locked": false,
    "metric": 10.68,
-   "rank": 5,
+   "rank": 4,
    "replay": "replays/lab-3-wall-following/tropic-cipher-39.json?v=bc10fd43",
    "used": 3
   },
@@ -2125,7 +2112,7 @@
    },
    "locked": false,
    "metric": 10.76,
-   "rank": 6,
+   "rank": 5,
    "replay": "replays/lab-3-wall-following/quantum-bobcat-80.json?v=277ae9e5",
    "used": 4
   },
@@ -2139,7 +2126,7 @@
    },
    "locked": false,
    "metric": 11.66,
-   "rank": 7,
+   "rank": 6,
    "replay": "replays/lab-3-wall-following/scarlet-owl-81.json?v=a1b13050",
    "used": 2
   },
@@ -2153,7 +2140,7 @@
    },
    "locked": false,
    "metric": 12.06,
-   "rank": 8,
+   "rank": 7,
    "replay": "replays/lab-3-wall-following/mighty-puffin-96.json?v=b11cba5b",
    "used": 3
   },
@@ -2167,7 +2154,7 @@
    },
    "locked": false,
    "metric": 12.23,
-   "rank": 9,
+   "rank": 8,
    "replay": "replays/lab-3-wall-following/crimson-heron-58.json?v=da99bf08",
    "used": 1
   },
@@ -2181,7 +2168,7 @@
    },
    "locked": false,
    "metric": 13.05,
-   "rank": 10,
+   "rank": 9,
    "replay": "replays/lab-3-wall-following/stormy-magnet-44.json?v=b61ec8ba",
    "used": 2
   },
@@ -2195,7 +2182,7 @@
    },
    "locked": false,
    "metric": 13.38,
-   "rank": 11,
+   "rank": 10,
    "replay": "replays/lab-3-wall-following/solar-lion-63.json?v=fce460e6",
    "used": 1
   },
@@ -2209,8 +2196,22 @@
    },
    "locked": false,
    "metric": 14.02,
-   "rank": 12,
+   "rank": 11,
    "replay": "replays/lab-3-wall-following/neon-bobcat-67.json?v=09ed0a1a",
+   "used": 1
+  },
+  {
+   "alias": "Polar Meteor 19",
+   "at": "2026-09-18T22:02:27Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 4.11,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 15.02,
+   "rank": 12,
+   "replay": "replays/lab-3-wall-following/polar-meteor-19.json?v=fc6def0b",
    "used": 1
   },
   {

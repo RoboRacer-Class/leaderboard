@@ -154,8 +154,7 @@
     ui.pathsLabel = el("label", "rr-ghost");
     ui.paths = el("input");
     ui.paths.type = "checkbox";
-    ui.paths.checked = true;                                 // on unless this viewer turned it off
-    try { ui.paths.checked = localStorage.getItem(PATHS_KEY) !== "0"; } catch (e) { /* storage blocked */ }
+    try { ui.paths.checked = localStorage.getItem(PATHS_KEY) === "1"; } catch (e) { /* storage blocked */ }
     ui.pathsLabel.title = "Draw where every car has driven so far";
     ui.pathsLabel.append(ui.paths, document.createTextNode(" Paths"));
     ui.share = button("rr-share", "Copy link");
@@ -368,8 +367,9 @@
       }
       const taCar = state.others.find((o) => o.entry.isRef);
       if (taCar && taCar !== state.hover) drawPath(g, taCar.run, state.rel, ref, 0.6, 1.5);
-      if (state.hover) drawPath(g, state.hover.run, state.rel, state.hover.entry.isRef ? ref : ink, 0.85, 2);
     }
+    // the car under the pointer shows where it has been, Paths on or off
+    if (state.hover) drawPath(g, state.hover.run, state.rel, state.hover.entry.isRef ? ref : ink, 0.85, 2);
 
     // the trail, coloured by speed: the last few seconds, or the whole run so far with Paths on
     const upto = Math.min(run.n - 1, Math.floor(t * run.hz));

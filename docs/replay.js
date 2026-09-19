@@ -154,7 +154,8 @@
     ui.pathsLabel = el("label", "rr-ghost");
     ui.paths = el("input");
     ui.paths.type = "checkbox";
-    try { ui.paths.checked = localStorage.getItem(PATHS_KEY) === "1"; } catch (e) { /* storage blocked */ }
+    ui.paths.checked = true;                                 // on unless this viewer turned it off
+    try { ui.paths.checked = localStorage.getItem(PATHS_KEY) !== "0"; } catch (e) { /* storage blocked */ }
     ui.pathsLabel.title = "Draw where every car has driven so far";
     ui.pathsLabel.append(ui.paths, document.createTextNode(" Paths"));
     ui.share = button("rr-share", "Copy link");
@@ -363,10 +364,10 @@
     if (ui.paths.checked) {
       for (const o of state.others) {
         if (o.entry.isRef || o === state.hover || !ui.field.checked) continue;
-        drawPath(g, o.run, state.rel, grey, 0.45, 1.25);
+        drawPath(g, o.run, state.rel, grey, 0.35, 1.25);
       }
       const taCar = state.others.find((o) => o.entry.isRef);
-      if (taCar && taCar !== state.hover) drawPath(g, taCar.run, state.rel, ref, 0.7, 1.5);
+      if (taCar && taCar !== state.hover) drawPath(g, taCar.run, state.rel, ref, 0.6, 1.5);
       if (state.hover) drawPath(g, state.hover.run, state.rel, state.hover.entry.isRef ? ref : ink, 0.85, 2);
     }
 

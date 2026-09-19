@@ -19,13 +19,17 @@
   "attempt": "3cc803d8b6c76489",
   "replay": "replays/lab-3-wall-following/cobalt-tensor-48.json?v=cbe7ccb0"
  },
+ "Crimson Arrow 45": {
+  "attempt": "60e971bcdd9a00b1",
+  "replay": "replays/lab-3-wall-following/crimson-arrow-45.json?v=688e9a43"
+ },
  "Crimson Heron 58": {
   "attempt": "99d7396479a3fd12",
   "replay": "replays/lab-3-wall-following/crimson-heron-58.json?v=da99bf08"
  },
  "Crystal Beagle 36": {
-  "attempt": "081a7bfe5eb1f49b",
-  "replay": "replays/lab-3-wall-following/crystal-beagle-36.json?v=fb2da08c"
+  "attempt": "7d7a4fd40bc8b789",
+  "replay": "replays/lab-3-wall-following/crystal-beagle-36.json?v=16ec7d78"
  },
  "Dawn Gecko 23": {
   "attempt": "99dccd361cbd0663",
@@ -138,6 +142,10 @@
  "Thunder Mamba 45": {
   "attempt": "822b0a2dbe79223a",
   "replay": "replays/lab-3-wall-following/thunder-mamba-45.json?v=0b21edd2"
+ },
+ "Tidy Proton 16": {
+  "attempt": "bc6a45a5ef0905ad",
+  "replay": "replays/lab-3-wall-following/tidy-proton-16.json?v=655d8064"
  },
  "Tropic Cipher 39": {
   "attempt": "ffde1a763486a7af",

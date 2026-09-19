@@ -21,6 +21,7 @@
   const TAIL = 1.0;                                         // ... and after the last car finishes
   const LOOP_PAUSE = 1500;                                  // ms the finished race stays up before it restarts
   const SPEEDS = [0.25, 0.5, 1, 2, 4, 8];
+  const PATHS_KEY = "rr-replay-paths";                     // the viewer's Paths choice, kept across visits
   const PICK_RADIUS = 18;                                   // CSS px around a car that counts as pointing at it
   const cache = new Map();                                  // url -> Promise<run>
   let maps = null, dialog = null, ui = null, state = null;
@@ -150,12 +151,17 @@
     ui.field.type = "checkbox";
     ui.field.checked = true;
     ui.fieldLabel.append(ui.field, document.createTextNode(" Other cars"));
+    ui.pathsLabel = el("label", "rr-ghost");
+    ui.paths = el("input");
+    ui.paths.type = "checkbox";
+    try { ui.paths.checked = localStorage.getItem(PATHS_KEY) === "1"; } catch (e) { /* storage blocked */ }
+    ui.pathsLabel.title = "Draw where every car has driven so far";
+    ui.pathsLabel.append(ui.paths, document.createTextNode(" Paths"));
     ui.share = button("rr-share", "Copy link");
-    ui.bar.append(ui.play, ui.seek, ui.rate, ui.pick, ui.fieldLabel, ui.share);
-    ui.note = el("p", "rr-note");
+    ui.bar.append(ui.play, ui.seek, ui.rate, ui.pick, ui.fieldLabel, ui.pathsLabel, ui.share);
 
     // the Fullscreen API refuses <dialog> itself, so everything lives in a frame that can take it
-    ui.frame.append(ui.head, stage, ui.bar, ui.note);
+    ui.frame.append(ui.head, stage, ui.bar);
     dialog.append(ui.frame);
     document.body.append(dialog);
 
@@ -171,6 +177,10 @@
     });
     ui.rate.addEventListener("change", () => { if (state) state.rate = Number(ui.rate.value); });
     ui.field.addEventListener("change", () => { if (state) { race(); draw(); } });
+    ui.paths.addEventListener("change", () => {
+      try { localStorage.setItem(PATHS_KEY, ui.paths.checked ? "1" : "0"); } catch (e) { /* storage blocked */ }
+      if (state && !state.playing) draw();
+    });
     ui.pick.addEventListener("change", () => {
       const entry = state && state.fieldEntries.find((e) => e.name === ui.pick.value);
       if (entry) watch(entry);
@@ -227,7 +237,7 @@
     const cssW = ui.canvas.parentElement.clientWidth;
     // full screen: everything the header, the readout strip and the controls leave over
     const strip = getComputedStyle(ui.hud).position === "static" && !ui.hud.hidden ? ui.hud.offsetHeight : 0;
-    const around = ui.head.offsetHeight + ui.bar.offsetHeight + strip + (ui.note.hidden ? 0 : ui.note.offsetHeight);
+    const around = ui.head.offsetHeight + ui.bar.offsetHeight + strip;
     const cssH = isFull() ? Math.max(120, ui.frame.clientHeight - around)
                           : Math.max(200, Math.min(cssW * (y1 - y0) / (x1 - x0), window.innerHeight * 0.58));
     const dpr = window.devicePixelRatio || 1;
@@ -326,24 +336,52 @@
     return -1;
   }
 
+  // where a car has driven so far: from the run-up to its pose at race time `rel`, never ahead of it
+  function drawPath(g, run, rel, color, alpha, width) {
+    const v = state.view, t = timeOf(run, rel), from = Math.floor(timeOf(run, -PRE_ROLL) * run.hz);
+    const upto = Math.min(run.n - 1, Math.floor(t * run.hz));
+    if (upto <= from) return;
+    const end = poseAt(run, t);
+    g.save();
+    g.globalAlpha = alpha; g.strokeStyle = color; g.lineWidth = width * v.dpr; g.lineJoin = g.lineCap = "round";
+    g.beginPath();
+    g.moveTo(v.px(run.x[from]), v.py(run.y[from]));
+    for (let i = from + 1; i <= upto; i++) g.lineTo(v.px(run.x[i]), v.py(run.y[i]));
+    g.lineTo(v.px(end.x), v.py(end.y));
+    g.stroke();
+    g.restore();
+  }
+
   function draw() {
     const run = state.run, v = state.view, g = ui.canvas.getContext("2d"), t = timeOf(run, state.rel);
     g.clearRect(0, 0, ui.canvas.width, ui.canvas.height);
     g.drawImage(state.layer, 0, 0);
 
-    // the trail: the last few seconds, coloured by speed
-    const upto = Math.min(run.n - 1, Math.floor(t * run.hz)), from = Math.max(0, upto - Math.round(6 * run.hz));
+    // the rest of the field's paths sit under everything else
+    const grey = css("--ink-3") || "#62677f", ref = css("--ref") || "#c026d3", accent = css("--accent") || "#7c3aed";
+    const surface = css("--surface") || "#fff", ink = css("--ink") || "#0b0c14";
+    if (ui.paths.checked) {
+      for (const o of state.others) {
+        if (o.entry.isRef || o === state.hover || !ui.field.checked) continue;
+        drawPath(g, o.run, state.rel, grey, 0.45, 1.25);
+      }
+      const taCar = state.others.find((o) => o.entry.isRef);
+      if (taCar && taCar !== state.hover) drawPath(g, taCar.run, state.rel, ref, 0.7, 1.5);
+      if (state.hover) drawPath(g, state.hover.run, state.rel, state.hover.entry.isRef ? ref : ink, 0.85, 2);
+    }
+
+    // the trail, coloured by speed: the last few seconds, or the whole run so far with Paths on
+    const upto = Math.min(run.n - 1, Math.floor(t * run.hz));
+    const from = ui.paths.checked ? Math.floor(timeOf(run, -PRE_ROLL) * run.hz) : Math.max(0, upto - Math.round(6 * run.hz));
     g.lineWidth = 3 * v.dpr; g.lineCap = "round";
     for (let i = from; i < upto; i++) {
-      g.globalAlpha = 0.25 + 0.75 * ((i - from) / Math.max(1, upto - from));
+      g.globalAlpha = ui.paths.checked ? 1 : 0.25 + 0.75 * ((i - from) / Math.max(1, upto - from));
       g.strokeStyle = speedColor(run, run.v[i]);
       g.beginPath(); g.moveTo(v.px(run.x[i]), v.py(run.y[i])); g.lineTo(v.px(run.x[i + 1]), v.py(run.y[i + 1])); g.stroke();
     }
     g.globalAlpha = 1;
 
     // the rest of the field, greyed out; the TA car and the one under the pointer stand out
-    const grey = css("--ink-3") || "#62677f", ref = css("--ref") || "#c026d3", accent = css("--accent") || "#7c3aed";
-    const surface = css("--surface") || "#fff", ink = css("--ink") || "#0b0c14";
     const field = state.others.map((o) => ({ o, pose: poseAt(o.run, timeOf(o.run, state.rel)) }));
     state.shown = field;
     for (const c of field) {
@@ -440,11 +478,11 @@
     ui.title.textContent = entry.name;
     ui.sub.textContent = entry.summary || "";
     ui.canvas.setAttribute("aria-label", `Top-down replay of ${entry.name}'s graded run`);
-    if (!keep) { ui.msg.textContent = "Loading the run…"; ui.msg.hidden = false; ui.hud.hidden = true; ui.note.hidden = true; }
+    if (!keep) { ui.msg.textContent = "Loading the run…"; ui.msg.hidden = false; ui.hud.hidden = true; }
     ui.pick.textContent = "";
     fieldEntries.forEach((e) => { const o = el("option", "", e.label); o.value = e.name; ui.pick.append(o); });
     ui.pick.value = entry.name;
-    ui.pick.hidden = ui.fieldLabel.hidden = fieldEntries.length < 2;
+    ui.pick.hidden = ui.fieldLabel.hidden = ui.pathsLabel.hidden = fieldEntries.length < 2;
     if (!dialog.open) dialog.showModal();
     const url = new URL(location.href);
     url.searchParams.set("watch", entry.name);
@@ -471,10 +509,6 @@
       race();
       ui.msg.hidden = true;
       ui.hud.hidden = false;
-      ui.note.textContent = run.rerun
-        ? "This run was graded before runs were recorded, so this is a re-run of the same submitted code in the same grading simulator. The board's time is from the original graded run; a re-run is never identical, and its lap can differ by a few tenths of a second."
-        : "";
-      ui.note.hidden = !run.rerun;
       layout();
       draw();
       // the rest of the field arrives car by car and joins in as it loads

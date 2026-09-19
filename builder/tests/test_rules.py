@@ -81,6 +81,28 @@ def test_ranking_applies_cap_deadline_full_score_and_ties():
     assert [u["alias"] for u in unranked] == ["Almost", "Late"]
 
 
+def test_late_runs_are_listed_unranked_with_their_time():
+    m = rules.metric_from_config(LAB3_BLOCK)
+    players = {
+        "On Time": {"submissions": [sub("submit/a", "2026-09-10T10:00:00Z", 15.0),
+                                    sub("submit/b", "2026-09-17T05:00:00Z", 9.0)]},
+        "Late": {"submissions": [sub("submit/c", "2026-09-16T10:00:00Z", 8.0, full=False),
+                                 sub("submit/d", "2026-09-17T04:00:00Z", 14.0),
+                                 sub("submit/e", "2026-09-17T06:00:00Z", 13.0)]},
+        "Slow Late": {"submissions": [sub("submit/f", "2026-09-18T00:00:00Z", 30.0)]},
+        "Almost": {"submissions": [sub("submit/g", "2026-09-17T05:00:00Z", 10.0, full=False)]},
+    }
+    rows, unranked = rules.rank_players(players, m, cap=10, due=DUE)
+    late, waiting = rules.late_rows(players, m, 10, DUE, unranked)
+    # a late run never replaces an on-time time, nor takes a position
+    assert [(r["alias"], r["metric"]) for r in rows] == [("On Time", 15.0)]
+    assert [(r["alias"], r["metric"], r["attempt"], r["used"]) for r in late] == \
+        [("Late", 13.0, 3, 3), ("Slow Late", 30.0, 1, 1)]
+    assert all("rank" not in r for r in late)
+    assert [u["alias"] for u in waiting] == ["Almost"]
+    assert rules.late_rows(players, m, 10, None, unranked) == ([], unranked)
+
+
 def test_reference_ignores_cap_and_deadline():
     m = rules.metric_from_config(LAB3_BLOCK)
     subs = [sub("submit/x", "2026-09-20T00:00:00Z", 13.47), sub("submit/y", "2026-09-01T00:00:00Z", 14.0),

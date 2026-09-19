@@ -180,16 +180,37 @@ def rank_players(players: dict, metric: Metric, cap: int, due: dt.datetime | Non
         if best is None:
             unranked.append(common)
             continue
-        n, sub = best
-        rows.append({**common, "metric": sub["metrics"][metric.key],
-                     "extras": {k: v for k, v in sub["metrics"].items() if k != metric.key},
-                     "at": sub["at"], "attempt": n,
-                     **({"replay": sub["replay"]} if sub.get("replay") else {})})
+        rows.append(entry_row(common, best, metric))
     rows.sort(key=lambda r: (metric.sort_key(r["metric"]), r["at"], label_key(r["alias"])))
     for i, row in enumerate(rows, start=1):
         row["rank"] = i
     unranked.sort(key=label_key_of)
     return rows, unranked
+
+
+def entry_row(common: dict, best: tuple, metric: Metric) -> dict:
+    n, sub = best
+    return {**common, "metric": sub["metrics"][metric.key],
+            "extras": {k: v for k, v in sub["metrics"].items() if k != metric.key},
+            "at": sub["at"], "attempt": n,
+            **({"replay": sub["replay"]} if sub.get("replay") else {})}
+
+
+def late_rows(players: dict, metric: Metric, cap: int, due: dt.datetime | None, unranked: list):
+    """Split rank_players' unranked list into (late, waiting). A late entry has a
+    qualifying run only after the deadline: the board shows its best late time
+    below the standings, never with a position, and it takes nobody's place."""
+    if due is None:
+        return [], unranked
+    late, waiting = [], []
+    for common in unranked:
+        best = best_of(counted_submissions(players[common["alias"]])[:cap], metric, None)
+        if best is None:
+            waiting.append(common)
+        else:
+            late.append(entry_row(common, best, metric))
+    late.sort(key=lambda r: (metric.sort_key(r["metric"]), r["at"], label_key(r["alias"])))
+    return late, waiting
 
 
 def best_reference(subs: list, metric: Metric):

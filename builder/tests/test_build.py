@@ -181,7 +181,9 @@ def test_build_ranks_locks_notes_and_hides_names(world):
     ranked = [(r["rank"], r["metric"], r["attempt"], r["used"], r["locked"]) for r in doc["rows"]]
     # erin's errored run spent attempt #1; her lap is attempt #2
     assert ranked == [(1, 13.0, 1, 1, False), (2, 13.2, 5, 5, True), (3, 13.5, 2, 2, False), (4, 14.2, 2, 2, False)]
-    assert [(u["used"]) for u in doc["unranked"]] == [1]          # carol: late, still spent one
+    # carol: late, listed below the standings with her time, no position; still spent one
+    assert doc["unranked"] == [] and [(r["used"], "rank" in r) for r in doc["late"]] == [(1, False)]
+    assert index["labs"][0]["late"] == 1
     assert len(doc["players"]) == 5
     # bob hit the cap: repo is read-only, via the API fallback (no script in this world)
     assert api.perms[(f"{ORG}/{CLASSROOM}-{SLUG}-bob", "bob")] == "read"

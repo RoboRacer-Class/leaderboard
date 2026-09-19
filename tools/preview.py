@@ -35,7 +35,7 @@ def main() -> int:
         if not path.is_file():
             continue
         doc = json.loads(path.read_text())
-        build.merge_backfill(site / "data", lab, doc, doc["rows"], doc.get("reference"))
+        build.merge_backfill(site / "data", lab, doc, doc["rows"] + doc.get("late", []), doc.get("reference"))
         path.write_text(json.dumps(doc))
         print(f"http://127.0.0.1:{args.port}/?lab={lab['board']}")
     handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(site))

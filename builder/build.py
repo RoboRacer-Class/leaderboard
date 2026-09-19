@@ -187,6 +187,9 @@ def best_attempt(lab: dict, key: str, subs: list):
     else:
         due = rules.parse_time(lab["due"]) if lab.get("due") else None
         best = rules.best_of(subs[:lab["cap"] or 10**9], metric, due)
+        if best is None and due is not None:
+            # late only: the unranked row below the standings is still watchable
+            best = rules.best_of(subs[:lab["cap"] or 10**9], metric, None)
     return best[1] if best else None
 
 
@@ -428,7 +431,8 @@ def public_metric(metric: rules.Metric) -> dict:
             "direction": metric.direction, "extras": metric.extras}
 
 
-def lab_document(lab: dict, state: dict, rows: list, unranked: list, reference, generated_at: str) -> dict:
+def lab_document(lab: dict, state: dict, rows: list, unranked: list, reference, generated_at: str,
+                 late: list = ()) -> dict:
     return {
         "schema": SCHEMA,
         "slug": lab["board"],
@@ -446,6 +450,7 @@ def lab_document(lab: dict, state: dict, rows: list, unranked: list, reference, 
         "generated_at": generated_at,
         "reference": reference,
         "rows": rows,
+        "late": list(late),
         "unranked": unranked,
         "players": state.get("players", {}),
         "reference_submissions": state.get("reference_submissions", []),
@@ -587,11 +592,12 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
         due = rules.parse_time(lab["due"]) if lab.get("due") else None
         apply_locks(api, org, classroom, lab, owners, state, token, script_text, log, dry_run)
         rows, unranked = rules.rank_players(state["players"], lab["metric"], lab["cap"] or 10**9, due)
+        late, unranked = rules.late_rows(state["players"], lab["metric"], lab["cap"] or 10**9, due, unranked)
         reference = rules.best_reference(state["reference_submissions"], lab["metric"])
-        merge_backfill(data_dir, lab, state, rows, reference)
+        merge_backfill(data_dir, lab, state, rows + late, reference)
         apply_notes(api, org, classroom, lab, owners, state, rows, reference, board_url,
                     generated_label, log, dry_run)
-        changed = write_json(path, lab_document(lab, state, rows, unranked, reference, generated_at))
+        changed = write_json(path, lab_document(lab, state, rows, unranked, reference, generated_at, late))
         lab_generated = generated_at if changed else json.loads(path.read_text()).get("generated_at", generated_at)
         index["labs"].append({
             "slug": lab["board"], "assignment": lab["slug"], "title": lab["title"],
@@ -599,7 +605,7 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
             "requirement": lab["requirement"], "anonymous": not lab["team_mode"],
             "due": lab["due"], "available_from": lab["available_from"], "cap": lab["cap"],
             "podium": lab["podium"], "metric": public_metric(lab["metric"]),
-            "rows": len(rows), "unranked": len(unranked), "reference": reference is not None,
+            "rows": len(rows), "late": len(late), "unranked": len(unranked), "reference": reference is not None,
             "file": f"{lab['board']}.json", "generated_at": lab_generated})
         log(f"{lab['board']}: {len(rows)} ranked, {len(unranked)} waiting, "
             f"reference {'set' if reference else 'missing'}")

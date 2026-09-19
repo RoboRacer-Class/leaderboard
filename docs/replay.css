@@ -72,7 +72,6 @@ tr.ref button.watch { background: var(--ref); border-color: var(--ref); color: v
 .rr-ghost { display: inline-flex; align-items: center; gap: .35rem; font-size: .88rem; color: var(--ink-2); cursor: pointer; }
 .rr-ghost input { accent-color: var(--accent); }
 .rr-pick { max-width: 16rem; text-overflow: ellipsis; }
-.rr-note { margin: 0; padding: 0 1rem .8rem; max-width: 80ch; font-size: .8rem; color: var(--ink-3); }
 /* full screen: the Fullscreen API refuses <dialog>, so the frame inside it goes full
    screen and the track takes everything the header and controls leave */
 .rr-frame:fullscreen { width: 100%; height: 100%; display: flex; flex-direction: column; background: var(--surface); color: var(--ink); overflow: auto; }
@@ -84,7 +83,7 @@ tr.ref button.watch { background: var(--ref); border-color: var(--ref); color: v
 .rr-player.rr-max .rr-stage { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; }
 /* a phone on its side has no height to spare: in either full-screen mode the chrome shrinks to two thin bars */
 @media (max-height: 520px) {
-  .rr-frame:fullscreen .rr-note, .rr-max .rr-note, .rr-frame:fullscreen .sub, .rr-max .sub { display: none; }
+  .rr-frame:fullscreen .sub, .rr-max .sub { display: none; }
   .rr-frame:fullscreen header, .rr-max header { padding: .35rem .7rem; align-items: center; }
   .rr-frame:fullscreen h2, .rr-max h2 { font-size: 1rem; }
   .rr-frame:fullscreen .rr-bar, .rr-max .rr-bar { padding: .35rem .7rem; gap: .4rem; flex-wrap: nowrap; overflow-x: auto; }

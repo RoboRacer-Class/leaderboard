@@ -266,6 +266,11 @@
   tr.ref td { background: color-mix(in srgb, var(--ref) 9%, var(--surface)); border-top: 1px dashed color-mix(in srgb, var(--ref) 55%, var(--surface)); border-bottom: 1px dashed color-mix(in srgb, var(--ref) 55%, var(--surface)); font-style: italic; }
   tr.ref td.rank { background: var(--ref); color: var(--ref-ink); font-style: normal; font-size: .8rem; letter-spacing: .06em; }
   tr.ref td.time { font-style: normal; }
+  tr.late { color: var(--ink-2); }
+  tr.late td.rank { background: var(--surface-2); color: var(--ink-3); }
+  tbody tr.late-head td, tbody tr.late-head:hover td { background: var(--surface-2); color: var(--ink-2); font-size: .85rem; border-top: 1px solid var(--line-strong); }
+  tr.late-head strong { font-family: var(--display); font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--ink); margin-right: .6rem; }
+  .pill.late { background: transparent; color: var(--ink-2); border: 1px dashed var(--line-strong); }
   tr.me td { background: var(--me-tint); }
   tr.me td:first-child { box-shadow: inset 3px 0 0 var(--me); }
   .pill {
@@ -561,7 +566,7 @@
       parts.push(`<div><p class="k">Closes in</p><p class="v">${esc(countdown(doc.due))}<small>${esc(fmtDeadline(doc.due))}</small></p></div>`);
     }
     parts.push(`<div><p class="k">TA reference</p><p class="v">${doc.reference ? esc(fmtValue(doc.reference.metric, unit)) : "—"}</p></div>`);
-    parts.push(`<div><p class="k">${anon(doc) ? "Drivers" : "Teams"}</p><p class="v">${doc.rows.length}<small>ranked</small> ${doc.unranked.length}<small>on the grid</small></p></div>`);
+    parts.push(`<div><p class="k">${anon(doc) ? "Drivers" : "Teams"}</p><p class="v">${doc.rows.length}<small>ranked</small>${(doc.late || []).length ? ` ${doc.late.length}<small>late</small>` : ""} ${doc.unranked.length}<small>on the grid</small></p></div>`);
     parts.push(`<div><p class="k">Last change</p><p class="v">${esc(ago(doc.generated_at))}<small>checked every 5 min</small></p></div>`);
     $("status").innerHTML = parts.join("");
   }
@@ -711,6 +716,7 @@
     const m = doc.metric;
     const extras = (m.extras || []).filter((x) => doc.rows.some((r) => r.extras && r.extras[x.key] != null));
     const rows = doc.rows.slice();
+    const late = doc.late || [];
     const leader = rows.length ? rows[0].metric : (doc.reference ? doc.reference.metric : null);
     const entries = rows.map((r) => ({ kind: "row", r }));
     if (doc.reference) {
@@ -725,11 +731,11 @@
       emptyNote = `<p class="empty"><strong>No qualifying run yet.</strong> It takes ${esc(doc.requirement || "the full autograded score")}; the first ${racer(doc, 1)} to post one takes P1.${ref}</p>`;
       $("alias-list").innerHTML = doc.unranked.map((u) => `<option value="${esc(u.alias)}">`).join("");
       // the TA run stays watchable on an empty board: its row is the whole table
-      if (!(doc.reference && doc.reference.replay)) { $("board").innerHTML = emptyNote; return; }
+      if (!(doc.reference && doc.reference.replay) && !late.length) { $("board").innerHTML = emptyNote; return; }
     }
     const extraHead = extras.map((x) => `<th class="num col-${esc(x.key.split("_")[0])}">${esc(x.label)}</th>`).join("");
     // rows whose graded run was recorded get an eye button; replay.js plays it back
-    const anyReplay = rows.some((r) => r.replay) || !!(doc.reference && doc.reference.replay);
+    const anyReplay = rows.concat(late).some((r) => r.replay) || !!(doc.reference && doc.reference.replay);
     const watchCell = (r, summary, label) => !anyReplay ? "" : `<td class="watch">${r.replay ? watchButton(r, summary, label) : ""}</td>`;
     const head = `<thead><tr><th>Pos</th><th>${anon(doc) ? "Driver" : "Team"}</th>${anyReplay ? '<th class="watch">Replay</th>' : ""}<th class="num">${esc(m.label)}</th><th class="num">Gap</th>${extraHead}<th class="num col-attempt">Attempt</th><th class="col-when">When</th></tr></thead>`;
     const body = entries.map((e) => {
@@ -742,10 +748,19 @@
       const cls = [r.rank <= doc.podium ? "podium" : "", r.rank <= 3 ? `rank-${r.rank}` : "", me ? "me" : "", me && state.justFound ? "just-found" : ""].filter(Boolean).join(" ");
       return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank">${r.rank}</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}${r.locked ? '<span class="pill locked">locked</span>' : ""}</td>${watchCell(r, `P${r.rank} · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `P${r.rank} · ${r.alias} · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">${esc(fmtGap(r.metric, leader, m.direction))}</td>${extraCells}<td class="num col-attempt">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td></tr>`;
     }).join("");
-    $("board").innerHTML = `${emptyNote}<table${anyReplay ? ' class="has-watch"' : ""}>${head}<tbody>${body}</tbody></table>`;
+    // runs graded after the deadline: a time to compare and a run to watch, never a position
+    const cols = 6 + (anyReplay ? 1 : 0) + extras.length;
+    const lateBody = !late.length ? "" : `<tr class="late-head"><td colspan="${cols}"><strong>After the deadline · unranked</strong> Full-score runs graded after the deadline. They take no position and earn no credit here.</td></tr>` +
+      late.map((r) => {
+        const extraCells = extras.map((x) => `<td class="num col-${esc(x.key.split("_")[0])}">${r.extras && r.extras[x.key] != null ? esc(fmtValue(r.extras[x.key], x.unit)) : "—"}</td>`).join("");
+        const me = same(r.alias, state.me);
+        const cls = ["late", me ? "me" : "", me && state.justFound ? "just-found" : ""].filter(Boolean).join(" ");
+        return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank" aria-label="unranked">—</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}<span class="pill late">late</span>${r.locked ? '<span class="pill locked">locked</span>' : ""}</td>${watchCell(r, `Late · unranked · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `Late · ${r.alias} · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">—</td>${extraCells}<td class="num col-attempt">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td></tr>`;
+      }).join("");
+    $("board").innerHTML = `${emptyNote}<table${anyReplay ? ' class="has-watch"' : ""}>${head}<tbody>${body}${lateBody}</tbody></table>`;
     if (window.RRReplay) RRReplay.attach($("board"), doc);
     state.justFound = false;
-    const names = [...doc.rows.map((r) => r.alias), ...doc.unranked.map((u) => u.alias)].sort();
+    const names = [...doc.rows.map((r) => r.alias), ...late.map((r) => r.alias), ...doc.unranked.map((u) => u.alias)].sort();
     $("alias-list").innerHTML = names.map((n) => `<option value="${esc(n)}">`).join("");
   }
 
@@ -769,7 +784,7 @@
       <strong>The rules</strong>
       <ul>
         ${capRules}
-        <li>Only runs with ${esc(doc.requirement || "the full autograded score")}, graded before the deadline, count here. Your best one is kept.</li>
+        <li>Only runs with ${esc(doc.requirement || "the full autograded score")}, graded before the deadline, count here. Your best one is kept. A full-score run graded later is listed below the standings, unranked.</li>
         <li>The top ${doc.podium} earn extra credit. Rows above the TA reference beat the staff solution${doc.reference ? " (" + esc(fmtValue(doc.reference.metric, unit)) + ")" : ""}.</li>
         ${anon(doc)
           ? `<li>Your alias is in the note on your repository's Feedback pull request. It never changes and nobody else can link it to you.</li>`
@@ -784,7 +799,7 @@
     const doc = state.docs[state.slug];
     // On a team board accept what a student actually types: 7, #7, team 7.
     const wanted = anon(doc) ? query : query.replace(/^\s*(?:#|team\s*)?([0-9]+)\s*$/i, "Team $1");
-    const hitRow = doc.rows.find((r) => same(r.alias, wanted));
+    const hitRow = doc.rows.concat(doc.late || []).find((r) => same(r.alias, wanted));
     const hitGrid = doc.unranked.find((u) => same(u.alias, wanted));
     if (!hitRow && !hitGrid) {
       $("find-msg").className = "find-msg";
@@ -804,7 +819,9 @@
     const el = $("me-row");
     if (el) el.scrollIntoView({ block: "center", behavior: announce ? "smooth" : "auto" });
     $("find-msg").className = "find-msg ok";
-    $("find-msg").textContent = hitRow
+    $("find-msg").textContent = hitRow && !hitRow.rank
+      ? `${state.me}: unranked, best run ${fmtValue(hitRow.metric, doc.metric.unit)} was graded after the deadline (listed below the standings), ${hitRow.used}${doc.cap ? " of " + doc.cap : ""} submissions used.`
+      : hitRow
       ? `${state.me}: P${hitRow.rank} of ${doc.rows.length} with ${fmtValue(hitRow.metric, doc.metric.unit)}, ${hitRow.used}${doc.cap ? " of " + doc.cap : ""} submissions used.`
       : `${state.me}: on the grid, ${hitGrid.used}${doc.cap ? " of " + doc.cap : ""} submissions used, no qualifying run before the deadline yet.`;
   }

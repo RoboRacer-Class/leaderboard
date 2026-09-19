@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-19T17:49:57Z",
+ "generated_at": "2026-09-19T18:20:49Z",
  "lab_title": "Lab 3: Wall Following",
  "late": [
   {
@@ -32,7 +32,7 @@
    "locked": false,
    "metric": 44.09,
    "replay": "replays/lab-3-wall-following/rainy-meteor-40.json?v=554c225c",
-   "used": 11
+   "used": 12
   }
  ],
  "metric": {
@@ -1276,10 +1276,10 @@
    "locked": false,
    "note": {
     "comment_id": 5690681477,
-    "fp": "-/51|-|11/0|0|13.47",
+    "fp": "-/51|-|12/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T17:41:22Z"
+    "updated_at": "2026-09-19T18:21:07Z"
    },
    "owner": "97c69b3be3d295c2",
    "submissions": [
@@ -1364,6 +1364,17 @@
       "top_mps": 2.0
      },
      "replay": "replays/lab-3-wall-following/rainy-meteor-40.json?v=554c225c"
+    },
+    {
+     "at": "2026-09-19T18:13:56Z",
+     "full": true,
+     "graded": true,
+     "id": "6ca5b6f1f499f69f",
+     "metrics": {
+      "avg_mps": 1.4,
+      "lap_s": 44.1,
+      "top_mps": 2.0
+     }
     }
    ]
   },

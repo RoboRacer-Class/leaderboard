@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-19T17:41:11Z",
+ "generated_at": "2026-09-19T17:49:57Z",
  "lab_title": "Lab 3: Wall Following",
  "late": [
   {
@@ -20,6 +20,19 @@
    "metric": 43.56,
    "replay": "replays/lab-3-wall-following/turbo-heron-72.json?v=a19559c3",
    "used": 4
+  },
+  {
+   "alias": "Rainy Meteor 40",
+   "at": "2026-09-19T17:40:31Z",
+   "attempt": 11,
+   "extras": {
+    "avg_mps": 1.4,
+    "top_mps": 2.0
+   },
+   "locked": false,
+   "metric": 44.09,
+   "replay": "replays/lab-3-wall-following/rainy-meteor-40.json?v=554c225c",
+   "used": 11
   }
  ],
  "metric": {
@@ -1342,10 +1355,15 @@
     },
     {
      "at": "2026-09-19T17:40:31Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "232086a973650b26",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 1.4,
+      "lap_s": 44.09,
+      "top_mps": 2.0
+     },
+     "replay": "replays/lab-3-wall-following/rainy-meteor-40.json?v=554c225c"
     }
    ]
   },
@@ -3010,11 +3028,6 @@
    "alias": "Radiant Wolf 62",
    "locked": false,
    "used": 2
-  },
-  {
-   "alias": "Rainy Meteor 40",
-   "locked": false,
-   "used": 11
   },
   {
    "alias": "Snowy Fox 94",

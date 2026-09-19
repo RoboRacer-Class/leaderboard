@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-19T03:23:43Z",
+ "generated_at": "2026-09-19T03:37:19Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -30,10 +30,10 @@
    "locked": false,
    "note": {
     "comment_id": 5666315200,
-    "fp": "33/50|32.4|2/0|0|13.47",
+    "fp": "33/51|32.4|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:33Z"
+    "updated_at": "2026-09-19T03:37:44Z"
    },
    "owner": "2d59560e3fc143ea",
    "submissions": [
@@ -66,10 +66,10 @@
    "locked": false,
    "note": {
     "comment_id": 5626954957,
-    "fp": "20/50|18.5|1/0|0|13.47",
+    "fp": "20/51|18.5|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:57Z"
+    "updated_at": "2026-09-19T03:38:05Z"
    },
    "owner": "2b483a472c57d22e",
    "submissions": [
@@ -91,10 +91,10 @@
    "locked": false,
    "note": {
     "comment_id": 5627555403,
-    "fp": "49/50|76.92|3/0|0|13.47",
+    "fp": "49/51|76.92|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:03Z"
+    "updated_at": "2026-09-19T03:38:11Z"
    },
    "owner": "adc06e716de74a39",
    "submissions": [
@@ -134,10 +134,10 @@
    "locked": false,
    "note": {
     "comment_id": 5623729860,
-    "fp": "35/50|40.39|1/0|0|13.47",
+    "fp": "35/51|40.39|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:01Z"
+    "updated_at": "2026-09-19T03:38:09Z"
    },
    "owner": "dc01db7aa4b33dde",
    "submissions": [
@@ -159,10 +159,10 @@
    "locked": false,
    "note": {
     "comment_id": 5658211771,
-    "fp": "25/50|21.8|2/0|0|13.47",
+    "fp": "25/51|21.8|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:42Z"
+    "updated_at": "2026-09-19T03:37:51Z"
    },
    "owner": "28649bf69220097d",
    "submissions": [
@@ -191,10 +191,10 @@
    "locked": false,
    "note": {
     "comment_id": 5620155210,
-    "fp": "23/50|19.91|1/0|0|13.47",
+    "fp": "23/51|19.91|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:36Z"
+    "updated_at": "2026-09-19T03:37:46Z"
    },
    "owner": "6bf53b1c646268f2",
    "submissions": [
@@ -216,10 +216,10 @@
    "locked": false,
    "note": {
     "comment_id": 5673493608,
-    "fp": "9/50|12.23|1/0|0|13.47",
+    "fp": "9/51|12.23|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:40Z"
+    "updated_at": "2026-09-19T03:37:49Z"
    },
    "owner": "63982ff770837c44",
    "submissions": [
@@ -241,10 +241,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608103650,
-    "fp": "39/50|46.09|2/0|0|13.47",
+    "fp": "39/51|46.09|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:31Z"
+    "updated_at": "2026-09-19T03:37:42Z"
    },
    "owner": "a6af6cf45de448d9",
    "submissions": [
@@ -277,10 +277,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605162767,
-    "fp": "1/50|8.24|4/0|0|13.47",
+    "fp": "1/51|8.24|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:47Z"
+    "updated_at": "2026-09-19T03:37:55Z"
    },
    "owner": "eeea81700df78cee",
    "submissions": [
@@ -332,10 +332,10 @@
    "locked": false,
    "note": {
     "comment_id": 5673130368,
-    "fp": "22/50|19.77|5/0|0|13.47",
+    "fp": "22/51|19.77|5/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:49Z"
+    "updated_at": "2026-09-19T03:37:58Z"
    },
    "owner": "ac2ed214155b131c",
    "submissions": [
@@ -389,10 +389,10 @@
    "locked": false,
    "note": {
     "comment_id": 5639491145,
-    "fp": "29/50|25.72|6/0|0|13.47",
+    "fp": "29/51|25.72|6/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:30Z"
+    "updated_at": "2026-09-19T03:37:42Z"
    },
    "owner": "c5aba988539511bb",
    "submissions": [
@@ -457,10 +457,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628040707,
-    "fp": "37/50|45.0|4/0|0|13.47",
+    "fp": "37/51|45.0|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:29Z"
+    "updated_at": "2026-09-19T03:37:41Z"
    },
    "owner": "097ee0882b5c5422",
    "submissions": [
@@ -507,10 +507,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665726736,
-    "fp": "30/50|27.21|1/0|0|13.47",
+    "fp": "30/51|27.21|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:59Z"
+    "updated_at": "2026-09-19T03:38:07Z"
    },
    "owner": "676db07052252e87",
    "submissions": [
@@ -532,10 +532,10 @@
    "locked": false,
    "note": {
     "comment_id": 5668355435,
-    "fp": "28/50|24.28|1/0|0|13.47",
+    "fp": "28/51|24.28|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:39Z"
+    "updated_at": "2026-09-19T03:37:48Z"
    },
    "owner": "c5628b5144de5386",
    "submissions": [
@@ -557,10 +557,10 @@
    "locked": false,
    "note": {
     "comment_id": 5637559338,
-    "fp": "31/50|27.48|3/0|0|13.47",
+    "fp": "31/51|27.48|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:37Z"
+    "updated_at": "2026-09-19T03:37:47Z"
    },
    "owner": "1a60cc5f56498f02",
    "submissions": [
@@ -604,10 +604,10 @@
    "locked": false,
    "note": {
     "comment_id": 5671748661,
-    "fp": "48/50|65.9|3/0|0|13.47",
+    "fp": "48/51|65.9|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:06Z"
+    "updated_at": "2026-09-19T03:38:13Z"
    },
    "owner": "1fc7783fd061dfcb",
    "submissions": [
@@ -647,10 +647,10 @@
    "locked": false,
    "note": {
     "comment_id": 5648803840,
-    "fp": "3/50|10.65|2/0|0|13.47",
+    "fp": "3/51|10.65|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:58Z"
+    "updated_at": "2026-09-19T03:38:05Z"
    },
    "owner": "b664401a5ec9ba49",
    "submissions": [
@@ -683,10 +683,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605700032,
-    "fp": "7/50|11.83|3/0|0|13.47",
+    "fp": "7/51|11.83|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:28Z"
+    "updated_at": "2026-09-19T03:37:39Z"
    },
    "owner": "3ee0ceb1c97c9ed4",
    "submissions": [
@@ -731,10 +731,10 @@
    "locked": false,
    "note": {
     "comment_id": 5671505935,
-    "fp": "46/50|56.05|4/0|0|13.47",
+    "fp": "46/51|56.05|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:04Z"
+    "updated_at": "2026-09-19T03:38:12Z"
    },
    "owner": "3c5c94515eb40949",
    "submissions": [
@@ -777,10 +777,10 @@
    "locked": false,
    "note": {
     "comment_id": 5697724006,
-    "fp": "45/50|54.82|4/0|0|13.47",
+    "fp": "45/51|54.82|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:05Z"
+    "updated_at": "2026-09-19T03:38:13Z"
    },
    "owner": "bfcd523a0abf6391",
    "submissions": [
@@ -823,10 +823,10 @@
    "locked": false,
    "note": {
     "comment_id": 5672793485,
-    "fp": "41/50|47.91|2/0|0|13.47",
+    "fp": "41/51|47.91|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:44Z"
+    "updated_at": "2026-09-19T03:37:53Z"
    },
    "owner": "52fad41b7508540c",
    "submissions": [
@@ -855,10 +855,10 @@
    "locked": false,
    "note": {
     "comment_id": 5609222498,
-    "fp": "8/50|12.06|3/0|0|13.47",
+    "fp": "8/51|12.06|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:38Z"
+    "updated_at": "2026-09-19T03:37:47Z"
    },
    "owner": "da8f415b7996d027",
    "submissions": [
@@ -902,10 +902,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665534590,
-    "fp": "13/50|14.02|1/0|0|13.47",
+    "fp": "13/51|14.02|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:45Z"
+    "updated_at": "2026-09-19T03:37:53Z"
    },
    "owner": "a2fd7d0fbb6a62aa",
    "submissions": [
@@ -927,10 +927,10 @@
    "locked": false,
    "note": {
     "comment_id": 5649628777,
-    "fp": "38/50|45.97|1/0|0|13.47",
+    "fp": "38/51|45.97|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:02Z"
+    "updated_at": "2026-09-19T03:38:10Z"
    },
    "owner": "7dcf558c80e03e15",
    "submissions": [
@@ -952,10 +952,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665534958,
-    "fp": "44/50|54.39|4/0|0|13.47",
+    "fp": "44/51|54.39|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:48Z"
+    "updated_at": "2026-09-19T03:37:56Z"
    },
    "owner": "3236ae0f883c4efa",
    "submissions": [
@@ -998,10 +998,10 @@
    "locked": false,
    "note": {
     "comment_id": 5674963674,
-    "fp": "16/50|15.57|6/0|0|13.47",
+    "fp": "16/51|15.57|6/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:35Z"
+    "updated_at": "2026-09-19T03:37:45Z"
    },
    "owner": "76c21f166dbb9c26",
    "submissions": [
@@ -1070,19 +1070,24 @@
    "locked": false,
    "note": {
     "comment_id": 5656287710,
-    "fp": "-/50|-|1/0|0|13.47",
+    "fp": "50/51|77.0|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T03:23:57Z"
+    "updated_at": "2026-09-19T03:38:16Z"
    },
    "owner": "441da8e4328ee4ad",
    "submissions": [
     {
      "at": "2026-09-19T03:23:19Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "7baf6da0cf9e2f95",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 0.82,
+      "lap_s": 77.0,
+      "top_mps": 1.5
+     },
+     "replay": "replays/lab-3-wall-following/plucky-quark-15.json?v=e90bed35"
     }
    ]
   },
@@ -1090,10 +1095,10 @@
    "locked": false,
    "note": {
     "comment_id": 5629693633,
-    "fp": "14/50|15.02|1/0|0|13.47",
+    "fp": "14/51|15.02|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:41Z"
+    "updated_at": "2026-09-19T03:37:50Z"
    },
    "owner": "ab8a1e12bcdd9664",
    "submissions": [
@@ -1116,10 +1121,10 @@
    "locked": false,
    "note": {
     "comment_id": 5609596439,
-    "fp": "5/50|10.76|4/0|0|13.47",
+    "fp": "5/51|10.76|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:56Z"
+    "updated_at": "2026-09-19T03:38:03Z"
    },
    "owner": "83663b62299e6a36",
    "submissions": [
@@ -1166,10 +1171,10 @@
    "locked": false,
    "note": {
     "comment_id": 5734706627,
-    "fp": "24/50|20.16|1/0|0|13.47",
+    "fp": "24/51|20.16|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:08Z"
+    "updated_at": "2026-09-19T03:38:15Z"
    },
    "owner": "494fa305b1903b21",
    "submissions": [
@@ -1191,10 +1196,10 @@
    "locked": false,
    "note": {
     "comment_id": 5689796667,
-    "fp": "27/50|22.76|1/0|0|13.47",
+    "fp": "27/51|22.76|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:34Z"
+    "updated_at": "2026-09-19T03:37:44Z"
    },
    "owner": "b1e7e39d205230b2",
    "submissions": [
@@ -1216,10 +1221,10 @@
    "locked": false,
    "note": {
     "comment_id": 5723724285,
-    "fp": "-/50|-|2/0|0|13.47",
+    "fp": "-/51|-|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:56Z"
+    "updated_at": "2026-09-19T03:38:04Z"
    },
    "owner": "299d98b027faf6fa",
    "submissions": [
@@ -1243,10 +1248,10 @@
    "locked": false,
    "note": {
     "comment_id": 5690681477,
-    "fp": "-/50|-|7/0|0|13.47",
+    "fp": "-/51|-|7/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T03:00:46Z"
+    "updated_at": "2026-09-19T03:38:08Z"
    },
    "owner": "97c69b3be3d295c2",
    "submissions": [
@@ -1305,10 +1310,10 @@
    "locked": false,
    "note": {
     "comment_id": 5648089027,
-    "fp": "15/50|15.55|3/0|0|13.47",
+    "fp": "15/51|15.55|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:00Z"
+    "updated_at": "2026-09-19T03:38:09Z"
    },
    "owner": "3569acad27a8a5bf",
    "submissions": [
@@ -1348,10 +1353,10 @@
    "locked": false,
    "note": {
     "comment_id": 5707550468,
-    "fp": "42/50|50.47|1/0|0|13.47",
+    "fp": "42/51|50.47|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:53Z"
+    "updated_at": "2026-09-19T03:38:01Z"
    },
    "owner": "406f181b8448709d",
    "submissions": [
@@ -1373,10 +1378,10 @@
    "locked": false,
    "note": {
     "comment_id": 5647661566,
-    "fp": "6/50|11.66|2/0|0|13.47",
+    "fp": "6/51|11.66|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:40Z"
+    "updated_at": "2026-09-19T03:37:49Z"
    },
    "owner": "5f8109372fa5c0e2",
    "submissions": [
@@ -1405,10 +1410,10 @@
    "locked": false,
    "note": {
     "comment_id": 5666639627,
-    "fp": "43/50|51.31|2/0|0|13.47",
+    "fp": "43/51|51.31|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:55Z"
+    "updated_at": "2026-09-19T03:38:03Z"
    },
    "owner": "d9b2bc4cdc63f0b8",
    "submissions": [
@@ -1437,10 +1442,10 @@
    "locked": false,
    "note": {
     "comment_id": 5654038360,
-    "fp": "34/50|36.2|1/0|0|13.47",
+    "fp": "34/51|36.2|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:51Z"
+    "updated_at": "2026-09-19T03:37:59Z"
    },
    "owner": "7659d41e1ff6f55f",
    "submissions": [
@@ -1462,10 +1467,10 @@
    "locked": false,
    "note": {
     "comment_id": 5611993692,
-    "fp": "12/50|13.38|1/0|0|13.47",
+    "fp": "12/51|13.38|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:09Z"
+    "updated_at": "2026-09-19T03:38:16Z"
    },
    "owner": "dfe9505c5e9a278b",
    "submissions": [
@@ -1487,10 +1492,10 @@
    "locked": false,
    "note": {
     "comment_id": 5625536344,
-    "fp": "18/50|16.52|2/0|0|13.47",
+    "fp": "18/51|16.52|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:52Z"
+    "updated_at": "2026-09-19T03:38:00Z"
    },
    "owner": "8eaa1adde81f240d",
    "submissions": [
@@ -1519,10 +1524,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628545457,
-    "fp": "32/50|29.5|4/0|0|13.47",
+    "fp": "32/51|29.5|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:54Z"
+    "updated_at": "2026-09-19T03:38:02Z"
    },
    "owner": "1faa8e8f95d6a56b",
    "submissions": [
@@ -1569,10 +1574,10 @@
    "locked": false,
    "note": {
     "comment_id": 5639307878,
-    "fp": "26/50|21.96|1/0|0|13.47",
+    "fp": "26/51|21.96|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:29Z"
+    "updated_at": "2026-09-19T03:37:40Z"
    },
    "owner": "fb878597624ebe2f",
    "submissions": [
@@ -1594,10 +1599,10 @@
    "locked": false,
    "note": {
     "comment_id": 5699395672,
-    "fp": "47/50|60.49|1/0|0|13.47",
+    "fp": "47/51|60.49|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:46Z"
+    "updated_at": "2026-09-19T03:37:55Z"
    },
    "owner": "b983a4ef1793450e",
    "submissions": [
@@ -1619,10 +1624,10 @@
    "locked": false,
    "note": {
     "comment_id": 5607301879,
-    "fp": "10/50|13.05|2/0|0|13.47",
+    "fp": "10/51|13.05|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:45Z"
+    "updated_at": "2026-09-19T03:37:54Z"
    },
    "owner": "63e05f13e990aac2",
    "submissions": [
@@ -1655,10 +1660,10 @@
    "locked": false,
    "note": {
     "comment_id": 5630656340,
-    "fp": "11/50|13.34|1/0|0|13.47",
+    "fp": "11/51|13.34|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:58Z"
+    "updated_at": "2026-09-19T03:38:06Z"
    },
    "owner": "0c590651aed70048",
    "submissions": [
@@ -1680,10 +1685,10 @@
    "locked": false,
    "note": {
     "comment_id": 5690488556,
-    "fp": "2/50|8.88|14/0|0|13.47",
+    "fp": "2/51|8.88|14/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:03Z"
+    "updated_at": "2026-09-19T03:38:11Z"
    },
    "owner": "658d707d61ea19a2",
    "submissions": [
@@ -1836,10 +1841,10 @@
    "locked": false,
    "note": {
     "comment_id": 5635147758,
-    "fp": "17/50|16.06|1/0|0|13.47",
+    "fp": "17/51|16.06|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:10Z"
+    "updated_at": "2026-09-19T03:38:17Z"
    },
    "owner": "e7ba4fcd613d0dec",
    "submissions": [
@@ -1861,10 +1866,10 @@
    "locked": false,
    "note": {
     "comment_id": 5608817259,
-    "fp": "4/50|10.68|3/0|0|13.47",
+    "fp": "4/51|10.68|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:27Z"
+    "updated_at": "2026-09-19T03:37:39Z"
    },
    "owner": "28a881accf52d2a7",
    "submissions": [
@@ -1905,10 +1910,10 @@
    "locked": false,
    "note": {
     "comment_id": 5637419461,
-    "fp": "36/50|41.39|4/0|0|13.47",
+    "fp": "36/51|41.39|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:43Z"
+    "updated_at": "2026-09-19T03:37:51Z"
    },
    "owner": "62f2c7fbc20fdcb1",
    "submissions": [
@@ -1959,10 +1964,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628545259,
-    "fp": "-/50|-|0/0|0|13.47",
+    "fp": "-/51|-|0/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:53Z"
+    "updated_at": "2026-09-19T03:38:01Z"
    },
    "owner": "19b88e48fb5659be",
    "submissions": []
@@ -1971,10 +1976,10 @@
    "locked": false,
    "note": {
     "comment_id": 5733696554,
-    "fp": "40/50|46.63|1/0|0|13.47",
+    "fp": "40/51|46.63|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:50Z"
+    "updated_at": "2026-09-19T03:37:58Z"
    },
    "owner": "a3a3488ed84feba4",
    "submissions": [
@@ -1996,10 +2001,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665535317,
-    "fp": "50/50|124.12|1/0|0|13.47",
+    "fp": "51/51|124.12|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:28:06Z"
+    "updated_at": "2026-09-19T03:38:14Z"
    },
    "owner": "2eff2c13524ea33f",
    "submissions": [
@@ -2021,10 +2026,10 @@
    "locked": false,
    "note": {
     "comment_id": 5665870614,
-    "fp": "19/50|17.77|2/0|0|13.47",
+    "fp": "19/51|17.77|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:32Z"
+    "updated_at": "2026-09-19T03:37:43Z"
    },
    "owner": "313e04804c0077d8",
    "submissions": [
@@ -2057,10 +2062,10 @@
    "locked": false,
    "note": {
     "comment_id": 5628545092,
-    "fp": "21/50|18.53|5/0|0|13.47",
+    "fp": "21/51|18.53|5/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T02:27:49Z"
+    "updated_at": "2026-09-19T03:37:57Z"
    },
    "owner": "f5eeae1864756280",
    "submissions": [
@@ -2872,6 +2877,20 @@
    "used": 3
   },
   {
+   "alias": "Plucky Quark 15",
+   "at": "2026-09-19T03:23:19Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 0.82,
+    "top_mps": 1.5
+   },
+   "locked": false,
+   "metric": 77.0,
+   "rank": 50,
+   "replay": "replays/lab-3-wall-following/plucky-quark-15.json?v=e90bed35",
+   "used": 1
+  },
+  {
    "alias": "Wobbly Penguin 27",
    "at": "2026-09-15T22:03:36Z",
    "attempt": 1,
@@ -2881,7 +2900,7 @@
    },
    "locked": false,
    "metric": 124.12,
-   "rank": 50,
+   "rank": 51,
    "replay": "replays/lab-3-wall-following/wobbly-penguin-27.json?v=18045756",
    "used": 1
   }
@@ -2890,11 +2909,6 @@
  "slug": "lab-3-wall-following",
  "title": "Lab 3: Wall Following",
  "unranked": [
-  {
-   "alias": "Plucky Quark 15",
-   "locked": false,
-   "used": 1
-  },
   {
    "alias": "Radiant Wolf 62",
    "locked": false,

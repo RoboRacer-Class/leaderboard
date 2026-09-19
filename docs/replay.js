@@ -222,24 +222,6 @@
     return { x0: x0 - pad, x1: x1 + pad, y0: y0 - pad, y1: y1 + pad };
   }
 
-  // The readout floats over the track, so it goes where it hides the least of the driving
-  // line: a corner if one is free, else the middle of the loop. Chosen once per race.
-  function hudSpot(run) {
-    const v = state.view, w = ui.hud.offsetWidth + 16, h = ui.hud.offsetHeight + 16;
-    const cw = ui.canvas.width / v.dpr, ch = ui.canvas.height / v.dpr, m = 12;
-    const spots = [[m, m], [cw - w - m + 16, m], [m, ch - h - m + 16], [cw - w - m + 16, ch - h - m + 16], [(cw - w) / 2 + 8, (ch - h) / 2 + 8]];
-    let best = spots[0], least = Infinity;
-    for (const [left, top] of spots) {
-      let hits = 0;
-      for (let i = 0; i < run.n; i += 2) {
-        const x = v.px(run.x[i]) / v.dpr, y = v.py(run.y[i]) / v.dpr;
-        if (x > left - 8 && x < left + w - 8 && y > top - 8 && y < top + h - 8) hits++;
-      }
-      if (hits < least) { least = hits; best = [left, top]; }
-    }
-    return best;
-  }
-
   function layout() {
     const run = state.run, m = state.map, { x0, x1, y0, y1 } = state.box;
     const cssW = ui.canvas.parentElement.clientWidth;
@@ -282,13 +264,6 @@
     for (let i = 0; i < run.n; i++) g[i ? "lineTo" : "moveTo"](v.px(run.x[i]), v.py(run.y[i]));
     g.stroke();
     state.layer = layer;
-    if (getComputedStyle(ui.hud).position === "absolute") {
-      const cw = ui.canvas.width / dpr, ch = ui.canvas.height / dpr;
-      // kept as fractions of the canvas so a resize or full screen keeps the same place
-      if (!state.spotFrac) { const spot = hudSpot(run); state.spotFrac = [spot[0] / cw, spot[1] / ch]; }
-      ui.hud.style.left = Math.round(Math.min(state.spotFrac[0] * cw, cw - ui.hud.offsetWidth - 8)) + "px";
-      ui.hud.style.top = Math.round(Math.min(state.spotFrac[1] * ch, ch - ui.hud.offsetHeight - 8)) + "px";
-    } else { ui.hud.style.left = ui.hud.style.top = ""; }
   }
 
   function drawCar(g, pose, fill, stroke, opts) {
@@ -491,7 +466,6 @@
       const others = same ? keep.others.filter((o) => o.entry.replay !== entry.replay) : [];
       if (same && keep.entry.replay !== entry.replay) others.push({ entry: keep.entry, run: keep.run });
       state = { entry, fieldEntries, run, map, mapImage: image, box: same ? keep.box : boxOf(run),
-                spotFrac: same ? keep.spotFrac : null,
                 rel: same ? keep.rel : -PRE_ROLL, raceEnd: run.finish + TAIL, loopAt: 0,
                 rate: Number(ui.rate.value), playing: false, others, hover: null, shown: [] };
       race();

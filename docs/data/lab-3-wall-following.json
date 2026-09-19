@@ -5,8 +5,23 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-19T14:20:00Z",
+ "generated_at": "2026-09-19T16:56:52Z",
  "lab_title": "Lab 3: Wall Following",
+ "late": [
+  {
+   "alias": "Turbo Heron 72",
+   "at": "2026-09-19T05:07:31Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 1.39,
+    "top_mps": 1.5
+   },
+   "locked": false,
+   "metric": 43.56,
+   "replay": "replays/lab-3-wall-following/turbo-heron-72.json?v=a19559c3",
+   "used": 4
+  }
+ ],
  "metric": {
   "direction": "lower",
   "extras": [
@@ -2031,7 +2046,9 @@
       "avg_mps": 1.39,
       "lap_s": 43.56,
       "top_mps": 1.5
-     }
+     },
+     "replay": "replays/lab-3-wall-following/turbo-heron-72.json?v=a19559c3",
+     "replay_checked": true
     }
    ]
   },
@@ -2491,6 +2508,7 @@
    "locked": false,
    "metric": 16.06,
    "rank": 17,
+   "replay": "replays/lab-3-wall-following/tidy-proton-16.json?v=655d8064",
    "used": 1
   },
   {
@@ -2574,6 +2592,7 @@
    "locked": false,
    "metric": 19.91,
    "rank": 23,
+   "replay": "replays/lab-3-wall-following/crimson-arrow-45.json?v=688e9a43",
    "used": 1
   },
   {
@@ -2797,6 +2816,7 @@
    "locked": false,
    "metric": 46.09,
    "rank": 39,
+   "replay": "replays/lab-3-wall-following/crystal-beagle-36.json?v=16ec7d78",
    "used": 2
   },
   {
@@ -2986,11 +3006,6 @@
    "alias": "Snowy Fox 94",
    "locked": false,
    "used": 0
-  },
-  {
-   "alias": "Turbo Heron 72",
-   "locked": false,
-   "used": 4
   }
  ]
 }

@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-19T00:26:09Z",
+ "generated_at": "2026-09-19T01:05:54Z",
  "lab_title": "Lab 3: Wall Following",
  "metric": {
   "direction": "lower",
@@ -683,10 +683,10 @@
    "locked": false,
    "note": {
     "comment_id": 5605700032,
-    "fp": "7/48|11.83|2/0|0|13.47",
+    "fp": "7/48|11.83|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T00:26:32Z"
+    "updated_at": "2026-09-19T01:06:08Z"
    },
    "owner": "3ee0ceb1c97c9ed4",
    "submissions": [
@@ -713,6 +713,17 @@
       "top_mps": 9.91
      },
      "replay": "replays/lab-3-wall-following/lightning-sprocket-88.json?v=c2ea92b4"
+    },
+    {
+     "at": "2026-09-19T00:42:13Z",
+     "full": true,
+     "graded": true,
+     "id": "6c2f9072d89cabc0",
+     "metrics": {
+      "avg_mps": 5.44,
+      "lap_s": 11.97,
+      "top_mps": 9.89
+     }
     }
    ]
   },
@@ -1211,10 +1222,10 @@
    "locked": false,
    "note": {
     "comment_id": 5690681477,
-    "fp": "-/48|-|1/0|0|13.47",
+    "fp": "-/48|-|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T00:27:09Z"
+    "updated_at": "2026-09-19T01:06:09Z"
    },
    "owner": "97c69b3be3d295c2",
    "submissions": [
@@ -1223,6 +1234,13 @@
      "full": false,
      "graded": true,
      "id": "cc1f976ae347c1af",
+     "metrics": null
+    },
+    {
+     "at": "2026-09-19T00:45:22Z",
+     "full": false,
+     "graded": true,
+     "id": "b5db229e208bad1c",
      "metrics": null
     }
    ]
@@ -1581,13 +1599,21 @@
    "locked": false,
    "note": {
     "comment_id": 5630656340,
-    "fp": "-/48|-|0/0|0|13.47",
+    "fp": "-/48|-|1/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-19T00:27:07Z"
+    "updated_at": "2026-09-19T01:06:08Z"
    },
    "owner": "0c590651aed70048",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-19T01:04:16Z",
+     "full": false,
+     "graded": false,
+     "id": "456be73474fe6c10",
+     "metrics": null
+    }
+   ]
   },
   "Thunder Mamba 45": {
    "locked": false,
@@ -2197,7 +2223,7 @@
    "metric": 11.83,
    "rank": 7,
    "replay": "replays/lab-3-wall-following/lightning-sprocket-88.json?v=c2ea92b4",
-   "used": 2
+   "used": 3
   },
   {
    "alias": "Mighty Puffin 96",
@@ -2793,12 +2819,12 @@
   {
    "alias": "Rainy Meteor 40",
    "locked": false,
-   "used": 1
+   "used": 2
   },
   {
    "alias": "Thunder Falcon 55",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Turbo Heron 72",

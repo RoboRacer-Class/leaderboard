@@ -238,10 +238,28 @@ def capture_replay(api, rel: dict, lab: dict, key: str, record: dict, subs: list
     log(f"  {key}: recording published")
 
 
+def backfill_fits(data_dir: Path, entry: dict, metric: rules.Metric, value) -> bool:
+    """The staff-made recording names its ranked lap, timed to the row's value, as a
+    recording read from a release must (replays.clean). The player races on that
+    lap, so a re-run left on its own clock (they differ by tenths) would finish the
+    car out of the board's order and show a time the board does not have. The
+    backfill tool puts every re-run on the board's clock (replays.retime); a file
+    that is not stays unlinked, and `tools/retime_replays.py` fixes it."""
+    if metric.unit != "s":
+        return True
+    try:
+        doc = json.loads((data_dir / entry["replay"].partition("?v=")[0]).read_text())
+    except (OSError, ValueError):
+        return False
+    seconds = replays.ranked_seconds(doc) if isinstance(doc, dict) else None
+    return seconds is not None and abs(seconds - value) <= replays.LAP_SLACK_S
+
+
 def merge_backfill(data_dir: Path, lab: dict, state: dict, rows: list, reference) -> None:
     """Give an entry the recording staff made for it (replays.load_backfill) when it
-    has none of its own and the recording is of the very attempt the board shows:
-    a later, better run is never passed off with an older run's replay."""
+    has none of its own, the recording is of the very attempt the board shows (a
+    later, better run is never passed off with an older run's replay) and its
+    ranked lap is timed to the row (backfill_fits)."""
     index = replays.load_backfill(data_dir, lab["board"])
     if not index:
         return
@@ -250,12 +268,14 @@ def merge_backfill(data_dir: Path, lab: dict, state: dict, rows: list, reference
         if entry is None or row.get("replay"):
             continue
         subs = rules.counted_submissions(state["players"][row["alias"]])
-        if subs[row["attempt"] - 1]["id"] == entry["attempt"]:
+        if subs[row["attempt"] - 1]["id"] == entry["attempt"] \
+                and backfill_fits(data_dir, entry, lab["metric"], row["metric"]):
             row["replay"] = entry["replay"]
     entry = index.get("reference")
     if entry is not None and reference is not None and not reference.get("replay"):
         best = best_attempt(lab, "reference", state["reference_submissions"])
-        if best is not None and best["id"] == entry["attempt"]:
+        if best is not None and best["id"] == entry["attempt"] \
+                and backfill_fits(data_dir, entry, lab["metric"], reference["metric"]):
             reference["replay"] = entry["replay"]
 
 

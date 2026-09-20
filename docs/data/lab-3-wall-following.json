@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-19T18:20:49Z",
+ "generated_at": "2026-09-20T03:11:51Z",
  "lab_title": "Lab 3: Wall Following",
  "late": [
   {
@@ -2251,7 +2251,7 @@
    "top_mps": 5.0
   },
   "metric": 13.47,
-  "replay": "replays/lab-3-wall-following/reference.json?v=65a4d1a8"
+  "replay": "replays/lab-3-wall-following/reference.json?v=8ef6242e"
  },
  "reference_submissions": [
   {
@@ -2341,7 +2341,7 @@
    "locked": false,
    "metric": 8.88,
    "rank": 2,
-   "replay": "replays/lab-3-wall-following/thunder-mamba-45.json?v=0b21edd2",
+   "replay": "replays/lab-3-wall-following/thunder-mamba-45.json?v=dda74495",
    "used": 14
   },
   {
@@ -2355,7 +2355,7 @@
    "locked": false,
    "metric": 10.65,
    "rank": 3,
-   "replay": "replays/lab-3-wall-following/lightning-owl-33.json?v=30a53932",
+   "replay": "replays/lab-3-wall-following/lightning-owl-33.json?v=6dd6b07f",
    "used": 2
   },
   {
@@ -2383,7 +2383,7 @@
    "locked": false,
    "metric": 10.76,
    "rank": 5,
-   "replay": "replays/lab-3-wall-following/quantum-bobcat-80.json?v=277ae9e5",
+   "replay": "replays/lab-3-wall-following/quantum-bobcat-80.json?v=a921629a",
    "used": 4
   },
   {
@@ -2397,7 +2397,7 @@
    "locked": false,
    "metric": 11.66,
    "rank": 6,
-   "replay": "replays/lab-3-wall-following/scarlet-owl-81.json?v=a1b13050",
+   "replay": "replays/lab-3-wall-following/scarlet-owl-81.json?v=7b190770",
    "used": 2
   },
   {
@@ -2425,7 +2425,7 @@
    "locked": false,
    "metric": 12.06,
    "rank": 8,
-   "replay": "replays/lab-3-wall-following/mighty-puffin-96.json?v=b11cba5b",
+   "replay": "replays/lab-3-wall-following/mighty-puffin-96.json?v=855f7a3c",
    "used": 3
   },
   {
@@ -2439,7 +2439,7 @@
    "locked": false,
    "metric": 12.23,
    "rank": 9,
-   "replay": "replays/lab-3-wall-following/crimson-heron-58.json?v=da99bf08",
+   "replay": "replays/lab-3-wall-following/crimson-heron-58.json?v=2eab14c6",
    "used": 1
   },
   {
@@ -2453,7 +2453,7 @@
    "locked": false,
    "metric": 13.05,
    "rank": 10,
-   "replay": "replays/lab-3-wall-following/stormy-magnet-44.json?v=b61ec8ba",
+   "replay": "replays/lab-3-wall-following/stormy-magnet-44.json?v=64419eb4",
    "used": 2
   },
   {
@@ -2481,7 +2481,7 @@
    "locked": false,
    "metric": 13.38,
    "rank": 12,
-   "replay": "replays/lab-3-wall-following/solar-lion-63.json?v=fce460e6",
+   "replay": "replays/lab-3-wall-following/solar-lion-63.json?v=61fcf099",
    "used": 1
   },
   {
@@ -2523,7 +2523,7 @@
    "locked": false,
    "metric": 15.55,
    "rank": 15,
-   "replay": "replays/lab-3-wall-following/rapid-gecko-35.json?v=f2d3856e",
+   "replay": "replays/lab-3-wall-following/rapid-gecko-35.json?v=b4b2f725",
    "used": 3
   },
   {
@@ -2537,7 +2537,7 @@
    "locked": false,
    "metric": 15.57,
    "rank": 16,
-   "replay": "replays/lab-3-wall-following/onyx-shuttle-58.json?v=f81c541f",
+   "replay": "replays/lab-3-wall-following/onyx-shuttle-58.json?v=ac2e4090",
    "used": 6
   },
   {
@@ -2551,7 +2551,7 @@
    "locked": false,
    "metric": 16.06,
    "rank": 17,
-   "replay": "replays/lab-3-wall-following/tidy-proton-16.json?v=655d8064",
+   "replay": "replays/lab-3-wall-following/tidy-proton-16.json?v=cc4d9c67",
    "used": 1
   },
   {
@@ -2565,7 +2565,7 @@
    "locked": false,
    "metric": 16.52,
    "rank": 18,
-   "replay": "replays/lab-3-wall-following/sonic-cougar-58.json?v=6af29acf",
+   "replay": "replays/lab-3-wall-following/sonic-cougar-58.json?v=c6f95f5f",
    "used": 2
   },
   {
@@ -2579,7 +2579,7 @@
    "locked": false,
    "metric": 17.77,
    "rank": 19,
-   "replay": "replays/lab-3-wall-following/zesty-dingo-14.json?v=7790e6bc",
+   "replay": "replays/lab-3-wall-following/zesty-dingo-14.json?v=3b00018c",
    "used": 2
   },
   {
@@ -2593,7 +2593,7 @@
    "locked": false,
    "metric": 18.5,
    "rank": 20,
-   "replay": "replays/lab-3-wall-following/bold-pixel-17.json?v=b5b8bbd2",
+   "replay": "replays/lab-3-wall-following/bold-pixel-17.json?v=531e0cca",
    "used": 1
   },
   {
@@ -2607,7 +2607,7 @@
    "locked": false,
    "metric": 18.53,
    "rank": 21,
-   "replay": "replays/lab-3-wall-following/zesty-orca-53.json?v=64e7df08",
+   "replay": "replays/lab-3-wall-following/zesty-orca-53.json?v=a7dd599a",
    "used": 5
   },
   {
@@ -2621,7 +2621,7 @@
    "locked": false,
    "metric": 19.77,
    "rank": 22,
-   "replay": "replays/lab-3-wall-following/denim-tensor-14.json?v=3a43a611",
+   "replay": "replays/lab-3-wall-following/denim-tensor-14.json?v=dec0bc65",
    "used": 5
   },
   {
@@ -2635,7 +2635,7 @@
    "locked": false,
    "metric": 19.91,
    "rank": 23,
-   "replay": "replays/lab-3-wall-following/crimson-arrow-45.json?v=688e9a43",
+   "replay": "replays/lab-3-wall-following/crimson-arrow-45.json?v=acb3a0f6",
    "used": 1
   },
   {
@@ -2677,7 +2677,7 @@
    "locked": false,
    "metric": 21.96,
    "rank": 26,
-   "replay": "replays/lab-3-wall-following/spiky-wolf-44.json?v=e5385e82",
+   "replay": "replays/lab-3-wall-following/spiky-wolf-44.json?v=43f71c0e",
    "used": 1
   },
   {
@@ -2691,7 +2691,7 @@
    "locked": false,
    "metric": 22.76,
    "rank": 27,
-   "replay": "replays/lab-3-wall-following/radar-gazelle-19.json?v=0d8971b3",
+   "replay": "replays/lab-3-wall-following/radar-gazelle-19.json?v=5e1aae50",
    "used": 1
   },
   {
@@ -2705,7 +2705,7 @@
    "locked": false,
    "metric": 24.28,
    "rank": 28,
-   "replay": "replays/lab-3-wall-following/ivory-comet-85.json?v=2a98dacf",
+   "replay": "replays/lab-3-wall-following/ivory-comet-85.json?v=2da215af",
    "used": 1
   },
   {
@@ -2719,7 +2719,7 @@
    "locked": false,
    "metric": 25.72,
    "rank": 29,
-   "replay": "replays/lab-3-wall-following/emerald-bison-26.json?v=47c21711",
+   "replay": "replays/lab-3-wall-following/emerald-bison-26.json?v=08e42d21",
    "used": 6
   },
   {
@@ -2733,7 +2733,7 @@
    "locked": false,
    "metric": 27.21,
    "rank": 30,
-   "replay": "replays/lab-3-wall-following/humble-compass-32.json?v=5233f47b",
+   "replay": "replays/lab-3-wall-following/humble-compass-32.json?v=2c5baa12",
    "used": 1
   },
   {
@@ -2747,7 +2747,7 @@
    "locked": false,
    "metric": 27.48,
    "rank": 31,
-   "replay": "replays/lab-3-wall-following/ivory-diode-28.json?v=75dea03f",
+   "replay": "replays/lab-3-wall-following/ivory-diode-28.json?v=529fdd82",
    "used": 3
   },
   {
@@ -2761,7 +2761,7 @@
    "locked": false,
    "metric": 29.5,
    "rank": 32,
-   "replay": "replays/lab-3-wall-following/spiky-beacon-49.json?v=7afd129c",
+   "replay": "replays/lab-3-wall-following/spiky-beacon-49.json?v=7390c8d0",
    "used": 4
   },
   {
@@ -2775,7 +2775,7 @@
    "locked": false,
    "metric": 32.4,
    "rank": 33,
-   "replay": "replays/lab-3-wall-following/alpine-dolphin-75.json?v=5fe5703f",
+   "replay": "replays/lab-3-wall-following/alpine-dolphin-75.json?v=9e1a2b89",
    "used": 2
   },
   {
@@ -2789,7 +2789,7 @@
    "locked": false,
    "metric": 36.2,
    "rank": 34,
-   "replay": "replays/lab-3-wall-following/silver-otter-38.json?v=34d5769d",
+   "replay": "replays/lab-3-wall-following/silver-otter-38.json?v=087d6b0f",
    "used": 1
   },
   {
@@ -2803,7 +2803,7 @@
    "locked": false,
    "metric": 40.39,
    "rank": 35,
-   "replay": "replays/lab-3-wall-following/breezy-bolt-20.json?v=35cea0a1",
+   "replay": "replays/lab-3-wall-following/breezy-bolt-20.json?v=9da24f52",
    "used": 1
   },
   {
@@ -2831,7 +2831,7 @@
    "locked": false,
    "metric": 45.0,
    "rank": 37,
-   "replay": "replays/lab-3-wall-following/foggy-voxel-49.json?v=10c501f9",
+   "replay": "replays/lab-3-wall-following/foggy-voxel-49.json?v=bd6d140b",
    "used": 4
   },
   {
@@ -2859,7 +2859,7 @@
    "locked": false,
    "metric": 46.09,
    "rank": 39,
-   "replay": "replays/lab-3-wall-following/crystal-beagle-36.json?v=16ec7d78",
+   "replay": "replays/lab-3-wall-following/crystal-beagle-36.json?v=3e315c6d",
    "used": 2
   },
   {
@@ -2887,7 +2887,7 @@
    "locked": false,
    "metric": 47.91,
    "rank": 41,
-   "replay": "replays/lab-3-wall-following/mellow-llama-78.json?v=3e4e21a6",
+   "replay": "replays/lab-3-wall-following/mellow-llama-78.json?v=df045371",
    "used": 2
   },
   {
@@ -2915,7 +2915,7 @@
    "locked": false,
    "metric": 51.31,
    "rank": 43,
-   "replay": "replays/lab-3-wall-following/silent-torch-12.json?v=a54cb69a",
+   "replay": "replays/lab-3-wall-following/silent-torch-12.json?v=b5d5ef31",
    "used": 2
   },
   {
@@ -2943,7 +2943,7 @@
    "locked": false,
    "metric": 54.82,
    "rank": 45,
-   "replay": "replays/lab-3-wall-following/mellow-kraken-10.json?v=0db522a6",
+   "replay": "replays/lab-3-wall-following/mellow-kraken-10.json?v=499854a7",
    "used": 4
   },
   {
@@ -2957,7 +2957,7 @@
    "locked": false,
    "metric": 56.05,
    "rank": 46,
-   "replay": "replays/lab-3-wall-following/lucky-dragon-15.json?v=d39e9110",
+   "replay": "replays/lab-3-wall-following/lucky-dragon-15.json?v=5430c521",
    "used": 4
   },
   {
@@ -2985,7 +2985,7 @@
    "locked": false,
    "metric": 65.9,
    "rank": 48,
-   "replay": "replays/lab-3-wall-following/lightning-diode-51.json?v=62ccea0b",
+   "replay": "replays/lab-3-wall-following/lightning-diode-51.json?v=c69da3f6",
    "used": 3
   },
   {
@@ -2999,7 +2999,7 @@
    "locked": false,
    "metric": 76.92,
    "rank": 49,
-   "replay": "replays/lab-3-wall-following/brave-puffin-30.json?v=92427f09",
+   "replay": "replays/lab-3-wall-following/brave-puffin-30.json?v=315259c6",
    "used": 3
   },
   {
@@ -3027,7 +3027,7 @@
    "locked": false,
    "metric": 124.12,
    "rank": 51,
-   "replay": "replays/lab-3-wall-following/wobbly-penguin-27.json?v=18045756",
+   "replay": "replays/lab-3-wall-following/wobbly-penguin-27.json?v=9990097d",
    "used": 1
   }
  ],

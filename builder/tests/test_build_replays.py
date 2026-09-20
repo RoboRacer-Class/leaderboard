@@ -210,3 +210,25 @@ def test_a_malformed_sidecar_is_ignored(world):
         (data_dir / BOARD_DIR / "backfill.json").write_text(text)
         assert run_build(api, data_dir, log) == 0
         assert "replay" not in board(data_dir)["rows"][0]
+
+
+def test_a_backfilled_recording_off_the_row_time_is_not_linked(world):
+    """A re-run is not the graded run: one whose ranked lap disagrees with the row's
+    time would finish the car out of the board's order, so it is left unlinked."""
+    from builder import rules
+    api, data_dir, log = world
+    api.files[(f"{ORG}/classroom50", f"{CLASSROOM}/autograders/{SLUG}/config.yaml")] = CONFIG_YAML
+    add_student(api, "alice", [lap(12.0)], ["2026-09-10T10:00:00Z"])
+    add_student(api, "bob", [lap(12.5)], ["2026-09-10T11:00:00Z"])
+    assert run_build(api, data_dir, log) == 0
+    doc = board(data_dir)
+    alice_alias = next(r["alias"] for r in doc["rows"] if r["metric"] == 12.0)
+    bob_alias = next(r["alias"] for r in doc["rows"] if r["metric"] == 12.5)
+    attempt = rules.attempt_id("submit/2026-09-10T00-00-00Z-0000000")
+    backfill(data_dir, {alice_alias: (attempt, recording(12.3)), bob_alias: (attempt, recording(12.5)),
+                        "reference": (attempt, recording(13.6))})
+    assert run_build(api, data_dir, log) == 0
+    doc = board(data_dir)
+    rows = {r["metric"]: r for r in doc["rows"]}
+    assert "replay" not in rows[12.0] and "replay" in rows[12.5]
+    assert "replay" not in doc["reference"]

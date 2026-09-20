@@ -70,7 +70,72 @@ def test_ranked_lap_must_match_the_board_time():
     assert clean(recording(), lap_seconds=11.42) is not None
     assert clean(recording(), lap_seconds=11.45) is not None            # rounding slack
     assert clean(recording(), lap_seconds=9.0) is None                  # someone else's lap
-    assert clean(recording(laps=[], lap_ms=[], best=None), lap_seconds=9.0) is not None   # nothing to compare
+    # a ranked run's recording must name the lap the board ranks, with its time: the player
+    # races on that lap, so an unnamed or untimed one would finish out of the board's order
+    assert clean(recording(laps=[], lap_ms=[], best=None), lap_seconds=11.42) is None
+    assert clean(recording(best=None), lap_seconds=11.42) is None
+    assert clean(recording(lap_ms=[]), lap_seconds=11.42) is None
+    assert clean(recording(laps=[], lap_ms=[], best=None)) is not None  # no time to hold it to
+
+
+def drive(seconds=12.0, speed=4.0, hz=20, lap=(1.0, 11.0), **over):
+    """A car driving straight at `speed` m/s, one timed lap between the given seconds."""
+    n = round(seconds * hz) + 1
+    step = round(speed * 100 / hz)
+    doc = {"v": 1, "map": "levine_blocked", "hz": hz, "n": n,
+           "x": [0] + [step] * (n - 1), "y": [-20] + [0] * (n - 1), "yaw": [0] + [0] * (n - 1),
+           "s": [round(speed * 100)] + [0] * (n - 1),
+           "laps": [[round(lap[0] * hz), round(lap[1] * hz)]], "lap_ms": [round((lap[1] - lap[0]) * 1000)],
+           "best": 0, "end": "finished"}
+    doc.update(over)
+    return doc
+
+
+def total(column):
+    out, t = [], 0
+    for d in column:
+        t += d
+        out.append(t)
+    return out
+
+
+def test_retime_puts_the_ranked_lap_on_the_board_time():
+    out = replays.retime(drive(), 9.5)                                  # the re-run took 10.0 s, the graded run 9.5 s
+    assert out["lap_ms"] == [9500] and out["best"] == 0 and out["end"] == "finished"
+    assert out["n"] == 229 and out["laps"] == [[19, 209]]               # 240 intervals * 0.95, the lap's ends with them
+    assert out["hz"] == 20 and out["map"] == "levine_blocked" and out["v"] == 1
+    x = total(out["x"])
+    assert x[0] == 0 and x[-1] == 4800                                  # the same drive, first to last metre
+    assert x[100] == round(2000 / 0.95)                                 # ... reached earlier
+    assert set(out["s"][1:]) == {0} and out["s"][0] == 421              # and faster: 4 m/s over 0.95 of the time
+    assert set(total(out["y"])) == {-20}
+    assert clean(out, lap_seconds=9.5) == out                           # publishable as is, and it matches the board
+
+
+def test_retime_stretches_a_faster_rerun_too():
+    out = replays.retime(drive(), 11.0)
+    assert out["lap_ms"] == [11000] and out["n"] == 265 and out["laps"] == [[22, 242]]
+    assert out["s"][0] == 364 and total(out["x"])[-1] == 4800
+    assert clean(out, lap_seconds=11.0) == out
+
+
+def test_retime_on_the_board_time_already_changes_nothing():
+    assert replays.retime(drive(), 10.0) == drive()
+
+
+def test_retime_scales_every_lap_and_keeps_the_ranked_one_exact():
+    doc = drive(seconds=22.0, laps=[[20, 220], [220, 420]], lap_ms=[10000, 10020], best=1)
+    out = replays.retime(doc, 9.9)
+    assert out["lap_ms"] == [9880, 9900] and out["best"] == 1
+    assert out["laps"] == [[20, 217], [217, 415]]
+
+
+def test_retime_refuses_what_it_cannot_put_on_a_clock():
+    assert replays.retime(drive(best=None), 9.5) is None                # no ranked lap to hold to
+    assert replays.retime(drive(lap_ms=[]), 9.5) is None
+    assert replays.retime(drive(), 7.0) is None                         # a third faster: another run, not this one
+    assert replays.retime(drive(), 13.0) is None
+    assert replays.retime(drive(), 8.0) is not None and replays.retime(drive(), 12.5) is not None
 
 
 def test_file_names_come_from_the_public_key():

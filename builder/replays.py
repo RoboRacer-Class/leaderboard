@@ -11,6 +11,7 @@ when a better run arrives, so no attempt id or commit hash is ever published.
 """
 import hashlib
 import json
+import math
 import re
 from pathlib import Path
 
@@ -28,6 +29,7 @@ COLUMNS = {
     "s": (5_000, 2_500),       # cm/s: a wall stops the car within one sample
 }
 LAP_SLACK_S = 0.06             # the board's time is rounded to 0.01 s
+RETIME_MAX = 1.25              # a re-run a quarter slower or faster than the graded run is another run
 
 
 def _int(value) -> bool:
@@ -75,9 +77,70 @@ def clean(raw: bytes, maps: set, lap_seconds: float | None = None) -> dict | Non
     best = doc.get("best")
     if _int(best) and 0 <= best < len(out["laps"]):
         out["best"] = best
-        if lap_seconds is not None and out["lap_ms"] \
-                and abs(out["lap_ms"][best] / 1000 - lap_seconds) > LAP_SLACK_S:
+    if lap_seconds is not None:
+        # a ranked run's recording must name the lap the board ranks, timed to match: the
+        # player races on that lap, so anything else finishes out of the board's order
+        seconds = ranked_seconds(out)
+        if seconds is None or abs(seconds - lap_seconds) > LAP_SLACK_S:
             return None
+    if doc.get("end") in ENDS:
+        out["end"] = doc["end"]
+    return out
+
+
+def ranked_seconds(doc: dict):
+    """The time of the lap a recording names as ranked, or None when it names none."""
+    laps, lap_ms, best = doc.get("laps"), doc.get("lap_ms"), doc.get("best")
+    if not (isinstance(laps, list) and isinstance(lap_ms, list) and _int(best)
+            and 0 <= best < len(laps) and len(lap_ms) == len(laps)
+            and _int(lap_ms[best]) and lap_ms[best] > 0):
+        return None
+    return lap_ms[best] / 1000
+
+
+def _totals(deltas: list) -> list:
+    out, total = [], 0
+    for d in deltas:
+        total += d
+        out.append(total)
+    return out
+
+
+def _deltas(values: list) -> list:
+    return [values[0]] + [b - a for a, b in zip(values, values[1:])] if values else []
+
+
+def retime(doc: dict, lap_seconds: float) -> dict | None:
+    """The same recording on a clock scaled so that its ranked lap lasts `lap_seconds`.
+
+    A run staff re-ran locally (the backfill) is not the graded run: its lap
+    differs by a few tenths, and a player racing it on its own clock finishes
+    the car out of the board's order and shows a time the board does not have.
+    Scaling the clock uniformly keeps the drive as it was and puts its finish
+    on the board's time; speeds scale with it. `doc` is a cleaned recording.
+    None when it names no ranked lap, or the scale is beyond RETIME_MAX either
+    way: that re-run is not this run."""
+    seconds = ranked_seconds(doc)
+    if seconds is None:
+        return None
+    k = lap_seconds / seconds
+    if not 1 / RETIME_MAX <= k <= RETIME_MAX:
+        return None
+    hz, n = doc["hz"], doc["n"]
+    m = int(math.floor((n - 1) * k + 1e-9)) + 1          # samples on the new clock
+    out = {"v": FORMAT, "map": doc["map"], "hz": hz, "n": m}
+    for name in COLUMNS:
+        values, scale = _totals(doc[name]), 1 / k if name == "s" else 1.0
+        column = []
+        for j in range(m):
+            tau = j / k                                     # this sample's position on the old clock
+            i = min(int(math.floor(tau)), n - 2)
+            column.append(round((values[i] + (tau - i) * (values[i + 1] - values[i])) * scale))
+        out[name] = _deltas(column)
+    out["laps"] = [[min(m - 1, round(a * k)), min(m - 1, round(b * k))] for a, b in doc["laps"]]
+    out["lap_ms"] = [round(ms * k) for ms in doc["lap_ms"]]
+    out["lap_ms"][doc["best"]] = round(lap_seconds * 1000)
+    out["best"] = doc["best"]
     if doc.get("end") in ENDS:
         out["end"] = doc["end"]
     return out

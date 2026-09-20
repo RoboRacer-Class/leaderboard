@@ -55,6 +55,9 @@
     // 1/hz s, enough to swap the finishing order of two cars a few hundredths apart
     const ranked = run.best >= 0 ? run.laps[run.best] : null;
     run.finish = !ranked ? run.duration : ranked.ms > 0 ? ranked.ms / 1000 : ranked.t1 - run.start;
+    // ... and its samples are played over exactly that time: on the index range alone, which
+    // rounds to 1/hz s, the car would sit a sample short of, or past, the line as it "finished"
+    run.pace = ranked && ranked.ms > 0 ? (ranked.t1 - ranked.t0) / run.finish : 1;
     // colour scale: the speed range of the timed laps (a standing start would
     // stretch it to zero and leave a fast lap one flat colour)
     const first = run.laps.length ? Math.round(run.laps[0].t0 * run.hz) : Math.min(run.n - 1, Math.round(2 * run.hz));
@@ -75,8 +78,10 @@
     return cache.get(url);
   }
 
-  // a car waits at its first sample before its recording begins and rests at its last one after it ends
-  const timeOf = (run, rel) => Math.min(run.duration, Math.max(0, run.start + rel));
+  // a car waits at its first sample before its recording begins and rests at its last one after it
+  // ends; its recording plays at `pace` recorded seconds per second of race clock (1, give or take
+  // a sample's rounding over the ranked lap)
+  const timeOf = (run, rel) => Math.min(run.duration, Math.max(0, run.start + rel * run.pace));
   function poseAt(run, t) {
     const f = t * run.hz;
     const i = Math.min(Math.floor(f), run.n - 2), a = f - i;
@@ -555,5 +560,5 @@
     idle(() => buttons.slice(0, 4).forEach((b) => load(b.dataset.replay).catch(() => {})));
   }
 
-  window.RRReplay = { attach, decode };
+  window.RRReplay = { attach, decode, timeOf };
 })();

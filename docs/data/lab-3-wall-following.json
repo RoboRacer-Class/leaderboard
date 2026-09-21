@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-21T02:49:53Z",
+ "generated_at": "2026-09-21T02:58:11Z",
  "lab_title": "Lab 3: Wall Following",
  "late": [
   {
@@ -33,6 +33,19 @@
    "metric": 44.09,
    "replay": "replays/lab-3-wall-following/rainy-meteor-40.json?v=554c225c",
    "used": 12
+  },
+  {
+   "alias": "Snowy Fox 94",
+   "at": "2026-09-21T02:49:32Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 1.28,
+    "top_mps": 1.5
+   },
+   "locked": false,
+   "metric": 47.82,
+   "replay": "replays/lab-3-wall-following/snowy-fox-94.json?v=0643fb9f",
+   "used": 1
   }
  ],
  "metric": {
@@ -1548,10 +1561,15 @@
    "submissions": [
     {
      "at": "2026-09-21T02:49:32Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "66e247a734218020",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 1.28,
+      "lap_s": 47.82,
+      "top_mps": 1.5
+     },
+     "replay": "replays/lab-3-wall-following/snowy-fox-94.json?v=0643fb9f"
     }
    ]
   },
@@ -1584,10 +1602,10 @@
    "locked": false,
    "note": {
     "comment_id": 5752461689,
-    "fp": "-/51|-|3/0|0|13.47",
+    "fp": "-/51|-|4/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-21T02:31:38Z"
+    "updated_at": "2026-09-21T02:58:34Z"
    },
    "owner": "c9ab3a5d1250e5e4",
    "submissions": [
@@ -1614,6 +1632,13 @@
      "full": false,
      "graded": true,
      "id": "09fec3dac4c4fea4",
+     "metrics": null
+    },
+    {
+     "at": "2026-09-21T02:54:23Z",
+     "full": false,
+     "graded": true,
+     "id": "070951e81c60150e",
      "metrics": null
     }
    ]
@@ -3087,14 +3112,9 @@
    "used": 2
   },
   {
-   "alias": "Snowy Fox 94",
-   "locked": false,
-   "used": 1
-  },
-  {
    "alias": "Solar Spark 55",
    "locked": false,
-   "used": 3
+   "used": 4
   }
  ]
 }

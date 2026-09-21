@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-21T14:49:24Z",
+ "generated_at": "2026-09-21T18:23:40Z",
  "lab_title": "Lab 4: Follow the Gap",
  "late": [],
  "metric": {
@@ -60,7 +60,20 @@
   "Team 3": {
    "locked": false,
    "owner": "group-3",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-21T18:10:15Z",
+     "full": true,
+     "graded": true,
+     "id": "caca2d3a2f02eb04",
+     "metrics": {
+      "avg_mps": 2.64,
+      "lap_s": 23.54,
+      "top_mps": 3.2
+     },
+     "replay": "replays/lab-4-follow-the-gap-lap/team-3.json?v=65fe273f"
+    }
+   ]
   },
   "Team 4": {
    "locked": false,
@@ -151,18 +164,28 @@
   }
  ],
  "requirement": "full marks on everything but the obstacle course (three clean laps in a row)",
- "rows": [],
+ "rows": [
+  {
+   "alias": "Team 3",
+   "at": "2026-09-21T18:10:15Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 2.64,
+    "top_mps": 3.2
+   },
+   "locked": false,
+   "metric": 23.54,
+   "rank": 1,
+   "replay": "replays/lab-4-follow-the-gap-lap/team-3.json?v=65fe273f",
+   "used": 1
+  }
+ ],
  "schema": "ese6150/leaderboard/v1",
  "slug": "lab-4-follow-the-gap-lap",
  "title": "Lab 4: Follow the Gap \u00b7 Fastest clean lap",
  "unranked": [
   {
    "alias": "Team 2",
-   "locked": false,
-   "used": 0
-  },
-  {
-   "alias": "Team 3",
    "locked": false,
    "used": 0
   },

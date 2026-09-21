@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-21T01:57:28Z",
+ "generated_at": "2026-09-21T02:31:23Z",
  "lab_title": "Lab 3: Wall Following",
  "late": [
   {
@@ -1576,10 +1576,10 @@
    "locked": false,
    "note": {
     "comment_id": 5752461689,
-    "fp": "-/51|-|1/0|0|13.47",
+    "fp": "-/51|-|3/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-21T01:57:44Z"
+    "updated_at": "2026-09-21T02:31:38Z"
    },
    "owner": "c9ab3a5d1250e5e4",
    "submissions": [
@@ -1588,6 +1588,24 @@
      "full": false,
      "graded": true,
      "id": "9855814d9578c8ce",
+     "metrics": null
+    },
+    {
+     "at": "2026-09-21T02:17:30Z",
+     "full": false,
+     "graded": true,
+     "id": "3763cef47edb628a",
+     "metrics": {
+      "avg_mps": 3.11,
+      "lap_s": 19.78,
+      "top_mps": 4.0
+     }
+    },
+    {
+     "at": "2026-09-21T02:30:28Z",
+     "full": false,
+     "graded": false,
+     "id": "09fec3dac4c4fea4",
      "metrics": null
     }
    ]
@@ -3068,7 +3086,7 @@
   {
    "alias": "Solar Spark 55",
    "locked": false,
-   "used": 1
+   "used": 3
   }
  ]
 }

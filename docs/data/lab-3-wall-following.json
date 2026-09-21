@@ -5,9 +5,22 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-19T03:59:00Z",
- "generated_at": "2026-09-21T02:58:11Z",
+ "generated_at": "2026-09-21T03:26:39Z",
  "lab_title": "Lab 3: Wall Following",
  "late": [
+  {
+   "alias": "Solar Spark 55",
+   "at": "2026-09-21T03:20:30Z",
+   "attempt": 6,
+   "extras": {
+    "avg_mps": 3.19,
+    "top_mps": 4.0
+   },
+   "locked": false,
+   "metric": 19.28,
+   "replay": "replays/lab-3-wall-following/solar-spark-55.json?v=78d637b4",
+   "used": 6
+  },
   {
    "alias": "Turbo Heron 72",
    "at": "2026-09-19T05:07:31Z",
@@ -45,7 +58,7 @@
    "locked": false,
    "metric": 47.82,
    "replay": "replays/lab-3-wall-following/snowy-fox-94.json?v=0643fb9f",
-   "used": 1
+   "used": 2
   }
  ],
  "metric": {
@@ -1552,10 +1565,10 @@
    "locked": false,
    "note": {
     "comment_id": 5742599773,
-    "fp": "-/51|-|1/0|0|13.47",
+    "fp": "-/51|-|2/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-21T02:50:15Z"
+    "updated_at": "2026-09-21T03:26:55Z"
    },
    "owner": "32c5fdbc77a6d62a",
    "submissions": [
@@ -1570,6 +1583,17 @@
       "top_mps": 1.5
      },
      "replay": "replays/lab-3-wall-following/snowy-fox-94.json?v=0643fb9f"
+    },
+    {
+     "at": "2026-09-21T03:01:40Z",
+     "full": true,
+     "graded": true,
+     "id": "f037d759db42a47a",
+     "metrics": {
+      "avg_mps": 1.28,
+      "lap_s": 47.92,
+      "top_mps": 1.5
+     }
     }
    ]
   },
@@ -1602,10 +1626,10 @@
    "locked": false,
    "note": {
     "comment_id": 5752461689,
-    "fp": "-/51|-|4/0|0|13.47",
+    "fp": "-/51|-|6/0|0|13.47",
     "kind": "pr",
     "number": 1,
-    "updated_at": "2026-09-21T02:58:34Z"
+    "updated_at": "2026-09-21T03:26:56Z"
    },
    "owner": "c9ab3a5d1250e5e4",
    "submissions": [
@@ -1640,6 +1664,30 @@
      "graded": true,
      "id": "070951e81c60150e",
      "metrics": null
+    },
+    {
+     "at": "2026-09-21T03:14:55Z",
+     "full": true,
+     "graded": true,
+     "id": "e31ac37358eec182",
+     "metrics": {
+      "avg_mps": 3.18,
+      "lap_s": 19.33,
+      "top_mps": 4.0
+     },
+     "replay": "replays/lab-3-wall-following/solar-spark-55.json?v=11033fb5"
+    },
+    {
+     "at": "2026-09-21T03:20:30Z",
+     "full": true,
+     "graded": true,
+     "id": "355d04dc47a0e44f",
+     "metrics": {
+      "avg_mps": 3.19,
+      "lap_s": 19.28,
+      "top_mps": 4.0
+     },
+     "replay": "replays/lab-3-wall-following/solar-spark-55.json?v=78d637b4"
     }
    ]
   },
@@ -3110,11 +3158,6 @@
    "alias": "Radiant Wolf 62",
    "locked": false,
    "used": 2
-  },
-  {
-   "alias": "Solar Spark 55",
-   "locked": false,
-   "used": 4
   }
  ]
 }

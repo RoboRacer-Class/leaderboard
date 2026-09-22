@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-09-22T00:05:48Z",
+ "generated_at": "2026-09-22T00:56:43Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -68,10 +68,14 @@
   },
   {
    "at": "2026-09-22T00:02:39Z",
-   "full": false,
-   "graded": false,
+   "full": true,
+   "graded": true,
    "id": "901b3e05bfaf4091",
-   "metrics": null
+   "metrics": {
+    "avg_mps": 10.14,
+    "lap_s": 32.26,
+    "top_mps": 13.0
+   }
   }
  ],
  "requirement": "full marks on compilation, the steering checks and Spielberg (one clean lap)",

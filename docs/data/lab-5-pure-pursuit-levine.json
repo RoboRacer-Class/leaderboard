@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-09-19T16:56:52Z",
+ "generated_at": "2026-09-22T00:05:48Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -65,6 +65,13 @@
     "lap_s": 8.98,
     "top_mps": 12.71
    }
+  },
+  {
+   "at": "2026-09-22T00:02:39Z",
+   "full": false,
+   "graded": false,
+   "id": "901b3e05bfaf4091",
+   "metrics": null
   }
  ],
  "requirement": "full marks on compilation, the steering checks and Levine (three clean laps in a row)",

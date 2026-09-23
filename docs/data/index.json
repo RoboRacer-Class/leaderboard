@@ -1,6 +1,6 @@
 {
  "classroom": "ese-6150",
- "generated_at": "2026-09-23T21:56:04Z",
+ "generated_at": "2026-09-23T23:09:51Z",
  "labs": [
   {
    "anonymous": true,
@@ -48,7 +48,7 @@
    "cap": null,
    "due": "2026-09-26T03:59:00Z",
    "file": "lab-4-follow-the-gap-lap.json",
-   "generated_at": "2026-09-23T19:48:47Z",
+   "generated_at": "2026-09-23T23:09:51Z",
    "lab_title": "Lab 4: Follow the Gap",
    "late": 0,
    "metric": {
@@ -72,11 +72,11 @@
    "podium": 5,
    "reference": true,
    "requirement": "full marks on everything but the obstacle course (three clean laps in a row)",
-   "rows": 3,
+   "rows": 4,
    "slug": "lab-4-follow-the-gap-lap",
    "tab_title": "Lab 4: FTG",
    "title": "Lab 4: Follow the Gap \u00b7 Fastest clean lap",
-   "unranked": 11
+   "unranked": 10
   },
   {
    "anonymous": false,
@@ -86,7 +86,7 @@
    "cap": null,
    "due": "2026-09-26T03:59:00Z",
    "file": "lab-4-follow-the-gap-obstacles.json",
-   "generated_at": "2026-09-23T19:48:47Z",
+   "generated_at": "2026-09-23T23:09:51Z",
    "lab_title": "Lab 4: Follow the Gap",
    "late": 0,
    "metric": {

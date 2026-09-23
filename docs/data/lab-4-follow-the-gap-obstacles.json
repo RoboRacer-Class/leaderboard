@@ -5,7 +5,7 @@
  "board_title": "Fastest clean obstacle lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-23T04:23:59Z",
+ "generated_at": "2026-09-23T13:43:32Z",
  "lab_title": "Lab 4: Follow the Gap",
  "late": [],
  "metric": {
@@ -107,7 +107,15 @@
   "Team 6": {
    "locked": false,
    "owner": "group-6",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-23T13:37:28Z",
+     "full": false,
+     "graded": false,
+     "id": "c17df83aa14a5124",
+     "metrics": null
+    }
+   ]
   },
   "Team 7": {
    "locked": false,
@@ -229,7 +237,7 @@
   {
    "alias": "Team 6",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Team 7",

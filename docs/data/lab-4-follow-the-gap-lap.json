@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-22T16:21:32Z",
+ "generated_at": "2026-09-23T01:08:25Z",
  "lab_title": "Lab 4: Follow the Gap",
  "late": [],
  "metric": {
@@ -77,6 +77,18 @@
       "top_mps": 3.2
      },
      "replay": "replays/lab-4-follow-the-gap-lap/team-3.json?v=65fe273f"
+    },
+    {
+     "at": "2026-09-23T00:56:19Z",
+     "full": true,
+     "graded": true,
+     "id": "9bbb86e52034f957",
+     "metrics": {
+      "avg_mps": 7.13,
+      "lap_s": 8.55,
+      "top_mps": 10.0
+     },
+     "replay": "replays/lab-4-follow-the-gap-lap/team-3.json?v=ed55b68a"
     }
    ]
   },
@@ -183,17 +195,17 @@
  "rows": [
   {
    "alias": "Team 3",
-   "at": "2026-09-21T18:10:15Z",
-   "attempt": 1,
+   "at": "2026-09-23T00:56:19Z",
+   "attempt": 2,
    "extras": {
-    "avg_mps": 2.64,
-    "top_mps": 3.2
+    "avg_mps": 7.13,
+    "top_mps": 10.0
    },
    "locked": false,
-   "metric": 23.54,
+   "metric": 8.55,
    "rank": 1,
-   "replay": "replays/lab-4-follow-the-gap-lap/team-3.json?v=65fe273f",
-   "used": 1
+   "replay": "replays/lab-4-follow-the-gap-lap/team-3.json?v=ed55b68a",
+   "used": 2
   }
  ],
  "schema": "ese6150/leaderboard/v1",

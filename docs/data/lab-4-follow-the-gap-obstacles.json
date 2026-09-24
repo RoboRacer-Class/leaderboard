@@ -5,7 +5,7 @@
  "board_title": "Fastest clean obstacle lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-24T18:40:55Z",
+ "generated_at": "2026-09-24T18:59:24Z",
  "lab_title": "Lab 4: Follow the Gap",
  "late": [],
  "metric": {
@@ -53,6 +53,18 @@
       "lap_s": 36.4,
       "top_mps": 3.59
      }
+    },
+    {
+     "at": "2026-09-24T18:54:16Z",
+     "full": true,
+     "graded": true,
+     "id": "155147a1b956d11f",
+     "metrics": {
+      "avg_mps": 1.69,
+      "lap_s": 36.25,
+      "top_mps": 3.55
+     },
+     "replay": "replays/lab-4-follow-the-gap-obstacles/team-10.json?v=5a85e81a"
     }
    ]
   },
@@ -205,6 +217,13 @@
       "top_mps": 2.49
      },
      "replay": "replays/lab-4-follow-the-gap-obstacles/team-6.json?v=8a24a592"
+    },
+    {
+     "at": "2026-09-24T18:53:37Z",
+     "full": false,
+     "graded": true,
+     "id": "645f6965ba49a18e",
+     "metrics": null
     }
    ]
   },
@@ -355,6 +374,20 @@
    "used": 4
   },
   {
+   "alias": "Team 10",
+   "at": "2026-09-24T18:54:16Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 1.69,
+    "top_mps": 3.55
+   },
+   "locked": false,
+   "metric": 36.25,
+   "rank": 4,
+   "replay": "replays/lab-4-follow-the-gap-obstacles/team-10.json?v=5a85e81a",
+   "used": 3
+  },
+  {
    "alias": "Team 6",
    "at": "2026-09-24T03:31:17Z",
    "attempt": 3,
@@ -364,9 +397,9 @@
    },
    "locked": false,
    "metric": 56.22,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-4-follow-the-gap-obstacles/team-6.json?v=8a24a592",
-   "used": 3
+   "used": 4
   },
   {
    "alias": "Team 9",
@@ -378,7 +411,7 @@
    },
    "locked": false,
    "metric": 62.12,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-4-follow-the-gap-obstacles/team-9.json?v=ac9aca9b",
    "used": 1
   }
@@ -411,11 +444,6 @@
    "alias": "Team 7",
    "locked": false,
    "used": 0
-  },
-  {
-   "alias": "Team 10",
-   "locked": false,
-   "used": 2
   },
   {
    "alias": "Team 11",

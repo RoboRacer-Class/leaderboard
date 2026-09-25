@@ -44,9 +44,11 @@ def track_png():
 def test_a_new_track_gets_its_image_without_anyone_running_a_tool(tmp_path):
     pytest.importorskip("PIL")
     api = FakeApi()
-    api.files[CONFIG_KEY] = CONFIG_YAML.replace("  podium: 5\n", "  podium: 5\n  replay: replay.json\n")
+    api.files[CONFIG_KEY] = CONFIG_YAML.replace("  podium: 5\n", "  podium: 5\n  replay: replay.json\n") \
+        .replace("lap:\n", "lap:\n  map: ./maps/monza.yaml\n  centerline: ./maps/loop.csv\n")
     base = f"{CLASSROOM}/autograders/{SLUG}/maps"
     api.files[(f"{ORG}/classroom50", f"{base}/monza.yaml")] = "image: monza.png\nresolution: 0.05\norigin: [-2.0, -1.5, 0.0]\n"
+    api.files[(f"{ORG}/classroom50", f"{base}/loop.csv")] = "# x_m, y_m, w_tr_right_m, w_tr_left_m\n0, 0, 1, 1\n1, 0, 1, 1\n1, 1, 1, 1\n-1, 1, 1, 1\n-1, 0, 1, 1\n"
     api.blobs = {(f"{ORG}/classroom50", f"{base}/monza.png"): track_png()}
     api.file_bytes = lambda repo, path, ref="main": api.blobs[(repo, path)]
     data_dir = tmp_path / "docs" / "data"
@@ -63,8 +65,24 @@ def test_a_new_track_gets_its_image_without_anyone_running_a_tool(tmp_path):
     assert rows[12.0].get("replay") and "replay" not in rows[12.5] and "replay" not in rows[12.7]
     index = json.loads((tmp_path / "docs/assets/maps/maps.json").read_text())
     assert set(index) == {"monza"} and index["monza"]["res"] == 0.05
+    # the start line is where the grader's centerline for that map begins, across the track
+    assert index["monza"]["line"] == {"x": 0.0, "y": 0.0, "dx": 1.0, "dy": 0.0}
     assert (tmp_path / "docs/assets/maps/monza.png").read_bytes()[:4] == b"\x89PNG"
     assert maps.valid_name("Spielberg") and not maps.valid_name("../x") and not maps.valid_name("a/b") and not maps.valid_name("")
+
+
+def test_a_track_start_line_is_found_the_way_the_grader_and_the_gym_find_the_centerline():
+    levine = "# x_m, y_m\n0.0310, -0.0691, 1, 1\n0.1550, -0.0680, 1, 1\n-0.0930, -0.0702, 1, 1\n"
+    files = {"config.yaml": "lap:\n  map: ./maps/levine_blocked.yaml\n  centerline: ./maps/levine_centerline.csv\n",
+             "maps/levine_centerline.csv": levine, "maps/oval_centerline.csv": levine, "maps/ring.csv": levine}
+    read = files.__getitem__
+    line = maps.line_for(read, "levine_blocked", "image: levine_blocked.png\n")     # the grader's scenario
+    assert line["x"] == 0.031 and line["y"] == -0.0691 and line["dx"] > 0.9999 and 0.0088 < line["dy"] < 0.0090
+    assert maps.line_for(read, "oval", "image: oval.png\n") == line                  # the gym's file name
+    assert maps.line_for(read, "track", "image: t.png\ncenterline: ring.csv\n") == line   # the gym's yaml key
+    assert maps.line_for(read, "levine_obs", "image: levine_obs.png\n") is None       # no centerline: no line
+    assert maps.line_for(read, "track", "image: t.png\ncenterline: ../../ring.csv\n") is None
+    assert maps.line_of("# only a comment\n1, 2\n") is None
 
 
 def test_a_new_classroom_archives_the_old_term_by_itself(tmp_path):

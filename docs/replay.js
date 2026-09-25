@@ -7,6 +7,7 @@
  *
  * It is a race: one clock, zero when every car crosses the start line of its
  * ranked lap, running until the slowest car has finished, then starting over.
+ * The cars wait on that line for a second first; nothing before it is drawn.
  * The watched car drives in colour, the rest of the board greyed out, the TA
  * reference always picked out. Hover a car to name it, click it (or pick it
  * from the list) to watch that one instead; the clock and the view stay put.
@@ -17,7 +18,7 @@
 (function () {
   "use strict";
   const CAR = { length: 0.58, width: 0.31, ahead: 0.165 };  // the gym's contact box; the pose is the rear axle
-  const PRE_ROLL = 1.0;                                     // seconds of race clock before the start line
+  const PRE_ROLL = 1.0;                                     // seconds every car holds on the start line first
   const TAIL = 1.0;                                         // ... and after the last car finishes
   const LOOP_PAUSE = 1500;                                  // ms the finished race stays up before it restarts
   const SPEEDS = [0.25, 0.5, 1, 2, 4, 8];
@@ -26,12 +27,44 @@
   const cache = new Map();                                  // url -> Promise<run>
   let maps = null, dialog = null, ui = null, state = null;
 
-  const fetchJSON = (url) => fetch(url, { cache: "force-cache" }).then((r) => {
+  // a recording's URL carries its content hash (?v=), so any cached copy of it is the right one
+  const fetchJSON = (url, mode = "force-cache") => fetch(url, { cache: mode }).then((r) => {
     if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
     return r.json();
   });
+  // ... the track index has no hash and gains tracks (a copy cached before Spielberg was added
+  // hid it for good), so it is revalidated like the page's other files, `fresh` past any cache,
+  // and a failed fetch is forgotten so the next Watch tries again
+  function loadMaps(fresh) {
+    const p = fetchJSON("assets/maps/maps.json", fresh ? "no-cache" : "default");
+    p.catch(() => { if (maps === p) maps = null; });
+    return (maps = p);
+  }
 
-  function decode(doc) {
+  // The instant, to a fraction of a sample, a car crosses its track's start/finish line (maps.json
+  // `line`: a point and the track's direction through it) near sample `b`, a recorded lap boundary.
+  // A recording rounds its laps to its samples, which leaves every car a few centimetres to a few
+  // decimetres past the line at its start. No crossing within LINE_WINDOW samples (a lap not timed
+  // from that line, like the obstacle course's; a last lap that closes after the final sample): b.
+  const LINE_WINDOW = 4;
+  const LINE_REACH = 4;          // m along the line from its point: its far extension across another hallway is not it
+  function onLine(run, line, b) {
+    if (!line) return b / run.hz;
+    const along = (i) => (run.x[i] - line.x) * line.dx + (run.y[i] - line.y) * line.dy;
+    let best = null;
+    for (let i = Math.max(0, b - LINE_WINDOW); i < Math.min(run.n - 1, b + LINE_WINDOW); i++) {
+      const a = along(i), c = along(i + 1);
+      if ((a < 0) === (c < 0)) continue;
+      const f = i + a / (a - c), k = f - i;
+      const across = (run.y[i] + k * (run.y[i + 1] - run.y[i]) - line.y) * line.dx
+                   - (run.x[i] + k * (run.x[i + 1] - run.x[i]) - line.x) * line.dy;
+      if (Math.abs(f - b) <= LINE_WINDOW && Math.abs(across) <= LINE_REACH && (best === null || Math.abs(f - b) < Math.abs(best - b))) best = f;
+    }
+    return (best === null ? b : best) / run.hz;
+  }
+
+  // `index` (maps.json) is optional: it only puts the laps' ends on the track's line
+  function decode(doc, index) {
     if (!doc || doc.v !== 1 || !(doc.hz > 0) || !Array.isArray(doc.x)) throw new Error("unknown recording format");
     const column = (values, scale) => {
       const out = new Float64Array(values.length);
@@ -45,11 +78,14 @@
     if (run.n < 2) throw new Error("empty recording");
     for (let i = 0; i < run.n; i++) run.yaw[i] *= Math.PI / 180;
     run.duration = (run.n - 1) / run.hz;
+    const given = index && index[run.map] && index[run.map].line, norm = given ? Math.hypot(given.dx, given.dy) : 0;
+    const line = norm > 0 && [given.x, given.y].every(Number.isFinite)
+      ? { x: given.x, y: given.y, dx: given.dx / norm, dy: given.dy / norm } : null;
     run.laps = (Array.isArray(doc.laps) ? doc.laps : [])
       .filter((l) => Array.isArray(l) && l[0] >= 0 && l[1] < run.n && l[1] > l[0])
-      .map((l, k) => ({ t0: l[0] / run.hz, t1: l[1] / run.hz, ms: (doc.lap_ms || [])[k] }));
+      .map((l, k) => ({ t0: onLine(run, line, l[0]), t1: onLine(run, line, l[1]), ms: (doc.lap_ms || [])[k], i0: l[0] }));
     run.best = Number.isInteger(doc.best) && run.laps[doc.best] ? doc.best : (run.laps.length ? 0 : -1);
-    // the race clock is zero at `start`; the car has finished `finish` seconds later
+    // the race clock is zero at `start` (the car on its line); the car has finished `finish` seconds later
     run.start = run.best >= 0 ? run.laps[run.best].t0 : 0;
     // ... by the official lap time when the recording carries it: sample indices round to
     // 1/hz s, enough to swap the finishing order of two cars a few hundredths apart
@@ -60,7 +96,7 @@
     run.pace = ranked && ranked.ms > 0 ? (ranked.t1 - ranked.t0) / run.finish : 1;
     // colour scale: the speed range of the timed laps (a standing start would
     // stretch it to zero and leave a fast lap one flat colour)
-    const first = run.laps.length ? Math.round(run.laps[0].t0 * run.hz) : Math.min(run.n - 1, Math.round(2 * run.hz));
+    const first = run.laps.length ? run.laps[0].i0 : Math.min(run.n - 1, Math.round(2 * run.hz));
     run.vmin = Infinity; run.vmax = -Infinity;
     for (let i = first; i < run.n; i++) { run.vmin = Math.min(run.vmin, run.v[i]); run.vmax = Math.max(run.vmax, run.v[i]); }
     if (!(run.vmax - run.vmin > 0.2)) { run.vmin = 0; run.vmax = Math.max(run.vmax, 0.2); }
@@ -70,18 +106,18 @@
   function load(path) {
     const url = (window.RR_DATA_BASE || "data/") + path;      // an archived term keeps its recordings beside its boards
     if (!cache.has(url)) {
-      const p = Promise.all([fetchJSON(url), maps || (maps = fetchJSON("assets/maps/maps.json"))])
-        .then(([doc]) => decode(doc));
+      const p = Promise.all([fetchJSON(url), maps || loadMaps()])
+        .then(([doc, index]) => decode(doc, index));
       p.catch(() => cache.delete(url));
       cache.set(url, p);
     }
     return cache.get(url);
   }
 
-  // a car waits at its first sample before its recording begins and rests at its last one after it
-  // ends; its recording plays at `pace` recorded seconds per second of race clock (1, give or take
-  // a sample's rounding over the ranked lap)
-  const timeOf = (run, rel) => Math.min(run.duration, Math.max(0, run.start + rel * run.pace));
+  // until the race clock starts every car holds on its ranked lap's start line (the run-up and the
+  // laps before are never shown), then its recording plays at `pace` recorded seconds per second of
+  // race clock (1, give or take a sample's rounding over the ranked lap), and it rests at its last sample
+  const timeOf = (run, rel) => Math.min(run.duration, Math.max(0, run.start + Math.max(0, rel) * run.pace));
   function poseAt(run, t) {
     const f = t * run.hz;
     const i = Math.min(Math.floor(f), run.n - 2), a = f - i;
@@ -275,8 +311,12 @@
       }
     }
     g.lineWidth = 1.5 * dpr; g.strokeStyle = css("--line-strong") || "#c9cddc"; g.lineJoin = "round";
+    // the ranked lap only, line to line, like every other path
+    const t1 = timeOf(run, run.finish), a = poseAt(run, run.start), b = poseAt(run, t1);
     g.beginPath();
-    for (let i = 0; i < run.n; i++) g[i ? "lineTo" : "moveTo"](v.px(run.x[i]), v.py(run.y[i]));
+    g.moveTo(v.px(a.x), v.py(a.y));
+    for (let i = Math.floor(run.start * run.hz) + 1; i <= Math.min(run.n - 1, Math.floor(t1 * run.hz)); i++) g.lineTo(v.px(run.x[i]), v.py(run.y[i]));
+    g.lineTo(v.px(b.x), v.py(b.y));
     g.stroke();
     state.layer = layer;
   }
@@ -341,17 +381,18 @@
     return -1;
   }
 
-  // where a car has driven so far: from the run-up to its pose at race time `rel`, never ahead of it
+  // where a car has driven so far: from its ranked lap's start, on the line, to its pose at race
+  // time `rel`, never ahead of it
   function drawPath(g, run, rel, color, alpha, width) {
-    const v = state.view, t = timeOf(run, rel), from = Math.floor(timeOf(run, -PRE_ROLL) * run.hz);
+    const v = state.view, t = timeOf(run, rel);
+    if (!(t > run.start)) return;
     const upto = Math.min(run.n - 1, Math.floor(t * run.hz));
-    if (upto <= from) return;
-    const end = poseAt(run, t);
+    const begin = poseAt(run, run.start), end = poseAt(run, t);
     g.save();
     g.globalAlpha = alpha; g.strokeStyle = color; g.lineWidth = width * v.dpr; g.lineJoin = g.lineCap = "round";
     g.beginPath();
-    g.moveTo(v.px(run.x[from]), v.py(run.y[from]));
-    for (let i = from + 1; i <= upto; i++) g.lineTo(v.px(run.x[i]), v.py(run.y[i]));
+    g.moveTo(v.px(begin.x), v.py(begin.y));
+    for (let i = Math.floor(run.start * run.hz) + 1; i <= upto; i++) g.lineTo(v.px(run.x[i]), v.py(run.y[i]));
     g.lineTo(v.px(end.x), v.py(end.y));
     g.stroke();
     g.restore();
@@ -376,14 +417,17 @@
     // the car under the pointer shows where it has been, Paths on or off
     if (state.hover) drawPath(g, state.hover.run, state.rel, state.hover.entry.isRef ? ref : ink, 0.85, 2);
 
-    // the trail, coloured by speed: the last few seconds, or the whole run so far with Paths on
-    const upto = Math.min(run.n - 1, Math.floor(t * run.hz));
-    const from = ui.paths.checked ? Math.floor(timeOf(run, -PRE_ROLL) * run.hz) : Math.max(0, upto - Math.round(6 * run.hz));
+    // the trail, coloured by speed: the last few seconds, or the whole run so far with Paths on,
+    // never from before the ranked lap's start (its first piece starts on the line itself)
+    const upto = Math.min(run.n - 1, Math.floor(t * run.hz)), i0 = Math.floor(run.start * run.hz);
+    const from = ui.paths.checked ? i0 : Math.max(i0, upto - Math.round(6 * run.hz));
+    const begin = poseAt(run, run.start);
     g.lineWidth = 3 * v.dpr; g.lineCap = "round";
     for (let i = from; i < upto; i++) {
       g.globalAlpha = ui.paths.checked ? 1 : 0.25 + 0.75 * ((i - from) / Math.max(1, upto - from));
       g.strokeStyle = speedColor(run, run.v[i]);
-      g.beginPath(); g.moveTo(v.px(run.x[i]), v.py(run.y[i])); g.lineTo(v.px(run.x[i + 1]), v.py(run.y[i + 1])); g.stroke();
+      const a = i === i0 ? begin : { x: run.x[i], y: run.y[i] };
+      g.beginPath(); g.moveTo(v.px(a.x), v.py(a.y)); g.lineTo(v.px(run.x[i + 1]), v.py(run.y[i + 1])); g.stroke();
     }
     g.globalAlpha = 1;
 
@@ -408,8 +452,8 @@
 
     const lap = currentLap(run, t), done = state.rel >= run.finish;
     ui.speed.textContent = pose.v.toFixed(1) + " m/s";
-    ui.clock.textContent = state.rel < 0 ? "run-up" : done ? "finished" : fmtTime(state.rel);
-    const k = done ? run.best : lap;
+    ui.clock.textContent = state.rel < 0 ? "on the line" : done ? "finished" : fmtTime(state.rel);
+    const k = done || state.rel <= 0 ? run.best : lap;      // holding on the line: the lap it is about to drive
     ui.lap.textContent = k < 0 ? "" : (run.laps.length > 1 ? `lap ${k + 1} of ${run.laps.length} · ` : "lap · ")
       + (run.laps[k].ms ? fmtTime(run.laps[k].ms / 1000) : "") + (run.laps.length > 1 && k === run.best ? " · ranked" : "");
     ui.seek.value = Math.round(((state.rel + PRE_ROLL) / (state.raceEnd + PRE_ROLL)) * 1000);
@@ -497,7 +541,9 @@
     const token = (open.token = (open.token || 0) + 1);
     try {
       const run = await load(entry.replay);
-      const index = await maps;
+      let index = await (maps || loadMaps());
+      // a track published since this page read the index: read it again, once
+      if (!index[run.map]) index = await loadMaps(true);
       if (token !== open.token || !dialog.open) return;
       const map = index[run.map];
       if (!map) throw new Error("no track image for " + run.map);

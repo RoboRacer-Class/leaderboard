@@ -3,12 +3,16 @@
 A map is cropped to its drivable area and only the walls are kept (opaque on
 transparent, so the player tints them to the theme). `maps.json` carries what the
 player needs to place a pose: metres per pixel and the world position of the
-crop's bottom-left corner. The rebuild makes a missing track by itself the first
-time a recording names it (`ensure`), so a new lab needs no manual step;
-`tools/make_maps.py` does the same from a local folder. Needs Pillow and PyYAML.
+crop's bottom-left corner, and, when the grader laps the map on a centerline,
+its start/finish `line`, where the player lines the cars up. The rebuild makes a
+missing track by itself the first time a recording names it (`ensure`), so a new
+lab needs no manual step; `tools/make_maps.py` does the same from a local folder.
+Needs Pillow and PyYAML.
 """
 import io
 import json
+import math
+import posixpath
 import re
 from pathlib import Path
 
@@ -48,8 +52,78 @@ def convert(yaml_text: str, image_bytes: bytes, stem: str):
     return entry, out.getvalue()
 
 
-def add(data_dir: Path, stem: str, yaml_text: str, image_bytes: bytes) -> dict:
+def line_of(csv_text: str):
+    """The start/finish line of a gym centerline CSV (`x_m, y_m, ...` rows, first point = the
+    finish line: the sim's lap counter and the referee's `timing: datum` both count laps
+    there): that point and the track's direction through it, a unit vector (the mean of the
+    ways in and out); the line runs across the track. None without two distinct points."""
+    pts = []
+    for row in csv_text.splitlines():
+        row = row.strip()
+        if row and not row.startswith("#"):
+            pts.append(tuple(float(v) for v in row.split(",")[:2]))
+    pts = [p for p in pts if all(map(math.isfinite, p))]
+    if len(pts) < 2:
+        return None
+    (x, y), (xo, yo), (xi, yi) = pts[0], pts[1], pts[-1]
+
+    def unit(dx, dy):
+        n = math.hypot(dx, dy)
+        return (dx / n, dy / n) if n > 1e-9 else (0.0, 0.0)
+    out, back = unit(xo - x, yo - y), unit(x - xi, y - yi)
+    dx, dy = unit(out[0] + back[0], out[1] + back[1])
+    if dx == dy == 0.0:
+        return None
+    return {"x": round(x, 4), "y": round(y, 4), "dx": round(dx, 5), "dy": round(dy, 5)}
+
+
+def _scenarios(node):
+    """Every block of a grader config that runs a map on a centerline."""
+    if isinstance(node, dict):
+        if node.get("map") and node.get("centerline"):
+            yield node
+        for value in node.values():
+            yield from _scenarios(value)
+    elif isinstance(node, list):
+        for value in node:
+            yield from _scenarios(value)
+
+
+def line_for(read, stem: str, yaml_text: str, maps_dir: str = "maps"):
+    """The start/finish line of `stem` as its grader laps it, or None. `read(path)` returns a
+    file of the grader's folder. The centerline is the one a scenario of its config.yaml
+    names for the map (the grader stages it next to the map as the gym's
+    `<map>_centerline.csv`), else the map yaml's own `centerline:`, else that file name."""
+    wanted = []
+    try:
+        config = yaml.safe_load(read("config.yaml"))
+        wanted += [b["centerline"] for b in _scenarios(config) if Path(str(b["map"])).stem == stem]
+    except Exception:  # noqa: BLE001 - no grader config: the map folder's own conventions
+        pass
+    try:
+        key = (yaml.safe_load(yaml_text) or {}).get("centerline")
+    except Exception:  # noqa: BLE001
+        key = None
+    if isinstance(key, str) and key:
+        wanted.append(f"{maps_dir}/{key}")
+    wanted.append(f"{maps_dir}/{stem}_centerline.csv")
+    for path in wanted:
+        path = posixpath.normpath(str(path))
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_. /-]{0,160}", path) or ".." in path:
+            continue
+        try:
+            line = line_of(read(path))
+        except Exception:  # noqa: BLE001 - a line never fails a track image
+            continue
+        if line:
+            return line
+    return None
+
+
+def add(data_dir: Path, stem: str, yaml_text: str, image_bytes: bytes, line: dict | None = None) -> dict:
     entry, png = convert(yaml_text, image_bytes, stem)
+    if line:
+        entry["line"] = line
     out = folder(data_dir)
     out.mkdir(parents=True, exist_ok=True)
     (out / entry["file"]).write_bytes(png)
@@ -60,6 +134,17 @@ def add(data_dir: Path, stem: str, yaml_text: str, image_bytes: bytes) -> dict:
     return entry
 
 
+def set_line(data_dir: Path, stem: str, line: dict) -> bool:
+    """Give a track the page already has its start line, image untouched."""
+    index_path = folder(data_dir) / "maps.json"
+    index = json.loads(index_path.read_text()) if index_path.exists() else {}
+    if stem not in index or not line:
+        return False
+    index[stem]["line"] = line
+    index_path.write_text(json.dumps(index, indent=1, sort_keys=True) + "\n")
+    return True
+
+
 def ensure(config, classroom: str, slug: str, stem: str, data_dir: Path, log) -> bool:
     """Make the track image for `stem` from `<classroom>/autograders/<slug>/maps/`
     when the page does not have it yet. True when the page can draw that map."""
@@ -68,7 +153,8 @@ def ensure(config, classroom: str, slug: str, stem: str, data_dir: Path, log) ->
     index_path = folder(data_dir) / "maps.json"
     if index_path.exists() and stem in json.loads(index_path.read_text()):
         return True
-    base = f"{classroom}/autograders/{slug}/maps"
+    grader = f"{classroom}/autograders/{slug}"
+    base = f"{grader}/maps"
     try:
         yaml_text = config.text(f"{base}/{stem}.yaml")
         image = str((yaml.safe_load(yaml_text) or {}).get("image") or "")
@@ -77,7 +163,7 @@ def ensure(config, classroom: str, slug: str, stem: str, data_dir: Path, log) ->
         raw = config.bytes(f"{base}/{image}")
         if len(raw) > MAX_SOURCE_BYTES:
             return False
-        add(data_dir, stem, yaml_text, raw)
+        add(data_dir, stem, yaml_text, raw, line_for(lambda p: config.text(f"{grader}/{p}"), stem, yaml_text))
     except Exception as err:  # noqa: BLE001 - a track image never fails a build
         log(f"  track image for {stem}: not made ({type(err).__name__})")
         return False

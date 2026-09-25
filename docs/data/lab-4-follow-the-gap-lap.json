@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-25T14:50:14Z",
+ "generated_at": "2026-09-25T14:58:23Z",
  "lab_title": "Lab 4: Follow the Gap",
  "late": [],
  "metric": {
@@ -237,10 +237,15 @@
     },
     {
      "at": "2026-09-25T14:48:48Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "e5bcf3dac0df85b4",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 6.92,
+      "lap_s": 9.06,
+      "top_mps": 11.95
+     },
+     "replay": "replays/lab-4-follow-the-gap-lap/team-2.json?v=3f2b9c57"
     }
    ]
   },
@@ -597,16 +602,16 @@
   },
   {
    "alias": "Team 2",
-   "at": "2026-09-25T01:54:31Z",
-   "attempt": 1,
+   "at": "2026-09-25T14:48:48Z",
+   "attempt": 2,
    "extras": {
-    "avg_mps": 5.87,
-    "top_mps": 9.54
+    "avg_mps": 6.92,
+    "top_mps": 11.95
    },
    "locked": false,
-   "metric": 10.66,
+   "metric": 9.06,
    "rank": 7,
-   "replay": "replays/lab-4-follow-the-gap-lap/team-2.json?v=d3d64a0f",
+   "replay": "replays/lab-4-follow-the-gap-lap/team-2.json?v=3f2b9c57",
    "used": 2
   },
   {

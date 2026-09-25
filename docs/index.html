@@ -238,6 +238,8 @@
     font-family: var(--display); font-weight: 600; font-size: 1.3rem;
     letter-spacing: -.015em; margin: 0 0 .6rem;
   }
+  .board-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem 1rem; margin-bottom: .6rem; }
+  .board-head h2 { margin: 0; }
   .board h2 span, .grid h2 span, .chart h2 span { color: var(--ink-3); font-weight: 500; font-size: .95rem; letter-spacing: 0; margin-left: .5rem; }
   .table-wrap {
     overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius);
@@ -369,7 +371,7 @@
     </section>
 
     <section class="board" aria-labelledby="board-title">
-      <h2 id="board-title">Standings</h2>
+      <div class="board-head"><h2 id="board-title">Standings</h2><div id="board-tools"></div></div>
       <div class="table-wrap" id="board"></div>
     </section>
 
@@ -725,6 +727,7 @@
       entries.splice(i, 0, { kind: "ref", r: { alias: "TA reference solution", metric: doc.reference.metric, extras: doc.reference.extras || {}, replay: doc.reference.replay } });
     }
     $("board-title").innerHTML = `${esc(doc.board_title)} <span>${esc(doc.title)}</span>`;
+    $("board-tools").textContent = "";                      // replay.js puts the Compare button here
     let emptyNote = "";
     if (!rows.length) {
       const ref = doc.reference ? ` The TA reference is ${esc(fmtValue(doc.reference.metric, m.unit))}.` : "";
@@ -758,7 +761,7 @@
         return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank" aria-label="unranked">—</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}<span class="pill late">late</span>${r.locked ? '<span class="pill locked">locked</span>' : ""}</td>${watchCell(r, `Late · unranked · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `Late · ${r.alias} · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">—</td>${extraCells}<td class="num col-attempt">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td></tr>`;
       }).join("");
     $("board").innerHTML = `${emptyNote}<table${anyReplay ? ' class="has-watch"' : ""}>${head}<tbody>${body}${lateBody}</tbody></table>`;
-    if (window.RRReplay) RRReplay.attach($("board"), doc);
+    if (window.RRReplay) RRReplay.attach($("board"), doc, $("board-tools"));
     state.justFound = false;
     const names = [...doc.rows.map((r) => r.alias), ...late.map((r) => r.alias), ...doc.unranked.map((u) => u.alias)].sort();
     $("alias-list").innerHTML = names.map((n) => `<option value="${esc(n)}">`).join("");

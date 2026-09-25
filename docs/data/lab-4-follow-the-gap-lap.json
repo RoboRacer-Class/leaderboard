@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-25T02:00:22Z",
+ "generated_at": "2026-09-25T02:55:23Z",
  "lab_title": "Lab 4: Follow the Gap",
  "late": [],
  "metric": {
@@ -94,7 +94,20 @@
   "Team 11": {
    "locked": false,
    "owner": "group-11",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-09-25T02:51:38Z",
+     "full": true,
+     "graded": true,
+     "id": "9d526239ff81a927",
+     "metrics": {
+      "avg_mps": 6.89,
+      "lap_s": 8.73,
+      "top_mps": 8.0
+     },
+     "replay": "replays/lab-4-follow-the-gap-lap/team-11.json?v=ea603076"
+    }
+   ]
   },
   "Team 12": {
    "locked": false,
@@ -478,6 +491,20 @@
    "used": 4
   },
   {
+   "alias": "Team 11",
+   "at": "2026-09-25T02:51:38Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 6.89,
+    "top_mps": 8.0
+   },
+   "locked": false,
+   "metric": 8.73,
+   "rank": 5,
+   "replay": "replays/lab-4-follow-the-gap-lap/team-11.json?v=ea603076",
+   "used": 1
+  },
+  {
    "alias": "Team 2",
    "at": "2026-09-25T01:54:31Z",
    "attempt": 1,
@@ -487,7 +514,7 @@
    },
    "locked": false,
    "metric": 10.66,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-4-follow-the-gap-lap/team-2.json?v=d3d64a0f",
    "used": 1
   },
@@ -501,7 +528,7 @@
    },
    "locked": false,
    "metric": 30.5,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-4-follow-the-gap-lap/team-14.json?v=91830ff0",
    "used": 5
   },
@@ -515,7 +542,7 @@
    },
    "locked": false,
    "metric": 36.97,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-4-follow-the-gap-lap/team-9.json?v=9512fafc",
    "used": 1
   }
@@ -541,11 +568,6 @@
   },
   {
    "alias": "Team 7",
-   "locked": false,
-   "used": 0
-  },
-  {
-   "alias": "Team 11",
    "locked": false,
    "used": 0
   },

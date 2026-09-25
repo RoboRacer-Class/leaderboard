@@ -247,6 +247,29 @@ def test_refund_of_an_errored_attempt_deletes_its_tag(world):
     assert erin["used"] == 1 and erin["attempt"] == 1
 
 
+def test_reread_drops_a_voided_run(world):
+    api, data_dir, log, stream = world
+    run_build(api, data_dir, log)
+    doc = json.loads((data_dir / f"{SLUG}.json").read_text())
+    bob_alias = next(r["alias"] for r in doc["rows"] if r["rank"] == 2)
+    repo = f"{ORG}/{CLASSROOM}-{SLUG}-bob"
+    for rel in api.releases_by_repo[repo]:        # the staff zero every run after grading
+        url = rel["assets"][0]["url"]
+        result = json.loads(api.assets[url])
+        result["score"] = 0
+        result["tests"] = [{**t, "passed": False, "score": 0, "detail": "voided"} for t in result["tests"]]
+        api.assets[url] = json.dumps(result).encode()
+    run_build(api, data_dir, log)
+    doc = json.loads((data_dir / f"{SLUG}.json").read_text())
+    assert any(r["alias"] == bob_alias for r in doc["rows"])     # a graded release is read once
+    tags = [t["tag_name"] for t in api.tags_by_repo[repo]]
+    assert build.reread("salt", SLUG, "bob", tags, data_dir) == 0
+    run_build(api, data_dir, log)
+    doc = json.loads((data_dir / f"{SLUG}.json").read_text())
+    assert all(r["alias"] != bob_alias for r in doc["rows"])
+    assert build.reread("salt", SLUG, "bob", ["submit/nope"], data_dir) == 1
+
+
 def test_reveal_finds_alias(world, capsys):
     api, data_dir, log, stream = world
     run_build(api, data_dir, log)

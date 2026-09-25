@@ -752,6 +752,51 @@ def refund(api, org: str, classroom: str, salt: str, slug: str, username: str, t
     return 0
 
 
+def reread(salt: str, slug: str, username: str, tags: list, data_dir: Path) -> int:
+    """Forget what the board read for these graded attempts, on every board of
+    the assignment, so the next build reads their releases again. For a result
+    the staff rewrote after grading (a voided run): a graded release is
+    otherwise read only once. A recording taken from one of them is deleted,
+    and the next build records the entry's new best run."""
+    paths = board_files(data_dir, slug) or [data_dir / f"{slug}.json"]
+    ids = {rules.attempt_id(t): t for t in tags}
+    found = set()
+    for path in paths:
+        doc = json.loads(path.read_text())
+        try:
+            alias, _ = board_key(doc, salt, username)
+        except ValueError as err:
+            print(err)
+            return 1
+        player = doc.get("players", {}).get(alias)
+        if player is None:
+            continue
+        files = set()
+        for sub in player.get("submissions", []):
+            if sub["id"] not in ids:
+                continue
+            found.add(sub["id"])
+            if sub.get("replay"):
+                files.add(sub["replay"].split("?")[0])
+            sub.update({"graded": False, "full": False, "metrics": None})
+        # An entry has one recording file, overwritten by each better run: every
+        # attempt pointing at a deleted file loses its button until recaptured.
+        for sub in player.get("submissions", []):
+            if sub.get("replay", "").split("?")[0] in files or sub["id"] in ids:
+                sub.pop("replay", None)
+                sub.pop("replay_checked", None)
+        for rel in files:
+            (data_dir / rel).unlink(missing_ok=True)
+        player.setdefault("note", {}).pop("fp", None)   # forces a fresh note on the next build
+        path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+    for tid, tag in ids.items():
+        if tid not in found:
+            print(f"{username} has no attempt tagged {tag} in {slug}")
+    print(f"marked {len(found)} attempt(s) of {username} to be read again; commit "
+          f"{', '.join('data/' + p.name for p in paths)} and rebuild")
+    return 0 if len(found) == len(ids) else 1
+
+
 def who(salt: str, slug: str, roster: Path, data_dir: Path) -> int:
     doc = json.loads((data_dir / f"{slug}.json").read_text())
     players = doc.get("players", {})
@@ -844,6 +889,12 @@ def main(argv: list) -> int:
                    help="GitHub username, or on a team board the team (7, group-7, \"Team 7\")")
     p.add_argument("tag")
     p.add_argument("--no-unlock", action="store_true")
+    p = sub.add_parser("reread", parents=[common],
+                       help="read graded attempts again after their result was rewritten (a voided run)")
+    p.add_argument("slug")
+    p.add_argument("username", metavar="subject",
+                   help="GitHub username, or on a team board the team (7, group-7, \"Team 7\")")
+    p.add_argument("tags", nargs="+")
     sub.add_parser("check-token", parents=[common], help="probe the token's permissions")
     p = sub.add_parser("new-term", parents=[common], help="archive the boards by hand (the rebuild does it by itself when the classroom or the dates change)")
     p.add_argument("label", help="what to call the term being archived, e.g. \"Fall 2026\"")
@@ -866,6 +917,8 @@ def main(argv: list) -> int:
         return reveal(salt, args.slug, args.usernames, data_dir)
     if args.command == "who":
         return who(salt, args.slug, Path(args.roster), data_dir)
+    if args.command == "reread":
+        return reread(salt, args.slug, args.username, args.tags, data_dir)
 
     token = os.environ.get("LEADERBOARD_TOKEN") or os.environ.get("GH_TOKEN") or ""
     if not token:

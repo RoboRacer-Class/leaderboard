@@ -5,7 +5,7 @@
  "board_title": "Fastest clean lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-25T20:11:07Z",
+ "generated_at": "2026-09-25T21:03:14Z",
  "lab_title": "Lab 4: Follow the Gap",
  "late": [],
  "metric": {
@@ -155,22 +155,14 @@
      "full": false,
      "graded": true,
      "id": "409d8ff0461c14df",
-     "metrics": {
-      "avg_mps": 6.72,
-      "lap_s": 9.12,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T15:37:54Z",
      "full": false,
      "graded": true,
      "id": "0466ab0d56ff1d64",
-     "metrics": {
-      "avg_mps": 6.72,
-      "lap_s": 9.13,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T17:18:19Z",
@@ -182,7 +174,8 @@
       "lap_s": 9.11,
       "top_mps": 7.5
      },
-     "replay": "replays/lab-4-follow-the-gap-lap/team-12.json?v=25fe589c"
+     "replay": "replays/lab-4-follow-the-gap-lap/team-12.json?v=25e996f7",
+     "replay_checked": true
     },
     {
      "at": "2026-09-25T17:44:39Z",
@@ -200,144 +193,91 @@
      "full": false,
      "graded": true,
      "id": "48110daef37d4ba2",
-     "metrics": {
-      "avg_mps": 6.72,
-      "lap_s": 9.12,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T17:55:18Z",
      "full": false,
      "graded": true,
      "id": "615aebd99ed406a8",
-     "metrics": {
-      "avg_mps": 6.73,
-      "lap_s": 9.11,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T17:59:28Z",
      "full": false,
      "graded": true,
      "id": "bd902242109f074f",
-     "metrics": {
-      "avg_mps": 6.73,
-      "lap_s": 9.12,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T18:03:51Z",
-     "full": true,
+     "full": false,
      "graded": true,
      "id": "8a53d63a619c4042",
-     "metrics": {
-      "avg_mps": 6.72,
-      "lap_s": 9.12,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T18:11:14Z",
-     "full": true,
+     "full": false,
      "graded": true,
      "id": "6c4de33572f1b200",
-     "metrics": {
-      "avg_mps": 6.72,
-      "lap_s": 9.13,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T18:15:06Z",
-     "full": true,
+     "full": false,
      "graded": true,
      "id": "43707b0a305b80e0",
-     "metrics": {
-      "avg_mps": 6.73,
-      "lap_s": 9.11,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T18:19:07Z",
-     "full": true,
+     "full": false,
      "graded": true,
      "id": "3aba6733f4fd0c44",
-     "metrics": {
-      "avg_mps": 6.72,
-      "lap_s": 9.12,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T18:23:28Z",
-     "full": true,
+     "full": false,
      "graded": true,
      "id": "fc93cba31fc3c41f",
-     "metrics": {
-      "avg_mps": 6.73,
-      "lap_s": 9.12,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T18:28:03Z",
-     "full": true,
+     "full": false,
      "graded": true,
      "id": "720261dd7151d264",
-     "metrics": {
-      "avg_mps": 6.73,
-      "lap_s": 9.1,
-      "top_mps": 7.5
-     },
-     "replay": "replays/lab-4-follow-the-gap-lap/team-12.json?v=f591dc28"
+     "metrics": null
     },
     {
      "at": "2026-09-25T18:32:49Z",
-     "full": true,
+     "full": false,
      "graded": true,
      "id": "af8eaa7a09a71e4a",
-     "metrics": {
-      "avg_mps": 6.73,
-      "lap_s": 9.1,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T18:37:26Z",
-     "full": true,
+     "full": false,
      "graded": true,
      "id": "52f3a24fadae55c9",
-     "metrics": {
-      "avg_mps": 6.73,
-      "lap_s": 9.11,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T18:41:23Z",
-     "full": true,
+     "full": false,
      "graded": true,
      "id": "5733d69ca79ba7c0",
-     "metrics": {
-      "avg_mps": 6.73,
-      "lap_s": 9.11,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T18:42:47Z",
-     "full": true,
+     "full": false,
      "graded": true,
      "id": "2cd57ffbce9e43ee",
-     "metrics": {
-      "avg_mps": 6.73,
-      "lap_s": 9.1,
-      "top_mps": 7.5
-     }
+     "metrics": null
     },
     {
      "at": "2026-09-25T20:05:17Z",
@@ -913,16 +853,16 @@
   },
   {
    "alias": "Team 12",
-   "at": "2026-09-25T18:28:03Z",
-   "attempt": 13,
+   "at": "2026-09-25T17:18:19Z",
+   "attempt": 3,
    "extras": {
     "avg_mps": 6.73,
     "top_mps": 7.5
    },
    "locked": false,
-   "metric": 9.1,
+   "metric": 9.11,
    "rank": 8,
-   "replay": "replays/lab-4-follow-the-gap-lap/team-12.json?v=f591dc28",
+   "replay": "replays/lab-4-follow-the-gap-lap/team-12.json?v=25e996f7",
    "used": 18
   },
   {

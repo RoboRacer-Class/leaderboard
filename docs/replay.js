@@ -338,6 +338,8 @@
     ui.menu.hidden = true;
     ui.menu.setAttribute("role", "dialog");
     ui.menu.setAttribute("aria-label", "Compare cars");
+    // a press on a car's name focuses the menu; else focus goes to the player and the menu shuts under the pointer
+    ui.menu.tabIndex = -1;
     ui.cmp.setAttribute("aria-controls", ui.menu.id);
     const tops = el("div", "tops"), foot = el("div", "foot");
     ui.top3 = button("", "Top 3");

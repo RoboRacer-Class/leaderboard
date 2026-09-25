@@ -5,7 +5,7 @@
  "board_title": "Fastest clean obstacle lap",
  "cap": null,
  "due": "2026-09-26T03:59:00Z",
- "generated_at": "2026-09-25T16:38:27Z",
+ "generated_at": "2026-09-25T17:29:55Z",
  "lab_title": "Lab 4: Follow the Gap",
  "late": [],
  "metric": {
@@ -153,6 +153,13 @@
       "lap_s": 18.23,
       "top_mps": 9.62
      }
+    },
+    {
+     "at": "2026-09-25T17:18:19Z",
+     "full": false,
+     "graded": true,
+     "id": "d275c457f466eef9",
+     "metrics": null
     }
    ]
   },
@@ -670,7 +677,7 @@
   {
    "alias": "Team 12",
    "locked": false,
-   "used": 2
+   "used": 3
   },
   {
    "alias": "Team 13",

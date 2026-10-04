@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-02T21:14:37Z",
+ "generated_at": "2026-10-04T02:30:17Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -142,7 +142,38 @@
   "Team 4": {
    "locked": false,
    "owner": "group-4",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-10-04T01:47:46Z",
+     "full": true,
+     "graded": true,
+     "id": "9f2e21c6898b74ef",
+     "metrics": {
+      "avg_mps": 8.47,
+      "lap_s": 39.6,
+      "top_mps": 12.44
+     },
+     "replay": "replays/lab-5-pure-pursuit-spielberg/team-4.json?v=7c5eb35e"
+    },
+    {
+     "at": "2026-10-04T02:04:08Z",
+     "full": false,
+     "graded": true,
+     "id": "30323f1a43d9a371",
+     "metrics": null
+    },
+    {
+     "at": "2026-10-04T02:11:08Z",
+     "full": true,
+     "graded": true,
+     "id": "b1b97cc14d8bb87b",
+     "metrics": {
+      "avg_mps": 8.52,
+      "lap_s": 39.6,
+      "top_mps": 12.44
+     }
+    }
+   ]
   },
   "Team 5": {
    "locked": false,
@@ -325,6 +356,20 @@
    "used": 6
   },
   {
+   "alias": "Team 4",
+   "at": "2026-10-04T01:47:46Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 8.47,
+    "top_mps": 12.44
+   },
+   "locked": false,
+   "metric": 39.6,
+   "rank": 3,
+   "replay": "replays/lab-5-pure-pursuit-spielberg/team-4.json?v=7c5eb35e",
+   "used": 3
+  },
+  {
    "alias": "Team 2",
    "at": "2026-10-02T04:20:41Z",
    "attempt": 3,
@@ -334,7 +379,7 @@
    },
    "locked": false,
    "metric": 45.14,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-2.json?v=10052441",
    "used": 3
   },
@@ -348,7 +393,7 @@
    },
    "locked": false,
    "metric": 253.13,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-12.json?v=b35cab55",
    "used": 1
   }
@@ -364,11 +409,6 @@
   },
   {
    "alias": "Team 3",
-   "locked": false,
-   "used": 0
-  },
-  {
-   "alias": "Team 4",
    "locked": false,
    "used": 0
   },

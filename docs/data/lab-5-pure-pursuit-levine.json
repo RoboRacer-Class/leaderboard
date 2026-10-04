@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-04T17:56:23Z",
+ "generated_at": "2026-10-04T20:11:45Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -142,7 +142,20 @@
   "Team 3": {
    "locked": false,
    "owner": "group-3",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-10-04T19:25:04Z",
+     "full": true,
+     "graded": true,
+     "id": "079c2879d90ac7ec",
+     "metrics": {
+      "avg_mps": 9.58,
+      "lap_s": 6.32,
+      "top_mps": 14.22
+     },
+     "replay": "replays/lab-5-pure-pursuit-levine/team-3.json?v=63c98ffe"
+    }
+   ]
   },
   "Team 4": {
    "locked": false,
@@ -367,6 +380,20 @@
    "used": 2
   },
   {
+   "alias": "Team 3",
+   "at": "2026-10-04T19:25:04Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 9.58,
+    "top_mps": 14.22
+   },
+   "locked": false,
+   "metric": 6.32,
+   "rank": 2,
+   "replay": "replays/lab-5-pure-pursuit-levine/team-3.json?v=63c98ffe",
+   "used": 1
+  },
+  {
    "alias": "Team 5",
    "at": "2026-10-02T21:06:35Z",
    "attempt": 6,
@@ -376,7 +403,7 @@
    },
    "locked": false,
    "metric": 7.92,
-   "rank": 2,
+   "rank": 3,
    "replay": "replays/lab-5-pure-pursuit-levine/team-5.json?v=f0d49452",
    "used": 6
   },
@@ -390,7 +417,7 @@
    },
    "locked": false,
    "metric": 8.11,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-5-pure-pursuit-levine/team-4.json?v=20f0adb7",
    "used": 3
   },
@@ -404,7 +431,7 @@
    },
    "locked": false,
    "metric": 8.81,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-5-pure-pursuit-levine/team-2.json?v=c843a34f",
    "used": 3
   },
@@ -418,7 +445,7 @@
    },
    "locked": false,
    "metric": 13.12,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-5-pure-pursuit-levine/team-9.json?v=8f820fee",
    "used": 1
   },
@@ -432,7 +459,7 @@
    },
    "locked": false,
    "metric": 31.76,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-5-pure-pursuit-levine/team-12.json?v=714765e4",
    "used": 1
   }
@@ -443,11 +470,6 @@
  "unranked": [
   {
    "alias": "Team 1",
-   "locked": false,
-   "used": 0
-  },
-  {
-   "alias": "Team 3",
    "locked": false,
    "used": 0
   },

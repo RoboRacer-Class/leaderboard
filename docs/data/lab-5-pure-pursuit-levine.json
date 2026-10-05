@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-05T22:40:33Z",
+ "generated_at": "2026-10-05T22:49:27Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -439,10 +439,15 @@
     },
     {
      "at": "2026-10-05T20:06:59Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "e52a50783a80632e",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 10.25,
+      "lap_s": 5.63,
+      "top_mps": 14.2
+     },
+     "replay": "replays/lab-5-pure-pursuit-levine/team-8.json?v=af171f43"
     }
    ]
   },
@@ -573,6 +578,20 @@
    "used": 2
   },
   {
+   "alias": "Team 8",
+   "at": "2026-10-05T20:06:59Z",
+   "attempt": 7,
+   "extras": {
+    "avg_mps": 10.25,
+    "top_mps": 14.2
+   },
+   "locked": false,
+   "metric": 5.63,
+   "rank": 3,
+   "replay": "replays/lab-5-pure-pursuit-levine/team-8.json?v=af171f43",
+   "used": 7
+  },
+  {
    "alias": "Team 14",
    "at": "2026-10-05T21:53:00Z",
    "attempt": 3,
@@ -582,7 +601,7 @@
    },
    "locked": false,
    "metric": 6.98,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-5-pure-pursuit-levine/team-14.json?v=c0c7eae4",
    "used": 3
   },
@@ -596,7 +615,7 @@
    },
    "locked": false,
    "metric": 7.92,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-5-pure-pursuit-levine/team-5.json?v=f0d49452",
    "used": 6
   },
@@ -610,7 +629,7 @@
    },
    "locked": false,
    "metric": 8.11,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-5-pure-pursuit-levine/team-4.json?v=20f0adb7",
    "used": 3
   },
@@ -624,23 +643,9 @@
    },
    "locked": false,
    "metric": 8.81,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-5-pure-pursuit-levine/team-2.json?v=c843a34f",
    "used": 3
-  },
-  {
-   "alias": "Team 8",
-   "at": "2026-10-05T18:09:41Z",
-   "attempt": 5,
-   "extras": {
-    "avg_mps": 5.35,
-    "top_mps": 9.96
-   },
-   "locked": false,
-   "metric": 11.88,
-   "rank": 7,
-   "replay": "replays/lab-5-pure-pursuit-levine/team-8.json?v=97b908e8",
-   "used": 7
   },
   {
    "alias": "Team 9",

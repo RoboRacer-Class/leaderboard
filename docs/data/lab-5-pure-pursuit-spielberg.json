@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-05T18:27:29Z",
+ "generated_at": "2026-10-05T18:49:42Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -362,6 +362,17 @@
       "top_mps": 10.0
      },
      "replay": "replays/lab-5-pure-pursuit-spielberg/team-8.json?v=0e24342f"
+    },
+    {
+     "at": "2026-10-05T18:35:45Z",
+     "full": true,
+     "graded": true,
+     "id": "2859b68414fbb4aa",
+     "metrics": {
+      "avg_mps": 7.86,
+      "lap_s": 43.34,
+      "top_mps": 10.0
+     }
     }
    ]
   },
@@ -375,6 +386,18 @@
      "graded": true,
      "id": "7ec7b4e000e764b7",
      "metrics": null
+    },
+    {
+     "at": "2026-10-05T18:31:21Z",
+     "full": true,
+     "graded": true,
+     "id": "77429c1126ffc41f",
+     "metrics": {
+      "avg_mps": 7.25,
+      "lap_s": 46.92,
+      "top_mps": 12.0
+     },
+     "replay": "replays/lab-5-pure-pursuit-spielberg/team-9.json?v=5c74de48"
     }
    ]
   }
@@ -513,7 +536,7 @@
    "metric": 43.34,
    "rank": 5,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-8.json?v=0e24342f",
-   "used": 5
+   "used": 6
   },
   {
    "alias": "Team 2",
@@ -530,6 +553,20 @@
    "used": 3
   },
   {
+   "alias": "Team 9",
+   "at": "2026-10-05T18:31:21Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 7.25,
+    "top_mps": 12.0
+   },
+   "locked": false,
+   "metric": 46.92,
+   "rank": 7,
+   "replay": "replays/lab-5-pure-pursuit-spielberg/team-9.json?v=5c74de48",
+   "used": 2
+  },
+  {
    "alias": "Team 1",
    "at": "2026-10-05T14:39:07Z",
    "attempt": 1,
@@ -539,7 +576,7 @@
    },
    "locked": false,
    "metric": 228.55,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-1.json?v=d32808a8",
    "used": 1
   },
@@ -553,7 +590,7 @@
    },
    "locked": false,
    "metric": 253.13,
-   "rank": 8,
+   "rank": 9,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-12.json?v=b35cab55",
    "used": 1
   }
@@ -571,11 +608,6 @@
    "alias": "Team 7",
    "locked": false,
    "used": 0
-  },
-  {
-   "alias": "Team 9",
-   "locked": false,
-   "used": 1
   },
   {
    "alias": "Team 11",

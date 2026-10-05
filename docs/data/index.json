@@ -1,6 +1,6 @@
 {
  "classroom": "ese-6150",
- "generated_at": "2026-10-05T15:37:21Z",
+ "generated_at": "2026-10-05T15:51:01Z",
  "labs": [
   {
    "anonymous": true,
@@ -124,7 +124,7 @@
    "cap": null,
    "due": "2026-10-08T03:59:00Z",
    "file": "lab-5-pure-pursuit-levine.json",
-   "generated_at": "2026-10-05T15:37:21Z",
+   "generated_at": "2026-10-05T15:51:01Z",
    "lab_title": "Lab 5: SLAM and Pure Pursuit",
    "late": 0,
    "metric": {
@@ -162,7 +162,7 @@
    "cap": null,
    "due": "2026-10-08T03:59:00Z",
    "file": "lab-5-pure-pursuit-spielberg.json",
-   "generated_at": "2026-10-05T15:37:21Z",
+   "generated_at": "2026-10-05T15:51:01Z",
    "lab_title": "Lab 5: SLAM and Pure Pursuit",
    "late": 0,
    "metric": {

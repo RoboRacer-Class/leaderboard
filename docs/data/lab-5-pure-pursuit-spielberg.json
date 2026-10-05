@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-05T21:55:04Z",
+ "generated_at": "2026-10-05T22:12:04Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -158,10 +158,15 @@
     },
     {
      "at": "2026-10-05T21:53:00Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "2a200ff953a550a7",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 8.08,
+      "lap_s": 41.15,
+      "top_mps": 10.0
+     },
+     "replay": "replays/lab-5-pure-pursuit-spielberg/team-14.json?v=645a8f75"
     }
    ]
   },
@@ -568,16 +573,16 @@
   },
   {
    "alias": "Team 14",
-   "at": "2026-10-05T21:44:51Z",
-   "attempt": 2,
+   "at": "2026-10-05T21:53:00Z",
+   "attempt": 3,
    "extras": {
-    "avg_mps": 8.38,
+    "avg_mps": 8.08,
     "top_mps": 10.0
    },
    "locked": false,
-   "metric": 41.16,
+   "metric": 41.15,
    "rank": 5,
-   "replay": "replays/lab-5-pure-pursuit-spielberg/team-14.json?v=0d588f22",
+   "replay": "replays/lab-5-pure-pursuit-spielberg/team-14.json?v=645a8f75",
    "used": 3
   },
   {

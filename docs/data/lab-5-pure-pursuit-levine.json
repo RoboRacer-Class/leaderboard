@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-05T21:45:53Z",
+ "generated_at": "2026-10-05T21:55:04Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -146,9 +146,21 @@
     },
     {
      "at": "2026-10-05T21:44:51Z",
+     "full": true,
+     "graded": true,
+     "id": "d33a4a374ecb466d",
+     "metrics": {
+      "avg_mps": 8.72,
+      "lap_s": 6.99,
+      "top_mps": 11.79
+     },
+     "replay": "replays/lab-5-pure-pursuit-levine/team-14.json?v=9f650370"
+    },
+    {
+     "at": "2026-10-05T21:53:00Z",
      "full": false,
      "graded": false,
-     "id": "d33a4a374ecb466d",
+     "id": "2a200ff953a550a7",
      "metrics": null
     }
    ]
@@ -549,6 +561,20 @@
    "used": 2
   },
   {
+   "alias": "Team 14",
+   "at": "2026-10-05T21:44:51Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 8.72,
+    "top_mps": 11.79
+   },
+   "locked": false,
+   "metric": 6.99,
+   "rank": 3,
+   "replay": "replays/lab-5-pure-pursuit-levine/team-14.json?v=9f650370",
+   "used": 3
+  },
+  {
    "alias": "Team 5",
    "at": "2026-10-02T21:06:35Z",
    "attempt": 6,
@@ -558,7 +584,7 @@
    },
    "locked": false,
    "metric": 7.92,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-5-pure-pursuit-levine/team-5.json?v=f0d49452",
    "used": 6
   },
@@ -572,7 +598,7 @@
    },
    "locked": false,
    "metric": 8.11,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-5-pure-pursuit-levine/team-4.json?v=20f0adb7",
    "used": 3
   },
@@ -586,7 +612,7 @@
    },
    "locked": false,
    "metric": 8.81,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-5-pure-pursuit-levine/team-2.json?v=c843a34f",
    "used": 3
   },
@@ -600,7 +626,7 @@
    },
    "locked": false,
    "metric": 11.88,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-5-pure-pursuit-levine/team-8.json?v=97b908e8",
    "used": 6
   },
@@ -614,7 +640,7 @@
    },
    "locked": false,
    "metric": 13.07,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-5-pure-pursuit-levine/team-9.json?v=89d24236",
    "used": 2
   },
@@ -628,7 +654,7 @@
    },
    "locked": false,
    "metric": 31.76,
-   "rank": 8,
+   "rank": 9,
    "replay": "replays/lab-5-pure-pursuit-levine/team-12.json?v=714765e4",
    "used": 1
   },
@@ -642,7 +668,7 @@
    },
    "locked": false,
    "metric": 40.93,
-   "rank": 9,
+   "rank": 10,
    "replay": "replays/lab-5-pure-pursuit-levine/team-1.json?v=763defba",
    "used": 1
   }
@@ -670,11 +696,6 @@
    "alias": "Team 13",
    "locked": false,
    "used": 0
-  },
-  {
-   "alias": "Team 14",
-   "locked": false,
-   "used": 2
   }
  ]
 }

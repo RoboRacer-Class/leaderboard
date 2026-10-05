@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-04T21:05:46Z",
+ "generated_at": "2026-10-05T14:27:37Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -58,6 +58,18 @@
       "top_mps": 16.99
      },
      "replay": "replays/lab-5-pure-pursuit-spielberg/team-10.json?v=af094144"
+    },
+    {
+     "at": "2026-10-05T14:24:16Z",
+     "full": true,
+     "graded": true,
+     "id": "5158deb7050df7f9",
+     "metrics": {
+      "avg_mps": 12.68,
+      "lap_s": 25.27,
+      "top_mps": 18.77
+     },
+     "replay": "replays/lab-5-pure-pursuit-spielberg/team-10.json?v=2166a77b"
     }
    ]
   },
@@ -273,7 +285,19 @@
   "Team 8": {
    "locked": false,
    "owner": "group-8",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-10-05T14:22:32Z",
+     "full": false,
+     "graded": true,
+     "id": "6e4156627230f310",
+     "metrics": {
+      "avg_mps": 13.16,
+      "lap_s": 24.68,
+      "top_mps": 19.94
+     }
+    }
+   ]
   },
   "Team 9": {
    "locked": false,
@@ -356,6 +380,20 @@
  "requirement": "full marks on compilation, the steering checks and Spielberg (one clean lap)",
  "rows": [
   {
+   "alias": "Team 10",
+   "at": "2026-10-05T14:24:16Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 12.68,
+    "top_mps": 18.77
+   },
+   "locked": false,
+   "metric": 25.27,
+   "rank": 1,
+   "replay": "replays/lab-5-pure-pursuit-spielberg/team-10.json?v=2166a77b",
+   "used": 3
+  },
+  {
    "alias": "Team 3",
    "at": "2026-10-04T19:25:04Z",
    "attempt": 1,
@@ -365,22 +403,8 @@
    },
    "locked": false,
    "metric": 25.51,
-   "rank": 1,
-   "replay": "replays/lab-5-pure-pursuit-spielberg/team-3.json?v=1495d3f4",
-   "used": 2
-  },
-  {
-   "alias": "Team 10",
-   "at": "2026-09-30T14:53:18Z",
-   "attempt": 2,
-   "extras": {
-    "avg_mps": 12.07,
-    "top_mps": 16.99
-   },
-   "locked": false,
-   "metric": 26.94,
    "rank": 2,
-   "replay": "replays/lab-5-pure-pursuit-spielberg/team-10.json?v=af094144",
+   "replay": "replays/lab-5-pure-pursuit-spielberg/team-3.json?v=1495d3f4",
    "used": 2
   },
   {
@@ -462,7 +486,7 @@
   {
    "alias": "Team 8",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Team 9",

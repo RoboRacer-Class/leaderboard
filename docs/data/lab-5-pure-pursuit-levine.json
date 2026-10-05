@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-05T20:28:54Z",
+ "generated_at": "2026-10-05T21:45:53Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -136,7 +136,22 @@
   "Team 14": {
    "locked": false,
    "owner": "group-14",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-10-05T21:38:09Z",
+     "full": false,
+     "graded": true,
+     "id": "3a3583b9bdb6efbd",
+     "metrics": null
+    },
+    {
+     "at": "2026-10-05T21:44:51Z",
+     "full": false,
+     "graded": false,
+     "id": "d33a4a374ecb466d",
+     "metrics": null
+    }
+   ]
   },
   "Team 2": {
    "locked": false,
@@ -659,7 +674,7 @@
   {
    "alias": "Team 14",
    "locked": false,
-   "used": 0
+   "used": 2
   }
  ]
 }

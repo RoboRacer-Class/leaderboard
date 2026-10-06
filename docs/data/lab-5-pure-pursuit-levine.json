@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-05T23:57:59Z",
+ "generated_at": "2026-10-06T00:56:31Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -119,6 +119,17 @@
       "top_mps": 2.0
      },
      "replay": "replays/lab-5-pure-pursuit-levine/team-11.json?v=3ad97925"
+    },
+    {
+     "at": "2026-10-06T00:29:15Z",
+     "full": true,
+     "graded": true,
+     "id": "c6747e15275ccd4f",
+     "metrics": {
+      "avg_mps": 2.0,
+      "lap_s": 30.9,
+      "top_mps": 2.0
+     }
     }
    ]
   },
@@ -137,6 +148,17 @@
       "top_mps": 2.0
      },
      "replay": "replays/lab-5-pure-pursuit-levine/team-12.json?v=714765e4"
+    },
+    {
+     "at": "2026-10-06T00:21:45Z",
+     "full": true,
+     "graded": true,
+     "id": "194c7226fdec03b3",
+     "metrics": {
+      "avg_mps": 1.7,
+      "lap_s": 36.29,
+      "top_mps": 2.0
+     }
     }
    ]
   },
@@ -194,6 +216,17 @@
      "id": "75650626dd316ef3",
      "metrics": {
       "avg_mps": 8.7,
+      "lap_s": 6.99,
+      "top_mps": 11.79
+     }
+    },
+    {
+     "at": "2026-10-06T00:02:53Z",
+     "full": true,
+     "graded": true,
+     "id": "e6e220b314fa61f4",
+     "metrics": {
+      "avg_mps": 8.69,
       "lap_s": 6.99,
       "top_mps": 11.79
      }
@@ -412,10 +445,26 @@
    "submissions": [
     {
      "at": "2026-10-05T23:57:05Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "9b74e8243acaad1d",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 2.99,
+      "lap_s": 20.66,
+      "top_mps": 3.0
+     },
+     "replay": "replays/lab-5-pure-pursuit-levine/team-7.json?v=b4cc5175"
+    },
+    {
+     "at": "2026-10-06T00:05:48Z",
+     "full": true,
+     "graded": true,
+     "id": "0b298f277443f326",
+     "metrics": {
+      "avg_mps": 2.99,
+      "lap_s": 20.66,
+      "top_mps": 3.0
+     }
     }
    ]
   },
@@ -675,7 +724,7 @@
    "metric": 6.98,
    "rank": 4,
    "replay": "replays/lab-5-pure-pursuit-levine/team-14.json?v=c0c7eae4",
-   "used": 5
+   "used": 6
   },
   {
    "alias": "Team 5",
@@ -748,6 +797,20 @@
    "used": 2
   },
   {
+   "alias": "Team 7",
+   "at": "2026-10-05T23:57:05Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 2.99,
+    "top_mps": 3.0
+   },
+   "locked": false,
+   "metric": 20.66,
+   "rank": 10,
+   "replay": "replays/lab-5-pure-pursuit-levine/team-7.json?v=b4cc5175",
+   "used": 2
+  },
+  {
    "alias": "Team 11",
    "at": "2026-10-05T23:41:43Z",
    "attempt": 2,
@@ -757,9 +820,9 @@
    },
    "locked": false,
    "metric": 30.9,
-   "rank": 10,
+   "rank": 11,
    "replay": "replays/lab-5-pure-pursuit-levine/team-11.json?v=3ad97925",
-   "used": 2
+   "used": 3
   },
   {
    "alias": "Team 12",
@@ -771,9 +834,9 @@
    },
    "locked": false,
    "metric": 31.76,
-   "rank": 11,
+   "rank": 12,
    "replay": "replays/lab-5-pure-pursuit-levine/team-12.json?v=714765e4",
-   "used": 1
+   "used": 2
   },
   {
    "alias": "Team 1",
@@ -785,7 +848,7 @@
    },
    "locked": false,
    "metric": 40.93,
-   "rank": 12,
+   "rank": 13,
    "replay": "replays/lab-5-pure-pursuit-levine/team-1.json?v=763defba",
    "used": 1
   }
@@ -794,11 +857,6 @@
  "slug": "lab-5-pure-pursuit-levine",
  "title": "Lab 5: SLAM and Pure Pursuit \u00b7 Levine, fastest clean lap",
  "unranked": [
-  {
-   "alias": "Team 7",
-   "locked": false,
-   "used": 1
-  },
   {
    "alias": "Team 13",
    "locked": false,

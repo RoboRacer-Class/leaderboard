@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-06T21:19:52Z",
+ "generated_at": "2026-10-06T23:36:40Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -326,6 +326,18 @@
       "lap_s": 8.81,
       "top_mps": 8.0
      }
+    },
+    {
+     "at": "2026-10-06T23:25:26Z",
+     "full": true,
+     "graded": true,
+     "id": "36a4f80f01572b8b",
+     "metrics": {
+      "avg_mps": 7.58,
+      "lap_s": 8.16,
+      "top_mps": 9.5
+     },
+     "replay": "replays/lab-5-pure-pursuit-levine/team-2.json?v=923714cb"
     }
    ]
   },
@@ -827,17 +839,17 @@
   },
   {
    "alias": "Team 2",
-   "at": "2026-10-02T04:20:41Z",
-   "attempt": 3,
+   "at": "2026-10-06T23:25:26Z",
+   "attempt": 5,
    "extras": {
-    "avg_mps": 7.01,
-    "top_mps": 8.0
+    "avg_mps": 7.58,
+    "top_mps": 9.5
    },
    "locked": false,
-   "metric": 8.81,
+   "metric": 8.16,
    "rank": 7,
-   "replay": "replays/lab-5-pure-pursuit-levine/team-2.json?v=c843a34f",
-   "used": 4
+   "replay": "replays/lab-5-pure-pursuit-levine/team-2.json?v=923714cb",
+   "used": 5
   },
   {
    "alias": "Team 13",

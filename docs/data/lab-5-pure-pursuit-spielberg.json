@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-06T01:34:41Z",
+ "generated_at": "2026-10-06T01:57:41Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -161,7 +161,15 @@
   "Team 13": {
    "locked": false,
    "owner": "group-13",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-10-06T01:45:43Z",
+     "full": false,
+     "graded": true,
+     "id": "387613dc595bc474",
+     "metrics": null
+    }
+   ]
   },
   "Team 14": {
    "locked": false,
@@ -842,7 +850,7 @@
   {
    "alias": "Team 13",
    "locked": false,
-   "used": 0
+   "used": 1
   }
  ]
 }

@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-06T04:26:58Z",
+ "generated_at": "2026-10-06T09:44:18Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -105,6 +105,18 @@
       "lap_s": 25.31,
       "top_mps": 18.77
      }
+    },
+    {
+     "at": "2026-10-06T09:33:56Z",
+     "full": true,
+     "graded": true,
+     "id": "b7bb35f8d0c0a38b",
+     "metrics": {
+      "avg_mps": 14.02,
+      "lap_s": 23.81,
+      "top_mps": 19.85
+     },
+     "replay": "replays/lab-5-pure-pursuit-spielberg/team-10.json?v=d7ba674d"
     }
    ]
   },
@@ -679,6 +691,20 @@
  "requirement": "full marks on compilation, the steering checks and Spielberg (one clean lap)",
  "rows": [
   {
+   "alias": "Team 10",
+   "at": "2026-10-06T09:33:56Z",
+   "attempt": 5,
+   "extras": {
+    "avg_mps": 14.02,
+    "top_mps": 19.85
+   },
+   "locked": false,
+   "metric": 23.81,
+   "rank": 1,
+   "replay": "replays/lab-5-pure-pursuit-spielberg/team-10.json?v=d7ba674d",
+   "used": 5
+  },
+  {
    "alias": "Team 3",
    "at": "2026-10-06T00:59:01Z",
    "attempt": 3,
@@ -688,7 +714,7 @@
    },
    "locked": false,
    "metric": 24.09,
-   "rank": 1,
+   "rank": 2,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-3.json?v=efccc669",
    "used": 3
   },
@@ -702,23 +728,9 @@
    },
    "locked": false,
    "metric": 24.67,
-   "rank": 2,
+   "rank": 3,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-8.json?v=d916ff14",
    "used": 9
-  },
-  {
-   "alias": "Team 10",
-   "at": "2026-10-05T14:24:16Z",
-   "attempt": 3,
-   "extras": {
-    "avg_mps": 12.68,
-    "top_mps": 18.77
-   },
-   "locked": false,
-   "metric": 25.27,
-   "rank": 3,
-   "replay": "replays/lab-5-pure-pursuit-spielberg/team-10.json?v=2166a77b",
-   "used": 4
   },
   {
    "alias": "Team 5",

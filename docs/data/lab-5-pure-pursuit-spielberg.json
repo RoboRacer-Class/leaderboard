@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-07T16:00:55Z",
+ "generated_at": "2026-10-07T16:26:54Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -53,6 +53,18 @@
       "lap_s": 228.55,
       "top_mps": 1.5
      }
+    },
+    {
+     "at": "2026-10-07T16:15:26Z",
+     "full": true,
+     "graded": true,
+     "id": "a88f715945ffa1ae",
+     "metrics": {
+      "avg_mps": 2.0,
+      "lap_s": 171.55,
+      "top_mps": 2.0
+     },
+     "replay": "replays/lab-5-pure-pursuit-spielberg/team-1.json?v=e38b8141"
     }
    ]
   },
@@ -913,17 +925,17 @@
   },
   {
    "alias": "Team 1",
-   "at": "2026-10-05T14:39:07Z",
-   "attempt": 1,
+   "at": "2026-10-07T16:15:26Z",
+   "attempt": 3,
    "extras": {
-    "avg_mps": 1.49,
-    "top_mps": 1.5
+    "avg_mps": 2.0,
+    "top_mps": 2.0
    },
    "locked": false,
-   "metric": 228.55,
+   "metric": 171.55,
    "rank": 13,
-   "replay": "replays/lab-5-pure-pursuit-spielberg/team-1.json?v=d32808a8",
-   "used": 2
+   "replay": "replays/lab-5-pure-pursuit-spielberg/team-1.json?v=e38b8141",
+   "used": 3
   }
  ],
  "schema": "ese6150/leaderboard/v1",

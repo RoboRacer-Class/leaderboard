@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-07T01:51:44Z",
+ "generated_at": "2026-10-07T16:00:55Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -178,6 +178,18 @@
       "lap_s": 263.77,
       "top_mps": 1.4
      }
+    },
+    {
+     "at": "2026-10-07T15:53:57Z",
+     "full": true,
+     "graded": true,
+     "id": "111bf62ab3d6ef2e",
+     "metrics": {
+      "avg_mps": 7.78,
+      "lap_s": 44.61,
+      "top_mps": 8.0
+     },
+     "replay": "replays/lab-5-pure-pursuit-spielberg/team-12.json?v=9168ed7f"
     }
    ]
   },
@@ -830,6 +842,20 @@
    "used": 6
   },
   {
+   "alias": "Team 12",
+   "at": "2026-10-07T15:53:57Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 7.78,
+    "top_mps": 8.0
+   },
+   "locked": false,
+   "metric": 44.61,
+   "rank": 8,
+   "replay": "replays/lab-5-pure-pursuit-spielberg/team-12.json?v=9168ed7f",
+   "used": 3
+  },
+  {
    "alias": "Team 9",
    "at": "2026-10-05T18:31:21Z",
    "attempt": 2,
@@ -839,7 +865,7 @@
    },
    "locked": false,
    "metric": 46.92,
-   "rank": 8,
+   "rank": 9,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-9.json?v=5c74de48",
    "used": 2
   },
@@ -853,7 +879,7 @@
    },
    "locked": false,
    "metric": 48.31,
-   "rank": 9,
+   "rank": 10,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-11.json?v=5d11e4f5",
    "used": 3
   },
@@ -867,7 +893,7 @@
    },
    "locked": false,
    "metric": 63.58,
-   "rank": 10,
+   "rank": 11,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-6.json?v=590f81a8",
    "used": 3
   },
@@ -881,7 +907,7 @@
    },
    "locked": false,
    "metric": 114.66,
-   "rank": 11,
+   "rank": 12,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-7.json?v=06e68219",
    "used": 2
   },
@@ -895,22 +921,8 @@
    },
    "locked": false,
    "metric": 228.55,
-   "rank": 12,
-   "replay": "replays/lab-5-pure-pursuit-spielberg/team-1.json?v=d32808a8",
-   "used": 2
-  },
-  {
-   "alias": "Team 12",
-   "at": "2026-09-28T20:49:49Z",
-   "attempt": 1,
-   "extras": {
-    "avg_mps": 1.35,
-    "top_mps": 1.4
-   },
-   "locked": false,
-   "metric": 253.13,
    "rank": 13,
-   "replay": "replays/lab-5-pure-pursuit-spielberg/team-12.json?v=b35cab55",
+   "replay": "replays/lab-5-pure-pursuit-spielberg/team-1.json?v=d32808a8",
    "used": 2
   }
  ],

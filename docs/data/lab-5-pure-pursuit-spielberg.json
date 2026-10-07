@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-10-08T03:59:00Z",
- "generated_at": "2026-10-07T23:03:20Z",
+ "generated_at": "2026-10-07T23:20:50Z",
  "lab_title": "Lab 5: SLAM and Pure Pursuit",
  "late": [],
  "metric": {
@@ -232,6 +232,25 @@
      "full": false,
      "graded": true,
      "id": "b7a8474ba7cff25d",
+     "metrics": null
+    },
+    {
+     "at": "2026-10-07T23:07:39Z",
+     "full": true,
+     "graded": true,
+     "id": "8e8f7c188cf69bb9",
+     "metrics": {
+      "avg_mps": 1.47,
+      "lap_s": 234.49,
+      "top_mps": 1.5
+     },
+     "replay": "replays/lab-5-pure-pursuit-spielberg/team-13.json?v=a07c0e24"
+    },
+    {
+     "at": "2026-10-07T23:18:56Z",
+     "full": false,
+     "graded": false,
+     "id": "60462150f7f729e7",
      "metrics": null
     }
    ]
@@ -959,16 +978,24 @@
    "rank": 13,
    "replay": "replays/lab-5-pure-pursuit-spielberg/team-1.json?v=e38b8141",
    "used": 3
+  },
+  {
+   "alias": "Team 13",
+   "at": "2026-10-07T23:07:39Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 1.47,
+    "top_mps": 1.5
+   },
+   "locked": false,
+   "metric": 234.49,
+   "rank": 14,
+   "replay": "replays/lab-5-pure-pursuit-spielberg/team-13.json?v=a07c0e24",
+   "used": 4
   }
  ],
  "schema": "ese6150/leaderboard/v1",
  "slug": "lab-5-pure-pursuit-spielberg",
  "title": "Lab 5: SLAM and Pure Pursuit \u00b7 Spielberg, fastest clean lap",
- "unranked": [
-  {
-   "alias": "Team 13",
-   "locked": false,
-   "used": 2
-  }
- ]
+ "unranked": []
 }

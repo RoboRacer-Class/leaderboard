@@ -1,0 +1,39 @@
+{
+ "anonymous": false,
+ "assignment": "lab-6-motion-planning",
+ "available_from": "2026-10-12T04:00:00Z",
+ "board_title": "Straight path, fastest clean run",
+ "cap": null,
+ "due": "2026-10-22T03:59:00Z",
+ "generated_at": "2026-10-09T21:10:40Z",
+ "lab_title": "Lab 6: Motion Planning",
+ "late": [],
+ "metric": {
+  "direction": "lower",
+  "extras": [
+   {
+    "key": "avg_mps",
+    "label": "Avg speed",
+    "unit": "m/s"
+   },
+   {
+    "key": "top_mps",
+    "label": "Top speed",
+    "unit": "m/s"
+   }
+  ],
+  "key": "time_s",
+  "label": "Time",
+  "unit": "s"
+ },
+ "players": {},
+ "podium": 5,
+ "reference": null,
+ "reference_submissions": [],
+ "requirement": "full marks on compilation and the straight path (the north hallway under both triangles without touching anything)",
+ "rows": [],
+ "schema": "ese6150/leaderboard/v1",
+ "slug": "lab-6-motion-planning-straight",
+ "title": "Lab 6: Motion Planning \u00b7 Straight path, fastest clean run",
+ "unranked": []
+}

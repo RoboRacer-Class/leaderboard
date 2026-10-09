@@ -191,6 +191,53 @@
    "tab_title": "Lab 5: Pure Pursuit",
    "title": "Lab 5: SLAM and Pure Pursuit \u00b7 Spielberg, fastest clean lap",
    "unranked": 0
+  },
+  {
+   "anonymous": false,
+   "assignment": "race-1",
+   "available_from": null,
+   "board_title": "Two-lap average",
+   "cap": null,
+   "description": "Held in the Levine lobby at UPenn on October 7th, 2026. Each team ran two timed laps; the standings rank the average of the two.",
+   "due": null,
+   "file": "race-1.json",
+   "generated_at": "2026-10-09T00:00:00Z",
+   "held_on": "2026-10-07",
+   "lab_title": "Race 1",
+   "late": 0,
+   "manual": true,
+   "metric": {
+    "decimals": 3,
+    "direction": "lower",
+    "extras": [
+     {
+      "key": "lap1_s",
+      "label": "Lap 1",
+      "unit": "s"
+     },
+     {
+      "key": "lap2_s",
+      "label": "Lap 2",
+      "unit": "s"
+     },
+     {
+      "key": "best_s",
+      "label": "Fastest lap",
+      "unit": "s"
+     }
+    ],
+    "key": "avg_s",
+    "label": "Average",
+    "unit": "s"
+   },
+   "podium": 3,
+   "reference": false,
+   "rows": 14,
+   "slug": "race-1",
+   "tab_title": "Race 1",
+   "title": "Race 1",
+   "unranked": 0,
+   "where": "Levine lobby, UPenn"
   }
  ],
  "org": "RoboRacer-Class",

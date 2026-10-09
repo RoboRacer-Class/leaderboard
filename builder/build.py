@@ -629,18 +629,42 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
             "file": f"{lab['board']}.json", "generated_at": lab_generated})
         log(f"{lab['board']}: {len(rows)} ranked, {len(unranked)} waiting, "
             f"reference {'set' if reference else 'missing'}")
-    # Demo labs (index entries flagged "demo": true, with their own data
-    # file) are kept until someone deletes them by hand.
+    # Hand-made boards (index entries flagged "demo": true, or "manual": true
+    # for results timed in person, like a race) are not graded by anything:
+    # they are kept, with their own data file, until someone deletes them by hand.
     old_index = data_dir / "index.json"
     if old_index.is_file():
         try:
             for entry in json.loads(old_index.read_text()).get("labs", []):
-                if entry.get("demo") and (data_dir / entry.get("file", "")).is_file():
+                if (entry.get("demo") or entry.get("manual")) and (data_dir / entry.get("file", "")).is_file():
                     index["labs"].append(entry)
         except (ValueError, OSError):
             pass
+    index["labs"] = chronological(index["labs"])
     write_json(data_dir / "index.json", index)
     return 0
+
+
+def chronological(entries: list) -> list:
+    """Index entries (= tabs) in the order things happened: a graded lab by the day it
+    opens, a hand-made board (a race) by the day it was held. An assignment's boards stay
+    together in their config order; an entry with neither date keeps its place after the
+    dated ones."""
+    def when(entry):
+        day = entry.get("available_from") or entry.get("held_on")
+        try:
+            return rules.parse_time(day) if day else None
+        except ValueError:
+            return None
+    group = lambda e: e.get("assignment") or e.get("slug")
+    first = {}                                   # an assignment sorts by its first board
+    for i, entry in enumerate(entries):
+        first.setdefault(group(entry), (when(entry), i))
+    def key(item):
+        i, entry = item
+        start, place = first[group(entry)]
+        return (start is None, start or dt.datetime.min.replace(tzinfo=dt.timezone.utc), place, i)
+    return [entry for _, entry in sorted(enumerate(entries), key=key)]
 
 
 def board_key(doc: dict, salt: str, who_arg: str) -> tuple:

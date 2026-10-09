@@ -332,6 +332,38 @@ def test_unchanged_board_keeps_its_timestamp(world):
     assert (data_dir / "index.json").read_text() == index_before
 
 
+def test_manual_board_survives_a_rebuild(world):
+    # a race timed in person has no grader: the rebuild must keep its tab and data
+    api, data_dir, log, stream = world
+    run_build(api, data_dir, log)
+    index = json.loads((data_dir / "index.json").read_text())
+    race = {"slug": "race-1", "assignment": "race-1", "title": "Race 1", "file": "race-1.json", "manual": True}
+    index["labs"].append(race)
+    (data_dir / "index.json").write_text(json.dumps(index))
+    (data_dir / "race-1.json").write_text(json.dumps({"slug": "race-1", "rows": []}))
+    run_build(api, data_dir, log)
+    labs = json.loads((data_dir / "index.json").read_text())["labs"]
+    assert [l["slug"] for l in labs] == [SLUG, "race-1"] and labs[-1] == race
+    (data_dir / "race-1.json").unlink()                    # deleting the data file drops the tab
+    run_build(api, data_dir, log)
+    assert [l["slug"] for l in json.loads((data_dir / "index.json").read_text())["labs"]] == [SLUG]
+
+
+def test_tabs_follow_the_calendar():
+    # Cedric: Race 1 (held Oct 7) sits between lab 5 (opened Sep 23) and lab 6 (opens Oct 12),
+    # although manual boards are appended after the graded ones
+    board = lambda slug, lab, day: {"slug": slug, "assignment": lab, "available_from": day}
+    entries = [board("lab-5-levine", "lab-5", "2026-09-23T04:00:00Z"),
+               board("lab-5-spielberg", "lab-5", "2026-09-23T04:00:00Z"),
+               board("lab-6-straight", "lab-6", "2026-10-12T00:00-04:00"),
+               board("lab-6-turn", "lab-6", "2026-10-12T00:00-04:00"),
+               board("lab-3", "lab-3", "2026-09-09T15:30:00Z"),
+               {"slug": "demo", "demo": True},
+               {"slug": "race-1", "assignment": "race-1", "held_on": "2026-10-07", "manual": True}]
+    assert [e["slug"] for e in build.chronological(entries)] == [
+        "lab-3", "lab-5-levine", "lab-5-spielberg", "race-1", "lab-6-straight", "lab-6-turn", "demo"]
+
+
 LAB4 = "lab-4-follow-the-gap"
 LAB4_YAML = """
 leaderboards:

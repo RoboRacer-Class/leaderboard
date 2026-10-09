@@ -1,0 +1,189 @@
+{
+ "anonymous": false,
+ "assignment": "race-1",
+ "available_from": null,
+ "board_title": "Two-lap average",
+ "cap": null,
+ "description": "Held in the Levine lobby at UPenn on October 7th, 2026. Each team ran two timed laps; the standings rank the average of the two.",
+ "due": null,
+ "generated_at": "2026-10-09T00:00:00Z",
+ "held_on": "2026-10-07",
+ "lab_title": "Race 1",
+ "late": [],
+ "manual": true,
+ "metric": {
+  "decimals": 3,
+  "direction": "lower",
+  "extras": [
+   {
+    "key": "lap1_s",
+    "label": "Lap 1",
+    "unit": "s"
+   },
+   {
+    "key": "lap2_s",
+    "label": "Lap 2",
+    "unit": "s"
+   },
+   {
+    "key": "best_s",
+    "label": "Fastest lap",
+    "unit": "s"
+   }
+  ],
+  "key": "avg_s",
+  "label": "Average",
+  "unit": "s"
+ },
+ "players": {},
+ "podium": 3,
+ "reference": null,
+ "rows": [
+  {
+   "alias": "Team 11",
+   "extras": {
+    "best_s": 8.068,
+    "lap1_s": 8.068,
+    "lap2_s": 8.333
+   },
+   "metric": 8.2005,
+   "rank": 1
+  },
+  {
+   "alias": "Team 14",
+   "extras": {
+    "best_s": 8.268,
+    "lap1_s": 8.268,
+    "lap2_s": 8.316
+   },
+   "metric": 8.292,
+   "rank": 2
+  },
+  {
+   "alias": "Team 8",
+   "extras": {
+    "best_s": 8.707,
+    "lap1_s": 8.731,
+    "lap2_s": 8.707
+   },
+   "metric": 8.719,
+   "rank": 3
+  },
+  {
+   "alias": "Team 6",
+   "extras": {
+    "best_s": 8.549,
+    "lap1_s": 8.549,
+    "lap2_s": 9.137
+   },
+   "metric": 8.843,
+   "rank": 4
+  },
+  {
+   "alias": "Team 12",
+   "extras": {
+    "best_s": 8.893,
+    "lap1_s": 8.893,
+    "lap2_s": 9.095
+   },
+   "metric": 8.994,
+   "rank": 5
+  },
+  {
+   "alias": "Team 2",
+   "extras": {
+    "best_s": 8.638,
+    "lap1_s": 8.638,
+    "lap2_s": 9.573
+   },
+   "metric": 9.1055,
+   "rank": 6
+  },
+  {
+   "alias": "Team 9",
+   "extras": {
+    "best_s": 9.09,
+    "lap1_s": 9.143,
+    "lap2_s": 9.09
+   },
+   "metric": 9.1165,
+   "rank": 7
+  },
+  {
+   "alias": "Team 13",
+   "extras": {
+    "best_s": 9.151,
+    "lap1_s": 9.319,
+    "lap2_s": 9.151
+   },
+   "metric": 9.235,
+   "rank": 8
+  },
+  {
+   "alias": "Team 4",
+   "extras": {
+    "best_s": 9.337,
+    "lap1_s": 9.435,
+    "lap2_s": 9.337
+   },
+   "metric": 9.386,
+   "rank": 9
+  },
+  {
+   "alias": "Team 5",
+   "extras": {
+    "best_s": 9.648,
+    "lap1_s": 9.648,
+    "lap2_s": 9.986
+   },
+   "metric": 9.817,
+   "rank": 10
+  },
+  {
+   "alias": "Team 3",
+   "extras": {
+    "best_s": 9.583,
+    "lap1_s": 9.583,
+    "lap2_s": 10.157
+   },
+   "metric": 9.87,
+   "rank": 11
+  },
+  {
+   "alias": "Team 1",
+   "extras": {
+    "best_s": 10.016,
+    "lap1_s": 10.016,
+    "lap2_s": 10.382
+   },
+   "metric": 10.199,
+   "rank": 12
+  },
+  {
+   "alias": "Team 7",
+   "extras": {
+    "best_s": 10.523,
+    "lap1_s": 10.523,
+    "lap2_s": 11.212
+   },
+   "metric": 10.8675,
+   "rank": 13
+  },
+  {
+   "alias": "Team 10",
+   "extras": {
+    "best_s": 10.846,
+    "lap1_s": 10.846,
+    "lap2_s": 11.003
+   },
+   "metric": 10.9245,
+   "rank": 14
+  }
+ ],
+ "schema": "ese6150/leaderboard/v1",
+ "slug": "race-1",
+ "tab_title": "Race 1",
+ "title": "Race 1",
+ "unranked": [],
+ "where": "Levine lobby, UPenn"
+}

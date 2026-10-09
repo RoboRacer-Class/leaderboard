@@ -287,7 +287,9 @@
   .empty { padding: 1.4rem 1rem; color: var(--ink-2); }
   .empty strong { color: var(--ink); }
   @media (max-width: 700px) {
-    .col-avg, .col-top, .col-when { display: none; }
+    .col-avg, .col-top, .col-when, .col-best { display: none; }   /* best = the faster of the two race laps */
+    td.alias { white-space: nowrap; }
+    table.race .gap { display: none; }                        /* both laps fit a phone; the gap does not */
     table { min-width: 0; }
     th, td { padding: .5rem .35rem; }
     th:first-child, td:first-child { padding-left: .3rem; }
@@ -406,16 +408,21 @@
   if (params.get("me")) state.justFound = true;
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const fmtValue = (v, unit) => v.toFixed(2) + (unit ? " " + unit : "");
+  // digits after the point: 2 for simulator times, or the board's `metric.decimals` (render() sets it)
+  let places = 2;
+  const fixed = (v) => (Math.round(v * 10 ** places + 1e-6) / 10 ** places).toFixed(places);   // 8.2005 -> 8.201, not 8.200
+  const fmtValue = (v, unit) => fixed(v) + (unit ? " " + unit : "");
   const fmtGap = (v, leader, dir) => {
     const d = dir === "lower" ? v - leader : leader - v;
-    return d === 0 ? "—" : (d > 0 ? "+" : "−") + Math.abs(d).toFixed(2);
+    return d === 0 ? "—" : (d > 0 ? "+" : "−") + fixed(Math.abs(d));
   };
   const fmtWhen = (iso) => {
     const d = new Date(iso);
     return d.toLocaleDateString(undefined, { month: "short", day: "numeric" }) + " · " +
       d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
   };
+  // a calendar day ("2026-10-07") read at local noon, so no time zone moves it to the day before
+  const fmtDay = (day, opts) => new Date(day + "T12:00:00").toLocaleDateString(undefined, opts || { month: "short", day: "numeric" });
   const fmtDeadline = (iso) => new Date(iso).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" });
   const countdown = (iso) => {
     let s = Math.max(0, (new Date(iso) - Date.now()) / 1000);
@@ -438,6 +445,9 @@
   // older individual boards keep their racing aliases. Absent => anonymous, so
   // a board published before this flag existed still reads correctly.
   const anon = (doc) => doc.anonymous !== false;
+  // A hand-made board (`manual: true`, e.g. a race timed in person) has no grader behind it:
+  // no deadline, attempts, submission times or TA reference.
+  const manual = (doc) => doc.manual === true;
   const racer = (doc, n) => (anon(doc) ? (n === 1 ? "driver" : "drivers") : (n === 1 ? "team" : "teams"));
 
   const EYE = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
@@ -467,7 +477,10 @@
     if (!labs.some((l) => l.slug === state.slug)) {
       const open = labs.filter((l) => l.due && new Date(l.due) > Date.now()
         && !(l.available_from && new Date(l.available_from) > Date.now()));
-      state.slug = (open.length ? open : labs)[open.length ? 0 : labs.length - 1].slug;
+      // nothing open: the latest tab that has started (the tabs run in date order), not one still to open
+      const started = labs.filter((l) => !(l.available_from && new Date(l.available_from) > Date.now()));
+      const pool = open.length ? open : started.length ? started : labs;
+      state.slug = pool[open.length ? 0 : pool.length - 1].slug;
     }
     const lab = labs.find((l) => l.slug === state.slug);
     try {
@@ -485,6 +498,7 @@
   function render() {
     const labs = state.index.labs;
     const doc = state.docs[state.slug];
+    places = doc.metric.decimals || 2;
     renderTabs(labs);
     renderSwitch(labs);
     renderStatus(doc);
@@ -499,7 +513,7 @@
   }
 
   function renderCopy(doc) {
-    $("lede").textContent = anon(doc)
+    $("lede").textContent = manual(doc) ? doc.description || "" : anon(doc)
       ? "Every driver's best clean lap in the grading simulator, under a racing alias. Rebuilt every few minutes from graded submissions."
       : "Every team's best clean lap in the grading simulator. Rebuilt every few minutes from graded submissions.";
     $("find-label").textContent = anon(doc)
@@ -521,7 +535,8 @@
       const opens = l.available_from && new Date(l.available_from) > Date.now()
         ? "opens " + new Date(l.available_from).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : "";
       const selected = current && labOf(current) === labOf(l);
-      return `<button class="tab" role="tab" data-lab="${esc(labOf(l))}" aria-selected="${selected}" title="${esc(l.lab_title || l.title)}">${esc(labName(l))}<span class="state">${esc(opens || (closed ? "closed" : "open"))}</span></button>`;
+      const tag = l.manual ? (l.held_on ? fmtDay(l.held_on) : "final") : opens || (closed ? "closed" : "open");
+      return `<button class="tab" role="tab" data-lab="${esc(labOf(l))}" aria-selected="${selected}" title="${esc(l.lab_title || l.title)}">${esc(labName(l))}<span class="state">${esc(tag)}</span></button>`;
     }).join("");
     $("tabs").querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => {
       const boards = labs.filter((l) => labOf(l) === b.dataset.lab);
@@ -560,6 +575,16 @@
     const notOpen = doc.available_from && new Date(doc.available_from) > Date.now();
     const unit = doc.metric.unit;
     const parts = [];
+    if (manual(doc)) {
+      const best = (doc.rows || []).filter((r) => r.extras && r.extras.best_s != null)
+        .sort((a, b) => a.extras.best_s - b.extras.best_s)[0];
+      if (doc.held_on) parts.push(`<div><p class="k">Race day</p><p class="v">${esc(fmtDay(doc.held_on, { month: "short", day: "numeric", year: "numeric" }))}<small>${esc(doc.where || "")}</small></p></div>`);
+      if (doc.rows.length) parts.push(`<div><p class="k">Winner</p><p class="v">${esc(doc.rows[0].alias)}<small>${esc(fmtValue(doc.rows[0].metric, unit))} ${esc(doc.metric.label.toLowerCase())}</small></p></div>`);
+      if (best) parts.push(`<div><p class="k">Fastest lap</p><p class="v">${esc(fmtValue(best.extras.best_s, unit))}<small>${esc(best.alias)}</small></p></div>`);
+      parts.push(`<div><p class="k">Teams</p><p class="v">${doc.rows.length}<small>ranked</small></p></div>`);
+      $("status").innerHTML = parts.join("");
+      return;
+    }
     if (notOpen) {
       parts.push(`<div><p class="k">Opens</p><p class="v">${esc(countdown(doc.available_from))}<small>${esc(fmtDeadline(doc.available_from))}</small></p></div>`);
     } else if (closed) {
@@ -675,7 +700,7 @@
       tip.textContent = "";
       const strong = document.createElement("strong"); strong.textContent = fmtValue(r.metric, unit);
       tip.append(strong, document.createTextNode(`P${r.rank} · ${r.alias}`), document.createElement("br"),
-                 document.createTextNode(`${gap} · attempt #${r.attempt} of ${r.used}`));
+                 document.createTextNode(manual(doc) ? gap : `${gap} · attempt #${r.attempt} of ${r.used}`));
       const dot = svg.querySelector(`.mark[data-i="${i}"] circle`).getBoundingClientRect();
       const box = sec.getBoundingClientRect();
       tip.classList.remove("hidden");
@@ -740,7 +765,8 @@
     // rows whose graded run was recorded get an eye button; replay.js plays it back
     const anyReplay = rows.concat(late).some((r) => r.replay) || !!(doc.reference && doc.reference.replay);
     const watchCell = (r, summary, label) => !anyReplay ? "" : `<td class="watch">${r.replay ? watchButton(r, summary, label) : ""}</td>`;
-    const head = `<thead><tr><th>Pos</th><th>${anon(doc) ? "Driver" : "Team"}</th>${anyReplay ? '<th class="watch">Replay</th>' : ""}<th class="num">${esc(m.label)}</th><th class="num">Gap</th>${extraHead}<th class="num col-attempt">Attempt</th><th class="col-when">When</th></tr></thead>`;
+    const graded = !manual(doc);
+    const head = `<thead><tr><th>Pos</th><th>${anon(doc) ? "Driver" : "Team"}</th>${anyReplay ? '<th class="watch">Replay</th>' : ""}<th class="num">${esc(m.label)}</th><th class="num gap">Gap</th>${extraHead}${graded ? '<th class="num col-attempt">Attempt</th><th class="col-when">When</th>' : ""}</tr></thead>`;
     const body = entries.map((e) => {
       const r = e.r;
       const extraCells = extras.map((x) => `<td class="num col-${esc(x.key.split("_")[0])}">${r.extras && r.extras[x.key] != null ? esc(fmtValue(r.extras[x.key], x.unit)) : "—"}</td>`).join("");
@@ -749,10 +775,10 @@
       }
       const me = same(r.alias, state.me);
       const cls = [r.rank <= doc.podium ? "podium" : "", r.rank <= 3 ? `rank-${r.rank}` : "", me ? "me" : "", me && state.justFound ? "just-found" : ""].filter(Boolean).join(" ");
-      return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank">${r.rank}</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}${r.locked ? '<span class="pill locked">locked</span>' : ""}</td>${watchCell(r, `P${r.rank} · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `P${r.rank} · ${r.alias} · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">${esc(fmtGap(r.metric, leader, m.direction))}</td>${extraCells}<td class="num col-attempt">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td></tr>`;
+      return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank">${r.rank}</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}${r.locked ? '<span class="pill locked">locked</span>' : ""}</td>${watchCell(r, `P${r.rank} · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `P${r.rank} · ${r.alias} · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">${esc(fmtGap(r.metric, leader, m.direction))}</td>${extraCells}${graded ? `<td class="num col-attempt">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td>` : ""}</tr>`;
     }).join("");
     // runs graded after the deadline: a time to compare and a run to watch, never a position
-    const cols = 6 + (anyReplay ? 1 : 0) + extras.length;
+    const cols = (graded ? 6 : 4) + (anyReplay ? 1 : 0) + extras.length;
     const lateBody = !late.length ? "" : `<tr class="late-head"><td colspan="${cols}"><strong>After the deadline · unranked</strong> Full-score runs graded after the deadline. They take no position and earn no credit here.</td></tr>` +
       late.map((r) => {
         const extraCells = extras.map((x) => `<td class="num col-${esc(x.key.split("_")[0])}">${r.extras && r.extras[x.key] != null ? esc(fmtValue(r.extras[x.key], x.unit)) : "—"}</td>`).join("");
@@ -760,7 +786,7 @@
         const cls = ["late", me ? "me" : "", me && state.justFound ? "just-found" : ""].filter(Boolean).join(" ");
         return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank" aria-label="unranked">—</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}<span class="pill late">late</span>${r.locked ? '<span class="pill locked">locked</span>' : ""}</td>${watchCell(r, `Late · unranked · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `Late · ${r.alias} · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">—</td>${extraCells}<td class="num col-attempt">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td></tr>`;
       }).join("");
-    $("board").innerHTML = `${emptyNote}<table${anyReplay ? ' class="has-watch"' : ""}>${head}<tbody>${body}${lateBody}</tbody></table>`;
+    $("board").innerHTML = `${emptyNote}<table class="${[anyReplay ? "has-watch" : "", graded ? "" : "race"].join(" ").trim()}">${head}<tbody>${body}${lateBody}</tbody></table>`;
     if (window.RRReplay) RRReplay.attach($("board"), doc, $("board-tools"));
     state.justFound = false;
     const names = [...doc.rows.map((r) => r.alias), ...late.map((r) => r.alias), ...doc.unranked.map((u) => u.alias)].sort();
@@ -779,6 +805,16 @@
 
   function renderRules(doc) {
     const unit = doc.metric.unit;
+    if (manual(doc)) {
+      $("rules").innerHTML = `
+      <strong>How it was scored</strong>
+      <ul>
+        <li>Each team ran two timed laps. The standings rank the average of the two; the gap is to the winner's average.</li>
+        <li>Each team's fastest single lap is listed too, but does not decide the order.</li>
+        <li>Times were taken by the course staff on race day${doc.where ? ", " + esc(doc.where) : ""}. Questions go to the course staff.</li>
+      </ul>`;
+      return;
+    }
     const capRules = doc.cap
       ? `<li>Every push of your <code>submission</code> tag is one attempt. You get ${doc.cap} attempts per lab, graded or not.</li>
         <li>After attempt ${doc.cap} your repository becomes read-only. Need to change anything after that, such as the video link in Submission.md? Ask a TA to unlock it.</li>`
@@ -808,6 +844,7 @@
       $("find-msg").className = "find-msg";
       $("find-msg").textContent = anon(doc)
         ? `No driver called “${query}” on this lab's board yet. Check the alias in your Feedback PR note; it appears here after your first graded submission.`
+        : manual(doc) ? `No team “${query}” in these results.`
         : `No team “${query}” on this lab's board yet. A team appears here after its first graded submission.`;
       return;
     }
@@ -822,7 +859,9 @@
     const el = $("me-row");
     if (el) el.scrollIntoView({ block: "center", behavior: announce ? "smooth" : "auto" });
     $("find-msg").className = "find-msg ok";
-    $("find-msg").textContent = hitRow && !hitRow.rank
+    $("find-msg").textContent = manual(doc) && hitRow
+      ? `${state.me}: P${hitRow.rank} of ${doc.rows.length} with a ${fmtValue(hitRow.metric, doc.metric.unit)} ${doc.metric.label.toLowerCase()}.`
+      : hitRow && !hitRow.rank
       ? `${state.me}: unranked, best run ${fmtValue(hitRow.metric, doc.metric.unit)} was graded after the deadline (listed below the standings), ${hitRow.used}${doc.cap ? " of " + doc.cap : ""} submissions used.`
       : hitRow
       ? `${state.me}: P${hitRow.rank} of ${doc.rows.length} with ${fmtValue(hitRow.metric, doc.metric.unit)}, ${hitRow.used}${doc.cap ? " of " + doc.cap : ""} submissions used.`

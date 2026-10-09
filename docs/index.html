@@ -824,7 +824,7 @@
       <ul>
         ${capRules}
         <li>Only runs with ${esc(doc.requirement || "the full autograded score")}, graded before the deadline, count here. Your best one is kept. A full-score run graded later is listed below the standings, unranked.</li>
-        <li>The top ${doc.podium} earn extra credit. Rows above the TA reference beat the staff solution${doc.reference ? " (" + esc(fmtValue(doc.reference.metric, unit)) + ")" : ""}.</li>
+        <li>Rows above the TA reference beat the staff solution${doc.reference ? " (" + esc(fmtValue(doc.reference.metric, unit)) + ")" : ""}.</li>
         ${anon(doc)
           ? `<li>Your alias is in the note on your repository's Feedback pull request. It never changes and nobody else can link it to you.</li>`
           : `<li>Rows are team numbers — the board is not anonymous. Your team's row is also linked from the note on your repository's Feedback pull request.</li>`}

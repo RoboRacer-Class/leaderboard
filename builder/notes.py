@@ -78,7 +78,7 @@ def render(lab: dict, alias: str, row, used: int, cap: int, locked: bool,
                      "Once the cap is spent the repository becomes read-only.")
     lines += ["",
               f"_Only submissions with {requirement}, graded before the deadline, count, and "
-              f"only your best one. Extra credit goes to the top {lab['podium']}. Updated {generated_at}._"]
+              f"only your best one. Updated {generated_at}._"]
     return "\n".join(lines)
 
 

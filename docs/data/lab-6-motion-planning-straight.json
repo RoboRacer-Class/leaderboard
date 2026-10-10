@@ -5,7 +5,7 @@
  "board_title": "Straight path, fastest clean run",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-10T18:17:04Z",
+ "generated_at": "2026-10-10T23:22:16Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -49,6 +49,17 @@
     "top_mps": 3.0
    },
    "replay": "replays/lab-6-motion-planning-straight/reference.json?v=684ba7a7"
+  },
+  {
+   "at": "2026-10-10T23:15:29Z",
+   "full": true,
+   "graded": true,
+   "id": "1c18edb80de403de",
+   "metrics": {
+    "avg_mps": 1.85,
+    "time_s": 8.8,
+    "top_mps": 3.0
+   }
   }
  ],
  "requirement": "full marks on compilation and the straight path (the north hallway under both triangles without touching anything)",

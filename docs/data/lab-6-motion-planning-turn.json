@@ -5,7 +5,7 @@
  "board_title": "Turn, fastest clean run",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-10T18:17:04Z",
+ "generated_at": "2026-10-10T23:22:16Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -49,6 +49,17 @@
     "top_mps": 2.99
    },
    "replay": "replays/lab-6-motion-planning-turn/reference.json?v=8ca6d3aa"
+  },
+  {
+   "at": "2026-10-10T23:15:29Z",
+   "full": true,
+   "graded": true,
+   "id": "1c18edb80de403de",
+   "metrics": {
+    "avg_mps": 2.05,
+    "time_s": 4.37,
+    "top_mps": 2.86
+   }
   }
  ],
  "requirement": "full marks on compilation and the turn (the north-east corner without touching anything)",

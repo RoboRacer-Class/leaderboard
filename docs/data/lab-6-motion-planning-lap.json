@@ -1,0 +1,67 @@
+{
+ "anonymous": false,
+ "assignment": "lab-6-motion-planning",
+ "available_from": "2026-10-12T04:00:00Z",
+ "board_title": "Full obstacle lap, fastest clean lap",
+ "cap": null,
+ "due": "2026-10-22T03:59:00Z",
+ "generated_at": "2026-10-10T23:22:16Z",
+ "lab_title": "Lab 6: Motion Planning",
+ "late": [],
+ "metric": {
+  "direction": "lower",
+  "extras": [
+   {
+    "key": "avg_mps",
+    "label": "Avg speed",
+    "unit": "m/s"
+   },
+   {
+    "key": "top_mps",
+    "label": "Top speed",
+    "unit": "m/s"
+   }
+  ],
+  "key": "time_s",
+  "label": "Lap time",
+  "unit": "s"
+ },
+ "players": {},
+ "podium": 5,
+ "reference": {
+  "at": "2026-10-10T23:15:29Z",
+  "extras": {
+   "avg_mps": 1.54,
+   "top_mps": 3.0
+  },
+  "metric": 41.65,
+  "replay": "replays/lab-6-motion-planning-lap/reference.json?v=cbd807af"
+ },
+ "reference_submissions": [
+  {
+   "at": "2026-10-10T18:13:17Z",
+   "full": true,
+   "graded": true,
+   "id": "bb76c59aae215448",
+   "metrics": null
+  },
+  {
+   "at": "2026-10-10T23:15:29Z",
+   "full": true,
+   "graded": true,
+   "id": "1c18edb80de403de",
+   "metrics": {
+    "avg_mps": 1.54,
+    "time_s": 41.65,
+    "top_mps": 3.0
+   },
+   "replay": "replays/lab-6-motion-planning-lap/reference.json?v=cbd807af"
+  }
+ ],
+ "requirement": "full marks on compilation and the full lap (every obstacle of levine_obs without touching anything)",
+ "rows": [],
+ "schema": "ese6150/leaderboard/v1",
+ "slug": "lab-6-motion-planning-lap",
+ "title": "Lab 6: Motion Planning \u00b7 Full obstacle lap, fastest clean lap",
+ "unranked": []
+}

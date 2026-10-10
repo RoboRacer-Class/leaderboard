@@ -97,6 +97,16 @@ button.compare:hover { color: var(--accent-ink); border-color: var(--accent); }
 .rr-hud .lap:empty { display: none; }
 .rr-hud .who { display: flex; align-items: center; gap: .4rem; font-family: var(--body); font-weight: 700; color: var(--ink); }
 .rr-msg { margin: 0; padding: 3.5rem 1rem; text-align: center; color: var(--ink-2); }
+/* The view: Follow car, zoom out, zoom in, over the track's top right corner (the readout has the left) */
+.rr-zoom {
+  position: absolute; top: .7rem; right: .8rem; display: flex; gap: .3rem; padding: .25rem; border-radius: var(--radius-btn);
+  background: color-mix(in srgb, var(--surface) 86%, transparent); border: 1px solid var(--line);
+}
+.rr-player .rr-zoom button { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; padding: .3rem .6rem; font-size: .82rem; line-height: 1.2; }
+.rr-zoom svg { display: block; flex: none; }
+.rr-player .rr-zoom .rr-step { width: 2rem; padding: .3rem 0; font-size: 1.05rem; }
+.rr-player .rr-follow[aria-pressed="true"] { background: var(--accent-tint); border-color: var(--accent); color: var(--accent-ink); }
+.rr-player .rr-zoom button[aria-disabled="true"] { opacity: .4; cursor: default; color: var(--ink-2); border-color: var(--line-strong); }
 .rr-hud .who i, .rr-legend i { flex: none; width: .7rem; height: .7rem; border-radius: 2px; }
 
 /* Compare: the standings, a strip under the canvas (never over the track): two cars a row where
@@ -189,5 +199,8 @@ button.compare:hover { color: var(--accent-ink); border-color: var(--accent); }
   }
   .rr-hud strong { font-size: 1rem; }
   .rr-hud .who { flex-basis: 100%; }
+  /* ...and the view buttons shrink to icons, tucked into the corner */
+  .rr-zoom { top: .4rem; right: .4rem; }
+  .rr-follow span { display: none; }
   .rr-bar input[type="range"] { order: -1; flex-basis: 100%; }
 }

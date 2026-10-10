@@ -33,6 +33,12 @@
   const PATHS_KEY = "rr-replay-paths";                     // the viewer's Paths choice, kept across visits
   const PICK_RADIUS = 18;                                   // CSS px around a car that counts as pointing at it
   const MAX_CARS = 5;                                       // a comparison races 2 to this many cars
+  const ZOOMS = [1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32];   // the view's scale over the whole track's; above 1 it follows a car
+  const MIN_VIEW = 2;                                       // m across the view's short side at the closest zoom
+  const FOLLOW_VIEW = 8;                                    // ... and where Follow car starts, to the nearest step
+  const BIG_TRACK = 30;                                     // m across: a track this big opens following, its cars are specks whole
+  const BIG_VIEW = 20;                                      // ... at a light zoom, about this much track across
+  const GLIDE = 350;                                        // ms the view takes to reach a new zoom or a new car
   const cache = new Map();                                  // url -> Promise<run>
   let maps = null, dialog = null, ui = null, state = null;
   let where = "";                                           // the board on show (a comparison's subtitle)
@@ -245,6 +251,8 @@
   const short = (e) => (e.isRef ? "TA reference" : e.name);
   // Compare's icon: three cars on their lines, one ahead
   const RACE_ICON = '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h9M3 12h13M3 18h6"/><circle cx="15.5" cy="6" r="2"/><circle cx="19.5" cy="12" r="2"/><circle cx="12.5" cy="18" r="2"/></svg>';
+  // Follow car's icon: a crosshair
+  const FOLLOW_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><path d="M12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22"/></svg>';
   // Full screen is the real thing where the browser offers it for an element, and the player
   // filling the whole viewport where it does not (iPhones only ever full-screen a video).
   const isFull = () => document.fullscreenElement === ui.frame || dialog.classList.contains("rr-max");
@@ -290,8 +298,23 @@
     ui.legendToggle.setAttribute("aria-controls", ui.rows.id);
     ui.legendToggle.setAttribute("aria-expanded", "true");
     ui.legend.append(ui.legendToggle, ui.rows);
+    // the view, over the track's top right corner like a map's: Follow car, then zoom out and in
+    ui.zoom = el("div", "rr-zoom");
+    ui.zoom.setAttribute("role", "group");
+    ui.zoom.setAttribute("aria-label", "View");
+    ui.follow = button("rr-follow", null);
+    ui.follow.innerHTML = FOLLOW_ICON + "<span>Follow car</span>";  // static markup: no name goes in here
+    ui.follow.setAttribute("aria-label", "Follow car");
+    ui.follow.title = "Zoom in and follow the car in the readout (the whole track again when pressed)";
+    ui.zoomOut = button("rr-step", "−");
+    ui.zoomOut.setAttribute("aria-label", "Zoom out");
+    ui.zoomOut.title = "Zoom out (−)";
+    ui.zoomIn = button("rr-step", "+");
+    ui.zoomIn.setAttribute("aria-label", "Zoom in");
+    ui.zoomIn.title = "Zoom in on the car (+)";
+    ui.zoom.append(ui.follow, ui.zoomOut, ui.zoomIn);
     ui.msg = el("p", "rr-msg");
-    stage.append(ui.canvas, ui.hud, ui.legend, ui.msg);
+    stage.append(ui.canvas, ui.hud, ui.zoom, ui.legend, ui.msg);
 
     ui.bar = el("div", "rr-bar");
     ui.play = button("rr-play", "Play");
@@ -396,6 +419,9 @@
       const done = () => { ui.share.textContent = "Copied"; setTimeout(() => (ui.share.textContent = "Copy link"), 1500); };
       if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(done, () => {});
     });
+    ui.follow.addEventListener("click", follow);
+    ui.zoomIn.addEventListener("click", () => zoomBy(1));
+    ui.zoomOut.addEventListener("click", () => zoomBy(-1));
     ui.cmp.addEventListener("click", () => menu(ui.menu.hidden));
     ui.top3.addEventListener("click", () => { menu(false, true); compare(top(state.fieldEntries, 3), "top3", state.fieldEntries, state); });
     ui.top5.addEventListener("click", () => { menu(false, true); compare(top(state.fieldEntries, 5), "top5", state.fieldEntries, state); });
@@ -421,6 +447,11 @@
       if (!state || ui.menu.contains(e.target) || e.target === ui.seek || e.target.tagName === "SELECT") return;
       if (e.key === " " && e.target.tagName !== "BUTTON") { e.preventDefault(); toggle(); }
       if (e.key === "f" || e.key === "F") ui.full.click();
+      // + and - step the zoom (with Ctrl or Cmd they stay the browser's own page zoom)
+      if (!e.ctrlKey && !e.metaKey && !e.altKey && (e.key === "+" || e.key === "=" || e.key === "-" || e.key === "_")) {
+        e.preventDefault();
+        zoomBy(e.key === "+" || e.key === "=" ? 1 : -1);
+      }
       if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
         e.preventDefault();
         state.rel = Math.min(state.raceEnd, Math.max(-PRE_ROLL, state.rel + (e.key === "ArrowLeft" ? -1 : 1)));
@@ -450,7 +481,7 @@
   }
 
   function layout() {
-    const run = state.run, m = state.map, { x0, x1, y0, y1 } = state.box;
+    const m = state.map, { x0, x1, y0, y1 } = state.box;
     const cssW = ui.canvas.parentElement.clientWidth;
     // full screen: everything the header, the readout and standings strips and the controls leave over
     const strips = [ui.hud, ui.legend].reduce((h, n) => h + (!n.hidden && getComputedStyle(n).position === "static" ? n.offsetHeight : 0), 0);
@@ -461,14 +492,23 @@
     ui.canvas.style.height = cssH + "px";
     ui.canvas.width = Math.round(cssW * dpr);
     ui.canvas.height = Math.round(cssH * dpr);
+    // the whole track: the frame fitted to the canvas, centred
     const scale = Math.min(ui.canvas.width / (x1 - x0), ui.canvas.height / (y1 - y0));
-    const ox = (ui.canvas.width - scale * (x1 - x0)) / 2, oy = (ui.canvas.height - scale * (y1 - y0)) / 2;
-    state.view = { scale, dpr, px: (x) => ox + (x - x0) * scale, py: (y) => ui.canvas.height - oy - (y - y0) * scale };
+    state.whole = { x: (x0 + x1) / 2, y: (y0 + y1) / 2, scale };
+    state.view = state.wholeView = viewAt(state.whole);
+    // the zoom steps that leave at least MIN_VIEW of track across the view's short side
+    const across = Math.min(ui.canvas.width, ui.canvas.height) / scale;
+    state.zooms = ZOOMS.filter((z) => z === 1 || across / z >= MIN_VIEW);
+    // a new view: the whole track, or on a big one (Spielberg) the watched car followed at a light zoom
+    if (state.zoom == null) {
+      state.zoom = across > BIG_TRACK ? stepFor(BIG_VIEW) : 1;
+      if (state.zoom > 1) state.lastZoom = state.zoom;
+    }
+    state.zoom = Math.min(state.zoom, state.zooms[state.zooms.length - 1]);
+    zoomUI();
 
-    // static layer: tinted walls + the watched car's whole line, faint
-    const layer = document.createElement("canvas");
-    layer.width = ui.canvas.width; layer.height = ui.canvas.height;
-    const g = layer.getContext("2d"), v = state.view;
+    // the walls, tinted once per layout (the theme may have changed)
+    state.tint = null;
     if (state.mapImage) {
       const tint = document.createElement("canvas");
       tint.width = m.w; tint.height = m.h;
@@ -477,18 +517,42 @@
       tg.globalCompositeOperation = "source-in";
       tg.fillStyle = css("--ink-2") || "#3b3f55";
       tg.fillRect(0, 0, m.w, m.h);
-      g.imageSmoothingEnabled = true;
+      state.tint = tint;
+    }
+    // the whole-track view's static layer, drawn once: the view is still most of the time
+    const layer = document.createElement("canvas");
+    layer.width = ui.canvas.width; layer.height = ui.canvas.height;
+    track(layer.getContext("2d"), state.view);
+    state.layer = layer;
+  }
+
+  // the canvas mapping for a camera { x, y, scale }: that point of the track in the canvas's centre
+  function viewAt(cam) {
+    const w = ui.canvas.width, h = ui.canvas.height;
+    return { scale: cam.scale, dpr: window.devicePixelRatio || 1, px: (x) => w / 2 + (x - cam.x) * cam.scale, py: (y) => h / 2 - (y - cam.y) * cam.scale };
+  }
+
+  // a line `px` CSS pixels wide on the whole track that thickens as the view zooms in, by `m`
+  // metres per metre of zoom, so a close view does not draw a car's trail as a hairline
+  const thick = (v, px, m) => px * v.dpr + m * Math.max(0, v.scale - state.whole.scale);
+
+  // the track in view `v`: tinted walls and, watching one car, the laps it races as a faint line
+  function track(g, v) {
+    const m = state.map, run = state.run;
+    if (state.tint) {
+      // magnified, a map pixel is a crisp square: smoothed, the walls blur into a soft staircase
+      g.imageSmoothingEnabled = m.res * v.scale < 3 * v.dpr;
       // a large map drawn small turns its one-pixel walls into hairlines: draw it a few times,
       // nudged, so a wall is never thinner than about a pixel and a half on screen
-      const grow = Math.max(0, (1.6 * dpr - m.res * scale) / 2);
+      const grow = Math.max(0, (1.6 * v.dpr - m.res * v.scale) / 2);
       const nudges = grow > 0.05 ? [[0, 0], [grow, 0], [-grow, 0], [0, grow], [0, -grow], [grow, grow], [-grow, -grow], [grow, -grow], [-grow, grow]] : [[0, 0]];
       for (const [dx, dy] of nudges) {
-        g.drawImage(tint, v.px(m.x0) + dx, v.py(m.y0 + m.h * m.res) + dy, m.w * m.res * scale, m.h * m.res * scale);
+        g.drawImage(state.tint, v.px(m.x0) + dx, v.py(m.y0 + m.h * m.res) + dy, m.w * m.res * v.scale, m.h * m.res * v.scale);
       }
     }
-    state.layer = layer;
     if (state.compare) return;                       // a comparison shows the cars it races and nothing else
-    g.lineWidth = 1.5 * dpr; g.strokeStyle = css("--line-strong") || "#c9cddc"; g.lineJoin = "round";
+    g.save();
+    g.lineWidth = 1.5 * v.dpr; g.strokeStyle = css("--line-strong") || "#c9cddc"; g.lineJoin = "round";
     // the laps it races only, line to line, like every other path
     const t0 = state.tl.start, t1 = timeOf(state.tl, state.tl.finish), a = poseAt(run, t0), b = poseAt(run, t1);
     g.beginPath();
@@ -496,6 +560,72 @@
     for (let i = Math.floor(t0 * run.hz) + 1; i <= Math.min(run.n - 1, Math.floor(t1 * run.hz)); i++) g.lineTo(v.px(run.x[i]), v.py(run.y[i]));
     g.lineTo(v.px(b.x), v.py(b.y));
     g.stroke();
+    g.restore();
+  }
+
+  // The camera. Zoom 1 is the whole track, framed once per race. Zoomed in, the view follows the
+  // car being watched (in a comparison the one in the readout), centred on it but kept inside the
+  // track's frame, so a view near the frame's edge stops there instead of showing empty floor.
+  const followed = () => (state.compare ? focused() : state);
+  function aim() {
+    if (state.zoom <= 1) return state.whole;
+    const scale = state.whole.scale * state.zoom, car = followed(), p = poseAt(car.run, timeOf(car.tl, state.rel));
+    const { x0, x1, y0, y1 } = state.box, hx = ui.canvas.width / 2 / scale, hy = ui.canvas.height / 2 / scale;
+    const fit = (c, lo, hi, h) => (hi - lo <= 2 * h ? (lo + hi) / 2 : Math.min(hi - h, Math.max(lo + h, c)));
+    // the body's centre, not the rear axle the pose is
+    return { x: fit(p.x + CAR.ahead * Math.cos(p.yaw), x0, x1, hx), y: fit(p.y + CAR.ahead * Math.sin(p.yaw), y0, y1, hy), scale };
+  }
+  // where the view is now: on its aim, or on the way there from where it was (glide)
+  function camera() {
+    const to = aim(), e = state.glide;
+    if (!e) return to;
+    const k = (performance.now() - e.t0) / GLIDE;
+    if (k >= 1) { state.glide = null; return to; }
+    const s = 1 - Math.pow(1 - k, 3);                // eases out: quick to respond, soft to land
+    return { x: e.from.x + s * (to.x - e.from.x), y: e.from.y + s * (to.y - e.from.y), scale: e.from.scale * Math.pow(to.scale / e.from.scale, s) };
+  }
+  // the view is about to aim somewhere else (a zoom step, another car): it moves there over
+  // GLIDE ms from where it is instead of jumping
+  function glide() {
+    if (state.cam && !matchMedia("(prefers-reduced-motion: reduce)").matches) state.glide = { from: state.cam, t0: performance.now() };
+  }
+
+  // the zoom buttons' state; keyboard focus stays on a button that cannot go further (aria-disabled,
+  // never disabled), so the player's keys keep working
+  function zoomUI() {
+    const zs = state.zooms, most = zs[zs.length - 1];
+    ui.zoom.hidden = zs.length < 2;
+    ui.follow.setAttribute("aria-pressed", String(state.zoom > 1));
+    ui.zoomIn.setAttribute("aria-disabled", String(state.zoom >= most));
+    ui.zoomOut.setAttribute("aria-disabled", String(state.zoom <= 1));
+  }
+  function zoomTo(z) {
+    if (!state) return;
+    z = Math.max(1, Math.min(z, state.zooms[state.zooms.length - 1]));
+    if (z === state.zoom) return;
+    glide();
+    state.zoom = z;
+    if (z > 1) state.lastZoom = z;
+    zoomUI();
+    if (!state.playing) draw();
+  }
+  // + and -: the next step in or out; out of the widest step is the whole track again
+  function zoomBy(dir) {
+    if (!state) return;
+    const zs = state.zooms, i = zs.indexOf(state.zoom);
+    zoomTo(zs[Math.max(0, Math.min(zs.length - 1, i + dir))]);
+  }
+  // the zoom step (above 1) that shows nearest `metres` of track across the view's short side
+  function stepFor(metres) {
+    const across = Math.min(ui.canvas.width, ui.canvas.height) / state.whole.scale, zs = state.zooms.slice(1);
+    const off = (z) => Math.abs(Math.log(across / z / metres));
+    return zs.length ? zs.reduce((a, z) => (off(z) < off(a) ? z : a)) : 1;
+  }
+  // Follow car: in to the last zoom it followed at, or else about FOLLOW_VIEW metres across;
+  // pressed again, back to the whole track
+  function follow() {
+    if (!state) return;
+    zoomTo(state.zoom > 1 ? 1 : state.lastZoom || stepFor(FOLLOW_VIEW));
   }
 
   function drawCar(g, pose, fill, stroke, opts) {
@@ -521,23 +651,28 @@
     g.restore();
   }
 
+  // what floats over the canvas (the readout on wide screens, the view buttons), in canvas pixels with a 6 px margin
+  const floating = () => [ui.hud, ui.zoom, ui.legend].filter((n) => !n.hidden && getComputedStyle(n).position === "absolute").map((n) => (
+    { left: (n.offsetLeft - 6) * state.view.dpr, top: (n.offsetTop - 6) * state.view.dpr, w: (n.offsetWidth + 12) * state.view.dpr, h: (n.offsetHeight + 12) * state.view.dpr }));
+
   // a name plate above a car: solid, theme-aware, ringed so it reads over anything. `taken`: the
   // plates already placed (and whatever floats over the canvas), which this one stacks clear of
   function tag(g, pose, text, back, ink, big, taken) {
-    const v = state.view, x = v.px(pose.x), y = v.py(pose.y) - 16 * v.dpr;
+    // above the car (or below it): 16 px from its pose, or zoomed in, clear of its body as it points
+    // (the body runs from `rear` to `nose` along the heading, half its width either side)
+    const v = state.view, sin = Math.sin(pose.yaw), side = (CAR.width / 2) * Math.abs(Math.cos(pose.yaw));
+    const rear = CAR.ahead - CAR.length / 2, nose = CAR.ahead + CAR.length / 2;
+    const clear = (k) => Math.max(16 * v.dpr, (Math.max(rear * k, nose * k) + side) * v.scale + 6 * v.dpr);
+    const lift = clear(sin), drop = clear(-sin), x = v.px(pose.x), y = v.py(pose.y) - lift;
     g.save();
     g.font = `700 ${(big ? 13 : 11) * v.dpr}px ${css("--body") || "sans-serif"}`;
     const w = g.measureText(text).width + (big ? 16 : 10) * v.dpr, h = (big ? 24 : 17) * v.dpr;
     const left = Math.min(Math.max(x - w / 2, 3), ui.canvas.width - w - 3);
     let top = Math.max(y - h, 3);
-    // the speed readout floats over the canvas's corner: a hover name that would land under it goes
-    // below the car. Only the hover name: the TA tag stays above its car wherever it drives, or it
-    // flips under and back as the TA car rounds the corner by the readout.
-    if (big && getComputedStyle(ui.hud).position === "absolute" && !ui.hud.hidden) {
-      const hl = (ui.hud.offsetLeft - 6) * v.dpr, ht = (ui.hud.offsetTop - 6) * v.dpr;
-      const hr = (ui.hud.offsetLeft + ui.hud.offsetWidth + 6) * v.dpr, hb = (ui.hud.offsetTop + ui.hud.offsetHeight + 6) * v.dpr;
-      if (left < hr && left + w > hl && top < hb && top + h > ht) top = v.py(pose.y) + 16 * v.dpr;
-    }
+    // the speed readout and the view buttons float over the canvas's corners: a hover name that
+    // would land under one goes below the car. Only the hover name: the TA tag stays above its car
+    // wherever it drives, or it flips under and back as the TA car rounds the corner by the readout.
+    if (big && floating().some((r) => left < r.left + r.w && left + w > r.left && top < r.top + r.h && top + h > r.top)) top = v.py(pose.y) + drop;
     // cars side by side (every car of a comparison on the start line): the names stack up, then
     // below the car once the top of the canvas is reached, instead of piling on one another
     if (taken) {
@@ -545,7 +680,7 @@
       let up = true;
       for (let r, k = 0; k < 12 && (r = clash()); k++) {
         top = up ? r.top - h - 2 * v.dpr : r.top + r.h + 2 * v.dpr;
-        if (up && top < 3) { up = false; top = v.py(pose.y) + 16 * v.dpr; }
+        if (up && top < 3) { up = false; top = v.py(pose.y) + drop; }
       }
       taken.push({ left, top, w, h });
     }
@@ -613,7 +748,7 @@
     const upto = Math.min(run.n - 1, Math.floor(t * run.hz));
     const begin = poseAt(run, tl.start), end = poseAt(run, t);
     g.save();
-    g.globalAlpha = alpha; g.strokeStyle = color; g.lineWidth = width * v.dpr; g.lineJoin = g.lineCap = "round";
+    g.globalAlpha = alpha; g.strokeStyle = color; g.lineWidth = thick(v, width, 0.03); g.lineJoin = g.lineCap = "round";
     g.beginPath();
     g.moveTo(v.px(begin.x), v.py(begin.y));
     for (let i = Math.floor(tl.start * run.hz) + 1; i <= upto; i++) g.lineTo(v.px(run.x[i]), v.py(run.y[i]));
@@ -630,7 +765,7 @@
     const from = whole ? i0 : Math.max(i0, upto - Math.round(secs * run.hz));
     const begin = poseAt(run, tl.start);
     g.save();
-    g.lineWidth = 3 * v.dpr; g.lineCap = "round";
+    g.lineWidth = thick(v, 3, 0.09); g.lineCap = "round";
     for (let i = from; i < upto; i++) {
       g.globalAlpha = whole ? 1 : 0.25 + 0.75 * ((i - from) / Math.max(1, upto - from));
       g.strokeStyle = colorAt(i);
@@ -643,7 +778,21 @@
   function draw() {
     const g = ui.canvas.getContext("2d");
     g.clearRect(0, 0, ui.canvas.width, ui.canvas.height);
-    g.drawImage(state.layer, 0, 0);
+    // the whole track standing still is the layer drawn once; a moving view redraws the track
+    const cam = (state.cam = camera());
+    if (cam === state.whole) {
+      state.view = state.wholeView;
+      g.drawImage(state.layer, 0, 0);
+    } else {
+      state.view = viewAt(cam);
+      track(g, state.view);
+    }
+    // paused mid-glide: keep drawing until the view lands (playing, every frame draws anyway)
+    if (state.glide && !state.playing) {
+      const s = state;
+      cancelAnimationFrame(s.glideRaf);
+      s.glideRaf = requestAnimationFrame(() => { if (state === s) draw(); });
+    }
     if (state.compare) return drawRace(g);
     const run = state.run, tl = state.tl, t = timeOf(tl, state.rel);
 
@@ -697,6 +846,7 @@
 
   const focused = () => state.others.find((o) => o.entry.name === state.focus) || state.others[0];
   function focusOn(car) {
+    if (state.focus !== car.entry.name) glide();     // a view following the readout's car moves to this one
     state.focus = car.entry.name;
     if (!state.playing) draw();
   }
@@ -713,9 +863,8 @@
     if (hovered) drawPath(g, hovered.o.tl, state.rel, hovered.color, 0.85, 2);
     cars.sort((a, b) => (a.o === focus) - (b.o === focus));
     for (const c of cars) drawCar(g, c.pose, c.color, c.o === focus ? ink : surface, { width: c.o === focus ? 2.25 : 1.5, dashed: c.o.entry.isRef });
-    // the readout floats over the canvas's corner on wide screens: names keep clear of it
-    const taken = [ui.hud, ui.legend].filter((n) => !n.hidden && getComputedStyle(n).position === "absolute").map((n) => (
-      { left: (n.offsetLeft - 6) * v.dpr, top: (n.offsetTop - 6) * v.dpr, w: (n.offsetWidth + 12) * v.dpr, h: (n.offsetHeight + 12) * v.dpr }));
+    // the readout and the view buttons float over the canvas's corners: names keep clear of them
+    const taken = floating();
     for (const c of cars.slice().reverse()) tag(g, c.pose, c.o.entry.isRef ? "TA" : c.o.entry.name, c.color, c.text, c.o === focus, taken);
 
     // the standings: rows keep their place in the list and move by CSS order, so the keyboard
@@ -900,7 +1049,7 @@
       : cars.length === 2 ? cars.map(short).join(" vs ") : cars.length + " cars";
     ui.sub.textContent = compare ? where : entry.summary || "";
     ui.canvas.setAttribute("aria-label", compare ? `Top-down replay racing ${cars.map(short).join(", ")}` : `Top-down replay of ${entry.name}'s graded run`);
-    if (!keep) { ui.msg.textContent = "Loading the run…"; ui.msg.hidden = false; ui.hud.hidden = ui.race.hidden = true; }
+    if (!keep) { ui.msg.textContent = "Loading the run…"; ui.msg.hidden = false; ui.hud.hidden = ui.race.hidden = ui.zoom.hidden = true; }
     ui.race.value = mode;
     ui.pick.textContent = "";
     fieldEntries.forEach((e) => { const o = el("option", "", e.label); o.value = e.name; ui.pick.append(o); });
@@ -937,16 +1086,20 @@
         others = same ? keep.others.filter((o) => o.entry.replay !== entry.replay) : [];
         if (same && keep.entry.replay !== entry.replay && !others.some((o) => o.entry.replay === keep.entry.replay)) others.push({ entry: keep.entry, run: keep.run });
       }
+      // the zoom carries over on the same track (null: layout picks the track's opening view), and
+      // a view following one car glides to the next from where it is
       state = { entry, fieldEntries, run, map, mapImage: image, box: same ? keep.box : boxOf(run), mode,
                 rel: same && !compare ? keep.rel : -PRE_ROLL, loopAt: 0,
                 rate: Number(ui.rate.value), playing: false, others, hover: null, shown: [],
-                compare: compare || null, focus: compare && keep && compare.slots.has(keep.focus) ? keep.focus : entry.name };
+                compare: compare || null, focus: compare && keep && compare.slots.has(keep.focus) ? keep.focus : entry.name,
+                zoom: same ? keep.zoom : null, lastZoom: same ? keep.lastZoom : null, cam: same ? keep.cam : null, glide: null };
       dialog.classList.toggle("rr-comparing", !!compare);
       retime();
       legend();
       ui.msg.hidden = true;
       ui.hud.hidden = false;
       layout();
+      if (state.zoom > 1) glide();
       draw();
       // the rest of the field arrives car by car and joins in as it loads
       const have = new Set(others.map((o) => o.entry.replay).concat(entry.replay));

@@ -5,7 +5,7 @@
  "board_title": "Full obstacle lap, fastest clean lap",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-10T23:22:16Z",
+ "generated_at": "2026-10-11T00:28:03Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -62,6 +62,6 @@
  "rows": [],
  "schema": "ese6150/leaderboard/v1",
  "slug": "lab-6-motion-planning-lap",
- "title": "Lab 6: Motion Planning \u00b7 Full obstacle lap, fastest clean lap",
+ "title": "Lab 6: Motion Planning",
  "unranked": []
 }

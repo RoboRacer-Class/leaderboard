@@ -1,6 +1,6 @@
 {
  "classroom": "ese-6150",
- "generated_at": "2026-10-12T14:56:46Z",
+ "generated_at": "2026-10-12T15:51:40Z",
  "labs": [
   {
    "anonymous": true,
@@ -247,7 +247,7 @@
    "cap": null,
    "due": "2026-10-22T03:59:00Z",
    "file": "lab-6-motion-planning-lap.json",
-   "generated_at": "2026-10-12T14:56:46Z",
+   "generated_at": "2026-10-12T15:51:40Z",
    "lab_title": "Lab 6: Motion Planning",
    "late": 0,
    "metric": {
@@ -275,7 +275,7 @@
    "slug": "lab-6-motion-planning-lap",
    "tab_title": "Lab 6: RRT",
    "title": "Lab 6: Motion Planning",
-   "unranked": 7
+   "unranked": 8
   }
  ],
  "org": "RoboRacer-Class",

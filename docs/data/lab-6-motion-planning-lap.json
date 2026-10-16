@@ -5,7 +5,7 @@
  "board_title": "Full obstacle lap, fastest clean lap",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-16T22:17:41Z",
+ "generated_at": "2026-10-16T22:30:14Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -120,7 +120,20 @@
   "Team 7": {
    "locked": false,
    "owner": "group-7",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-10-16T22:25:42Z",
+     "full": true,
+     "graded": true,
+     "id": "b0dc99cf705efa9b",
+     "metrics": {
+      "avg_mps": 2.16,
+      "time_s": 28.75,
+      "top_mps": 4.4
+     },
+     "replay": "replays/lab-6-motion-planning-lap/team-7.json?v=a894d38e"
+    }
+   ]
   },
   "Team 8": {
    "locked": false,
@@ -167,6 +180,20 @@
  "requirement": "full marks on compilation and the full lap (every obstacle of levine_obs without touching anything)",
  "rows": [
   {
+   "alias": "Team 7",
+   "at": "2026-10-16T22:25:42Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 2.16,
+    "top_mps": 4.4
+   },
+   "locked": false,
+   "metric": 28.75,
+   "rank": 1,
+   "replay": "replays/lab-6-motion-planning-lap/team-7.json?v=a894d38e",
+   "used": 1
+  },
+  {
    "alias": "Team 3",
    "at": "2026-10-16T22:12:35Z",
    "attempt": 2,
@@ -176,7 +203,7 @@
    },
    "locked": false,
    "metric": 37.17,
-   "rank": 1,
+   "rank": 2,
    "replay": "replays/lab-6-motion-planning-lap/team-3.json?v=84239caf",
    "used": 2
   }
@@ -207,11 +234,6 @@
   },
   {
    "alias": "Team 6",
-   "locked": false,
-   "used": 0
-  },
-  {
-   "alias": "Team 7",
    "locked": false,
    "used": 0
   },

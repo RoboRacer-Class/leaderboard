@@ -5,7 +5,7 @@
  "board_title": "Full obstacle lap, fastest clean lap",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-18T04:53:59Z",
+ "generated_at": "2026-10-18T05:05:54Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -195,7 +195,7 @@
     {
      "at": "2026-10-18T04:53:44Z",
      "full": false,
-     "graded": false,
+     "graded": true,
      "id": "064907d2e857f5fa",
      "metrics": null
     }

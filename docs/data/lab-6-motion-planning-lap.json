@@ -5,7 +5,7 @@
  "board_title": "Full obstacle lap, fastest clean lap",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-18T05:59:47Z",
+ "generated_at": "2026-10-18T06:30:41Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -208,8 +208,15 @@
     {
      "at": "2026-10-18T05:58:03Z",
      "full": false,
-     "graded": false,
+     "graded": true,
      "id": "33db148f1dbda7b4",
+     "metrics": null
+    },
+    {
+     "at": "2026-10-18T06:13:49Z",
+     "full": false,
+     "graded": true,
+     "id": "b4f595c5c8950608",
      "metrics": null
     }
    ]
@@ -243,6 +250,18 @@
       "top_mps": 1.79
      },
      "replay": "replays/lab-6-motion-planning-lap/team-6.json?v=dce20466"
+    },
+    {
+     "at": "2026-10-18T06:16:38Z",
+     "full": true,
+     "graded": true,
+     "id": "776bca0d2b54d8d2",
+     "metrics": {
+      "avg_mps": 1.63,
+      "time_s": 37.91,
+      "top_mps": 2.28
+     },
+     "replay": "replays/lab-6-motion-planning-lap/team-6.json?v=568c1679"
     }
    ]
   },
@@ -348,7 +367,7 @@
    "metric": 31.79,
    "rank": 3,
    "replay": "replays/lab-6-motion-planning-lap/team-5.json?v=3caaf27f",
-   "used": 6
+   "used": 7
   },
   {
    "alias": "Team 3",
@@ -365,6 +384,20 @@
    "used": 2
   },
   {
+   "alias": "Team 6",
+   "at": "2026-10-18T06:16:38Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 1.63,
+    "top_mps": 2.28
+   },
+   "locked": false,
+   "metric": 37.91,
+   "rank": 5,
+   "replay": "replays/lab-6-motion-planning-lap/team-6.json?v=568c1679",
+   "used": 4
+  },
+  {
    "alias": "Team 1",
    "at": "2026-10-18T04:24:49Z",
    "attempt": 1,
@@ -374,23 +407,9 @@
    },
    "locked": false,
    "metric": 39.87,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-6-motion-planning-lap/team-1.json?v=0ca231da",
    "used": 1
-  },
-  {
-   "alias": "Team 6",
-   "at": "2026-10-18T05:55:10Z",
-   "attempt": 3,
-   "extras": {
-    "avg_mps": 1.24,
-    "top_mps": 1.79
-   },
-   "locked": false,
-   "metric": 50.01,
-   "rank": 6,
-   "replay": "replays/lab-6-motion-planning-lap/team-6.json?v=dce20466",
-   "used": 3
   }
  ],
  "schema": "ese6150/leaderboard/v1",

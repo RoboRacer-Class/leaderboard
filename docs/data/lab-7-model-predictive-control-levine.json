@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-10-19T15:45:45Z",
+ "generated_at": "2026-10-19T16:28:24Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -36,11 +36,37 @@
    "locked": false,
    "owner": "group-8",
    "submissions": []
+  },
+  "Team 9": {
+   "locked": false,
+   "owner": "group-9",
+   "submissions": []
   }
  },
  "podium": 5,
- "reference": null,
- "reference_submissions": [],
+ "reference": {
+  "at": "2026-10-19T16:12:19Z",
+  "extras": {
+   "avg_mps": 5.32,
+   "top_mps": 7.98
+  },
+  "metric": 11.75,
+  "replay": "replays/lab-7-model-predictive-control-levine/reference.json?v=354bb3a5"
+ },
+ "reference_submissions": [
+  {
+   "at": "2026-10-19T16:12:19Z",
+   "full": true,
+   "graded": true,
+   "id": "e2cbd1b699fcd1d9",
+   "metrics": {
+    "avg_mps": 5.32,
+    "lap_s": 11.75,
+    "top_mps": 7.98
+   },
+   "replay": "replays/lab-7-model-predictive-control-levine/reference.json?v=354bb3a5"
+  }
+ ],
  "requirement": "full marks on compilation, the five MPC checks and Levine (three clean laps in a row)",
  "rows": [],
  "schema": "ese6150/leaderboard/v1",
@@ -54,6 +80,11 @@
   },
   {
    "alias": "Team 8",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 9",
    "locked": false,
    "used": 0
   }

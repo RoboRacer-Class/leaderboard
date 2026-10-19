@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-10-19T15:45:45Z",
+ "generated_at": "2026-10-19T16:28:24Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -36,11 +36,37 @@
    "locked": false,
    "owner": "group-8",
    "submissions": []
+  },
+  "Team 9": {
+   "locked": false,
+   "owner": "group-9",
+   "submissions": []
   }
  },
  "podium": 5,
- "reference": null,
- "reference_submissions": [],
+ "reference": {
+  "at": "2026-10-19T16:12:19Z",
+  "extras": {
+   "avg_mps": 6.41,
+   "top_mps": 8.0
+  },
+  "metric": 50.35,
+  "replay": "replays/lab-7-model-predictive-control-spielberg/reference.json?v=0542ee34"
+ },
+ "reference_submissions": [
+  {
+   "at": "2026-10-19T16:12:19Z",
+   "full": true,
+   "graded": true,
+   "id": "e2cbd1b699fcd1d9",
+   "metrics": {
+    "avg_mps": 6.41,
+    "lap_s": 50.35,
+    "top_mps": 8.0
+   },
+   "replay": "replays/lab-7-model-predictive-control-spielberg/reference.json?v=0542ee34"
+  }
+ ],
  "requirement": "full marks on compilation, the five MPC checks and Spielberg (one clean lap)",
  "rows": [],
  "schema": "ese6150/leaderboard/v1",
@@ -54,6 +80,11 @@
   },
   {
    "alias": "Team 8",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 9",
    "locked": false,
    "used": 0
   }

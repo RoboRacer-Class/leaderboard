@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-10-19T16:55:57Z",
+ "generated_at": "2026-10-19T18:25:24Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -35,6 +35,11 @@
   "Team 3": {
    "locked": false,
    "owner": "group-3",
+   "submissions": []
+  },
+  "Team 6": {
+   "locked": false,
+   "owner": "group-6",
    "submissions": []
   },
   "Team 8": {
@@ -80,6 +85,11 @@
  "unranked": [
   {
    "alias": "Team 3",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 6",
    "locked": false,
    "used": 0
   },

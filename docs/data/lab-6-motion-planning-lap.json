@@ -5,7 +5,7 @@
  "board_title": "Full obstacle lap, fastest clean lap",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-19T18:45:27Z",
+ "generated_at": "2026-10-19T19:27:32Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -49,6 +49,18 @@
      "graded": true,
      "id": "2feccb025ed58d51",
      "metrics": null
+    },
+    {
+     "at": "2026-10-19T19:18:01Z",
+     "full": true,
+     "graded": true,
+     "id": "b841a8a748a6f92a",
+     "metrics": {
+      "avg_mps": 2.09,
+      "time_s": 30.11,
+      "top_mps": 3.81
+     },
+     "replay": "replays/lab-6-motion-planning-lap/team-1.json?v=e025cf88"
     }
    ]
   },
@@ -410,6 +422,20 @@
    "used": 1
   },
   {
+   "alias": "Team 1",
+   "at": "2026-10-19T19:18:01Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 2.09,
+    "top_mps": 3.81
+   },
+   "locked": false,
+   "metric": 30.11,
+   "rank": 4,
+   "replay": "replays/lab-6-motion-planning-lap/team-1.json?v=e025cf88",
+   "used": 3
+  },
+  {
    "alias": "Team 5",
    "at": "2026-10-18T05:38:06Z",
    "attempt": 5,
@@ -419,7 +445,7 @@
    },
    "locked": false,
    "metric": 31.79,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-6-motion-planning-lap/team-5.json?v=3caaf27f",
    "used": 7
   },
@@ -433,7 +459,7 @@
    },
    "locked": false,
    "metric": 37.17,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-6-motion-planning-lap/team-3.json?v=84239caf",
    "used": 2
   },
@@ -447,23 +473,9 @@
    },
    "locked": false,
    "metric": 37.91,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-6-motion-planning-lap/team-6.json?v=568c1679",
    "used": 4
-  },
-  {
-   "alias": "Team 1",
-   "at": "2026-10-18T04:24:49Z",
-   "attempt": 1,
-   "extras": {
-    "avg_mps": 1.56,
-    "top_mps": 2.0
-   },
-   "locked": false,
-   "metric": 39.87,
-   "rank": 7,
-   "replay": "replays/lab-6-motion-planning-lap/team-1.json?v=0ca231da",
-   "used": 2
   },
   {
    "alias": "Team 11",

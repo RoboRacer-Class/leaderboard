@@ -5,7 +5,7 @@
  "board_title": "Full obstacle lap, fastest clean lap",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-20T04:50:22Z",
+ "generated_at": "2026-10-20T04:59:15Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -191,10 +191,15 @@
    "submissions": [
     {
      "at": "2026-10-20T04:48:15Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "feee0fe021eac069",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 0.59,
+      "time_s": 108.13,
+      "top_mps": 1.0
+     },
+     "replay": "replays/lab-6-motion-planning-lap/team-2.json?v=5007954c"
     }
    ]
   },
@@ -568,6 +573,20 @@
    "used": 4
   },
   {
+   "alias": "Team 2",
+   "at": "2026-10-20T04:48:15Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 0.59,
+    "top_mps": 1.0
+   },
+   "locked": false,
+   "metric": 108.13,
+   "rank": 10,
+   "replay": "replays/lab-6-motion-planning-lap/team-2.json?v=5007954c",
+   "used": 1
+  },
+  {
    "alias": "Team 11",
    "at": "2026-10-18T19:15:03Z",
    "attempt": 4,
@@ -577,7 +596,7 @@
    },
    "locked": false,
    "metric": 119.17,
-   "rank": 10,
+   "rank": 11,
    "replay": "replays/lab-6-motion-planning-lap/team-11.json?v=afba0fc4",
    "used": 4
   }
@@ -586,11 +605,6 @@
  "slug": "lab-6-motion-planning-lap",
  "title": "Lab 6: Motion Planning",
  "unranked": [
-  {
-   "alias": "Team 2",
-   "locked": false,
-   "used": 1
-  },
   {
    "alias": "Team 4",
    "locked": false,

@@ -5,7 +5,7 @@
  "board_title": "Full obstacle lap, fastest clean lap",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-21T04:41:03Z",
+ "generated_at": "2026-10-21T05:24:20Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -451,6 +451,13 @@
       "top_mps": 4.91
      },
      "replay": "replays/lab-6-motion-planning-lap/team-8.json?v=670d4200"
+    },
+    {
+     "at": "2026-10-21T05:18:32Z",
+     "full": false,
+     "graded": true,
+     "id": "1a8697f42743b18d",
+     "metrics": null
     }
    ]
   },
@@ -539,7 +546,7 @@
    "metric": 21.53,
    "rank": 2,
    "replay": "replays/lab-6-motion-planning-lap/team-8.json?v=670d4200",
-   "used": 3
+   "used": 4
   },
   {
    "alias": "Team 14",

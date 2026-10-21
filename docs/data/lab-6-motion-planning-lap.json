@@ -5,7 +5,7 @@
  "board_title": "Full obstacle lap, fastest clean lap",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-21T20:46:49Z",
+ "generated_at": "2026-10-21T20:55:13Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -317,10 +317,15 @@
     },
     {
      "at": "2026-10-21T20:46:40Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "8f8896a80ca4037f",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 5.52,
+      "time_s": 10.93,
+      "top_mps": 9.35
+     },
+     "replay": "replays/lab-6-motion-planning-lap/team-3.json?v=f567d3ed"
     }
    ]
   },
@@ -570,6 +575,20 @@
  "requirement": "full marks on compilation and the full lap (every obstacle of levine_obs without touching anything)",
  "rows": [
   {
+   "alias": "Team 3",
+   "at": "2026-10-21T20:46:40Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 5.52,
+    "top_mps": 9.35
+   },
+   "locked": false,
+   "metric": 10.93,
+   "rank": 1,
+   "replay": "replays/lab-6-motion-planning-lap/team-3.json?v=f567d3ed",
+   "used": 4
+  },
+  {
    "alias": "Team 10",
    "at": "2026-10-19T16:48:36Z",
    "attempt": 1,
@@ -579,7 +598,7 @@
    },
    "locked": false,
    "metric": 10.99,
-   "rank": 1,
+   "rank": 2,
    "replay": "replays/lab-6-motion-planning-lap/team-10.json?v=eda749f1",
    "used": 1
   },
@@ -593,7 +612,7 @@
    },
    "locked": false,
    "metric": 21.53,
-   "rank": 2,
+   "rank": 3,
    "replay": "replays/lab-6-motion-planning-lap/team-8.json?v=670d4200",
    "used": 4
   },
@@ -607,7 +626,7 @@
    },
    "locked": false,
    "metric": 25.81,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-6-motion-planning-lap/team-14.json?v=82bfd890",
    "used": 5
   },
@@ -621,7 +640,7 @@
    },
    "locked": false,
    "metric": 26.48,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-6-motion-planning-lap/team-1.json?v=e6f9560f",
    "used": 4
   },
@@ -635,7 +654,7 @@
    },
    "locked": false,
    "metric": 27.18,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-6-motion-planning-lap/team-2.json?v=4ff0b2f8",
    "used": 3
   },
@@ -649,7 +668,7 @@
    },
    "locked": false,
    "metric": 27.87,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-6-motion-planning-lap/team-4.json?v=963df802",
    "used": 2
   },
@@ -663,7 +682,7 @@
    },
    "locked": false,
    "metric": 28.75,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-6-motion-planning-lap/team-7.json?v=a894d38e",
    "used": 1
   },
@@ -677,7 +696,7 @@
    },
    "locked": false,
    "metric": 30.95,
-   "rank": 8,
+   "rank": 9,
    "replay": "replays/lab-6-motion-planning-lap/team-9.json?v=578c0634",
    "used": 2
   },
@@ -691,23 +710,9 @@
    },
    "locked": false,
    "metric": 31.79,
-   "rank": 9,
+   "rank": 10,
    "replay": "replays/lab-6-motion-planning-lap/team-5.json?v=3caaf27f",
    "used": 7
-  },
-  {
-   "alias": "Team 3",
-   "at": "2026-10-16T22:12:35Z",
-   "attempt": 2,
-   "extras": {
-    "avg_mps": 1.71,
-    "top_mps": 2.17
-   },
-   "locked": false,
-   "metric": 37.17,
-   "rank": 10,
-   "replay": "replays/lab-6-motion-planning-lap/team-3.json?v=84239caf",
-   "used": 4
   },
   {
    "alias": "Team 6",

@@ -5,7 +5,7 @@
  "board_title": "Full obstacle lap, fastest clean lap",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-21T20:34:22Z",
+ "generated_at": "2026-10-21T20:46:49Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -161,6 +161,18 @@
      "graded": true,
      "id": "17be5d1757538632",
      "metrics": null
+    },
+    {
+     "at": "2026-10-21T20:38:21Z",
+     "full": true,
+     "graded": true,
+     "id": "5fde3fe24c745802",
+     "metrics": {
+      "avg_mps": 0.9,
+      "time_s": 69.46,
+      "top_mps": 1.2
+     },
+     "replay": "replays/lab-6-motion-planning-lap/team-12.json?v=2d98bfee"
     }
    ]
   },
@@ -301,6 +313,13 @@
      "full": false,
      "graded": true,
      "id": "cd2a116bfc1a11d7",
+     "metrics": null
+    },
+    {
+     "at": "2026-10-21T20:46:40Z",
+     "full": false,
+     "graded": false,
+     "id": "8f8896a80ca4037f",
      "metrics": null
     }
    ]
@@ -688,7 +707,7 @@
    "metric": 37.17,
    "rank": 10,
    "replay": "replays/lab-6-motion-planning-lap/team-3.json?v=84239caf",
-   "used": 3
+   "used": 4
   },
   {
    "alias": "Team 6",
@@ -705,6 +724,20 @@
    "used": 4
   },
   {
+   "alias": "Team 12",
+   "at": "2026-10-21T20:38:21Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 0.9,
+    "top_mps": 1.2
+   },
+   "locked": false,
+   "metric": 69.46,
+   "rank": 12,
+   "replay": "replays/lab-6-motion-planning-lap/team-12.json?v=2d98bfee",
+   "used": 3
+  },
+  {
    "alias": "Team 11",
    "at": "2026-10-18T19:15:03Z",
    "attempt": 4,
@@ -714,7 +747,7 @@
    },
    "locked": false,
    "metric": 119.17,
-   "rank": 12,
+   "rank": 13,
    "replay": "replays/lab-6-motion-planning-lap/team-11.json?v=afba0fc4",
    "used": 5
   },
@@ -728,7 +761,7 @@
    },
    "locked": false,
    "metric": 132.62,
-   "rank": 13,
+   "rank": 14,
    "replay": "replays/lab-6-motion-planning-lap/team-13.json?v=b01157d9",
    "used": 1
   }
@@ -736,11 +769,5 @@
  "schema": "ese6150/leaderboard/v1",
  "slug": "lab-6-motion-planning-lap",
  "title": "Lab 6: Motion Planning",
- "unranked": [
-  {
-   "alias": "Team 12",
-   "locked": false,
-   "used": 2
-  }
- ]
+ "unranked": []
 }

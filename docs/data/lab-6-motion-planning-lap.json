@@ -5,7 +5,7 @@
  "board_title": "Full obstacle lap, fastest clean lap",
  "cap": null,
  "due": "2026-10-22T03:59:00Z",
- "generated_at": "2026-10-20T23:38:56Z",
+ "generated_at": "2026-10-21T03:36:41Z",
  "lab_title": "Lab 6: Motion Planning",
  "late": [],
  "metric": {
@@ -278,7 +278,15 @@
   "Team 4": {
    "locked": false,
    "owner": "group-4",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-10-21T03:31:49Z",
+     "full": false,
+     "graded": true,
+     "id": "55a08cb96787080d",
+     "metrics": null
+    }
+   ]
   },
   "Team 5": {
    "locked": false,
@@ -669,7 +677,7 @@
   {
    "alias": "Team 4",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Team 12",

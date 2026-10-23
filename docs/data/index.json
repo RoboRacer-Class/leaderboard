@@ -1,6 +1,6 @@
 {
  "classroom": "ese-6150",
- "generated_at": "2026-10-21T23:31:35Z",
+ "generated_at": "2026-10-23T16:51:27Z",
  "labs": [
   {
    "anonymous": true,
@@ -285,7 +285,7 @@
    "cap": null,
    "due": "2026-11-03T04:59:00Z",
    "file": "lab-7-model-predictive-control-levine.json",
-   "generated_at": "2026-10-21T02:39:51Z",
+   "generated_at": "2026-10-23T16:51:27Z",
    "lab_title": "Lab 7: Model Predictive Control",
    "late": 0,
    "metric": {
@@ -313,7 +313,7 @@
    "slug": "lab-7-model-predictive-control-levine",
    "tab_title": "Lab 7: MPC",
    "title": "Lab 7: Model Predictive Control \u00b7 Levine, fastest clean lap",
-   "unranked": 11
+   "unranked": 12
   },
   {
    "anonymous": false,
@@ -323,7 +323,7 @@
    "cap": null,
    "due": "2026-11-03T04:59:00Z",
    "file": "lab-7-model-predictive-control-spielberg.json",
-   "generated_at": "2026-10-21T02:39:51Z",
+   "generated_at": "2026-10-23T16:51:27Z",
    "lab_title": "Lab 7: Model Predictive Control",
    "late": 0,
    "metric": {
@@ -351,7 +351,7 @@
    "slug": "lab-7-model-predictive-control-spielberg",
    "tab_title": "Lab 7: MPC",
    "title": "Lab 7: Model Predictive Control \u00b7 Spielberg, fastest clean lap",
-   "unranked": 11
+   "unranked": 12
   }
  ],
  "org": "RoboRacer-Class",

@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-10-29T21:08:37Z",
+ "generated_at": "2026-10-29T21:18:05Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -140,10 +140,15 @@
     },
     {
      "at": "2026-10-29T21:04:39Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "22d42a0901837768",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 5.25,
+      "lap_s": 60.79,
+      "top_mps": 5.99
+     },
+     "replay": "replays/lab-7-model-predictive-control-spielberg/team-4.json?v=0bdb1189"
     }
    ]
   },
@@ -287,6 +292,20 @@
    "used": 1
   },
   {
+   "alias": "Team 4",
+   "at": "2026-10-29T21:04:39Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 5.25,
+    "top_mps": 5.99
+   },
+   "locked": false,
+   "metric": 60.79,
+   "rank": 4,
+   "replay": "replays/lab-7-model-predictive-control-spielberg/team-4.json?v=0bdb1189",
+   "used": 3
+  },
+  {
    "alias": "Team 12",
    "at": "2026-10-26T14:02:54Z",
    "attempt": 1,
@@ -296,7 +315,7 @@
    },
    "locked": false,
    "metric": 90.48,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-12.json?v=3fce0872",
    "used": 1
   },
@@ -310,7 +329,7 @@
    },
    "locked": false,
    "metric": 116.31,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-10.json?v=776a8761",
    "used": 3
   }
@@ -333,11 +352,6 @@
    "alias": "Team 3",
    "locked": false,
    "used": 0
-  },
-  {
-   "alias": "Team 4",
-   "locked": false,
-   "used": 3
   },
   {
    "alias": "Team 7",

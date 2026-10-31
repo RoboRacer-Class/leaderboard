@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-10-31T03:00:19Z",
+ "generated_at": "2026-10-31T03:15:01Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -251,10 +251,15 @@
     },
     {
      "at": "2026-10-31T03:00:08Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "940830151f47cfa1",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 7.01,
+      "lap_s": 8.85,
+      "top_mps": 11.01
+     },
+     "replay": "replays/lab-7-model-predictive-control-levine/team-8.json?v=da68de37"
     }
    ]
   },
@@ -305,6 +310,20 @@
    "used": 1
   },
   {
+   "alias": "Team 8",
+   "at": "2026-10-31T03:00:08Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 7.01,
+    "top_mps": 11.01
+   },
+   "locked": false,
+   "metric": 8.85,
+   "rank": 2,
+   "replay": "replays/lab-7-model-predictive-control-levine/team-8.json?v=da68de37",
+   "used": 2
+  },
+  {
    "alias": "Team 6",
    "at": "2026-10-27T14:43:47Z",
    "attempt": 2,
@@ -314,7 +333,7 @@
    },
    "locked": false,
    "metric": 9.69,
-   "rank": 2,
+   "rank": 3,
    "replay": "replays/lab-7-model-predictive-control-levine/team-6.json?v=1965027f",
    "used": 2
   },
@@ -328,7 +347,7 @@
    },
    "locked": false,
    "metric": 10.2,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-7-model-predictive-control-levine/team-5.json?v=919c112d",
    "used": 1
   },
@@ -342,7 +361,7 @@
    },
    "locked": false,
    "metric": 10.86,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-7-model-predictive-control-levine/team-4.json?v=092d4392",
    "used": 3
   },
@@ -356,7 +375,7 @@
    },
    "locked": false,
    "metric": 12.29,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-7-model-predictive-control-levine/team-10.json?v=85ba8e79",
    "used": 3
   },
@@ -370,7 +389,7 @@
    },
    "locked": false,
    "metric": 12.91,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-7-model-predictive-control-levine/team-11.json?v=4a870a7e",
    "used": 1
   },
@@ -384,7 +403,7 @@
    },
    "locked": false,
    "metric": 14.57,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-7-model-predictive-control-levine/team-13.json?v=f337ca5e",
    "used": 1
   },
@@ -398,7 +417,7 @@
    },
    "locked": false,
    "metric": 18.24,
-   "rank": 8,
+   "rank": 9,
    "replay": "replays/lab-7-model-predictive-control-levine/team-12.json?v=0a468996",
    "used": 1
   }
@@ -421,11 +440,6 @@
    "alias": "Team 7",
    "locked": false,
    "used": 1
-  },
-  {
-   "alias": "Team 8",
-   "locked": false,
-   "used": 2
   },
   {
    "alias": "Team 9",

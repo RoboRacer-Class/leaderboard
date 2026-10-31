@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-10-31T21:45:06Z",
+ "generated_at": "2026-10-31T22:28:52Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -238,6 +238,18 @@
      "graded": true,
      "id": "01dd4f272b1ebe4a",
      "metrics": null
+    },
+    {
+     "at": "2026-10-31T22:20:59Z",
+     "full": true,
+     "graded": true,
+     "id": "4b179f9d15afa2a8",
+     "metrics": {
+      "avg_mps": 5.56,
+      "lap_s": 10.97,
+      "top_mps": 8.11
+     },
+     "replay": "replays/lab-7-model-predictive-control-levine/team-7.json?v=1b18201c"
     }
    ]
   },
@@ -373,6 +385,20 @@
    "used": 3
   },
   {
+   "alias": "Team 7",
+   "at": "2026-10-31T22:20:59Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 5.56,
+    "top_mps": 8.11
+   },
+   "locked": false,
+   "metric": 10.97,
+   "rank": 6,
+   "replay": "replays/lab-7-model-predictive-control-levine/team-7.json?v=1b18201c",
+   "used": 3
+  },
+  {
    "alias": "Team 10",
    "at": "2026-10-29T16:55:20Z",
    "attempt": 3,
@@ -382,7 +408,7 @@
    },
    "locked": false,
    "metric": 12.29,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-7-model-predictive-control-levine/team-10.json?v=85ba8e79",
    "used": 3
   },
@@ -396,7 +422,7 @@
    },
    "locked": false,
    "metric": 12.91,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-7-model-predictive-control-levine/team-11.json?v=4a870a7e",
    "used": 1
   },
@@ -410,7 +436,7 @@
    },
    "locked": false,
    "metric": 14.57,
-   "rank": 8,
+   "rank": 9,
    "replay": "replays/lab-7-model-predictive-control-levine/team-13.json?v=f337ca5e",
    "used": 1
   },
@@ -424,7 +450,7 @@
    },
    "locked": false,
    "metric": 18.24,
-   "rank": 9,
+   "rank": 10,
    "replay": "replays/lab-7-model-predictive-control-levine/team-12.json?v=0a468996",
    "used": 1
   }
@@ -442,11 +468,6 @@
    "alias": "Team 2",
    "locked": false,
    "used": 0
-  },
-  {
-   "alias": "Team 7",
-   "locked": false,
-   "used": 2
   },
   {
    "alias": "Team 9",

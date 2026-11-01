@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-11-01T03:38:30Z",
+ "generated_at": "2026-11-01T14:45:10Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -303,6 +303,13 @@
      "graded": true,
      "id": "121b6585d121f21f",
      "metrics": null
+    },
+    {
+     "at": "2026-11-01T14:43:07Z",
+     "full": false,
+     "graded": false,
+     "id": "b6ac6a75f97c63f1",
+     "metrics": null
     }
    ]
   }
@@ -491,7 +498,7 @@
   {
    "alias": "Team 9",
    "locked": false,
-   "used": 2
+   "used": 3
   },
   {
    "alias": "Team 14",

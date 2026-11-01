@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-11-01T17:46:19Z",
+ "generated_at": "2026-11-01T17:54:38Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -64,9 +64,21 @@
     },
     {
      "at": "2026-11-01T17:46:26Z",
+     "full": true,
+     "graded": true,
+     "id": "30c9d8fe576f07eb",
+     "metrics": {
+      "avg_mps": 5.81,
+      "lap_s": 58.65,
+      "top_mps": 6.05
+     },
+     "replay": "replays/lab-7-model-predictive-control-spielberg/team-10.json?v=8c2b4e18"
+    },
+    {
+     "at": "2026-11-01T17:48:43Z",
      "full": false,
      "graded": false,
-     "id": "30c9d8fe576f07eb",
+     "id": "91c895245e5a7447",
      "metrics": null
     }
    ]
@@ -432,6 +444,20 @@
    "used": 3
   },
   {
+   "alias": "Team 10",
+   "at": "2026-11-01T17:46:26Z",
+   "attempt": 4,
+   "extras": {
+    "avg_mps": 5.81,
+    "top_mps": 6.05
+   },
+   "locked": false,
+   "metric": 58.65,
+   "rank": 7,
+   "replay": "replays/lab-7-model-predictive-control-spielberg/team-10.json?v=8c2b4e18",
+   "used": 5
+  },
+  {
    "alias": "Team 4",
    "at": "2026-10-29T21:04:39Z",
    "attempt": 3,
@@ -441,7 +467,7 @@
    },
    "locked": false,
    "metric": 60.79,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-4.json?v=0bdb1189",
    "used": 3
   },
@@ -455,7 +481,7 @@
    },
    "locked": false,
    "metric": 70.28,
-   "rank": 8,
+   "rank": 9,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-13.json?v=9e2a8cd2",
    "used": 1
   },
@@ -469,23 +495,9 @@
    },
    "locked": false,
    "metric": 90.48,
-   "rank": 9,
+   "rank": 10,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-12.json?v=3fce0872",
    "used": 1
-  },
-  {
-   "alias": "Team 10",
-   "at": "2026-10-29T16:55:20Z",
-   "attempt": 3,
-   "extras": {
-    "avg_mps": 2.86,
-    "top_mps": 3.03
-   },
-   "locked": false,
-   "metric": 116.31,
-   "rank": 10,
-   "replay": "replays/lab-7-model-predictive-control-spielberg/team-10.json?v=776a8761",
-   "used": 4
   }
  ],
  "schema": "ese6150/leaderboard/v1",

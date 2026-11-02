@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-11-02T19:38:04Z",
+ "generated_at": "2026-11-02T19:46:38Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -297,10 +297,15 @@
     },
     {
      "at": "2026-11-02T19:34:46Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "205b21c92f458536",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 3.05,
+      "lap_s": 19.73,
+      "top_mps": 5.0
+     },
+     "replay": "replays/lab-7-model-predictive-control-levine/team-2.json?v=e2757268"
     }
    ]
   },
@@ -730,16 +735,24 @@
    "rank": 13,
    "replay": "replays/lab-7-model-predictive-control-levine/team-9.json?v=916f0080",
    "used": 7
+  },
+  {
+   "alias": "Team 2",
+   "at": "2026-11-02T19:34:46Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 3.05,
+    "top_mps": 5.0
+   },
+   "locked": false,
+   "metric": 19.73,
+   "rank": 14,
+   "replay": "replays/lab-7-model-predictive-control-levine/team-2.json?v=e2757268",
+   "used": 2
   }
  ],
  "schema": "ese6150/leaderboard/v1",
  "slug": "lab-7-model-predictive-control-levine",
  "title": "Lab 7: Model Predictive Control \u00b7 Levine, fastest clean lap",
- "unranked": [
-  {
-   "alias": "Team 2",
-   "locked": false,
-   "used": 2
-  }
- ]
+ "unranked": []
 }

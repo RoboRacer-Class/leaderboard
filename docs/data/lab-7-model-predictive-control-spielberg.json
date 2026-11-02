@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-11-02T05:36:40Z",
+ "generated_at": "2026-11-02T06:30:18Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -63,6 +63,18 @@
       "top_mps": 4.02
      },
      "replay": "replays/lab-7-model-predictive-control-spielberg/team-1.json?v=c5fa198e"
+    },
+    {
+     "at": "2026-11-02T06:22:51Z",
+     "full": true,
+     "graded": true,
+     "id": "92d4441fcd77a65f",
+     "metrics": {
+      "avg_mps": 7.93,
+      "lap_s": 43.0,
+      "top_mps": 9.02
+     },
+     "replay": "replays/lab-7-model-predictive-control-spielberg/team-1.json?v=96b6b1ee"
     }
    ]
   },
@@ -555,6 +567,20 @@
    "used": 1
   },
   {
+   "alias": "Team 1",
+   "at": "2026-11-02T06:22:51Z",
+   "attempt": 5,
+   "extras": {
+    "avg_mps": 7.93,
+    "top_mps": 9.02
+   },
+   "locked": false,
+   "metric": 43.0,
+   "rank": 6,
+   "replay": "replays/lab-7-model-predictive-control-spielberg/team-1.json?v=96b6b1ee",
+   "used": 5
+  },
+  {
    "alias": "Team 7",
    "at": "2026-10-31T22:20:59Z",
    "attempt": 3,
@@ -564,7 +590,7 @@
    },
    "locked": false,
    "metric": 45.84,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-7.json?v=b0da92a6",
    "used": 3
   },
@@ -578,7 +604,7 @@
    },
    "locked": false,
    "metric": 58.64,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-10.json?v=2fa81e48",
    "used": 6
   },
@@ -592,7 +618,7 @@
    },
    "locked": false,
    "metric": 60.79,
-   "rank": 8,
+   "rank": 9,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-4.json?v=0bdb1189",
    "used": 3
   },
@@ -606,7 +632,7 @@
    },
    "locked": false,
    "metric": 61.88,
-   "rank": 9,
+   "rank": 10,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-14.json?v=8b6e6bb1",
    "used": 4
   },
@@ -620,7 +646,7 @@
    },
    "locked": false,
    "metric": 70.28,
-   "rank": 10,
+   "rank": 11,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-13.json?v=9e2a8cd2",
    "used": 1
   },
@@ -634,23 +660,9 @@
    },
    "locked": false,
    "metric": 87.23,
-   "rank": 11,
+   "rank": 12,
    "replay": "replays/lab-7-model-predictive-control-spielberg/team-9.json?v=4e530fcf",
    "used": 7
-  },
-  {
-   "alias": "Team 1",
-   "at": "2026-11-02T05:25:39Z",
-   "attempt": 4,
-   "extras": {
-    "avg_mps": 3.82,
-    "top_mps": 4.02
-   },
-   "locked": false,
-   "metric": 88.4,
-   "rank": 12,
-   "replay": "replays/lab-7-model-predictive-control-spielberg/team-1.json?v=c5fa198e",
-   "used": 4
   },
   {
    "alias": "Team 12",

@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-11-02T14:37:32Z",
+ "generated_at": "2026-11-02T17:29:44Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -142,6 +142,18 @@
       "lap_s": 9.16,
       "top_mps": 10.07
      }
+    },
+    {
+     "at": "2026-11-02T17:22:34Z",
+     "full": true,
+     "graded": true,
+     "id": "29da27af0e8802a7",
+     "metrics": {
+      "avg_mps": 11.43,
+      "lap_s": 4.52,
+      "top_mps": 15.73
+     },
+     "replay": "replays/lab-7-model-predictive-control-levine/team-10.json?v=eef4c4d1"
     }
    ]
   },
@@ -523,6 +535,20 @@
  "requirement": "full marks on compilation, the five MPC checks and Levine (three clean laps in a row)",
  "rows": [
   {
+   "alias": "Team 10",
+   "at": "2026-11-02T17:22:34Z",
+   "attempt": 7,
+   "extras": {
+    "avg_mps": 11.43,
+    "top_mps": 15.73
+   },
+   "locked": false,
+   "metric": 4.52,
+   "rank": 1,
+   "replay": "replays/lab-7-model-predictive-control-levine/team-10.json?v=eef4c4d1",
+   "used": 7
+  },
+  {
    "alias": "Team 3",
    "at": "2026-10-30T18:53:35Z",
    "attempt": 1,
@@ -532,7 +558,7 @@
    },
    "locked": false,
    "metric": 4.66,
-   "rank": 1,
+   "rank": 2,
    "replay": "replays/lab-7-model-predictive-control-levine/team-3.json?v=668902a1",
    "used": 1
   },
@@ -546,7 +572,7 @@
    },
    "locked": false,
    "metric": 7.67,
-   "rank": 2,
+   "rank": 3,
    "replay": "replays/lab-7-model-predictive-control-levine/team-12.json?v=fefa7745",
    "used": 4
   },
@@ -560,23 +586,9 @@
    },
    "locked": false,
    "metric": 8.85,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-7-model-predictive-control-levine/team-8.json?v=da68de37",
    "used": 2
-  },
-  {
-   "alias": "Team 10",
-   "at": "2026-11-01T17:48:43Z",
-   "attempt": 5,
-   "extras": {
-    "avg_mps": 6.55,
-    "top_mps": 10.07
-   },
-   "locked": false,
-   "metric": 9.14,
-   "rank": 4,
-   "replay": "replays/lab-7-model-predictive-control-levine/team-10.json?v=89980bac",
-   "used": 6
   },
   {
    "alias": "Team 6",

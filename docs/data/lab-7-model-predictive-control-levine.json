@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-03T04:59:00Z",
- "generated_at": "2026-11-03T01:20:36Z",
+ "generated_at": "2026-11-03T02:53:34Z",
  "lab_title": "Lab 7: Model Predictive Control",
  "late": [],
  "metric": {
@@ -503,6 +503,18 @@
       "top_mps": 11.01
      },
      "replay": "replays/lab-7-model-predictive-control-levine/team-8.json?v=da68de37"
+    },
+    {
+     "at": "2026-11-03T02:47:16Z",
+     "full": true,
+     "graded": true,
+     "id": "62b3dd7cc4807771",
+     "metrics": {
+      "avg_mps": 8.76,
+      "lap_s": 6.98,
+      "top_mps": 13.17
+     },
+     "replay": "replays/lab-7-model-predictive-control-levine/team-8.json?v=874f0c67"
     }
    ]
   },
@@ -626,6 +638,20 @@
    "used": 1
   },
   {
+   "alias": "Team 8",
+   "at": "2026-11-03T02:47:16Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 8.76,
+    "top_mps": 13.17
+   },
+   "locked": false,
+   "metric": 6.98,
+   "rank": 3,
+   "replay": "replays/lab-7-model-predictive-control-levine/team-8.json?v=874f0c67",
+   "used": 3
+  },
+  {
    "alias": "Team 12",
    "at": "2026-11-02T14:25:09Z",
    "attempt": 4,
@@ -635,23 +661,9 @@
    },
    "locked": false,
    "metric": 7.67,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-7-model-predictive-control-levine/team-12.json?v=fefa7745",
    "used": 4
-  },
-  {
-   "alias": "Team 8",
-   "at": "2026-10-31T03:00:08Z",
-   "attempt": 2,
-   "extras": {
-    "avg_mps": 7.01,
-    "top_mps": 11.01
-   },
-   "locked": false,
-   "metric": 8.85,
-   "rank": 4,
-   "replay": "replays/lab-7-model-predictive-control-levine/team-8.json?v=da68de37",
-   "used": 2
   },
   {
    "alias": "Team 6",

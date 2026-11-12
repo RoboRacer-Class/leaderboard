@@ -26,6 +26,7 @@
     "unit": "s"
    },
    {
+    "card": "Fastest lap",
     "key": "best_s",
     "label": "Fastest lap",
     "unit": "s"
@@ -181,6 +182,10 @@
   }
  ],
  "schema": "ese6150/leaderboard/v1",
+ "scoring": [
+  "Each team ran two timed laps. The standings rank the average of the two; the gap is to the winner's average.",
+  "Each team's fastest single lap is listed too, but does not decide the order."
+ ],
  "slug": "race-1",
  "tab_title": "Race 1",
  "title": "Race 1",

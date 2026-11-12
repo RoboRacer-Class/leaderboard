@@ -649,7 +649,9 @@ def chronological(entries: list) -> list:
     """Index entries (= tabs) in the order things happened: a graded lab by the day it
     opens, a hand-made board (a race) by the day it was held. An assignment's boards stay
     together in their config order; an entry with neither date keeps its place after the
-    dated ones."""
+    dated ones. A hand-made board may name the assignment whose tab it follows
+    (`"after": "lab-7-..."`) when its date alone would put it elsewhere: Race 2 was held
+    while lab 8 was already open. If that tab is gone, the date decides again."""
     def when(entry):
         day = entry.get("available_from") or entry.get("held_on")
         try:
@@ -664,7 +666,17 @@ def chronological(entries: list) -> list:
         i, entry = item
         start, place = first[group(entry)]
         return (start is None, start or dt.datetime.min.replace(tzinfo=dt.timezone.utc), place, i)
-    return [entry for _, entry in sorted(enumerate(entries), key=key)]
+    ordered = [entry for _, entry in sorted(enumerate(entries), key=key)]
+    pinned = {}                                  # assignment -> the assignment it follows
+    for entry in ordered:
+        if entry.get("after") and entry["after"] != group(entry):
+            pinned.setdefault(group(entry), entry["after"])
+    for name, anchor in pinned.items():
+        rest = [e for e in ordered if group(e) != name]
+        at = max((i for i, e in enumerate(rest) if group(e) == anchor), default=None)
+        if at is not None:
+            ordered = rest[:at + 1] + [e for e in ordered if group(e) == name] + rest[at + 1:]
+    return ordered
 
 
 def board_key(doc: dict, salt: str, who_arg: str) -> tuple:

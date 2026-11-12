@@ -1,0 +1,179 @@
+{
+ "after": "lab-7-model-predictive-control",
+ "anonymous": false,
+ "assignment": "race-2",
+ "available_from": null,
+ "board_title": "Speed and consistency",
+ "cap": null,
+ "description": "Held on November 2nd, 2026. Each team was scored on the average of its two fastest consecutive laps and on how many laps it ran in a row without a crash; the standings combine the two.",
+ "due": null,
+ "generated_at": "2026-11-12T00:00:00Z",
+ "held_on": "2026-11-02",
+ "lab_title": "Race 2",
+ "late": [],
+ "manual": true,
+ "metric": {
+  "card": "Fastest average",
+  "decimals": 3,
+  "direction": "lower",
+  "extras": [
+   {
+    "best": "higher",
+    "card": "Longest clean run",
+    "decimals": 0,
+    "key": "laps",
+    "label": "Clean laps in a row"
+   },
+   {
+    "key": "change",
+    "kind": "change",
+    "label": "Change from Race 1"
+   }
+  ],
+  "key": "avg_s",
+  "label": "Avg fastest",
+  "ranks": false,
+  "unit": "s"
+ },
+ "players": {},
+ "podium": 3,
+ "reference": null,
+ "rows": [
+  {
+   "alias": "Team 6",
+   "extras": {
+    "change": 3,
+    "laps": 16
+   },
+   "metric": 10.0535,
+   "rank": 1
+  },
+  {
+   "alias": "Team 8",
+   "extras": {
+    "change": 1,
+    "laps": 16
+   },
+   "metric": 10.322,
+   "rank": 2
+  },
+  {
+   "alias": "Team 5",
+   "extras": {
+    "change": 7,
+    "laps": 23
+   },
+   "metric": 12.1845,
+   "rank": 3
+  },
+  {
+   "alias": "Team 12",
+   "extras": {
+    "change": 1,
+    "laps": 7
+   },
+   "metric": 11.273,
+   "rank": 4
+  },
+  {
+   "alias": "Team 9",
+   "extras": {
+    "change": 2,
+    "laps": 7
+   },
+   "metric": 11.3505,
+   "rank": 5
+  },
+  {
+   "alias": "Team 2",
+   "extras": {
+    "change": 0,
+    "laps": 20
+   },
+   "metric": 12.6715,
+   "rank": 6
+  },
+  {
+   "alias": "Team 7",
+   "extras": {
+    "change": 6,
+    "laps": 7
+   },
+   "metric": 11.385,
+   "rank": 7
+  },
+  {
+   "alias": "Team 3",
+   "extras": {
+    "change": 3,
+    "laps": 4
+   },
+   "metric": 9.333,
+   "rank": 8
+  },
+  {
+   "alias": "Team 11",
+   "extras": {
+    "change": -8,
+    "laps": 12
+   },
+   "metric": 12.99,
+   "rank": 9
+  },
+  {
+   "alias": "Team 1",
+   "extras": {
+    "change": 2,
+    "laps": 6
+   },
+   "metric": 11.4445,
+   "rank": 10
+  },
+  {
+   "alias": "Team 4",
+   "extras": {
+    "change": -2,
+    "laps": 5
+   },
+   "metric": 12.1635,
+   "rank": 11
+  },
+  {
+   "alias": "Team 13",
+   "extras": {
+    "change": -4,
+    "laps": 5
+   },
+   "metric": 15.2055,
+   "rank": 12
+  },
+  {
+   "alias": "Team 14",
+   "extras": {
+    "change": -11,
+    "laps": 4
+   },
+   "metric": 15.6615,
+   "rank": 13
+  },
+  {
+   "alias": "Team 10",
+   "extras": {
+    "change": 0,
+    "laps": 2
+   },
+   "metric": 33.014,
+   "rank": 14
+  }
+ ],
+ "schema": "ese6150/leaderboard/v1",
+ "scoring": [
+  "Two things were measured for each team: the average of its two fastest consecutive laps, and the number of laps it completed in a row without a crash.",
+  "Teams were placed in each of the two, and the standings combine both placings. The fastest average alone does not decide the order.",
+  "The last column is the number of places gained or lost since Race 1."
+ ],
+ "slug": "race-2",
+ "tab_title": "Race 2",
+ "title": "Race 2",
+ "unranked": []
+}

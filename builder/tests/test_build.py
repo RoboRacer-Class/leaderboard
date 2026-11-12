@@ -364,6 +364,21 @@ def test_tabs_follow_the_calendar():
         "lab-3", "lab-5-levine", "lab-5-spielberg", "race-1", "lab-6-straight", "lab-6-turn", "demo"]
 
 
+def test_a_race_can_name_the_tab_it_follows():
+    # Cedric: Race 2 (held Nov 2) goes right after lab 7 and before lab 8, which had opened Oct 23
+    board = lambda slug, lab, day: {"slug": slug, "assignment": lab, "available_from": day}
+    race = {"slug": "race-2", "assignment": "race-2", "held_on": "2026-11-02", "manual": True, "after": "lab-7"}
+    entries = [board("lab-7-levine", "lab-7", "2026-10-19T04:00:00Z"),
+               board("lab-7-spielberg", "lab-7", "2026-10-19T04:00:00Z"),
+               board("lab-8-levine", "lab-8", "2026-10-23T16:00:00Z"),
+               board("lab-8-spielberg", "lab-8", "2026-10-23T16:00:00Z"),
+               race]
+    assert [e["slug"] for e in build.chronological(entries)] == [
+        "lab-7-levine", "lab-7-spielberg", "race-2", "lab-8-levine", "lab-8-spielberg"]
+    # the tab it names is not on the page (another term, a partial build): its date decides
+    assert [e["slug"] for e in build.chronological(entries[2:])] == ["lab-8-levine", "lab-8-spielberg", "race-2"]
+
+
 LAB4 = "lab-4-follow-the-gap"
 LAB4_YAML = """
 leaderboards:

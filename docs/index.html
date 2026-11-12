@@ -42,6 +42,7 @@
     --me-tint: #d8f6f8;
     --me-ink: #0b6470;
     --danger-ink: #a11d3f;
+    --up: #14713d;             /* places gained since the last race (lost = danger-ink) */
     --chart-dot: #7c3aed;      /* every driver */
     --rank-ink: #5b21b6;       /* position cells: a wash of the violet for the field... */
     --gold: #d9a400;           /* ...solid medals for the top three... */
@@ -84,6 +85,7 @@
       --me-tint: #06323a;
       --me-ink: #7eeaf0;
       --danger-ink: #fda4af;
+      --up: #4ade80;
       --chart-dot: #a78bfa;
       --rank-ink: #c4b5fd;
       --gold: #e0b22a;
@@ -151,6 +153,18 @@
   .lede { margin: .6rem 0 0; max-width: 62ch; color: var(--mast-ink-2); font-size: 1.02rem; }
   .tabs { display: flex; gap: .25rem; margin-top: 1.2rem; overflow-x: auto; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
+  /* Once the term has more tabs than fit, the ribbon scrolls sideways. A finger swipes it;
+     a mouse needs something to drag, so there the bar is drawn (only while the tabs overflow). */
+  @media (hover: hover) and (pointer: fine) {
+    .tabs { scrollbar-width: auto; scrollbar-color: auto; }      /* auto: let the WebKit rules below apply */
+    .tabs::-webkit-scrollbar { display: block; height: 12px; }
+    .tabs::-webkit-scrollbar-track { background: var(--mast-line); border-radius: 999px; border: 3px solid var(--mast-bg); }
+    .tabs::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--mast-ink-2) 65%, var(--mast-bg)); border-radius: 999px; border: 3px solid var(--mast-bg); }
+    .tabs::-webkit-scrollbar-thumb:hover { background: var(--mast-ink); }
+    @supports not selector(::-webkit-scrollbar) {
+      .tabs { scrollbar-width: thin; scrollbar-color: var(--mast-ink-2) var(--mast-line); }
+    }
+  }
   .tab {
     appearance: none; border: 0; background: transparent; color: var(--mast-ink-2);
     font: inherit; font-weight: 600; font-size: .95rem; padding: .7rem .9rem .8rem;
@@ -173,10 +187,11 @@
   /* Status strip */
   .status {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px;
-    background: var(--line); border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
     overflow: hidden; box-shadow: var(--shadow);
   }
-  .status > div { background: var(--surface); padding: .85rem 1rem; }
+  /* each card draws the hairline to its right and below, so a short last row (five cards) leaves no grey block */
+  .status > div { background: var(--surface); padding: .85rem 1rem; box-shadow: 1px 0 0 var(--line), 0 1px 0 var(--line), 1px 1px 0 var(--line); }
   .status .k { font-family: var(--display); font-weight: 500; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); margin: 0; }
   .status .v {
     margin: .15rem 0 0; font-family: var(--display); font-weight: 600; font-size: 1.5rem;
@@ -280,6 +295,11 @@
     padding: .12rem .45rem; border-radius: 999px; margin-left: .5rem; vertical-align: middle;
   }
   .pill.you { background: var(--me); color: var(--medal-ink); }
+  .delta { display: inline-flex; align-items: center; gap: .3rem; font-weight: 600; }
+  .delta svg { width: .62rem; height: .62rem; fill: currentColor; flex: none; }
+  .delta.up { color: var(--up); }
+  .delta.down { color: var(--danger-ink); }
+  .delta.flat { color: var(--ink-2); }
   .pill.locked { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line-strong); }
   @keyframes land { 0% { transform: scale(.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
   .just-found .pill.you { animation: land .7s cubic-bezier(.16, 1, .3, 1) both; }
@@ -290,6 +310,7 @@
     .col-avg, .col-top, .col-when, .col-best { display: none; }   /* best = the faster of the two race laps */
     td.alias { white-space: nowrap; }
     table.race .gap { display: none; }                        /* both laps fit a phone; the gap does not */
+    table.race thead th { white-space: normal; }              /* a long race heading wraps instead of widening the table */
     table { min-width: 0; }
     th, td { padding: .5rem .35rem; }
     th:first-child, td:first-child { padding-left: .3rem; }
@@ -412,6 +433,18 @@
   let places = 2;
   const fixed = (v) => (Math.round(v * 10 ** places + 1e-6) / 10 ** places).toFixed(places);   // 8.2005 -> 8.201, not 8.200
   const fmtValue = (v, unit) => fixed(v) + (unit ? " " + unit : "");
+  // places gained (+) or lost (−) since an earlier race: a signed number and an arrow, never colour alone
+  const ARROW = { up: "M5 1.5 9 8.5H1z", down: "M5 8.5 1 1.5h8z", flat: "M1 4h8v2H1z" };
+  const delta = (v) => {
+    const dir = v > 0 ? "up" : v < 0 ? "down" : "flat", n = Math.abs(v);
+    const say = n ? `${dir} ${n} place${n === 1 ? "" : "s"}` : "no change";
+    return `<span class="delta ${dir}" role="img" aria-label="${say}" title="${say}">${v > 0 ? "+" : v < 0 ? "−" : ""}${n}<svg viewBox="0 0 10 10" aria-hidden="true"><path d="${ARROW[dir]}"/></svg></span>`;
+  };
+  // an extra column's value: `kind: "change"` is a rank change, `decimals` overrides the board's digits (0 = a count)
+  const fmtExtra = (v, x) => v == null ? "—" : x.kind === "change" ? delta(v)
+    : esc(x.decimals != null ? Number(v).toFixed(x.decimals) + (x.unit ? " " + x.unit : "") : fmtValue(v, x.unit));
+  // `metric.ranks: false` = the order is not the metric alone (a race scored on two things): no gap to show
+  const ranksByMetric = (doc) => doc.metric.ranks !== false;
   const fmtGap = (v, leader, dir) => {
     const d = dir === "lower" ? v - leader : leader - v;
     return d === 0 ? "—" : (d > 0 ? "+" : "−") + fixed(Math.abs(d));
@@ -583,11 +616,16 @@
     const unit = doc.metric.unit;
     const parts = [];
     if (manual(doc)) {
-      const best = (doc.rows || []).filter((r) => r.extras && r.extras.best_s != null)
-        .sort((a, b) => a.extras.best_s - b.extras.best_s)[0];
+      // a card for each number flagged `card`: who did best at it
+      const m = doc.metric, rows = doc.rows || [];
+      const cards = [m.card ? { x: m, get: (r) => r.metric } : null]
+        .concat((m.extras || []).map((x) => (x.card ? { x, get: (r) => (r.extras || {})[x.key] } : null))).filter(Boolean);
       if (doc.held_on) parts.push(`<div><p class="k">Race day</p><p class="v">${esc(fmtDay(doc.held_on, { month: "short", day: "numeric", year: "numeric" }))}<small>${esc(doc.where || "")}</small></p></div>`);
-      if (doc.rows.length) parts.push(`<div><p class="k">Winner</p><p class="v">${esc(doc.rows[0].alias)}<small>${esc(fmtValue(doc.rows[0].metric, unit))} ${esc(doc.metric.label.toLowerCase())}</small></p></div>`);
-      if (best) parts.push(`<div><p class="k">Fastest lap</p><p class="v">${esc(fmtValue(best.extras.best_s, unit))}<small>${esc(best.alias)}</small></p></div>`);
+      if (doc.rows.length) parts.push(`<div><p class="k">Winner</p><p class="v">${esc(doc.rows[0].alias)}${ranksByMetric(doc) ? `<small>${esc(fmtValue(doc.rows[0].metric, unit))} ${esc(doc.metric.label.toLowerCase())}</small>` : ""}</p></div>`);
+      cards.forEach(({ x, get }) => {
+        const best = rows.filter((r) => get(r) != null).sort((a, b) => (x.best === "higher" ? get(b) - get(a) : get(a) - get(b)))[0];
+        if (best) parts.push(`<div><p class="k">${esc(x.card)}</p><p class="v">${fmtExtra(get(best), x)}<small>${esc(best.alias)}</small></p></div>`);
+      });
       parts.push(`<div><p class="k">Teams</p><p class="v">${doc.rows.length}<small>ranked</small></p></div>`);
       $("status").innerHTML = parts.join("");
       return;
@@ -706,7 +744,8 @@
       const gap = rows[0].metric === r.metric ? "leader" : fmtGap(r.metric, rows[0].metric, m.direction) + " " + unit + " to P1";
       tip.textContent = "";
       const strong = document.createElement("strong"); strong.textContent = fmtValue(r.metric, unit);
-      tip.append(strong, document.createTextNode(`P${r.rank} · ${r.alias}`), document.createElement("br"),
+      tip.append(strong, document.createTextNode(`P${r.rank} · ${r.alias}`));
+      if (ranksByMetric(doc)) tip.append(document.createElement("br"),
                  document.createTextNode(manual(doc) ? gap : `${gap} · attempt #${r.attempt} of ${r.used}`));
       const dot = svg.querySelector(`.mark[data-i="${i}"] circle`).getBoundingClientRect();
       const box = sec.getBoundingClientRect();
@@ -773,25 +812,28 @@
     const anyReplay = rows.concat(late).some((r) => r.replay) || !!(doc.reference && doc.reference.replay);
     const watchCell = (r, summary, label) => !anyReplay ? "" : `<td class="watch">${r.replay ? watchButton(r, summary, label) : ""}</td>`;
     const graded = !manual(doc);
-    const head = `<thead><tr><th>Pos</th><th>${anon(doc) ? "Driver" : "Team"}</th>${anyReplay ? '<th class="watch">Replay</th>' : ""}<th class="num">${esc(m.label)}</th><th class="num gap">Gap</th>${extraHead}${graded ? '<th class="num col-attempt">Attempt</th><th class="col-when">When</th>' : ""}</tr></thead>`;
+    const gapCol = ranksByMetric(doc);
+    const gapCell = (text) => (gapCol ? `<td class="num gap">${text}</td>` : "");
+    const cellsOf = (r) => extras.map((x) => `<td class="num col-${esc(x.key.split("_")[0])}">${fmtExtra(r.extras ? r.extras[x.key] : null, x)}</td>`).join("");
+    const head = `<thead><tr><th>Pos</th><th>${anon(doc) ? "Driver" : "Team"}</th>${anyReplay ? '<th class="watch">Replay</th>' : ""}<th class="num">${esc(m.label)}</th>${gapCol ? '<th class="num gap">Gap</th>' : ""}${extraHead}${graded ? '<th class="num col-attempt">Attempt</th><th class="col-when">When</th>' : ""}</tr></thead>`;
     const body = entries.map((e) => {
       const r = e.r;
-      const extraCells = extras.map((x) => `<td class="num col-${esc(x.key.split("_")[0])}">${r.extras && r.extras[x.key] != null ? esc(fmtValue(r.extras[x.key], x.unit)) : "—"}</td>`).join("");
+      const extraCells = cellsOf(r);
       if (e.kind === "ref") {
-        return `<tr class="ref"><td class="rank">REF</td><td class="alias">${esc(r.alias)}</td>${watchCell(r, `TA reference · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `TA reference · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">${leader == null ? "—" : esc(fmtGap(r.metric, leader, m.direction))}</td>${extraCells}<td class="num col-attempt">—</td><td class="when col-when">—</td></tr>`;
+        return `<tr class="ref"><td class="rank">REF</td><td class="alias">${esc(r.alias)}</td>${watchCell(r, `TA reference · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `TA reference · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td>${gapCell(leader == null ? "—" : esc(fmtGap(r.metric, leader, m.direction)))}${extraCells}<td class="num col-attempt">—</td><td class="when col-when">—</td></tr>`;
       }
       const me = same(r.alias, state.me);
       const cls = [r.rank <= doc.podium ? "podium" : "", r.rank <= 3 ? `rank-${r.rank}` : "", me ? "me" : "", me && state.justFound ? "just-found" : ""].filter(Boolean).join(" ");
-      return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank">${r.rank}</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}${r.locked ? '<span class="pill locked">locked</span>' : ""}</td>${watchCell(r, `P${r.rank} · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `P${r.rank} · ${r.alias} · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">${esc(fmtGap(r.metric, leader, m.direction))}</td>${extraCells}${graded ? `<td class="num col-attempt">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td>` : ""}</tr>`;
+      return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank">${r.rank}</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}${r.locked ? '<span class="pill locked">locked</span>' : ""}</td>${watchCell(r, `P${r.rank} · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `P${r.rank} · ${r.alias} · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td>${gapCell(esc(fmtGap(r.metric, leader, m.direction)))}${extraCells}${graded ? `<td class="num col-attempt">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td>` : ""}</tr>`;
     }).join("");
     // runs graded after the deadline: a time to compare and a run to watch, never a position
-    const cols = (graded ? 6 : 4) + (anyReplay ? 1 : 0) + extras.length;
+    const cols = (graded ? 6 : 4) - (gapCol ? 0 : 1) + (anyReplay ? 1 : 0) + extras.length;
     const lateBody = !late.length ? "" : `<tr class="late-head"><td colspan="${cols}"><strong>After the deadline · unranked</strong> Full-score runs graded after the deadline. They take no position and earn no credit here.</td></tr>` +
       late.map((r) => {
-        const extraCells = extras.map((x) => `<td class="num col-${esc(x.key.split("_")[0])}">${r.extras && r.extras[x.key] != null ? esc(fmtValue(r.extras[x.key], x.unit)) : "—"}</td>`).join("");
+        const extraCells = cellsOf(r);
         const me = same(r.alias, state.me);
         const cls = ["late", me ? "me" : "", me && state.justFound ? "just-found" : ""].filter(Boolean).join(" ");
-        return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank" aria-label="unranked">—</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}<span class="pill late">late</span>${r.locked ? '<span class="pill locked">locked</span>' : ""}</td>${watchCell(r, `Late · unranked · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `Late · ${r.alias} · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td><td class="num gap">—</td>${extraCells}<td class="num col-attempt">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td></tr>`;
+        return `<tr class="${cls}"${me ? ' id="me-row"' : ""}><td class="rank" aria-label="unranked">—</td><td class="alias">${esc(r.alias)}${me ? '<span class="pill you">you</span>' : ""}<span class="pill late">late</span>${r.locked ? '<span class="pill locked">locked</span>' : ""}</td>${watchCell(r, `Late · unranked · ${fmtValue(r.metric, m.unit)} · ${doc.board_title}`, `Late · ${r.alias} · ${fmtValue(r.metric, m.unit)}`)}<td class="num time">${esc(fmtValue(r.metric, m.unit))}</td>${gapCell("—")}${extraCells}<td class="num col-attempt">#${r.attempt} of ${r.used}${doc.cap ? "/" + doc.cap : ""}</td><td class="when col-when">${esc(fmtWhen(r.at))}</td></tr>`;
       }).join("");
     $("board").innerHTML = `${emptyNote}<table class="${[anyReplay ? "has-watch" : "", graded ? "" : "race"].join(" ").trim()}">${head}<tbody>${body}${lateBody}</tbody></table>`;
     if (window.RRReplay) RRReplay.attach($("board"), doc, $("board-tools"));
@@ -816,8 +858,7 @@
       $("rules").innerHTML = `
       <strong>How it was scored</strong>
       <ul>
-        <li>Each team ran two timed laps. The standings rank the average of the two; the gap is to the winner's average.</li>
-        <li>Each team's fastest single lap is listed too, but does not decide the order.</li>
+        ${(doc.scoring || []).map((line) => `<li>${esc(line)}</li>`).join("\n        ")}
         <li>Times were taken by the course staff on race day${doc.where ? ", " + esc(doc.where) : ""}. Questions go to the course staff.</li>
       </ul>`;
       return;
@@ -867,7 +908,7 @@
     if (el) el.scrollIntoView({ block: "center", behavior: announce ? "smooth" : "auto" });
     $("find-msg").className = "find-msg ok";
     $("find-msg").textContent = manual(doc) && hitRow
-      ? `${state.me}: P${hitRow.rank} of ${doc.rows.length} with a ${fmtValue(hitRow.metric, doc.metric.unit)} ${doc.metric.label.toLowerCase()}.`
+      ? `${state.me}: P${hitRow.rank} of ${doc.rows.length}, ${doc.metric.label.toLowerCase()} ${fmtValue(hitRow.metric, doc.metric.unit)}.`
       : hitRow && !hitRow.rank
       ? `${state.me}: unranked, best run ${fmtValue(hitRow.metric, doc.metric.unit)} was graded after the deadline (listed below the standings), ${hitRow.used}${doc.cap ? " of " + doc.cap : ""} submissions used.`
       : hitRow

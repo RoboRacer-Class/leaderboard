@@ -151,7 +151,25 @@
     text-wrap: balance;
   }
   .lede { margin: .6rem 0 0; max-width: 62ch; color: var(--mast-ink-2); font-size: 1.02rem; }
-  .tabs { display: flex; gap: .25rem; margin-top: 1.2rem; overflow-x: auto; scrollbar-width: none; }
+  .tabs-wrap { position: relative; margin-top: 1.2rem; }
+  .tabs { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: none; }
+  /* Where tabs are hidden past an edge, that edge fades out under an arrow: the cue that the
+     ribbon goes on (swipe it, drag the bar, or press the arrow). No arrow = nothing more that way. */
+  .tabs-nudge {
+    position: absolute; top: 0; bottom: var(--tabs-bar, 0px); z-index: 1; width: 4rem; padding: 0 0 3px;
+    display: flex; align-items: center; border: 0; cursor: pointer; color: var(--mast-ink);
+  }
+  .tabs-nudge[hidden] { display: none; }
+  .tabs-nudge.prev { left: 0; justify-content: flex-start; background: linear-gradient(90deg, var(--mast-bg) 50%, transparent); }
+  .tabs-nudge.next { right: 0; justify-content: flex-end; background: linear-gradient(270deg, var(--mast-bg) 50%, transparent); }
+  .tabs-nudge svg {
+    width: 1.75rem; height: 1.75rem; padding: .3rem; border-radius: 50%;
+    background: var(--mast-line); border: 1px solid color-mix(in srgb, var(--mast-ink-2) 35%, var(--mast-bg));
+    transition: background-color 160ms, border-color 160ms;
+  }
+  .tabs-nudge:hover svg { background: color-mix(in srgb, var(--mast-accent) 28%, var(--mast-bg)); border-color: var(--mast-accent); }
+  .tabs-nudge:focus-visible { outline: 0; }
+  .tabs-nudge:focus-visible svg { outline: 2px solid var(--mast-accent); outline-offset: 2px; }
   .tabs::-webkit-scrollbar { display: none; }
   /* Once the term has more tabs than fit, the ribbon scrolls sideways. A finger swipes it;
      a mouse needs something to drag, so there the bar is drawn (only while the tabs overflow). */
@@ -359,7 +377,11 @@
     </a>
     <h1>ESE 6150 Leaderboard</h1>
     <p class="lede" id="lede">Best clean lap in the grading simulator. Rebuilt every few minutes from graded submissions.</p>
-    <nav class="tabs" id="tabs" aria-label="Labs"></nav>
+    <div class="tabs-wrap" id="tabs-wrap">
+      <button type="button" class="tabs-nudge prev" id="tabs-prev" aria-label="Show earlier tabs" title="Earlier tabs" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6l-6 6 6 6"/></svg></button>
+      <nav class="tabs" id="tabs" aria-label="Labs"></nav>
+      <button type="button" class="tabs-nudge next" id="tabs-next" aria-label="Show more tabs" title="More tabs" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6l6 6-6 6"/></svg></button>
+    </div>
   </div>
 </header>
 <main>
@@ -558,6 +580,21 @@
       `${anon(doc) ? "Drivers" : "Teams"} who have submitted but have no qualifying run before the deadline yet.`;
   }
 
+  // an arrow (over a fade) on each side of the ribbon that still hides tabs
+  let ribbonLab = null;
+  function ribbonEdges() {
+    const t = $("tabs"), max = t.scrollWidth - t.clientWidth;
+    $("tabs-prev").hidden = t.scrollLeft <= 2;
+    $("tabs-next").hidden = t.scrollLeft >= max - 2;
+    $("tabs-wrap").style.setProperty("--tabs-bar", `${t.offsetHeight - t.clientHeight}px`);   // stay above the slider
+  }
+  const nudge = (dir) => $("tabs").scrollBy({ left: dir * Math.max(160, $("tabs").clientWidth * 0.6),
+    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  $("tabs-prev").addEventListener("click", () => nudge(-1));
+  $("tabs-next").addEventListener("click", () => nudge(1));
+  $("tabs").addEventListener("scroll", ribbonEdges, { passive: true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(ribbonEdges);   // web fonts change the tab widths
+
   function renderTabs(labs) {
     // one tab per lab; a lab with several boards gets a switch below the tabs
     const current = labs.find((l) => l.slug === state.slug);
@@ -573,12 +610,16 @@
       return `<button class="tab" role="tab" data-lab="${esc(labOf(l))}" aria-selected="${selected}" title="${esc(l.lab_title || l.title)}">${esc(labName(l))}<span class="state">${esc(tag)}</span></button>`;
     }).join("");
     // the ribbon scrolls sideways once the labs outgrow it: keep the open tab in view
+    // (clear of the edge arrows), but only when the open tab changes: the page reloads its data
+    // every two minutes and must not undo where the reader has scrolled the ribbon since
     const sel = $("tabs").querySelector('.tab[aria-selected="true"]');
-    if (sel) {
-      const r = sel.getBoundingClientRect(), box = $("tabs").getBoundingClientRect();
-      if (r.right > box.right) $("tabs").scrollLeft += r.right - box.right + 24;
-      else if (r.left < box.left) $("tabs").scrollLeft -= box.left - r.left + 24;
+    if (sel && ribbonLab !== sel.dataset.lab) {
+      ribbonLab = sel.dataset.lab;
+      const r = sel.getBoundingClientRect(), box = $("tabs").getBoundingClientRect(), pad = 72;
+      if (r.right > box.right - pad) $("tabs").scrollLeft += r.right - (box.right - pad);
+      else if (r.left < box.left + pad) $("tabs").scrollLeft -= box.left + pad - r.left;
     }
+    ribbonEdges();
     $("tabs").querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => {
       const boards = labs.filter((l) => labOf(l) === b.dataset.lab);
       const remembered = boards.find((l) => l.slug === state.pick[b.dataset.lab]);
@@ -942,7 +983,7 @@
   let resizeTimer = null;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { if (state.docs[state.slug]) renderChart(state.docs[state.slug]); }, 150);
+    resizeTimer = setTimeout(() => { ribbonEdges(); if (state.docs[state.slug]) renderChart(state.docs[state.slug]); }, 150);
   });
   setInterval(() => { if (state.docs[state.slug]) renderStatus(state.docs[state.slug]); }, 30000);
   setInterval(() => load(false), 120000);

@@ -1,5 +1,131 @@
 {
- "players": {},
+ "anonymous": false,
+ "assignment": "lab-8-model-predictive-path-integral",
+ "available_from": "2026-10-23T16:00:00Z",
+ "board_title": "Levine, fastest clean lap",
+ "cap": null,
+ "due": "2026-11-28T04:59:00Z",
+ "generated_at": "2026-11-12T21:37:39Z",
+ "lab_title": "Lab 8: Model Predictive Path Integral",
+ "late": [],
+ "metric": {
+  "direction": "lower",
+  "extras": [
+   {
+    "key": "avg_mps",
+    "label": "Avg speed",
+    "unit": "m/s"
+   },
+   {
+    "key": "top_mps",
+    "label": "Top speed",
+    "unit": "m/s"
+   }
+  ],
+  "key": "lap_s",
+  "label": "Best lap",
+  "unit": "s"
+ },
+ "players": {
+  "Team 1": {
+   "locked": false,
+   "owner": "group-1",
+   "submissions": []
+  },
+  "Team 10": {
+   "locked": false,
+   "owner": "group-10",
+   "submissions": [
+    {
+     "at": "2026-11-01T19:22:12Z",
+     "full": false,
+     "graded": false,
+     "id": "842b6bc9cefe3c6d",
+     "metrics": null
+    },
+    {
+     "at": "2026-11-01T19:24:24Z",
+     "full": false,
+     "graded": false,
+     "id": "c4a394b853e994ce",
+     "metrics": null
+    }
+   ]
+  },
+  "Team 11": {
+   "locked": false,
+   "owner": "group-11",
+   "submissions": []
+  },
+  "Team 13": {
+   "locked": false,
+   "owner": "group-13",
+   "submissions": []
+  },
+  "Team 14": {
+   "locked": false,
+   "owner": "group-14",
+   "submissions": []
+  },
+  "Team 2": {
+   "locked": false,
+   "owner": "group-2",
+   "submissions": []
+  },
+  "Team 3": {
+   "locked": false,
+   "owner": "group-3",
+   "submissions": [
+    {
+     "at": "2026-11-05T20:08:06Z",
+     "full": false,
+     "graded": false,
+     "id": "df36a776410af331",
+     "metrics": null
+    }
+   ]
+  },
+  "Team 4": {
+   "locked": false,
+   "owner": "group-4",
+   "submissions": []
+  },
+  "Team 5": {
+   "locked": false,
+   "owner": "group-5",
+   "submissions": []
+  },
+  "Team 6": {
+   "locked": false,
+   "owner": "group-6",
+   "submissions": []
+  },
+  "Team 7": {
+   "locked": false,
+   "owner": "group-7",
+   "submissions": []
+  },
+  "Team 8": {
+   "locked": false,
+   "owner": "group-8",
+   "submissions": []
+  },
+  "Team 9": {
+   "locked": false,
+   "owner": "group-9",
+   "submissions": []
+  }
+ },
+ "podium": 5,
+ "reference": {
+  "at": "2026-10-19T16:12:19Z",
+  "extras": {
+   "avg_mps": 5.32,
+   "top_mps": 7.98
+  },
+  "metric": 11.75,
+  "replay": "replays/lab-8-model-predictive-path-integral-levine/reference.json?v=354bb3a5"
+ },
  "reference_submissions": [
   {
    "at": "2026-10-19T16:12:19Z",
@@ -12,6 +138,78 @@
     "top_mps": 7.98
    },
    "replay": "replays/lab-8-model-predictive-path-integral-levine/reference.json?v=354bb3a5"
+  }
+ ],
+ "requirement": "full marks on compilation, the five MPPI checks and Levine (three clean laps in a row)",
+ "rows": [],
+ "schema": "ese6150/leaderboard/v1",
+ "slug": "lab-8-model-predictive-path-integral-levine",
+ "title": "Lab 8: Model Predictive Path Integral \u00b7 Levine, fastest clean lap",
+ "unranked": [
+  {
+   "alias": "Team 1",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 2",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 3",
+   "locked": false,
+   "used": 1
+  },
+  {
+   "alias": "Team 4",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 5",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 6",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 7",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 8",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 9",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 10",
+   "locked": false,
+   "used": 2
+  },
+  {
+   "alias": "Team 11",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 13",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 14",
+   "locked": false,
+   "used": 0
   }
  ]
 }

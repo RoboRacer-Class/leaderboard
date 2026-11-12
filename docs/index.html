@@ -538,6 +538,13 @@
       const tag = l.manual ? (l.held_on ? fmtDay(l.held_on) : "final") : opens || (closed ? "closed" : "open");
       return `<button class="tab" role="tab" data-lab="${esc(labOf(l))}" aria-selected="${selected}" title="${esc(l.lab_title || l.title)}">${esc(labName(l))}<span class="state">${esc(tag)}</span></button>`;
     }).join("");
+    // the ribbon scrolls sideways once the labs outgrow it: keep the open tab in view
+    const sel = $("tabs").querySelector('.tab[aria-selected="true"]');
+    if (sel) {
+      const r = sel.getBoundingClientRect(), box = $("tabs").getBoundingClientRect();
+      if (r.right > box.right) $("tabs").scrollLeft += r.right - box.right + 24;
+      else if (r.left < box.left) $("tabs").scrollLeft -= box.left - r.left + 24;
+    }
     $("tabs").querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => {
       const boards = labs.filter((l) => labOf(l) === b.dataset.lab);
       const remembered = boards.find((l) => l.slug === state.pick[b.dataset.lab]);

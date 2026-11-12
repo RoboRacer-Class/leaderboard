@@ -1,0 +1,17 @@
+{
+ "players": {},
+ "reference_submissions": [
+  {
+   "at": "2026-10-19T16:12:19Z",
+   "full": true,
+   "graded": true,
+   "id": "e2cbd1b699fcd1d9",
+   "metrics": {
+    "avg_mps": 5.32,
+    "lap_s": 11.75,
+    "top_mps": 7.98
+   },
+   "replay": "replays/lab-8-model-predictive-path-integral-levine/reference.json?v=354bb3a5"
+  }
+ ]
+}

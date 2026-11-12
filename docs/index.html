@@ -198,6 +198,7 @@
     line-height: 1.15; letter-spacing: -.02em; font-variant-numeric: tabular-nums;
   }
   .status .v small { font-family: var(--body); font-weight: 500; font-size: .85rem; letter-spacing: 0; color: var(--ink-2); margin-left: .3rem; }
+  .status .v small.below { display: block; margin: .2rem 0 0; }     /* a race's venue: its own line under the date */
   .status .closed .v { color: var(--danger-ink); }
 
   /* Find me */
@@ -620,7 +621,7 @@
       const m = doc.metric, rows = doc.rows || [];
       const cards = [m.card ? { x: m, get: (r) => r.metric } : null]
         .concat((m.extras || []).map((x) => (x.card ? { x, get: (r) => (r.extras || {})[x.key] } : null))).filter(Boolean);
-      if (doc.held_on) parts.push(`<div><p class="k">Race day</p><p class="v">${esc(fmtDay(doc.held_on, { month: "short", day: "numeric", year: "numeric" }))}<small>${esc(doc.where || "")}</small></p></div>`);
+      if (doc.held_on) parts.push(`<div><p class="k">Race day</p><p class="v">${esc(fmtDay(doc.held_on, { month: "short", day: "numeric", year: "numeric" }))}${doc.where ? `<small class="below">${esc(doc.where)}</small>` : ""}</p></div>`);
       if (doc.rows.length) parts.push(`<div><p class="k">Winner</p><p class="v">${esc(doc.rows[0].alias)}${ranksByMetric(doc) ? `<small>${esc(fmtValue(doc.rows[0].metric, unit))} ${esc(doc.metric.label.toLowerCase())}</small>` : ""}</p></div>`);
       cards.forEach(({ x, get }) => {
         const best = rows.filter((r) => get(r) != null).sort((a, b) => (x.best === "higher" ? get(b) - get(a) : get(a) - get(b)))[0];

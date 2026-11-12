@@ -361,7 +361,7 @@
    "available_from": null,
    "board_title": "Speed and consistency",
    "cap": null,
-   "description": "Held on November 2nd, 2026. Each team was scored on the average of its two fastest consecutive laps and on how many laps it ran in a row without a crash; the standings combine the two.",
+   "description": "Held in the Levine lobby at UPenn on November 2nd, 2026. Each team was scored on the average of its two fastest consecutive laps and on how many laps it ran in a row without a crash; the standings combine the two.",
    "due": null,
    "file": "race-2.json",
    "generated_at": "2026-11-12T00:00:00Z",
@@ -398,7 +398,8 @@
    "slug": "race-2",
    "tab_title": "Race 2",
    "title": "Race 2",
-   "unranked": 0
+   "unranked": 0,
+   "where": "Levine lobby, UPenn"
   },
   {
    "anonymous": false,

@@ -240,6 +240,10 @@
   .find-msg.ok { color: var(--me-ink); }
 
   /* Board */
+  /* one chart per board; a race scored on two numbers gets one each, side by side (stacked on a phone) */
+  .charts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 1.2rem; }
+  .charts.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 820px) { .charts.two { grid-template-columns: minmax(0, 1fr); } }
   .chart { margin-top: 1.4rem; position: relative; }
   .chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: .6rem .6rem .2rem; }
   .chart-scroll { overflow-x: auto; }
@@ -258,8 +262,9 @@
   .chart .axis text, .chart .lbl { font-size: 11px; fill: var(--ink-3); }
   .chart .lbl.ink { fill: var(--ink); font-weight: 600; font-size: 12px; paint-order: stroke; stroke: var(--surface); stroke-width: 5px; stroke-linejoin: round; }
   .chart .lbl.ink2 { fill: var(--ink-2); font-weight: 600; font-size: 11px; }
-  .chart .key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin: .5rem .2rem 0; font-size: .82rem; color: var(--ink-3); }
-  .chart .key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: .35rem; vertical-align: -1px; }
+  .chart .key, #charts-key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin: .5rem .2rem 0; font-size: .82rem; color: var(--ink-3); }
+  .chart .key:empty { display: none; }
+  .chart .key i, #charts-key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: .35rem; vertical-align: -1px; }
   .chart .key i.line { width: 16px; height: 0; border-top: 1.5px dashed var(--chart-ref); border-radius: 0; vertical-align: 2px; }
   .chart .tip {
     position: absolute; z-index: 2; pointer-events: none; transform: translate(-50%, calc(-100% - 12px));
@@ -401,20 +406,8 @@
       <p class="find-msg" id="find-msg" aria-live="polite"></p>
     </section>
 
-    <section class="chart hidden" id="chart" aria-labelledby="chart-title">
-      <div class="chart-head">
-        <h2 id="chart-title">Lap times <span id="chart-sub"></span></h2>
-        <div class="zoom" role="group" aria-label="Chart zoom">
-          <button type="button" id="zoom-out" aria-label="Zoom out: every entry, axis from zero" title="Zoom out">−</button>
-          <button type="button" id="zoom-in" aria-label="Zoom in: fewer entries, axis fitted to them" title="Zoom in">+</button>
-        </div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-scroll" id="chart-scroll"></div>
-        <p class="key" id="chart-key"></p>
-      </div>
-      <div class="tip hidden" id="chart-tip" role="status" aria-live="polite"></div>
-    </section>
+    <div class="charts" id="charts"></div>
+    <p class="key hidden" id="charts-key"></p>
 
     <section class="board" aria-labelledby="board-title">
       <div class="board-head"><h2 id="board-title">Standings</h2><div id="board-tools"></div></div>
@@ -558,7 +551,7 @@
     renderTabs(labs);
     renderSwitch(labs);
     renderStatus(doc);
-    renderChart(doc);
+    renderCharts(doc);
     renderBoard(doc);
     renderGrid(doc);
     renderRules(doc);
@@ -695,33 +688,103 @@
   // (the chart scrolls sideways) and the time axis refits to the entries in view, so
   // a tight podium is not flattened by one slow lap at the far end of the board.
   const ZOOMS = [1, 1.6, 2.5, 4, 6.5];
-  const chartView = { zoom: 0, slug: null, doc: null, frame: 0 };
 
-  function renderChart(doc) {
-    // one lollipop per ranked driver, left to right by position; height = the lap time
-    const sec = $("chart"), tip = $("chart-tip"), scroller = $("chart-scroll");
-    const rows = doc.rows || [];
+  // What a board charts. A lab (or a race ranked on one time): the lap times, left to right by
+  // position. A race scored on several numbers (`metric.ranks: false`): one chart per number,
+  // the metric and every extra flagged `chart`, each sorted best first so it reads as a slope
+  // like a lab's, with every team's overall position under its dot.
+  function chartSeries(doc) {
+    const m = doc.metric, rows = doc.rows || [];
+    if (ranksByMetric(doc)) {
+      return [{ key: "metric", title: "Lap times", sub: "", rows, byPosition: true, unit: m.unit || "",
+        get: (r) => r.metric, fmt: (v) => fmtValue(v, m.unit), ref: doc.reference ? doc.reference.metric : null,
+        label: `Lap time per ranked ${racer(doc, 1)}` }];
+    }
+    const series = (key, title, best, unit, get, fmt) => ({ key, title, unit, get, fmt, byPosition: false, ref: null,
+      sub: best === "higher" ? "most first" : unit === "s" ? "fastest first" : "lowest first",
+      rows: rows.filter((r) => get(r) != null).sort((p, q) => (best === "higher" ? get(q) - get(p) : get(p) - get(q)) || p.rank - q.rank),
+      label: `${title} per ${racer(doc, 1)}, ${best === "higher" ? "most" : "lowest"} first` });
+    return [series("metric", m.label, m.direction === "higher" ? "higher" : "lower", m.unit || "", (r) => r.metric, (v) => fmtValue(v, m.unit))]
+      .concat((m.extras || []).filter((x) => x.chart).map((x) => {
+        const unit = x.chart_unit || x.unit || "";
+        return series(x.key, x.label, x.best, unit, (r) => (r.extras || {})[x.key],
+          (v) => (x.decimals != null ? Number(v).toFixed(x.decimals) + (unit ? " " + unit : "") : fmtValue(v, unit)));
+      }));
+  }
+
+  // a chart's frame (heading, zoom buttons, scrolling plot, legend, tooltip), made once and reused
+  const panes = [];
+  function pane(i) {
+    if (panes[i]) return panes[i];
+    const sec = document.createElement("section");
+    sec.className = "chart hidden";
+    sec.innerHTML = `
+      <div class="chart-head">
+        <h2></h2>
+        <div class="zoom" role="group" aria-label="Chart zoom">
+          <button type="button" class="zoom-out" aria-label="Zoom out: every entry, axis from zero" title="Zoom out">−</button>
+          <button type="button" class="zoom-in" aria-label="Zoom in: fewer entries, axis fitted to them" title="Zoom in">+</button>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-scroll"></div>
+        <p class="key"></p>
+      </div>
+      <div class="tip hidden" role="status" aria-live="polite"></div>`;
+    $("charts").appendChild(sec);
+    const q = (sel) => sec.querySelector(sel);
+    const p = { i, sec, title: q("h2"), scroller: q(".chart-scroll"), key: q(".key"), tip: q(".tip"), zoomIn: q(".zoom-in"), zoomOut: q(".zoom-out"),
+      zoom: 0, shown: null, frame: 0, doc: null, series: null };
+    sec.setAttribute("aria-labelledby", (p.title.id = `chart-title-${i}`));
+    p.zoomIn.addEventListener("click", () => zoomChart(p, 1));
+    p.zoomOut.addEventListener("click", () => zoomChart(p, -1));
+    p.scroller.addEventListener("scroll", () => {
+      p.tip.classList.add("hidden");
+      if (p.zoom === 0 || p.frame) return;
+      p.frame = requestAnimationFrame(() => { p.frame = 0; if (p.doc) renderChart(p); });
+    }, { passive: true });
+    return (panes[i] = p);
+  }
+
+  function renderCharts(doc) {
+    const list = (doc.rows || []).length ? chartSeries(doc).filter((s) => s.rows.length) : [];
+    $("charts").classList.toggle("two", list.length > 1);
+    // side by side, the charts share one legend under both
+    $("charts-key").classList.toggle("hidden", list.length < 2);
+    $("charts-key").innerHTML = list.length < 2 ? "" : `<span><i style="background:var(--chart-dot)"></i>${racer(doc, 2)}, with each one's position underneath</span>` +
+      `<span><i style="background:var(--chart-me)"></i>you (type your ${anon(doc) ? "alias" : "team number"} above, or click a dot)</span>`;
+    for (let i = 0; i < Math.max(list.length, panes.length); i++) {
+      const p = pane(i);
+      p.doc = doc; p.series = list[i] || null; p.shared = list.length > 1;
+      p.sec.classList.toggle("hidden", !p.series);       // shown before it is drawn: the plot measures its own width
+    }
+    panes.forEach((p) => { if (p.series) renderChart(p); else { p.scroller.innerHTML = ""; p.tip.classList.add("hidden"); } });
+  }
+
+  function renderChart(p) {
+    // one lollipop per ranked driver, left to right in the series' order; height = its value
+    const doc = p.doc, s = p.series, sec = p.sec, tip = p.tip, scroller = p.scroller;
+    const rows = s.rows;
     tip.classList.add("hidden");
-    if (chartView.slug !== state.slug) { chartView.slug = state.slug; chartView.zoom = 0; scroller.scrollLeft = 0; }
-    chartView.doc = doc;
-    $("zoom-out").disabled = chartView.zoom === 0;
-    $("zoom-in").disabled = chartView.zoom === ZOOMS.length - 1 || rows.length < 3;
-    if (!rows.length) { sec.classList.add("hidden"); scroller.innerHTML = ""; return; }
-    sec.classList.remove("hidden");
-    const m = doc.metric, unit = m.unit || "";
-    const ref = doc.reference ? doc.reference.metric : null;
-    const n = rows.length, zoomed = chartView.zoom > 0;
+    const shown = `${state.slug}/${s.key}`;
+    if (p.shown !== shown) { p.shown = shown; p.zoom = 0; scroller.scrollLeft = 0; }
+    p.zoomOut.disabled = p.zoom === 0;
+    p.zoomIn.disabled = p.zoom === ZOOMS.length - 1 || rows.length < 3;
+    p.title.innerHTML = `${esc(s.title)} <span>${esc(s.sub)}</span>`;
+    const m = doc.metric, unit = s.unit;
+    const ref = s.ref;
+    const n = rows.length, zoomed = p.zoom > 0;
     const padL = 48, padT = 26, padB = 30, plotH = 190;
     const padR = ref != null ? 132 : 18;          // the reference label lives past the last column
     const avail = scroller.clientWidth || 600;
-    const col = Math.round(Math.max(28, Math.floor((avail - padL - padR) / n)) * ZOOMS[chartView.zoom]);   // >= 28px: the hit target
+    const col = Math.round(Math.max(28, Math.floor((avail - padL - padR) / n)) * ZOOMS[p.zoom]);   // >= 28px: the hit target
     const W = padL + n * col + padR, H = padT + plotH + padB;
-    // the time axis: from zero over everyone, or fitted to the columns in view
-    let lo = 0, hi = Math.max(...rows.map((r) => r.metric), ref || 0) * 1.08;
+    // the value axis: from zero over everyone, or fitted to the columns in view
+    let lo = 0, hi = Math.max(...rows.map(s.get), ref || 0) * 1.08;
     if (zoomed) {
       const first = Math.max(0, Math.floor((scroller.scrollLeft - padL) / col));
       const last = Math.min(n - 1, Math.ceil((scroller.scrollLeft + avail - padL) / col) - 1);
-      const seen = rows.slice(first, Math.max(first, last) + 1).map((r) => r.metric);
+      const seen = rows.slice(first, Math.max(first, last) + 1).map(s.get);
       const vmin = Math.min(...seen), vmax = Math.max(...seen), pad = Math.max((vmax - vmin) * 0.12, vmax * 0.01, 0.05);
       lo = Math.max(0, vmin - pad); hi = vmax + pad;
     }
@@ -733,7 +796,8 @@
     const y0 = y(lo);
     const digits = step < 0.1 ? 2 : step < 1 ? 1 : 0;
     const colorOf = (r, me) => me ? "var(--chart-me)" : "var(--chart-dot)";
-    const parts = [`<defs><clipPath id="plot-clip"><rect x="0" y="${padT - 12}" width="${W}" height="${plotH + 13}"/></clipPath></defs>`];
+    const clip = "plot-clip" + (p.i ? "-" + p.i : "");   // two charts on a page: two clip ids
+    const parts = [`<defs><clipPath id="${clip}"><rect x="0" y="${padT - 12}" width="${W}" height="${plotH + 13}"/></clipPath></defs>`];
     // zoomed in, the axis numbers ride along at the left edge of the view (the chart
     // redraws on scroll); they are painted last, over whatever scrolls beneath them
     const ax = zoomed ? Math.min(scroller.scrollLeft, W - avail) : 0;
@@ -747,48 +811,50 @@
     const refIn = ref != null && ref >= lo && ref <= top;
     if (refIn) {
       parts.push(`<line x1="${padL}" x2="${W - padR}" y1="${y(ref)}" y2="${y(ref)}" stroke="var(--chart-ref)" stroke-width="1.5" stroke-dasharray="6 5"/>`);
-      parts.push(`<text class="lbl ink2" x="${W - padR + 8}" y="${y(ref) + 4}" text-anchor="start">TA ref ${esc(fmtValue(ref, unit))}</text>`);
+      parts.push(`<text class="lbl ink2" x="${W - padR + 8}" y="${y(ref) + 4}" text-anchor="start">TA ref ${esc(s.fmt(ref))}</text>`);
     }
     const every = Math.max(1, Math.ceil(n / Math.max(4, Math.floor((W - padL - padR) / 60))));
     rows.forEach((r, i) => {
       const me = same(r.alias, state.me);
       const c = colorOf(r, me);
-      const cx = x(i), cy = y(r.metric);
+      const v = s.get(r), cx = x(i), cy = y(v);
       let ly = cy - 12;                                        // a label never sits on the reference rule
       if (refIn && Math.abs(ly - y(ref)) < 10) ly = Math.min(ly, y(ref) - 10);
-      if (i === 0 || (i + 1) % every === 0 || zoomed) {
+      // by position the labels count up, so some can be skipped; sorted by value, every dot needs its own
+      if (i === 0 || (i + 1) % every === 0 || zoomed || !s.byPosition) {
         parts.push(`<text class="lbl" x="${cx}" y="${H - 10}" text-anchor="middle">P${r.rank}</text>`);
       }
-      parts.push(`<rect class="hit" x="${padL + i * col}" y="${padT - 10}" width="${col}" height="${plotH + padB}" tabindex="0" role="img" data-i="${i}" aria-label="${esc(`P${r.rank} ${r.alias}: ${fmtValue(r.metric, unit)}`)}"/>`);
+      parts.push(`<rect class="hit" x="${padL + i * col}" y="${padT - 10}" width="${col}" height="${plotH + padB}" tabindex="0" role="img" data-i="${i}" aria-label="${esc(`P${r.rank} ${r.alias}: ${s.fmt(v)}`)}"/>`);
       // off a zero baseline a stem no longer measures anything: it fades to a guide
-      parts.push(`<g class="mark${me ? " me" : ""}" data-i="${i}" pointer-events="none" clip-path="url(#plot-clip)">` +
+      parts.push(`<g class="mark${me ? " me" : ""}" data-i="${i}" pointer-events="none" clip-path="url(#${clip})">` +
         `<line x1="${cx}" x2="${cx}" y1="${y0}" y2="${cy}" stroke="${c}" stroke-width="2"${lo > 0 ? ' opacity=".3"' : ""}/>` +
         `<circle cx="${cx}" cy="${cy}" r="${me ? 6 : 5}" fill="${c}" stroke="var(--surface)" stroke-width="2"/>` +
-        (me ? `<text class="lbl ink" x="${cx}" y="${ly}" text-anchor="middle">${esc(r.alias)} · ${esc(fmtValue(r.metric, unit))}</text>`
+        (me ? `<text class="lbl ink" x="${cx}" y="${ly}" text-anchor="middle">${esc(r.alias)} · ${esc(s.fmt(v))}</text>`
             : (zoomed && col >= 56) || (i === 0 && !(rows[1] && same(rows[1].alias, state.me) && col < 90))
-              ? `<text class="lbl ink2" x="${cx}" y="${ly}" text-anchor="${col < 60 ? "start" : "middle"}">${esc(fmtValue(r.metric, unit))}</text>` : "") +
+              ? `<text class="lbl ink2" x="${cx}" y="${ly}" text-anchor="${col < 60 ? "start" : "middle"}">${esc(s.fmt(v))}</text>` : "") +
         `</g>`);
     });
     parts.push(`<line x1="${padL}" x2="${W - padR}" y1="${y0}" y2="${y0}" stroke="var(--line-strong)" stroke-width="1"/>`);
     parts.push(...axis);
-    scroller.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Lap time per ranked ${racer(doc, 1)}">${parts.join("")}</svg>`;
-    $("chart-sub").textContent = "";
-    $("chart-key").innerHTML = `<span><i style="background:var(--chart-dot)"></i>${racer(doc, 2)}</span>` +
-      (ref != null ? `<span><i class="line"></i>TA reference${refIn ? "" : ` (${esc(fmtValue(ref, unit))}, outside this view)`}</span>` : "") +
+    scroller.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="${esc(s.label)}">${parts.join("")}</svg>`;
+    const axisNote = lo > 0 ? `<span>axis starts at ${esc(s.fmt(lo))} and follows the entries in view: scroll sideways</span>` : "";
+    p.key.innerHTML = p.shared ? axisNote : `<span><i style="background:var(--chart-dot)"></i>${racer(doc, 2)}</span>` +
+      (ref != null ? `<span><i class="line"></i>TA reference${refIn ? "" : ` (${esc(s.fmt(ref))}, outside this view)`}</span>` : "") +
       `<span><i style="background:var(--chart-me)"></i>you (type your ${anon(doc) ? "alias" : "team number"} above, or click a dot)</span>` +
-      (lo > 0 ? `<span>axis starts at ${esc(fmtValue(lo, unit))} and follows the entries in view: scroll sideways</span>` : "");
+      axisNote;
 
     const svg = scroller.querySelector("svg");
     const marks = svg.querySelectorAll(".mark");
     const show = (i) => {
-      const r = rows[i];
+      const r = rows[i], v = s.get(r);
       marks.forEach((g) => g.classList.toggle("hot", g.dataset.i === String(i)));
-      const gap = rows[0].metric === r.metric ? "leader" : fmtGap(r.metric, rows[0].metric, m.direction) + " " + unit + " to P1";
       tip.textContent = "";
-      const strong = document.createElement("strong"); strong.textContent = fmtValue(r.metric, unit);
+      const strong = document.createElement("strong"); strong.textContent = s.fmt(v);
       tip.append(strong, document.createTextNode(`P${r.rank} · ${r.alias}`));
-      if (ranksByMetric(doc)) tip.append(document.createElement("br"),
-                 document.createTextNode(manual(doc) ? gap : `${gap} · attempt #${r.attempt} of ${r.used}`));
+      if (s.byPosition) {
+        const gap = rows[0].metric === r.metric ? "leader" : fmtGap(r.metric, rows[0].metric, m.direction) + " " + unit + " to P1";
+        tip.append(document.createElement("br"), document.createTextNode(manual(doc) ? gap : `${gap} · attempt #${r.attempt} of ${r.used}`));
+      }
       const dot = svg.querySelector(`.mark[data-i="${i}"] circle`).getBoundingClientRect();
       const box = sec.getBoundingClientRect();
       tip.classList.remove("hidden");
@@ -807,25 +873,18 @@
     });
   }
 
-  function zoomChart(direction) {
-    const scroller = $("chart-scroll"), svg = scroller.querySelector("svg");
-    const next = Math.min(ZOOMS.length - 1, Math.max(0, chartView.zoom + direction));
-    if (next === chartView.zoom || !chartView.doc) return;
+  function zoomChart(p, direction) {
+    const scroller = p.scroller, svg = scroller.querySelector("svg");
+    const next = Math.min(ZOOMS.length - 1, Math.max(0, p.zoom + direction));
+    if (next === p.zoom || !p.series) return;
     // keep the entry at the left edge where it is
     const before = svg ? scroller.scrollLeft / Math.max(1, svg.width.baseVal.value) : 0;
-    chartView.zoom = next;
-    renderChart(chartView.doc);
+    p.zoom = next;
+    renderChart(p);
     const after = scroller.querySelector("svg");
     scroller.scrollLeft = next === 0 || !after ? 0 : before * after.width.baseVal.value;
-    renderChart(chartView.doc);                     // the axis fits what that scroll position shows
+    renderChart(p);                                 // the axis fits what that scroll position shows
   }
-  $("zoom-in").addEventListener("click", () => zoomChart(1));
-  $("zoom-out").addEventListener("click", () => zoomChart(-1));
-  $("chart-scroll").addEventListener("scroll", () => {
-    $("chart-tip").classList.add("hidden");
-    if (chartView.zoom === 0 || chartView.frame) return;
-    chartView.frame = requestAnimationFrame(() => { chartView.frame = 0; if (chartView.doc) renderChart(chartView.doc); });
-  }, { passive: true });
 
   function renderBoard(doc) {
     const m = doc.metric;
@@ -983,7 +1042,7 @@
   let resizeTimer = null;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { ribbonEdges(); if (state.docs[state.slug]) renderChart(state.docs[state.slug]); }, 150);
+    resizeTimer = setTimeout(() => { ribbonEdges(); if (state.docs[state.slug]) renderCharts(state.docs[state.slug]); }, 150);
   });
   setInterval(() => { if (state.docs[state.slug]) renderStatus(state.docs[state.slug]); }, 30000);
   setInterval(() => load(false), 120000);

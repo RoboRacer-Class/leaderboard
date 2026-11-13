@@ -377,6 +377,8 @@
      {
       "best": "higher",
       "card": "Longest clean run",
+      "chart": true,
+      "chart_unit": "laps",
       "decimals": 0,
       "key": "laps",
       "label": "Clean laps in a row"

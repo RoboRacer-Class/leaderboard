@@ -1,6 +1,6 @@
 {
  "classroom": "ese-6150",
- "generated_at": "2026-11-12T21:45:28Z",
+ "generated_at": "2026-11-13T04:17:52Z",
  "labs": [
   {
    "anonymous": true,
@@ -411,7 +411,7 @@
    "cap": null,
    "due": "2026-11-28T04:59:00Z",
    "file": "lab-8-model-predictive-path-integral-levine.json",
-   "generated_at": "2026-11-12T21:45:28Z",
+   "generated_at": "2026-11-13T04:17:52Z",
    "lab_title": "Lab 8: Model Predictive Path Integral",
    "late": 0,
    "metric": {
@@ -432,6 +432,7 @@
     "label": "Best lap",
     "unit": "s"
    },
+   "optional": true,
    "podium": 5,
    "reference": true,
    "requirement": "full marks on compilation, the five MPPI checks and Levine (three clean laps in a row)",
@@ -449,7 +450,7 @@
    "cap": null,
    "due": "2026-11-28T04:59:00Z",
    "file": "lab-8-model-predictive-path-integral-spielberg.json",
-   "generated_at": "2026-11-12T21:45:28Z",
+   "generated_at": "2026-11-13T04:17:52Z",
    "lab_title": "Lab 8: Model Predictive Path Integral",
    "late": 0,
    "metric": {
@@ -470,6 +471,7 @@
     "label": "Lap time",
     "unit": "s"
    },
+   "optional": true,
    "podium": 5,
    "reference": true,
    "requirement": "full marks on compilation, the five MPPI checks and Spielberg (one clean lap)",
@@ -478,6 +480,45 @@
    "tab_title": "Lab 8: MPPI",
    "title": "Lab 8: Model Predictive Path Integral \u00b7 Spielberg, fastest clean lap",
    "unranked": 12
+  },
+  {
+   "anonymous": false,
+   "assignment": "lab-9-reinforcement-learning",
+   "available_from": null,
+   "board_title": "Spielberg, fastest clean lap",
+   "cap": null,
+   "due": "2026-11-28T04:59:00Z",
+   "file": "lab-9-reinforcement-learning-spielberg.json",
+   "generated_at": "2026-11-13T04:17:52Z",
+   "lab_title": "Lab 9: Reinforcement Learning",
+   "late": 0,
+   "metric": {
+    "direction": "lower",
+    "extras": [
+     {
+      "key": "avg_mps",
+      "label": "Avg speed",
+      "unit": "m/s"
+     },
+     {
+      "key": "top_mps",
+      "label": "Top speed",
+      "unit": "m/s"
+     }
+    ],
+    "key": "lap_s",
+    "label": "Lap time",
+    "unit": "s"
+   },
+   "optional": true,
+   "podium": 5,
+   "reference": false,
+   "requirement": "full marks on compilation, the six notebook checks, the three node checks and Spielberg (one clean lap)",
+   "rows": 0,
+   "slug": "lab-9-reinforcement-learning-spielberg",
+   "tab_title": "Lab 9: RL",
+   "title": "Lab 9: Reinforcement Learning",
+   "unranked": 6
   }
  ],
  "org": "RoboRacer-Class",

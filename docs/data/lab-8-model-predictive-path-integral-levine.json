@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-28T04:59:00Z",
- "generated_at": "2026-11-13T04:17:52Z",
+ "generated_at": "2026-11-13T04:23:32Z",
  "lab_title": "Lab 8: Model Predictive Path Integral",
  "late": [],
  "metric": {
@@ -123,13 +123,13 @@
  },
  "podium": 5,
  "reference": {
-  "at": "2026-10-19T16:12:19Z",
+  "at": "2026-11-13T04:18:13Z",
   "extras": {
-   "avg_mps": 5.32,
-   "top_mps": 7.98
+   "avg_mps": 5.9,
+   "top_mps": 9.02
   },
-  "metric": 11.75,
-  "replay": "replays/lab-8-model-predictive-path-integral-levine/reference.json?v=354bb3a5"
+  "metric": 10.17,
+  "replay": "replays/lab-8-model-predictive-path-integral-levine/reference.json?v=1c699813"
  },
  "reference_submissions": [
   {
@@ -146,10 +146,15 @@
   },
   {
    "at": "2026-11-13T04:18:13Z",
-   "full": false,
-   "graded": false,
+   "full": true,
+   "graded": true,
    "id": "43f7173b12102c80",
-   "metrics": null
+   "metrics": {
+    "avg_mps": 5.9,
+    "lap_s": 10.17,
+    "top_mps": 9.02
+   },
+   "replay": "replays/lab-8-model-predictive-path-integral-levine/reference.json?v=1c699813"
   }
  ],
  "requirement": "full marks on compilation, the five MPPI checks and Levine (three clean laps in a row)",

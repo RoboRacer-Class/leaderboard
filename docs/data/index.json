@@ -1,6 +1,6 @@
 {
  "classroom": "ese-6150",
- "generated_at": "2026-11-13T04:17:52Z",
+ "generated_at": "2026-11-13T04:23:32Z",
  "labs": [
   {
    "anonymous": true,
@@ -411,7 +411,7 @@
    "cap": null,
    "due": "2026-11-28T04:59:00Z",
    "file": "lab-8-model-predictive-path-integral-levine.json",
-   "generated_at": "2026-11-13T04:17:52Z",
+   "generated_at": "2026-11-13T04:23:32Z",
    "lab_title": "Lab 8: Model Predictive Path Integral",
    "late": 0,
    "metric": {
@@ -450,7 +450,7 @@
    "cap": null,
    "due": "2026-11-28T04:59:00Z",
    "file": "lab-8-model-predictive-path-integral-spielberg.json",
-   "generated_at": "2026-11-13T04:17:52Z",
+   "generated_at": "2026-11-13T04:23:32Z",
    "lab_title": "Lab 8: Model Predictive Path Integral",
    "late": 0,
    "metric": {
@@ -484,12 +484,12 @@
   {
    "anonymous": false,
    "assignment": "lab-9-reinforcement-learning",
-   "available_from": null,
+   "available_from": "2026-11-11T17:00:00Z",
    "board_title": "Spielberg, fastest clean lap",
    "cap": null,
    "due": "2026-11-28T04:59:00Z",
    "file": "lab-9-reinforcement-learning-spielberg.json",
-   "generated_at": "2026-11-13T04:17:52Z",
+   "generated_at": "2026-11-13T04:23:32Z",
    "lab_title": "Lab 9: Reinforcement Learning",
    "late": 0,
    "metric": {
@@ -512,7 +512,7 @@
    },
    "optional": true,
    "podium": 5,
-   "reference": false,
+   "reference": true,
    "requirement": "full marks on compilation, the six notebook checks, the three node checks and Spielberg (one clean lap)",
    "rows": 0,
    "slug": "lab-9-reinforcement-learning-spielberg",

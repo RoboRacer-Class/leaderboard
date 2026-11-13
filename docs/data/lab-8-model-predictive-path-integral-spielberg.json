@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-28T04:59:00Z",
- "generated_at": "2026-11-13T04:17:52Z",
+ "generated_at": "2026-11-13T04:23:32Z",
  "lab_title": "Lab 8: Model Predictive Path Integral",
  "late": [],
  "metric": {
@@ -123,13 +123,13 @@
  },
  "podium": 5,
  "reference": {
-  "at": "2026-10-19T16:12:19Z",
+  "at": "2026-11-13T04:18:13Z",
   "extras": {
-   "avg_mps": 6.41,
-   "top_mps": 8.0
+   "avg_mps": 8.77,
+   "top_mps": 13.2
   },
-  "metric": 50.35,
-  "replay": "replays/lab-8-model-predictive-path-integral-spielberg/reference.json?v=0542ee34"
+  "metric": 37.8,
+  "replay": "replays/lab-8-model-predictive-path-integral-spielberg/reference.json?v=3cf6b493"
  },
  "reference_submissions": [
   {
@@ -146,10 +146,15 @@
   },
   {
    "at": "2026-11-13T04:18:13Z",
-   "full": false,
-   "graded": false,
+   "full": true,
+   "graded": true,
    "id": "43f7173b12102c80",
-   "metrics": null
+   "metrics": {
+    "avg_mps": 8.77,
+    "lap_s": 37.8,
+    "top_mps": 13.2
+   },
+   "replay": "replays/lab-8-model-predictive-path-integral-spielberg/reference.json?v=3cf6b493"
   }
  ],
  "requirement": "full marks on compilation, the five MPPI checks and Spielberg (one clean lap)",

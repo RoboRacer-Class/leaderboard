@@ -28,6 +28,17 @@ def test_the_tab_label_comes_from_the_grader_config(tmp_path):
     assert json.loads((tmp_path / "index.json").read_text())["labs"][0]["tab_title"] == ""
 
 
+def test_an_optional_lab_is_flagged_only_when_its_config_says_so(tmp_path):
+    api = FakeApi()
+    api.files[CONFIG_KEY] = CONFIG_YAML.replace("  podium: 5\n", "  podium: 5\n  optional: true\n")
+    add_student(api, "cedrichld", [lap(13.47)], ["2026-09-07T03:46:01Z"])
+    assert run_build(api, tmp_path, log()) == 0
+    assert json.loads((tmp_path / "index.json").read_text())["labs"][0]["optional"] is True
+    api.files[CONFIG_KEY] = CONFIG_YAML                                   # no key: the entry is unchanged
+    assert run_build(api, tmp_path, log()) == 0
+    assert "optional" not in json.loads((tmp_path / "index.json").read_text())["labs"][0]
+
+
 def track_png():
     from PIL import Image
     im = Image.new("L", (80, 60), 205)                                     # unknown space

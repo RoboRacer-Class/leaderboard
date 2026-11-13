@@ -104,6 +104,8 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
         cap = (cfg.get("submissions") or {}).get("cap")
         name = entry.get("name") or slug
         tab = next((str(b["tab"]).strip() for b in blocks if b.get("tab")), "")
+        # `optional: true` on any of a lab's boards marks the whole lab optional on its tab
+        optional = any(b.get("optional") is True for b in blocks)
         for block in blocks:
             key = str(block.get("key") or "").strip()
             board = f"{slug}-{key}" if key else slug
@@ -121,6 +123,7 @@ def load_labs(config: ConfigSource, classroom: str, only: set | None = None) -> 
                 "board_title": board_title,
                 "lab_title": name,
                 "tab_title": tab,
+                "optional": optional,
                 "due": entry.get("due"),
                 "available_from": entry.get("available_from"),
                 "cap": int(cap) if cap else None,
@@ -626,7 +629,9 @@ def build(api, org: str, classroom: str, salt: str, token: str, data_dir: Path, 
             "due": lab["due"], "available_from": lab["available_from"], "cap": lab["cap"],
             "podium": lab["podium"], "metric": public_metric(lab["metric"]),
             "rows": len(rows), "late": len(late), "unranked": len(unranked), "reference": reference is not None,
-            "file": f"{lab['board']}.json", "generated_at": lab_generated})
+            "file": f"{lab['board']}.json", "generated_at": lab_generated,
+            # only on optional labs, so the other labs' published entries do not change
+            **({"optional": True} if lab.get("optional") else {})})
         log(f"{lab['board']}: {len(rows)} ranked, {len(unranked)} waiting, "
             f"reference {'set' if reference else 'missing'}")
     # Hand-made boards (index entries flagged "demo": true, or "manual": true

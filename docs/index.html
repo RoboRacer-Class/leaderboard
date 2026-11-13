@@ -599,7 +599,9 @@
       const opens = l.available_from && new Date(l.available_from) > Date.now()
         ? "opens " + new Date(l.available_from).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : "";
       const selected = current && labOf(current) === labOf(l);
-      const tag = l.manual ? (l.held_on ? fmtDay(l.held_on) : "final") : opens || (closed ? "closed" : "open");
+      const status = l.manual ? (l.held_on ? fmtDay(l.held_on) : "final") : opens || (closed ? "closed" : "open");
+      // an optional lab (`optional: true` in its grader config) says so before its status
+      const tag = l.optional ? "optional · " + status : status;
       return `<button class="tab" role="tab" data-lab="${esc(labOf(l))}" aria-selected="${selected}" title="${esc(l.lab_title || l.title)}">${esc(labName(l))}<span class="state">${esc(tag)}</span></button>`;
     }).join("");
     // the ribbon scrolls sideways once the labs outgrow it: keep the open tab in view

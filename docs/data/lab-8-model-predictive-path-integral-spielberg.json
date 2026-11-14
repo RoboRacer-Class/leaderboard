@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-28T04:59:00Z",
- "generated_at": "2026-11-14T23:11:20Z",
+ "generated_at": "2026-11-14T23:20:03Z",
  "lab_title": "Lab 8: Model Predictive Path Integral",
  "late": [],
  "metric": {
@@ -171,10 +171,15 @@
     },
     {
      "at": "2026-11-14T23:09:05Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "e472ed5b5e407235",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 4.98,
+      "lap_s": 68.16,
+      "top_mps": 6.0
+     },
+     "replay": "replays/lab-8-model-predictive-path-integral-spielberg/team-7.json?v=7e2ee990"
     }
    ]
   },
@@ -253,6 +258,20 @@
    "used": 2
   },
   {
+   "alias": "Team 7",
+   "at": "2026-11-14T23:09:05Z",
+   "attempt": 5,
+   "extras": {
+    "avg_mps": 4.98,
+    "top_mps": 6.0
+   },
+   "locked": false,
+   "metric": 68.16,
+   "rank": 2,
+   "replay": "replays/lab-8-model-predictive-path-integral-spielberg/team-7.json?v=7e2ee990",
+   "used": 5
+  },
+  {
    "alias": "Team 10",
    "at": "2026-11-01T19:24:24Z",
    "attempt": 2,
@@ -262,7 +281,7 @@
    },
    "locked": false,
    "metric": 70.53,
-   "rank": 2,
+   "rank": 3,
    "replay": "replays/lab-8-model-predictive-path-integral-spielberg/team-10.json?v=68d4e54d",
    "used": 2
   },
@@ -276,7 +295,7 @@
    },
    "locked": false,
    "metric": 113.08,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-8-model-predictive-path-integral-spielberg/team-3.json?v=38e38f69",
    "used": 2
   }
@@ -304,11 +323,6 @@
    "alias": "Team 6",
    "locked": false,
    "used": 0
-  },
-  {
-   "alias": "Team 7",
-   "locked": false,
-   "used": 5
   },
   {
    "alias": "Team 8",

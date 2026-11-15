@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-28T04:59:00Z",
- "generated_at": "2026-11-14T23:20:03Z",
+ "generated_at": "2026-11-15T07:34:01Z",
  "lab_title": "Lab 8: Model Predictive Path Integral",
  "late": [],
  "metric": {
@@ -124,6 +124,18 @@
      "graded": true,
      "id": "22618b65caebbc2b",
      "metrics": null
+    },
+    {
+     "at": "2026-11-15T07:30:35Z",
+     "full": true,
+     "graded": true,
+     "id": "8f94500cedd6a954",
+     "metrics": {
+      "avg_mps": 5.33,
+      "lap_s": 10.74,
+      "top_mps": 7.39
+     },
+     "replay": "replays/lab-8-model-predictive-path-integral-levine/team-5.json?v=b40d6cb6"
     }
    ]
   },
@@ -250,6 +262,20 @@
  "requirement": "full marks on compilation, the five MPPI checks and Levine (three clean laps in a row)",
  "rows": [
   {
+   "alias": "Team 5",
+   "at": "2026-11-15T07:30:35Z",
+   "attempt": 3,
+   "extras": {
+    "avg_mps": 5.33,
+    "top_mps": 7.39
+   },
+   "locked": false,
+   "metric": 10.74,
+   "rank": 1,
+   "replay": "replays/lab-8-model-predictive-path-integral-levine/team-5.json?v=b40d6cb6",
+   "used": 3
+  },
+  {
    "alias": "Team 7",
    "at": "2026-11-14T23:09:05Z",
    "attempt": 5,
@@ -259,7 +285,7 @@
    },
    "locked": false,
    "metric": 17.59,
-   "rank": 1,
+   "rank": 2,
    "replay": "replays/lab-8-model-predictive-path-integral-levine/team-7.json?v=839e75e8",
    "used": 5
   },
@@ -273,7 +299,7 @@
    },
    "locked": false,
    "metric": 18.5,
-   "rank": 2,
+   "rank": 3,
    "replay": "replays/lab-8-model-predictive-path-integral-levine/team-10.json?v=688239b4",
    "used": 2
   },
@@ -287,7 +313,7 @@
    },
    "locked": false,
    "metric": 27.33,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-8-model-predictive-path-integral-levine/team-3.json?v=fd3e9ba6",
    "used": 2
   }
@@ -310,11 +336,6 @@
    "alias": "Team 4",
    "locked": false,
    "used": 0
-  },
-  {
-   "alias": "Team 5",
-   "locked": false,
-   "used": 2
   },
   {
    "alias": "Team 6",

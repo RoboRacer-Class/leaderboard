@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-28T04:59:00Z",
- "generated_at": "2026-11-16T20:26:14Z",
+ "generated_at": "2026-11-16T23:14:24Z",
  "lab_title": "Lab 9: Reinforcement Learning",
  "late": [],
  "metric": {
@@ -30,7 +30,20 @@
   "Team 10": {
    "locked": false,
    "owner": "group-10",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-11-16T23:09:58Z",
+     "full": true,
+     "graded": true,
+     "id": "a7fcd29accbbbe19",
+     "metrics": {
+      "avg_mps": 5.96,
+      "lap_s": 56.51,
+      "top_mps": 6.0
+     },
+     "replay": "replays/lab-9-reinforcement-learning-spielberg/team-10.json?v=a4383929"
+    }
+   ]
   },
   "Team 11": {
    "locked": false,
@@ -113,6 +126,20 @@
  "requirement": "full marks on compilation, the six notebook checks, the three node checks and Spielberg (one clean lap)",
  "rows": [
   {
+   "alias": "Team 10",
+   "at": "2026-11-16T23:09:58Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 5.96,
+    "top_mps": 6.0
+   },
+   "locked": false,
+   "metric": 56.51,
+   "rank": 1,
+   "replay": "replays/lab-9-reinforcement-learning-spielberg/team-10.json?v=a4383929",
+   "used": 1
+  },
+  {
    "alias": "Team 11",
    "at": "2026-11-14T08:51:07Z",
    "attempt": 1,
@@ -122,7 +149,7 @@
    },
    "locked": false,
    "metric": 56.6,
-   "rank": 1,
+   "rank": 2,
    "replay": "replays/lab-9-reinforcement-learning-spielberg/team-11.json?v=5bfb14b4",
    "used": 1
   }
@@ -153,11 +180,6 @@
   },
   {
    "alias": "Team 8",
-   "locked": false,
-   "used": 0
-  },
-  {
-   "alias": "Team 10",
    "locked": false,
    "used": 0
   },

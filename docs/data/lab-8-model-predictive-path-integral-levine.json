@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-28T04:59:00Z",
- "generated_at": "2026-11-16T07:01:55Z",
+ "generated_at": "2026-11-16T07:45:56Z",
  "lab_title": "Lab 8: Model Predictive Path Integral",
  "late": [],
  "metric": {
@@ -160,6 +160,18 @@
       "top_mps": 9.16
      },
      "replay": "replays/lab-8-model-predictive-path-integral-levine/team-5.json?v=acabc7d1"
+    },
+    {
+     "at": "2026-11-16T07:26:22Z",
+     "full": true,
+     "graded": true,
+     "id": "eea9a5592f2ab566",
+     "metrics": {
+      "avg_mps": 6.54,
+      "lap_s": 9.09,
+      "top_mps": 9.17
+     },
+     "replay": "replays/lab-8-model-predictive-path-integral-levine/team-5.json?v=217319a6"
     }
    ]
   },
@@ -287,17 +299,17 @@
  "rows": [
   {
    "alias": "Team 5",
-   "at": "2026-11-16T06:55:12Z",
-   "attempt": 5,
+   "at": "2026-11-16T07:26:22Z",
+   "attempt": 6,
    "extras": {
-    "avg_mps": 6.53,
-    "top_mps": 9.16
+    "avg_mps": 6.54,
+    "top_mps": 9.17
    },
    "locked": false,
-   "metric": 9.13,
+   "metric": 9.09,
    "rank": 1,
-   "replay": "replays/lab-8-model-predictive-path-integral-levine/team-5.json?v=acabc7d1",
-   "used": 5
+   "replay": "replays/lab-8-model-predictive-path-integral-levine/team-5.json?v=217319a6",
+   "used": 6
   },
   {
    "alias": "Team 7",

@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-28T04:59:00Z",
- "generated_at": "2026-11-17T14:21:32Z",
+ "generated_at": "2026-11-17T17:53:20Z",
  "lab_title": "Lab 9: Reinforcement Learning",
  "late": [],
  "metric": {
@@ -98,6 +98,18 @@
       "top_mps": 6.0
      },
      "replay": "replays/lab-9-reinforcement-learning-spielberg/team-5.json?v=3acee768"
+    },
+    {
+     "at": "2026-11-17T17:48:23Z",
+     "full": true,
+     "graded": true,
+     "id": "7ef2265adcd6e416",
+     "metrics": {
+      "avg_mps": 6.92,
+      "lap_s": 48.81,
+      "top_mps": 7.0
+     },
+     "replay": "replays/lab-9-reinforcement-learning-spielberg/team-5.json?v=d860fd97"
     }
    ]
   },
@@ -139,6 +151,20 @@
  "requirement": "full marks on compilation, the six notebook checks, the three node checks and Spielberg (one clean lap)",
  "rows": [
   {
+   "alias": "Team 5",
+   "at": "2026-11-17T17:48:23Z",
+   "attempt": 2,
+   "extras": {
+    "avg_mps": 6.92,
+    "top_mps": 7.0
+   },
+   "locked": false,
+   "metric": 48.81,
+   "rank": 1,
+   "replay": "replays/lab-9-reinforcement-learning-spielberg/team-5.json?v=d860fd97",
+   "used": 2
+  },
+  {
    "alias": "Team 10",
    "at": "2026-11-16T23:09:58Z",
    "attempt": 1,
@@ -148,7 +174,7 @@
    },
    "locked": false,
    "metric": 56.51,
-   "rank": 1,
+   "rank": 2,
    "replay": "replays/lab-9-reinforcement-learning-spielberg/team-10.json?v=a4383929",
    "used": 1
   },
@@ -162,22 +188,8 @@
    },
    "locked": false,
    "metric": 56.6,
-   "rank": 2,
-   "replay": "replays/lab-9-reinforcement-learning-spielberg/team-11.json?v=5bfb14b4",
-   "used": 1
-  },
-  {
-   "alias": "Team 5",
-   "at": "2026-11-17T14:15:00Z",
-   "attempt": 1,
-   "extras": {
-    "avg_mps": 5.96,
-    "top_mps": 6.0
-   },
-   "locked": false,
-   "metric": 57.05,
    "rank": 3,
-   "replay": "replays/lab-9-reinforcement-learning-spielberg/team-5.json?v=3acee768",
+   "replay": "replays/lab-9-reinforcement-learning-spielberg/team-11.json?v=5bfb14b4",
    "used": 1
   }
  ],

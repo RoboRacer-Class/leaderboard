@@ -5,7 +5,7 @@
  "board_title": "Levine, fastest clean lap",
  "cap": null,
  "due": "2026-11-28T04:59:00Z",
- "generated_at": "2026-11-17T03:28:40Z",
+ "generated_at": "2026-11-17T03:37:44Z",
  "lab_title": "Lab 8: Model Predictive Path Integral",
  "late": [],
  "metric": {
@@ -198,10 +198,14 @@
     },
     {
      "at": "2026-11-17T03:26:29Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "a76601600f5380c4",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 6.71,
+      "lap_s": 8.95,
+      "top_mps": 9.43
+     }
     }
    ]
   },

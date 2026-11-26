@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-28T04:59:00Z",
- "generated_at": "2026-11-26T20:11:53Z",
+ "generated_at": "2026-11-26T22:12:08Z",
  "lab_title": "Lab 9: Reinforcement Learning",
  "late": [],
  "metric": {
@@ -96,6 +96,11 @@
      "replay": "replays/lab-9-reinforcement-learning-spielberg/team-12.json?v=055196ce"
     }
    ]
+  },
+  "Team 13": {
+   "locked": false,
+   "owner": "group-13",
+   "submissions": []
   },
   "Team 14": {
    "locked": false,
@@ -400,6 +405,11 @@
   },
   {
    "alias": "Team 8",
+   "locked": false,
+   "used": 0
+  },
+  {
+   "alias": "Team 13",
    "locked": false,
    "used": 0
   }

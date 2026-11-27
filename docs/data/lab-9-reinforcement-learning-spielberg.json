@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-11-28T04:59:00Z",
- "generated_at": "2026-11-26T22:12:08Z",
+ "generated_at": "2026-11-27T18:46:28Z",
  "lab_title": "Lab 9: Reinforcement Learning",
  "late": [],
  "metric": {
@@ -196,7 +196,20 @@
   "Team 4": {
    "locked": false,
    "owner": "group-4",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-11-27T18:42:54Z",
+     "full": true,
+     "graded": true,
+     "id": "e16b65340ebdd816",
+     "metrics": {
+      "avg_mps": 5.96,
+      "lap_s": 56.48,
+      "top_mps": 6.0
+     },
+     "replay": "replays/lab-9-reinforcement-learning-spielberg/team-4.json?v=54f6e3dd"
+    }
+   ]
   },
   "Team 5": {
    "locked": false,
@@ -319,6 +332,20 @@
    "used": 3
   },
   {
+   "alias": "Team 4",
+   "at": "2026-11-27T18:42:54Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 5.96,
+    "top_mps": 6.0
+   },
+   "locked": false,
+   "metric": 56.48,
+   "rank": 3,
+   "replay": "replays/lab-9-reinforcement-learning-spielberg/team-4.json?v=54f6e3dd",
+   "used": 1
+  },
+  {
    "alias": "Team 10",
    "at": "2026-11-16T23:09:58Z",
    "attempt": 1,
@@ -328,7 +355,7 @@
    },
    "locked": false,
    "metric": 56.51,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-9-reinforcement-learning-spielberg/team-10.json?v=a4383929",
    "used": 1
   },
@@ -342,7 +369,7 @@
    },
    "locked": false,
    "metric": 56.6,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-9-reinforcement-learning-spielberg/team-11.json?v=5bfb14b4",
    "used": 1
   },
@@ -356,7 +383,7 @@
    },
    "locked": false,
    "metric": 56.84,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-9-reinforcement-learning-spielberg/team-7.json?v=7379363a",
    "used": 1
   },
@@ -370,7 +397,7 @@
    },
    "locked": false,
    "metric": 57.22,
-   "rank": 6,
+   "rank": 7,
    "replay": "replays/lab-9-reinforcement-learning-spielberg/team-14.json?v=2fae0157",
    "used": 6
   },
@@ -384,7 +411,7 @@
    },
    "locked": false,
    "metric": 84.78,
-   "rank": 7,
+   "rank": 8,
    "replay": "replays/lab-9-reinforcement-learning-spielberg/team-12.json?v=055196ce",
    "used": 2
   }
@@ -395,11 +422,6 @@
  "unranked": [
   {
    "alias": "Team 1",
-   "locked": false,
-   "used": 0
-  },
-  {
-   "alias": "Team 4",
    "locked": false,
    "used": 0
   },

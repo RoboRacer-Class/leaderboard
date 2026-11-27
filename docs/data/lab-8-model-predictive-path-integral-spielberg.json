@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-12-01T04:59:00Z",
- "generated_at": "2026-11-27T19:45:17Z",
+ "generated_at": "2026-11-27T19:53:14Z",
  "lab_title": "Lab 8: Model Predictive Path Integral",
  "late": [],
  "metric": {
@@ -121,10 +121,15 @@
    "submissions": [
     {
      "at": "2026-11-27T19:41:35Z",
-     "full": false,
-     "graded": false,
+     "full": true,
+     "graded": true,
      "id": "bc74d7f05ee3d76d",
-     "metrics": null
+     "metrics": {
+      "avg_mps": 5.14,
+      "lap_s": 61.41,
+      "top_mps": 5.93
+     },
+     "replay": "replays/lab-8-model-predictive-path-integral-spielberg/team-4.json?v=f50d27bd"
     }
    ]
   },
@@ -359,6 +364,20 @@
    "used": 9
   },
   {
+   "alias": "Team 4",
+   "at": "2026-11-27T19:41:35Z",
+   "attempt": 1,
+   "extras": {
+    "avg_mps": 5.14,
+    "top_mps": 5.93
+   },
+   "locked": false,
+   "metric": 61.41,
+   "rank": 2,
+   "replay": "replays/lab-8-model-predictive-path-integral-spielberg/team-4.json?v=f50d27bd",
+   "used": 1
+  },
+  {
    "alias": "Team 7",
    "at": "2026-11-14T23:09:05Z",
    "attempt": 5,
@@ -368,7 +387,7 @@
    },
    "locked": false,
    "metric": 68.16,
-   "rank": 2,
+   "rank": 3,
    "replay": "replays/lab-8-model-predictive-path-integral-spielberg/team-7.json?v=7e2ee990",
    "used": 5
   },
@@ -382,7 +401,7 @@
    },
    "locked": false,
    "metric": 70.53,
-   "rank": 3,
+   "rank": 4,
    "replay": "replays/lab-8-model-predictive-path-integral-spielberg/team-10.json?v=68d4e54d",
    "used": 2
   },
@@ -396,7 +415,7 @@
    },
    "locked": false,
    "metric": 96.19,
-   "rank": 4,
+   "rank": 5,
    "replay": "replays/lab-8-model-predictive-path-integral-spielberg/team-13.json?v=1272e227",
    "used": 1
   },
@@ -410,7 +429,7 @@
    },
    "locked": false,
    "metric": 113.08,
-   "rank": 5,
+   "rank": 6,
    "replay": "replays/lab-8-model-predictive-path-integral-spielberg/team-3.json?v=38e38f69",
    "used": 2
   }
@@ -428,11 +447,6 @@
    "alias": "Team 2",
    "locked": false,
    "used": 0
-  },
-  {
-   "alias": "Team 4",
-   "locked": false,
-   "used": 1
   },
   {
    "alias": "Team 6",

@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-12-01T04:59:00Z",
- "generated_at": "2026-11-27T19:37:16Z",
+ "generated_at": "2026-11-27T23:57:35Z",
  "lab_title": "Lab 9: Reinforcement Learning",
  "late": [],
  "metric": {
@@ -94,6 +94,17 @@
       "top_mps": 4.0
      },
      "replay": "replays/lab-9-reinforcement-learning-spielberg/team-12.json?v=055196ce"
+    },
+    {
+     "at": "2026-11-27T23:54:15Z",
+     "full": true,
+     "graded": true,
+     "id": "2c3d54bf4ca27aff",
+     "metrics": {
+      "avg_mps": 3.97,
+      "lap_s": 84.8,
+      "top_mps": 4.0
+     }
     }
    ]
   },
@@ -413,7 +424,7 @@
    "metric": 84.78,
    "rank": 8,
    "replay": "replays/lab-9-reinforcement-learning-spielberg/team-12.json?v=055196ce",
-   "used": 2
+   "used": 3
   }
  ],
  "schema": "ese6150/leaderboard/v1",

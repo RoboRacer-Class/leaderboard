@@ -5,7 +5,7 @@
  "board_title": "Spielberg, fastest clean lap",
  "cap": null,
  "due": "2026-12-01T04:59:00Z",
- "generated_at": "2026-11-27T19:37:16Z",
+ "generated_at": "2026-11-27T19:45:17Z",
  "lab_title": "Lab 8: Model Predictive Path Integral",
  "late": [],
  "metric": {
@@ -118,7 +118,15 @@
   "Team 4": {
    "locked": false,
    "owner": "group-4",
-   "submissions": []
+   "submissions": [
+    {
+     "at": "2026-11-27T19:41:35Z",
+     "full": false,
+     "graded": false,
+     "id": "bc74d7f05ee3d76d",
+     "metrics": null
+    }
+   ]
   },
   "Team 5": {
    "locked": false,
@@ -424,7 +432,7 @@
   {
    "alias": "Team 4",
    "locked": false,
-   "used": 0
+   "used": 1
   },
   {
    "alias": "Team 6",
